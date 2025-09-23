@@ -1,0 +1,65 @@
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Auth } from '../../../shared/services/auth';
+import { User } from '../../../shared/interfaces/user';
+import Swal from 'sweetalert2'
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  templateUrl: './login.html',
+  styleUrls: ['./login.css']
+})
+export class Login {
+  fb = inject(FormBuilder);
+  router = inject(Router);
+  authService = inject(Auth);
+
+  loginForm = this.fb.group({
+    email: ['jane@gmail.com', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
+  });
+
+  showPassword = false;
+  isSubmitting = false;
+
+
+  // Verificar si un campo tiene error
+  hasError(controlName: string, errorType: string) {
+    const control = this.loginForm.get(controlName);
+    return control && control.touched && control.hasError(errorType);
+  }
+
+  // Toggle para mostrar/ocultar contraseña
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  // Envío del formulario
+  onSubmit() {
+    if (!this.loginForm.valid) {
+            Swal.fire({
+                title: "Ops!",
+                text: "El formulario no es valido",
+                icon: "error"
+            });
+            return;
+        }
+        let user = this.loginForm.value as User;
+
+        let response = this.authService.login(user);
+        if (response.success) {
+            this.router.navigate(['home'])
+            return;
+        }
+        Swal.fire({
+            title: "Ops!",
+            text: response.message,
+            icon: "error"
+        });
+
+    }
+  }

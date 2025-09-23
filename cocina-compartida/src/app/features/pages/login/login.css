@@ -1,0 +1,153 @@
+/* Contenedor principal */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 41px 50px ;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Logo y títulos */
+.logo h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.logo h2 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #999;
+  margin-bottom: 32px;
+}
+
+/* Grupos de formulario */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+/* Inputs */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 93%;
+  padding: 12px 14px;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 15px;
+  background: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007aff;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+/* Error en inputs */
+input.invalid {
+  border-color: #ff3b30;
+}
+
+.validation-message {
+  font-size: 13px;
+  color: #ff3b30;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.validation-icon {
+  font-size: 14px;
+}
+
+/* Password con ícono de mostrar/ocultar */
+.password-container {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  font-size: 16px;
+}
+
+.toggle-password:hover {
+  color: #000;
+}
+
+/* Separador */
+hr {
+  margin: 24px 0;
+  border: none;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Botón */
+.login-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #000;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.login-button:hover:not(:disabled) {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Crear cuenta */
+.create-account {
+  margin-top: 28px;
+}
+
+.create-account-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.create-account-link h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 6px;
+}
+
+.create-account-link h4 {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+}
