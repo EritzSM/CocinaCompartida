@@ -1,0 +1,49 @@
+<div class="recipe-container" [formGroup]="recipeForm">
+    <h2>Subir Receta</h2>
+
+    <!-- Nombre -->
+    <div class="form-group">
+        <label>Nombre de la receta:</label>
+        <input type="text" formControlName="name" placeholder="Ej. Pastel de chocolate" />
+    </div>
+
+    <!-- Ingredientes -->
+    <div class="form-group">
+        <label>Ingredientes:</label>
+        <div formArrayName="ingredients">
+            <div *ngFor="let ing of ingredients.controls; let i = index" class="dynamic-field">
+                <input type="text" [formControlName]="i" placeholder="Ingrediente {{i+1}}" />
+                <button type="button" (click)="removeIngredient(i)">X</button>
+            </div>
+        </div>
+        <button type="button" (click)="addIngredient()">+ Agregar ingrediente</button>
+    </div>
+
+    <!-- Pasos -->
+    <div class="form-group">
+        <label>Pasos de la receta:</label>
+        <div formArrayName="steps">
+            <div *ngFor="let step of steps.controls; let i = index" class="dynamic-field">
+                <textarea [formControlName]="i" placeholder="Paso {{i+1}}"></textarea>
+                <button type="button" (click)="removeStep(i)">X</button>
+            </div>
+        </div>
+        <button type="button" (click)="addStep()">+ Agregar paso</button>
+    </div>
+
+    <!-- Subir imágenes -->
+    <div class="form-group">
+        <label for="uploadImages" class="upload primary">Subir imágenes</label>
+        <input type="file" id="uploadImages" (change)="onUploadFile($event)" multiple />
+    </div>
+
+    <!-- Carrusel -->
+    <div class="carousel" *ngIf="images.length > 0">
+        <button class="nav left" (click)="prevImage()">&#10094;</button>
+        <img [src]="images[currentIndex]" alt="Imagen de la receta" />
+        <button class="nav right" (click)="nextImage()">&#10095;</button>
+    </div>
+
+    <!-- Botón Submit -->
+    <button type="button" (click)="onSubmit()">Guardar Receta</button>
+</div>

@@ -1,1 +1,24 @@
-<p>home works!</p>
+<div class="home-container">
+  <h2>Recetas disponibles</h2>
+
+  <div *ngFor="let recipe of recipes(); let i = index" class="recipe-card">
+    <h3>{{ recipe.name }}</h3>
+
+    <p><strong>Ingredientes:</strong></p>
+    <ul>
+      <li *ngFor="let ing of recipe.ingredients">{{ ing }}</li>
+    </ul>
+
+    <p><strong>Pasos:</strong></p>
+    <ol>
+      <li *ngFor="let step of recipe.steps">{{ step }}</li>
+    </ol>
+
+    <div class="carousel" *ngIf="recipe.images.length > 0">
+      <button class="nav left" (click)="prevImage(i)">&#10094;</button>
+      <img [src]="recipe.images[currentIndex[i]]" alt="Imagen de receta" />
+      <button class="nav right" (click)="nextImage(i)">&#10095;</button>
+    </div>
+  </div>
+</div>
+
