@@ -1,98 +1,234 @@
+/* Variables (Si no están definidas en los estilos globales, inclúyelas) */
+/*
+:root {
+    --color-primary: #000;
+    --color-secondary: #fff;
+    --color-light-gray: #f0f0f0;
+    --color-text-gray: #6e6e6e;
+    --color-error: #e63946;
+}
+*/
+
+/* ======================================= */
+/* 1. Contenedor Principal y Título */
+/* ======================================= */
+
 .recipe-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  border-radius: 10px;
-  background: #f8f9fa;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    /* Reutiliza el ancho y centrado del .container global */
+    width: 100%;
+    max-width: 600px; /* Un poco más ancho que el login/signup para mejor espacio de receta */
+    padding: 40px 20px;
+    margin: 40px auto;
+    box-sizing: border-box;
+    text-align: left;
+    background-color: var(--color-secondary);
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+.recipe-container h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--color-primary);
 }
+
+/* ======================================= */
+/* 2. Grupos de Formulario (Label + Input) */
+/* ======================================= */
 
 .form-group {
-  margin-bottom: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
 }
 
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+    color: var(--color-primary);
 }
+
+/* Reutilizando el estilo de input global */
+.recipe-container input[type="text"],
+.recipe-container textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    background-color: var(--color-light-gray);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: var(--color-primary);
+    font-weight: 500;
+    resize: vertical; /* Permite redimensionar el textarea */
+    min-height: 40px;
+    line-height: 1.5;
+}
+
+.recipe-container textarea {
+    min-height: 100px; /* Altura inicial más grande para pasos */
+}
+
+/* Enfocar */
+.recipe-container input:focus,
+.recipe-container textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+
+/* ======================================= */
+/* 3. Campos Dinámicos (Ingredientes y Pasos) */
+/* ======================================= */
 
 .dynamic-field {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start; /* Alineación superior para el botón de la textarea */
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
-.dynamic-field input, 
+.dynamic-field input,
 .dynamic-field textarea {
-  flex: 1;
+    flex-grow: 1;
+    margin: 0; /* Anulamos el margin-bottom para un mejor espaciado dentro del array */
 }
 
-.dynamic-field button {
-  margin-left: 10px;
-  background: #d00000;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+.dynamic-field button[type="button"] {
+    background-color: var(--color-error);
+    color: var(--color-secondary);
+    border: none;
+    border-radius: 8px;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0; /* Evita que el botón se haga pequeño */
+    margin-top: 5px; /* Ajuste visual para alinear con el input/textarea */
 }
 
-button {
-  margin-top: 5px;
-  background: #ffb703;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
+.dynamic-field button[type="button"]:hover {
+    background-color: #c4303d;
 }
 
-button:hover {
-  background: #d00000;
-  color: white;
+/* Botones "Agregar" */
+.form-group > button[type="button"] {
+    background: none;
+    border: 1px dashed var(--color-text-gray);
+    color: var(--color-text-gray);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
 }
+
+.form-group > button[type="button"]:hover {
+    background-color: var(--color-light-gray);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* ======================================= */
+/* 4. Subida de Imágenes */
+/* ======================================= */
+
+/* Ocultar el input de archivo real */
+.form-group input[type="file"] {
+    display: none;
+}
+
+/* Estilo para el label (que actúa como botón de subida) */
+.form-group label.upload {
+    display: block;
+    text-align: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    
+    /* Estilo Iniciar Sesión */
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    transition: background-color 0.2s;
+}
+
+.form-group label.upload:hover {
+    background-color: #333;
+}
+
+
+/* ======================================= */
+/* 5. Carrusel de Imágenes */
+/* ======================================= */
 
 .carousel {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  margin: 20px auto;
-  text-align: center;
+    position: relative;
+    margin: 30px 0;
+    border-radius: 10px;
+    overflow: hidden; /* Oculta partes de la imagen que sobresalgan */
 }
 
 .carousel img {
-  width: 100%;
-  border-radius: 10px;
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9; /* Mantiene una relación de aspecto consistente */
+    object-fit: cover;
 }
 
-.nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
-  color: white;
-  font-size: 20px;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
+.carousel .nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 5;
+    transition: background 0.2s;
 }
 
-.left {
-  left: 10px;
+.carousel .nav:hover {
+    background: rgba(0, 0, 0, 0.8);
 }
 
-.right {
-  right: 10px;
+.carousel .left {
+    left: 10px;
+    border-radius: 5px;
 }
 
-.preview {
-  margin-top: 20px;
+.carousel .right {
+    right: 10px;
+    border-radius: 5px;
+}
+
+/* ======================================= */
+/* 6. Botón Final "Guardar Receta" */
+/* ======================================= */
+
+.recipe-container > button[type="button"] {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+.recipe-container > button[type="button"]:hover {
+    background-color: #333;
 }

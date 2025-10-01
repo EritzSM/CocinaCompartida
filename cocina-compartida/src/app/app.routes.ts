@@ -2,12 +2,13 @@ import { Routes } from '@angular/router';
 import { Login } from './features/pages/login/login';
 import { SignUp } from './features/pages/sign-up/sign-up';
 import { Home } from './features/pages/home/home';
-
+import { RecipeUpload} from './features/pages/recipe-upload/recipe-upload';
+import { Explore } from './features/pages/explore/explore';
 
 export const routes: Routes = [
   { 
     path: '', 
-    component: Home 
+    component: RecipeUpload
 },
     { 
     path: 'home', 
@@ -21,7 +22,17 @@ export const routes: Routes = [
     component: SignUp 
 },
   { 
+    path: 'recipe-upload', 
+    component: RecipeUpload
+},
+  {
+    path: 'explore',
+    component: Explore
+  },
+
+  { 
     path: '**', 
     redirectTo: '' 
 }
+
 ];

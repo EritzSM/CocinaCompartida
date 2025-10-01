@@ -1,1 +1,107 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --color-primary: #000;
+    --color-secondary: #fff;
+    --color-light-gray: #f0f0f0;
+    --color-error: #e63946;
+}
+
+/* 1. Estilos Base */
+body {
+    /* Es mejor poner la fuente aquí si quieres que afecte a toda la app */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* 2. Estructura de Centrado Común (Usado tanto en Login como en Sign Up) */
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 60px 20px;
+    margin: 0 auto; /* Centrado horizontal */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* 3. Botón de Retroceso (Común) */
+.back-button {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    z-index: 10;
+}
+
+.back-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* 4. Logo y Títulos de la Aplicación (Comunes) */
+.logo-placeholder {
+    margin-bottom: 50px;
+}
+
+.app-name {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.form-title {
+    font-size: 18px;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 50px;
+}
+
+/* 5. Estilos de Input Base (Comunes) */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    background-color: var(--color-light-gray);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+input::placeholder {
+    color: #a0a0a0;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* 6. Estilos de Validación de Angular (Comunes) */
+.error-message {
+    color: var(--color-error);
+    font-size: 12px;
+    margin-top: -15px; /* Ajuste para que esté cerca del input */
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid var(--color-error);
+    box-shadow: 0 0 0 1px var(--color-error);
+}

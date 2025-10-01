@@ -1,14 +1,27 @@
-<header class="header">
-  <!-- Logo -->
-  <div class="logo">CocinaCompartida<span>©</span></div>
+<header class="main-header">
+    <div class="header-content">
+        <div routerLink="/home" class="logo">
+            CocinaCompartida®
+        </div>
 
-  <!-- Navegación -->
-  <nav class="nav-links">
-    <a href="#">Explorar</a>
-    <a href="#">Categorías</a>
-    <a href="#">Blog</a>
-  </nav>
+        <nav class="main-nav">
+            <a routerLink="/explore" class="nav-link">Explorar</a>
+            <a href="#" class="nav-link">Categorías</a>
+            <a href="#" class="nav-link">Blog</a>
+        </nav>
 
-  <!-- Botón -->
-  <button class="login-btn" (click)="goToLogin()">Iniciar Sesión</button>
+        <div class="auth-section">
+            <!-- Mostrar si NO está logueado -->
+            <a *ngIf="!authService.isLoged()" routerLink="/login" class="action-btn">
+                Iniciar Sesión
+            </a>
+            
+            <!-- Mostrar si ESTÁ logueado -->
+            <div *ngIf="authService.isLoged()" class="user-menu">
+                <!-- 👇 Usa el método getCurrentUsername() en lugar de la señal -->
+                <span class="welcome-text">Hola, {{ authService.getCurrentUsername() }}</span>
+                <button (click)="authService.logout()" class="logout-btn">Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
 </header>

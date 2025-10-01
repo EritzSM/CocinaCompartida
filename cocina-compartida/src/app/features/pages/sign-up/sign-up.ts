@@ -19,7 +19,7 @@ export class SignUp {
 
   showPassword = false;
 
-  showConfirmPassword = false;
+  showrePassword = false;
 
   isSubmitting = false;
 
@@ -29,30 +29,37 @@ export class SignUp {
 
   authService = inject(Auth);
     
-  signupForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
+  signUpForm = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    })
+      rePassword: ['', [Validators.required]]
+    }, { validators: this.passwordsMatchValidator })
+
+  
+  passwordsMatchValidator(group: FormGroup) {
+  const pass = group.get('password')?.value;
+  const rePass = group.get('rePassword')?.value;
+  return pass === rePass ? null : { passwordMismatch: true };
+}
 
       // Toggle para mostrar/ocultar contraseña
-  togglePasswordVisibility(field: 'password' | 'confirmPassword') {
+  togglePasswordVisibility(field: 'password' | 'rePassword') {
     if (field === 'password') {
       this.showPassword = !this.showPassword;
     } else {
-      this.showConfirmPassword = !this.showConfirmPassword;
+      this.showrePassword = !this.showrePassword;
     }
   }
 
   // Verificar si un campo tiene error
   hasError(controlName: string, errorType: string) {
-    const control = this.signupForm.get(controlName);
+    const control = this.signUpForm.get(controlName);
     return control && control.touched && control.hasError(errorType);
   }
   // Validador personalizado para confirmar contraseña
-  onSubmit() {
-        if (!this.signupForm.valid) {
+  onSignUp() {
+        if (!this.signUpForm.valid) {
             Swal.fire({
                 title: "Ops!",
                 text: "El formulario no es valido",
@@ -60,7 +67,7 @@ export class SignUp {
             });
             return;
         }
-        let user = this.signupForm.value as User;
+        let user = this.signUpForm.value as User;
 
         let response = this.authService.onSignUp(user);
 

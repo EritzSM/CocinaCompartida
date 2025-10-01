@@ -1,10 +1,5 @@
-<!-- Encabezado -->
-<app-header /> 
+<app-header *ngIf="showLayout"></app-header>
 
-<!-- Contenido principal -->
-<!--<main> -->
-<router-outlet />
-<!-- </main> -->
+<router-outlet></router-outlet>
 
-<!-- Pie de página -->
-<app-footer/>
+<app-footer *ngIf="showLayout"></app-footer>

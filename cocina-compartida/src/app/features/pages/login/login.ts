@@ -18,13 +18,14 @@ export class Login {
   router = inject(Router);
   authService = inject(Auth);
 
+  // ✅ CORRECCIÓN CLAVE: Cambiar 'email' por 'username' y ajustar sus validadores.
   loginForm = this.fb.group({
-    email: ['jane@gmail.com', [Validators.required, Validators.email]],
+    username: ['', [Validators.required, Validators.minLength(2)]], // Usar username
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   showPassword = false;
-  isSubmitting = false;
+  isLoginting = false;
 
 
   // Verificar si un campo tiene error
@@ -39,7 +40,7 @@ export class Login {
   }
 
   // Envío del formulario
-  onSubmit() {
+  onLogin() {
     if (!this.loginForm.valid) {
             Swal.fire({
                 title: "Ops!",
@@ -52,7 +53,7 @@ export class Login {
 
         let response = this.authService.login(user);
         if (response.success) {
-            this.router.navigate(['home'])
+            this.router.navigate(['/home'])
             return;
         }
         Swal.fire({
@@ -62,4 +63,4 @@ export class Login {
         });
 
     }
-  }
+}

@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { User } from '../interfaces/user';
 import { LoginRespose, SignUpResponse } from '../interfaces/login-response';
 
@@ -8,31 +8,53 @@ import { LoginRespose, SignUpResponse } from '../interfaces/login-response';
 export class Auth {
 
     isLoged = signal(false);
+    currentUsername = signal<string>('');
 
     constructor(){
         this.verifyLoggedUser();
     }
 
     login(user: User): LoginRespose {
+        // CORRECCIÓN CLAVE 1:
+        // Asegurar que el nombre de usuario no esté vacío para la búsqueda.
+        if (!user.username) {
+            return { success: false, message: 'Nombre de usuario requerido' };
+        }
 
         let userStr = localStorage.getItem(user.username);
-        if (userStr && user.password === JSON.parse(userStr).password) {
-            sessionStorage.setItem('userLogged', user.username);
-            this.verifyLoggedUser();
-            return { success: true };
+        
+        // CORRECCIÓN CLAVE 2:
+        // Verificar si el usuario existe antes de intentar parsear y comparar la contraseña.
+        if (userStr) {
+            const storedUser = JSON.parse(userStr) as User;
+            if (user.password === storedUser.password) {
+                sessionStorage.setItem('userLogged', user.username);
+                this.verifyLoggedUser();
+                return { success: true };
+            }
         }
+        
+        // Mensaje genérico para seguridad
         return { success: false, message: 'Usuario o contraseña incorrectos' };
-
     }
 
-
     onSignUp(user: User): SignUpResponse {
+        // CORRECCIÓN CLAVE 3:
+        // Agregar una verificación de seguridad para username.
+        if (!user.username) {
+            return { success: false, message: 'Nombre de usuario no válido' };
+        }
 
-        let userStr = localStorage.getItem(user.username!);
+        let userStr = localStorage.getItem(user.username);
+        
+        // CORRECCIÓN CLAVE 4:
+        // La lógica de verificación de existencia de usuario era correcta, pero la corrección 3 la hace más robusta.
         if (userStr) {
             return { success: false, message: 'Ya existe el Usuario' };
         }
-        localStorage.setItem(user.username!, JSON.stringify(user));
+        
+        // Guardar el objeto 'user' completo.
+        localStorage.setItem(user.username, JSON.stringify(user));
         sessionStorage.setItem('userLogged', user.username);
         this.verifyLoggedUser();
         return { success: true, redirectTo: 'home' };
@@ -43,6 +65,8 @@ export class Auth {
         this.verifyLoggedUser();
     }
 
+    // El método getUserLogged no es necesario si se usa el signal currentUsername
+    // o el método getCurrentUsername(), pero se deja por compatibilidad.
     getUserLogged(){
         if(sessionStorage.getItem('userLogged')){
             return { username: sessionStorage.getItem('userLogged')!}
@@ -51,8 +75,22 @@ export class Auth {
     }
 
     private verifyLoggedUser(){
-        this.isLoged.set(!!sessionStorage.getItem('userLogged'))
-
+        const username = sessionStorage.getItem('userLogged');
+        const isLogged = !!username;
+        
+        this.isLoged.set(isLogged);
+        
+        // Actualizar el signal 'currentUsername'
+        if (isLogged && username) {
+            this.currentUsername.set(username);
+        } else {
+            this.currentUsername.set('');
+        }
     }
 
+    // MÉTODO NUEVO: Para obtener el username de forma segura
+    getCurrentUsername(): string {
+        const username = sessionStorage.getItem('userLogged');
+        return username || '';
+    }
 }

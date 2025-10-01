@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { RecipeService } from '../../../shared/services/recipe';
-
+import { Auth } from '../../../shared/services/auth';
 @Component({
   selector: 'app-recipe-upload',
   standalone: true, // 👈 standalone component
@@ -17,11 +17,13 @@ export class RecipeUpload {
   images: string[] = [];
   currentIndex = 0;
   router = inject(Router);
+  authService = inject(Auth);
   recipeService = inject(RecipeService)
 
   constructor(private fb: FormBuilder) {
     this.recipeForm = this.fb.group({
       name: [''],
+      descripcion: [''],
       ingredients: this.fb.array([this.fb.control('')]),
       steps: this.fb.array([this.fb.control('')])
     });
@@ -73,9 +75,11 @@ export class RecipeUpload {
   onSubmit() {
     const recipe = {
       name: this.recipeForm.value.name,
+      descripcion: this.recipeForm.value.descripcion,
       ingredients: this.recipeForm.value.ingredients,
       steps: this.recipeForm.value.steps,
-      images: this.images
+      images: this.images,
+      author: this.authService.currentUsername()
     };
 
     this.recipeService.addRecipe(recipe); // 👈 guardar en el servicio
