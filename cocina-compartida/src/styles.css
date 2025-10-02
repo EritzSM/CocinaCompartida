@@ -105,3 +105,45 @@ input.ng-invalid.ng-touched {
     border: 1px solid var(--color-error);
     box-shadow: 0 0 0 1px var(--color-error);
 }
+
+/* ================================================= */
+/* Estilos Globales (Ejemplo: styles.css o app.component.css) */
+/* ================================================= */
+
+/* 1. Hacer el Header fijo en la parte superior */
+.app-header {
+    position: fixed; /* Lo saca del flujo normal */
+    top: 0;          /* Lo pega al borde superior */
+    left: 0;
+    right: 0;
+    z-index: 1000;   /* Asegura que esté por encima de todo */
+    /* Altura de tu header. Ejemplo: */
+    height: 60px; 
+    background-color: white; /* Para que no sea transparente */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 2. Hacer el Footer fijo en la parte inferior */
+.app-footer {
+    position: fixed; /* Lo saca del flujo normal */
+    bottom: 0;       /* Lo pega al borde inferior */
+    left: 0;
+    right: 0;
+    z-index: 1000;   /* Asegura que esté por encima de todo */
+    /* Altura de tu footer. Ejemplo: */
+    height: 50px; 
+    background-color: #333; /* Color de fondo del footer */
+    color: white;
+}
+
+/* 3. Ajustar el Contenido Principal (Router Outlet) */
+/* Se debe añadir padding al contenedor principal para que el contenido
+   no quede oculto detrás del header y el footer. */
+.content-container {
+    /* El valor debe ser igual o mayor a la altura del header/footer */
+    padding-top: 60px;  /* Altura del Header */
+    padding-bottom: 50px; /* Altura del Footer */
+    /* Puedes ajustar el min-height si quieres que el scroll funcione
+       incluso si el contenido es corto. */
+    min-height: 100vh;
+}

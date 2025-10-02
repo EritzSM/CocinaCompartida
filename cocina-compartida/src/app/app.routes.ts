@@ -5,6 +5,8 @@ import { Home } from './features/pages/home/home';
 import { RecipeUpload} from './features/pages/recipe-upload/recipe-upload';
 import { Explore } from './features/pages/explore/explore';
 import { Profile } from './features/pages/profile/profile';
+import { RecipeDetail } from './features/pages/recipe-detail/recipe-detail';
+
 
 export const routes: Routes = [
   { 
@@ -33,6 +35,10 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: Profile
+  },
+    { 
+    path: 'recipe/:id', 
+    component: RecipeDetail 
   },
   { 
     path: '**', 

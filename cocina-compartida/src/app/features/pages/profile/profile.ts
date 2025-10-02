@@ -3,16 +3,19 @@ import { CommonModule } from '@angular/common';
 import { Auth } from '../../../shared/services/auth';
 import { Recipe, RecipeService } from '../../../shared/services/recipe';
 import { User } from '../../../shared/interfaces/user';
+import {Router, RouterModule, RouterLink } from '@angular/router';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './profile.html',
   styleUrls: ['./profile.css']
 })
 export class Profile implements OnInit {
 
+  private router = inject(Router);
   // 2. La señal ahora usará tu interfaz User importada
   user: WritableSignal<User | null> = signal(null);
 

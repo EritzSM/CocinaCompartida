@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecipeService } from '../../../shared/services/recipe';
+import { RecipeService, Recipe } from '../../../shared/services/recipe';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../shared/services/auth';
 import Swal from 'sweetalert2';
@@ -16,15 +16,32 @@ export class Home {
   authService = inject(Auth);
   private recipeService = inject(RecipeService);
   private router = inject(Router);
-  
-  recipes = this.recipeService.recipes;
 
+  // Array completo de recetas (señal)
+  allRecipes = this.recipeService.recipes;
+
+  // Mostrar solo 3 recetas inicialmente
+  private initialRecipesCount = 3;
+  
+  // Propiedad computada para mostrar solo las primeras 3 recetas
+  get featuredRecipes(): Recipe[] {
+    return this.allRecipes().slice(0, this.initialRecipesCount);
+  }
+
+  trackByRecipeId(index: number, recipe: any): number {
+    return recipe.id;
+  }
+
+  // Función para redirigir a la página de exploración
+  navigateToExplore() {
+    this.router.navigate(['/explore']);
+  }
+
+  // Lógica de autenticación original (sin cambios)
   checkAuthAndNavigate() {
     if (this.authService.isLoged()) {
-      // Si está logueado, redirige a crear receta
       this.router.navigate(['/recipe-upload']);
     } else {
-      // Si no está logueado, muestra mensaje con SweetAlert2
       Swal.fire({
         toast: true,
         position: 'top-end',

@@ -116,3 +116,33 @@ h1 {
     padding: 1.5rem;
   }
 }
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* lo hace redondo */
+  object-fit: cover;  /* ajusta bien la imagen */
+  margin-top: 8px;
+}
+
+.author-info {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: center;     /* centra verticalmente */
+  gap: 8px;
+  text-align: center;      /* asegura que el texto también se vea centrado */
+  margin-top: 10px;        /* opcional, separación */
+}
+
+.author-info .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-info .author-name {
+  font-weight: 500;
+}
+
+

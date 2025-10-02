@@ -26,12 +26,13 @@
   </nav>
 
   <main class="tab-content">
-    <div *ngIf="displayedRecipes().length > 0; else noRecipes" class="recipe-grid">
+    <div  *ngIf="displayedRecipes().length > 0; else noRecipes" class="recipe-grid">
       <div *ngFor="let recipe of displayedRecipes()" class="recipe-card">
-        <img [src]="recipe.images[0] || 'https://via.placeholder.com/300x200?text=Receta'" [alt]="'Imagen de ' + recipe.name" class="recipe-image">
-        <div class="recipe-info">
+        <img [routerLink]="['/recipe', recipe.id]"  [src]="recipe.images[0] || 'https://via.placeholder.com/300x200?text=Receta'" [alt]="'Imagen de ' + recipe.name" class="recipe-image">
+        <div [routerLink]="['/recipe', recipe.id]" class="recipe-info">
           <h3>{{ recipe.name }}</h3>
           <p>Por {{ recipe.author }}</p>
+          
         </div>
       </div>
     </div>

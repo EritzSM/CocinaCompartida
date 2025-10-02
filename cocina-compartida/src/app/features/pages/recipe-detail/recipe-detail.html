@@ -1,0 +1,57 @@
+<div class="recipe-detail-container" *ngIf="recipe; else notFound">
+    <a routerLink="/home" class="back-button">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+    </a>
+
+    <div class="recipe-main-header">
+        <h1>{{ recipe.name }}</h1>
+        <p>{{ recipe.descripcion }}</p>
+    </div>
+
+    <div class="image-carousel" *ngIf="recipe.images && recipe.images.length > 0">
+        <img [src]="recipe.images[currentIndex]" [alt]="recipe.name" class="recipe-image">
+
+        <div class="carousel-controls" *ngIf="recipe.images.length > 1">
+            <button (click)="prevImage()" class="control-btn prev-btn">❮</button>
+            <button (click)="nextImage()" class="control-btn next-btn">❯</button>
+        </div>
+
+        <div class="image-counter">
+            {{ currentIndex + 1 }} / {{ recipe.images.length }}
+        </div>
+    </div>
+
+    <div class="author-info" *ngIf="recipe.author">
+        <img [src]="recipe.avatar" alt="Avatar" class="author-avatar">
+        <span>Creado por: <strong>{{ recipe.author }}</strong></span>
+    </div>
+
+    <div class="sections-container">
+
+        <div class="ingredients-section">
+            <h2>Ingredientes</h2>
+            <ul>
+                <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient }}</li>
+            </ul>
+        </div>
+
+        <div class="steps-section">
+            <h2>Pasos</h2>
+            <ol>
+                <li *ngFor="let step of recipe.steps">{{ step }}</li>
+            </ol>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #notFound>
+    <div class="error-message">
+        <h1>404</h1>
+        <p>Receta no encontrada.</p>
+        <button [routerLink]="['/home']">Volver al inicio</button>
+    </div>
+</ng-template>

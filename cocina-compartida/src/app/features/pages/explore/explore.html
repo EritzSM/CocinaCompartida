@@ -1,26 +1,41 @@
 <div class="explore-container">
   <h1>Explora las Recetas</h1>
 
-  <div *ngIf="recipes().length === 0" class="no-recipes">
+  <div *ngIf="allRecipes().length === 0" class="no-recipes">
     <p>Aún no se han cargado recetas. ¡Sube la primera!</p>
   </div>
 
-  <div class="recipe-list" *ngIf="recipes().length > 0">
-    <div class="recipe-card" *ngFor="let recipe of recipes()">
-      
+  <div class="recipe-list" *ngIf="allRecipes().length > 0">
+    <div class="recipe-card" *ngFor="let recipe of recipesToShow; trackBy: trackByRecipeId"> 
+
       <div class="recipe-image">
         <img *ngIf="recipe.images.length > 0" [src]="recipe.images[0]" alt="Foto de {{ recipe.name }}">
         <div *ngIf="recipe.images.length === 0" class="placeholder-image">
           <span>Sin imagen</span>
         </div>
       </div>
-      
+
       <div class="recipe-info">
         <h2>{{ recipe.name }}</h2>
         <p>{{ recipe.descripcion }}</p>
-        <button class="view-button">Ver Receta</button>
+        <p class="author-info">
+          Creado por:
+          <img [src]="recipe.avatar" alt="Avatar del autor" class="avatar" />
+          <span class="author-name">{{ recipe.author }}</span>
+        </p>
+
+        <button [routerLink]="['/recipe', recipe.id]" class="view-button">Ver Receta</button>
       </div>
-      
+
     </div>
   </div>
+  
+  <div *ngIf="visibleRecipeCount < allRecipes().length" class="loading-message">
+    <p>Cargando más...</p> 
+  </div>
+
+  <div *ngIf="visibleRecipeCount >= allRecipes().length && allRecipes().length > 0" class="end-message">
+    <p>¡Has llegado al final de las recetas! 🎉</p> 
+  </div>
+
 </div>

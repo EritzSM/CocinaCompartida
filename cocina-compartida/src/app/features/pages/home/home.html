@@ -8,21 +8,19 @@
 
   <div class="hero-actions">
     <a routerLink="/explore" class="primary-btn">Explorar Recetas</a>
-
-    <!-- 👇 Botón que valida autenticación -->
     <button (click)="checkAuthAndNavigate()" class="secondary-btn">Crear Receta</button>
   </div>
 </main>
 
 <div class="explore-container">
-  <h1>Explora las Recetas</h1>
+  <h1>Recetas Destacadas</h1>
 
-  <div *ngIf="recipes().length === 0" class="no-recipes">
+  <div *ngIf="featuredRecipes.length === 0" class="no-recipes">
     <p>Aún no se han cargado recetas. ¡Sube la primera!</p>
   </div>
 
-  <div class="recipe-list" *ngIf="recipes().length > 0">
-    <div class="recipe-card" *ngFor="let recipe of recipes()">
+  <div class="recipe-list" *ngIf="featuredRecipes.length > 0">
+    <div class="recipe-card" *ngFor="let recipe of featuredRecipes; trackBy: trackByRecipeId"> 
 
       <div class="recipe-image">
         <img *ngIf="recipe.images.length > 0" [src]="recipe.images[0]" alt="Foto de {{ recipe.name }}">
@@ -40,10 +38,17 @@
           <span class="author-name">{{ recipe.author }}</span>
         </p>
 
-
-        <button class="view-button">Ver Receta</button>
+        <button [routerLink]="['/recipe', recipe.id]" class="view-button">Ver Receta</button>
       </div>
 
     </div>
   </div>
+  
+  <!-- Botón "Ver más" que redirige a /explore -->
+  <div *ngIf="featuredRecipes.length > 0" class="see-more-container">
+    <button (click)="navigateToExplore()" class="see-more-btn">
+      Ver Más Recetas
+    </button>
+  </div>
+
 </div>
