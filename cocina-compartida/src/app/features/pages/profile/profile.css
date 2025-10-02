@@ -1,0 +1,144 @@
+/* Usamos las variables globales definidas en styles.css */
+:host {
+  display: block;
+  padding-top: 40px;
+}
+
+.profile-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 1. Estilos del encabezado del perfil */
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 3px solid var(--color-light-gray);
+}
+
+.user-name {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.user-handle {
+  color: #888;
+  margin-top: 5px;
+}
+
+.user-bio {
+  max-width: 500px;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+.update-profile-btn {
+  margin-top: 20px;
+  padding: 10px 25px;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.update-profile-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+/* 2. Estilos de las pestañas de navegación */
+.profile-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--color-light-gray);
+}
+
+.tab-button {
+  padding: 15px 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #888;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-button:hover {
+  color: var(--color-primary);
+}
+
+.tab-button.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* 3. Estilos de la cuadrícula de recetas */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.recipe-card {
+  background-color: var(--color-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.recipe-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.recipe-info {
+  padding: 20px;
+}
+
+.recipe-info h3 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.recipe-info p {
+  margin: 0;
+  color: #777;
+}
+
+/* Mensaje para cuando no hay recetas */
+.no-recipes-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+  background-color: var(--color-light-gray);
+  border-radius: 12px;
+}

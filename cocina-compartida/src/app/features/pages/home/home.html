@@ -1,17 +1,17 @@
 <main class="hero-section">
-    <h1 class="hero-title">
-        Descubre, comparte y disfruta de la cocina.
-    </h1>
-    <p class="hero-subtitle">
-        Únete a miles de foodies y comparte tus creaciones culinarias.
-    </p>
+  <h1 class="hero-title">
+    Descubre, comparte y disfruta de la cocina.
+  </h1>
+  <p class="hero-subtitle">
+    Únete a miles de foodies y comparte tus creaciones culinarias.
+  </p>
 
-    <div class="hero-actions">
-        <a routerLink="/explore" class="primary-btn">Explorar Recetas</a>
-        
-        <!-- 👇 Botón que valida autenticación -->
-        <button (click)="checkAuthAndNavigate()" class="secondary-btn">Crear Receta</button>
-    </div>
+  <div class="hero-actions">
+    <a routerLink="/explore" class="primary-btn">Explorar Recetas</a>
+
+    <!-- 👇 Botón que valida autenticación -->
+    <button (click)="checkAuthAndNavigate()" class="secondary-btn">Crear Receta</button>
+  </div>
 </main>
 
 <div class="explore-container">
@@ -23,20 +23,27 @@
 
   <div class="recipe-list" *ngIf="recipes().length > 0">
     <div class="recipe-card" *ngFor="let recipe of recipes()">
-      
+
       <div class="recipe-image">
         <img *ngIf="recipe.images.length > 0" [src]="recipe.images[0]" alt="Foto de {{ recipe.name }}">
         <div *ngIf="recipe.images.length === 0" class="placeholder-image">
           <span>Sin imagen</span>
         </div>
       </div>
-      
+
       <div class="recipe-info">
         <h2>{{ recipe.name }}</h2>
         <p>{{ recipe.descripcion }}</p>
+        <p class="author-info">
+          Creado por:
+          <img [src]="recipe.avatar" alt="Avatar del autor" class="avatar" />
+          <span class="author-name">{{ recipe.author }}</span>
+        </p>
+
+
         <button class="view-button">Ver Receta</button>
       </div>
-      
+
     </div>
   </div>
 </div>

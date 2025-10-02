@@ -9,6 +9,7 @@ export interface Recipe {
   steps: string[];
   images: string[];
   author: string;
+  avatar: string;
 }
 
 @Injectable({

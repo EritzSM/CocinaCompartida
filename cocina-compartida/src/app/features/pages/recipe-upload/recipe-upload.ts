@@ -79,7 +79,8 @@ export class RecipeUpload {
       ingredients: this.recipeForm.value.ingredients,
       steps: this.recipeForm.value.steps,
       images: this.images,
-      author: this.authService.currentUsername()
+      author: this.authService.currentUsername(),
+      avatar: this.authService.currentAvatar()
     };
 
     this.recipeService.addRecipe(recipe); // 👈 guardar en el servicio

@@ -1,0 +1,46 @@
+<div *ngIf="user() as currentUser" class="profile-container">
+
+  <header class="profile-header">
+    <img [src]="currentUser.avatar || 'https://via.placeholder.com/150'" [alt]="'Avatar de ' + currentUser.username" class="profile-avatar">
+    
+    <h1 class="user-name">{{ currentUser.username }}</h1>
+    
+    <p *ngIf="currentUser.email" class="user-handle">{{ currentUser.email }}</p>
+    
+    <button class="update-profile-btn">Actualizar Perfil</button>
+  </header>
+
+  <nav class="profile-tabs">
+    <button
+      class="tab-button"
+      [class.active]="activeTab() === 'created'"
+      (click)="selectTab('created')">
+      Mis Recetas
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="activeTab() === 'favorites'"
+      (click)="selectTab('favorites')">
+      Favoritos
+    </button>
+  </nav>
+
+  <main class="tab-content">
+    <div *ngIf="displayedRecipes().length > 0; else noRecipes" class="recipe-grid">
+      <div *ngFor="let recipe of displayedRecipes()" class="recipe-card">
+        <img [src]="recipe.images[0] || 'https://via.placeholder.com/300x200?text=Receta'" [alt]="'Imagen de ' + recipe.name" class="recipe-image">
+        <div class="recipe-info">
+          <h3>{{ recipe.name }}</h3>
+          <p>Por {{ recipe.author }}</p>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noRecipes>
+      <div class="no-recipes-message">
+        <p>Aún no tienes recetas en esta sección.</p>
+      </div>
+    </ng-template>
+  </main>
+
+</div>

@@ -4,11 +4,12 @@ import { SignUp } from './features/pages/sign-up/sign-up';
 import { Home } from './features/pages/home/home';
 import { RecipeUpload} from './features/pages/recipe-upload/recipe-upload';
 import { Explore } from './features/pages/explore/explore';
+import { Profile } from './features/pages/profile/profile';
 
 export const routes: Routes = [
   { 
     path: '', 
-    component: RecipeUpload
+    component: Home
 },
     { 
     path: 'home', 
@@ -29,7 +30,10 @@ export const routes: Routes = [
     path: 'explore',
     component: Explore
   },
-
+  {
+    path: 'profile',
+    component: Profile
+  },
   { 
     path: '**', 
     redirectTo: '' 
