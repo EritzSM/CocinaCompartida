@@ -19,7 +19,7 @@
             <!-- Mostrar si ESTÁ logueado -->
             <div *ngIf="authService.isLoged()" class="user-menu">
                 <!-- 👇 Usa el método getCurrentUsername() en lugar de la señal -->
-                <span routerLink="/profile" class="welcome-text">Hola, {{ authService.getCurrentUsername() }}</span>
+                <span routerLink="/profile" class="welcome-text">Hola, {{ authService.getCurrentUser() }}</span>
                 <button routerLink="/home "(click)="authService.logout()" class="logout-btn">Cerrar Sesión</button>
             </div>
         </div>
