@@ -1,22 +1,6 @@
-/* Variables (Si no están definidas en los estilos globales, inclúyelas) */
-/*
-:root {
-    --color-primary: #000;
-    --color-secondary: #fff;
-    --color-light-gray: #f0f0f0;
-    --color-text-gray: #6e6e6e;
-    --color-error: #e63946;
-}
-*/
-
-/* ======================================= */
-/* 1. Contenedor Principal y Título */
-/* ======================================= */
-
 .recipe-container {
-    /* Reutiliza el ancho y centrado del .container global */
     width: 100%;
-    max-width: 600px; /* Un poco más ancho que el login/signup para mejor espacio de receta */
+    max-width: 600px;
     padding: 40px 20px;
     margin: 40px auto;
     box-sizing: border-box;
@@ -32,10 +16,6 @@
     color: var(--color-primary);
 }
 
-/* ======================================= */
-/* 2. Grupos de Formulario (Label + Input) */
-/* ======================================= */
-
 .form-group {
     margin-bottom: 30px;
     display: flex;
@@ -50,7 +30,6 @@
     color: var(--color-primary);
 }
 
-/* Reutilizando el estilo de input global */
 .recipe-container input[type="text"],
 .recipe-container textarea {
     width: 100%;
@@ -62,30 +41,24 @@
     font-size: 16px;
     color: var(--color-primary);
     font-weight: 500;
-    resize: vertical; /* Permite redimensionar el textarea */
+    resize: vertical;
     min-height: 40px;
     line-height: 1.5;
 }
 
 .recipe-container textarea {
-    min-height: 100px; /* Altura inicial más grande para pasos */
+    min-height: 100px;
 }
 
-/* Enfocar */
 .recipe-container input:focus,
 .recipe-container textarea:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--color-primary);
 }
 
-
-/* ======================================= */
-/* 3. Campos Dinámicos (Ingredientes y Pasos) */
-/* ======================================= */
-
 .dynamic-field {
     display: flex;
-    align-items: flex-start; /* Alineación superior para el botón de la textarea */
+    align-items: flex-start;
     gap: 10px;
     margin-bottom: 10px;
 }
@@ -93,7 +66,7 @@
 .dynamic-field input,
 .dynamic-field textarea {
     flex-grow: 1;
-    margin: 0; /* Anulamos el margin-bottom para un mejor espaciado dentro del array */
+    margin: 0;
 }
 
 .dynamic-field button[type="button"] {
@@ -106,15 +79,14 @@
     padding: 0;
     font-size: 14px;
     cursor: pointer;
-    flex-shrink: 0; /* Evita que el botón se haga pequeño */
-    margin-top: 5px; /* Ajuste visual para alinear con el input/textarea */
+    flex-shrink: 0;
+    margin-top: 5px;
 }
 
 .dynamic-field button[type="button"]:hover {
     background-color: #c4303d;
 }
 
-/* Botones "Agregar" */
 .form-group > button[type="button"] {
     background: none;
     border: 1px dashed var(--color-text-gray);
@@ -134,16 +106,10 @@
     border-color: var(--color-primary);
 }
 
-/* ======================================= */
-/* 4. Subida de Imágenes */
-/* ======================================= */
-
-/* Ocultar el input de archivo real */
 .form-group input[type="file"] {
     display: none;
 }
 
-/* Estilo para el label (que actúa como botón de subida) */
 .form-group label.upload {
     display: block;
     text-align: center;
@@ -152,8 +118,6 @@
     border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
-    
-    /* Estilo Iniciar Sesión */
     background-color: var(--color-primary);
     color: var(--color-secondary);
     transition: background-color 0.2s;
@@ -163,23 +127,18 @@
     background-color: #333;
 }
 
-
-/* ======================================= */
-/* 5. Carrusel de Imágenes */
-/* ======================================= */
-
 .carousel {
     position: relative;
     margin: 30px 0;
     border-radius: 10px;
-    overflow: hidden; /* Oculta partes de la imagen que sobresalgan */
+    overflow: hidden;
 }
 
 .carousel img {
     width: 100%;
     height: auto;
     display: block;
-    aspect-ratio: 16 / 9; /* Mantiene una relación de aspecto consistente */
+    aspect-ratio: 16 / 9;
     object-fit: cover;
 }
 
@@ -211,10 +170,6 @@
     border-radius: 5px;
 }
 
-/* ======================================= */
-/* 6. Botón Final "Guardar Receta" */
-/* ======================================= */
-
 .recipe-container > button[type="button"] {
     width: 100%;
     padding: 15px;
@@ -233,10 +188,6 @@
     background-color: #333;
 }
 
-/* ======================================= */
-/* 7. Mensajes de Error */
-/* ======================================= */
-
 .error-message {
     color: var(--color-error);
     font-size: 12px;
@@ -244,7 +195,6 @@
     font-weight: 500;
 }
 
-/* Estilo para campos inválidos */
 .recipe-container input.ng-invalid.ng-touched,
 .recipe-container textarea.ng-invalid.ng-touched {
     border: 1px solid var(--color-error);

@@ -16,7 +16,6 @@ import { inject } from '@angular/core';
 export class Profile implements OnInit {
 
   private router = inject(Router);
-  // 2. La señal ahora usará tu interfaz User importada
   user: WritableSignal<User | null> = signal(null);
 
   activeTab: WritableSignal<'created' | 'favorites'> = signal('created');
@@ -44,15 +43,12 @@ export class Profile implements OnInit {
     this.loadUserProfile();
   }
 
-  // 3. El método se actualiza para cargar el objeto User desde localStorage
+
   private loadUserProfile(): void {
-    const username = this.authService.getCurrentUsername();
-    if (username) {
-      const userStr = localStorage.getItem(username);
-      if (userStr) {
-        // La información parseada ahora encaja con tu interfaz
-        this.user.set(JSON.parse(userStr) as User);
-      }
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      
+      this.user.set(currentUser);
     }
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Recipe, RecipeService } from '../../../shared/services/recipe'; // Ajusta la ruta si es necesario
+import { Recipe, RecipeService } from '../../../shared/services/recipe'; 
 
 @Component({
   selector: 'app-recipe-detail',

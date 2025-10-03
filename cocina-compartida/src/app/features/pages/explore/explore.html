@@ -6,7 +6,7 @@
   </div>
 
   <div class="recipe-list" *ngIf="allRecipes().length > 0">
-    <div class="recipe-card" *ngFor="let recipe of recipesToShow; trackBy: trackByRecipeId"> 
+    <div class="recipe-card" *ngFor="let recipe of recipesToShow(); trackBy: trackByRecipeId">
 
       <div class="recipe-image">
         <img *ngIf="recipe.images.length > 0" [src]="recipe.images[0]" alt="Foto de {{ recipe.name }}">
@@ -23,19 +23,14 @@
           <img [src]="recipe.avatar" alt="Avatar del autor" class="avatar" />
           <span class="author-name">{{ recipe.author }}</span>
         </p>
-
         <button [routerLink]="['/recipe', recipe.id]" class="view-button">Ver Receta</button>
       </div>
 
     </div>
   </div>
   
-  <div *ngIf="visibleRecipeCount < allRecipes().length" class="loading-message">
-    <p>Cargando más...</p> 
-  </div>
-
-  <div *ngIf="visibleRecipeCount >= allRecipes().length && allRecipes().length > 0" class="end-message">
-    <p>¡Has llegado al final de las recetas! 🎉</p> 
+  <div *ngIf="visibleRecipeCount() < allRecipes().length" class="loading-message">
+    <p>Cargando más...</p>
   </div>
 
 </div>
