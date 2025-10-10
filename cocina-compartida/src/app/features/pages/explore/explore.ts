@@ -1,72 +1,75 @@
-import { Component, inject, HostListener } from '@angular/core';
+import { Component, inject, HostListener, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecipeService, Recipe } from '../../../shared/services/recipe'; // Ajusta la ruta si es necesario
+import { RecipeService } from '../../../shared/services/recipe';
+import { Recipe } from '../../../shared/interfaces/recipe';
 import { Auth } from '../../../shared/services/auth';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-explore',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './explore.html',
   styleUrls: ['./explore.css']
 })
 export class Explore {
-  // Inyectamos el servicio para acceder a las recetas
+  // --- DEPENDENCIES ---
   private recipeService = inject(RecipeService);
-  // Obtenemos la señal de solo lectura con la lista de recetas
-  recipes = this.recipeService.recipes;
   authService = inject(Auth);
+
+  // --- STATE MANAGEMENT ---
   
-  private router = inject(Router);
+  // Señal con todas las recetas obtenidas del servicio.
+  readonly allRecipes = this.recipeService.recipes;
 
-  // Array completo de recetas (señal)
-  allRecipes = this.recipeService.recipes;
+  // Cantidad de recetas a cargar en cada "página" del scroll.
+  private readonly recipesPerPage = 3;
+  
+  // Umbral (90%) para disparar la carga de más recetas antes de llegar al final.
+  private readonly SCROLL_THRESHOLD = 0.9;
 
-  // NUEVA PROPIEDAD: Cantidad de recetas a mostrar inicialmente
-  private recipesPerPage = 3;
-  // Propiedad para controlar el número total visible
-  visibleRecipeCount: number = this.recipesPerPage;
+  // Señal para mantener el número de recetas visibles actualmente.
+  visibleRecipeCount = signal<number>(this.recipesPerPage);
 
-  trackByRecipeId(index: number, recipe: any): number {
+  // Señal computada que deriva la lista de recetas a mostrar en el DOM.
+  // Se recalcula automáticamente si 'allRecipes' o 'visibleRecipeCount' cambian.
+  readonly recipesToShow = computed(() => {
+    return this.allRecipes().slice(0, this.visibleRecipeCount());
+  });
+
+  /**
+   * Optimiza el renderizado en *ngFor al identificar cada receta por su ID único.
+   */
+  trackByRecipeId(index: number, recipe: Recipe): string {
     return recipe.id;
   }
 
-  // Propiedad COMPUTADA: Solo devuelve las recetas visibles
-  get recipesToShow(): Recipe[] {
-    return this.allRecipes().slice(0, this.visibleRecipeCount);
-  }
-
-  // Opcional: Para mantener el featuredRecipes si lo sigues usando en otra parte
-  // featuredRecipes = this.allRecipes().slice(0, 3);
-
-  // NUEVA FUNCIÓN: Lógica de Carga al Scroll
+  /**
+   * Escucha el evento de scroll en la ventana para implementar el scroll infinito.
+   */
   @HostListener('window:scroll', ['$event'])
-  onScroll(event: any) {
-    // 1. Calcular la posición del scroll
+  onScroll(event: Event): void {
     const scrollPosition = window.innerHeight + window.scrollY;
-    // 2. Calcular la altura total del contenido de la página (document.body.offsetHeight)
     const pageHeight = document.body.offsetHeight;
 
-    // Si el usuario está cerca del final de la página (por ejemplo, 80% del total)
-    // El 90% es un buen umbral para que la carga sea fluida antes de llegar al final.
-    if (scrollPosition >= pageHeight * 0.9) {
+    // Si el scroll supera el umbral definido, se cargan más recetas.
+    if (scrollPosition >= pageHeight * this.SCROLL_THRESHOLD) {
       this.loadMoreRecipes();
     }
   }
 
-  // NUEVA FUNCIÓN: Aumentar el contador de recetas visibles
-  loadMoreRecipes() {
+  /**
+   * Incrementa el contador de recetas visibles para mostrar más elementos en la lista.
+   */
+  private loadMoreRecipes(): void {
     const totalRecipes = this.allRecipes().length;
 
-    // Solo carga más si aún quedan recetas por mostrar
-    if (this.visibleRecipeCount < totalRecipes) {
-      // Aumenta el contador en 'recipesPerPage' o hasta el total si quedan menos
-      const nextCount = this.visibleRecipeCount + this.recipesPerPage;
-      this.visibleRecipeCount = Math.min(nextCount, totalRecipes);
-
-      console.log(`Cargando más recetas. Total visible: ${this.visibleRecipeCount}`);
-      // Nota: Si usas una variable de estado para un spinner, este es el lugar para resetearlo.
+    // Solo carga más si el número de recetas visibles es menor que el total.
+    if (this.visibleRecipeCount() < totalRecipes) {
+      const nextCount = this.visibleRecipeCount() + this.recipesPerPage;
+      
+      // Actualiza la señal, asegurando no exceder el total de recetas.
+      this.visibleRecipeCount.set(Math.min(nextCount, totalRecipes));
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecipeService, Recipe } from '../../../shared/services/recipe';
+import { RecipeService } from '../../../shared/services/recipe';
+import { Recipe } from '../../../shared/interfaces/recipe';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../shared/services/auth';
 import Swal from 'sweetalert2';
