@@ -1,7 +1,8 @@
 import { Component, OnInit, computed, signal, WritableSignal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Auth } from '../../../shared/services/auth';
-import { Recipe, RecipeService } from '../../../shared/services/recipe';
+import { RecipeService } from '../../../shared/services/recipe';
+import { Recipe } from '../../../shared/interfaces/recipe';
 import { User } from '../../../shared/interfaces/user';
 import {Router, RouterModule, RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
