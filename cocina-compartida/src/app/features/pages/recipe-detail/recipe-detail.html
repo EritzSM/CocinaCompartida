@@ -9,6 +9,11 @@
     <div class="recipe-main-header">
         <h1>{{ recipe.name }}</h1>
         <p>{{ recipe.descripcion }}</p>
+        <div class="likes-summary"><i class="fa fa-heart"></i> {{ recipe.likes || 0 }} me gusta</div>
+        <div class="owner-actions" *ngIf="canEdit()">
+            <button (click)="goToEdit()">Editar receta</button>
+            <button (click)="deleteRecipe()">Eliminar</button>
+        </div>
     </div>
 
     <div class="image-carousel" *ngIf="recipe.images && recipe.images.length > 0">
@@ -44,6 +49,31 @@
                 <li *ngFor="let step of recipe.steps">{{ step }}</li>
             </ol>
         </div>
+    </div>
+
+    <div class="comments-section">
+        <h2>Comentarios</h2>
+
+        <div class="comment-form">
+            <textarea [(ngModel)]="newComment" placeholder="Escribe tu comentario..."></textarea>
+            <button (click)="submitComment()">Comentar</button>
+        </div>
+
+        <div *ngIf="recipe.comments && recipe.comments.length > 0; else noComments" class="comments-list">
+            <div class="comment-item" *ngFor="let c of recipe.comments">
+                <img [src]="c.avatar" class="comment-avatar" alt="avatar">
+                <div class="comment-body">
+                    <div class="comment-meta">
+                        <strong>{{ c.author }}</strong>
+                        <span class="comment-date">{{ c.date | date:'short' }}</span>
+                    </div>
+                    <p class="comment-text">{{ c.text }}</p>
+                </div>
+            </div>
+        </div>
+        <ng-template #noComments>
+            <p class="no-comments">Aún no hay comentarios. ¡Sé el primero en comentar!</p>
+        </ng-template>
     </div>
 
 </div>

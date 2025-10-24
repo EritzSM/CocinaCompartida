@@ -1,11 +1,14 @@
+// recipe-upload.ts
 import { Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Agregar Validators
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { RecipeService } from '../../../shared/services/recipe';
 import { Auth } from '../../../shared/services/auth';
+import { UploadService } from '../../../shared/services/upload';
 import { v4 as uuidv4 } from 'uuid';
+import { Recipe } from '../../../shared/interfaces/recipe';
 
 @Component({
   selector: 'app-recipe-upload',
@@ -18,9 +21,15 @@ export class RecipeUpload {
   recipeForm: FormGroup;
   images: string[] = [];
   currentIndex = 0;
+  isUploading = false;
+  isEditMode = false;
+  recipeIdToEdit: string | null = null;
+  
   router = inject(Router);
+  route = inject(ActivatedRoute);
   authService = inject(Auth);
-  recipeService = inject(RecipeService)
+  recipeService = inject(RecipeService);
+  uploadService = inject(UploadService);
 
   constructor(private fb: FormBuilder) {
     this.recipeForm = this.fb.group({
@@ -29,10 +38,57 @@ export class RecipeUpload {
       ingredients: this.fb.array([this.fb.control('', Validators.required)]),
       steps: this.fb.array([this.fb.control('', Validators.required)])
     });
+
+    // Detectar modo edición
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.isEditMode = true;
+        this.recipeIdToEdit = id;
+        const recipe = this.recipeService.recipes().find(r => r.id === id);
+        if (!recipe) {
+          this.showToast('error', 'Receta no encontrada');
+          this.router.navigate(['/home']);
+          return;
+        }
+
+        const currentUser = this.authService.getCurrentUsername();
+        if (recipe.author !== currentUser) {
+          this.showToast('error', 'No tienes permiso para editar esta receta');
+          this.router.navigate(['/home']);
+          return;
+        }
+
+        this.loadRecipeIntoForm(recipe);
+      }
+    });
+  }
+
+  private loadRecipeIntoForm(recipe: Recipe) {
+    this.recipeForm.patchValue({
+      name: recipe.name,
+      descripcion: recipe.descripcion,
+    });
+
+    // Cargar arrays
+    this.ingredients.clear();
+    recipe.ingredients.forEach(ing => this.ingredients.push(this.fb.control(ing, Validators.required)));
+
+    this.steps.clear();
+    recipe.steps.forEach(step => this.steps.push(this.fb.control(step, Validators.required)));
+
+    // Cargar imágenes
+    this.images = [...recipe.images];
+    this.currentIndex = 0;
   }
 
   get ingredients() {
     return this.recipeForm.get('ingredients') as FormArray;
+  }
+
+  // Helpers para arrays
+  private getArray(controlName: string): FormArray {
+    return this.recipeForm.get(controlName) as FormArray;
   }
 
   get steps() {
@@ -44,18 +100,10 @@ export class RecipeUpload {
   }
 
   removeIngredient(index: number) {
-    // No permitir eliminar si solo queda un ingrediente
     if (this.ingredients.length > 1) {
       this.ingredients.removeAt(index);
     } else {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'warning',
-        title: 'Debe haber al menos un ingrediente',
-        showConfirmButton: false,
-        timer: 3000
-      });
+      this.showToast('warning', 'Debe haber al menos un ingrediente');
     }
   }
 
@@ -64,118 +112,76 @@ export class RecipeUpload {
   }
 
   removeStep(index: number) {
-    // No permitir eliminar si solo queda un paso
     if (this.steps.length > 1) {
       this.steps.removeAt(index);
     } else {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'warning',
-        title: 'Debe haber al menos un paso',
-        showConfirmButton: false,
-        timer: 3000
-      });
+      this.showToast('warning', 'Debe haber al menos un paso');
     }
   }
 
-  onUploadFile(event: any) {
-    const files = event.target.files;
-    if (files) {
-      for (let file of files) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => this.images.push(e.target.result);
-        reader.readAsDataURL(file);
+  async onUploadFile(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    
+    if (!files.length) return;
+
+    this.isUploading = true;
+
+    try {
+      const result = await this.uploadService.uploadMultipleFiles(files);
+      
+      if (result.success && result.data) {
+        this.images.push(...result.data as string[]);
+        this.showToast('success', 'Imágenes subidas correctamente');
+      } else {
+        this.showToast('error', result.error || 'Error al subir imágenes');
       }
+    } catch (error: any) {
+      this.showToast('error', error.message || 'Error al subir imágenes');
+    } finally {
+      this.isUploading = false;
+      event.target.value = '';
+    }
+  }
+
+  removeImage(index: number) {
+    this.images.splice(index, 1);
+    if (this.currentIndex >= this.images.length) {
+      this.currentIndex = Math.max(0, this.images.length - 1);
     }
   }
 
   nextImage() {
-    this.currentIndex = (this.currentIndex + 1) % this.images.length;
+    if (this.images.length > 0) {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+    }
   }
 
   prevImage() {
-    this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-  }
-
-  // Método para validar si un array del formulario está vacío
-  private isArrayEmpty(formArray: FormArray): boolean {
-    return formArray.controls.every(control => !control.value || control.value.trim() === '');
-  }
-
-  // Método para validar si hay campos vacíos en los arrays
-  private validateArrays(): boolean {
-    const ingredientsEmpty = this.isArrayEmpty(this.ingredients);
-    const stepsEmpty = this.isArrayEmpty(this.steps);
-
-    if (ingredientsEmpty) {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'error',
-        title: 'Debe agregar al menos un ingrediente',
-        showConfirmButton: false,
-        timer: 3000
-      });
-      return false;
+    if (this.images.length > 0) {
+      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
     }
-
-    if (stepsEmpty) {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'error',
-        title: 'Debe agregar al menos un paso',
-        showConfirmButton: false,
-        timer: 3000
-      });
-      return false;
-    }
-
-    return true;
   }
 
-  onSubmit() {
-    // Marcar todos los campos como tocados para mostrar errores
+  async onSubmit() {
     this.markAllFieldsAsTouched();
 
-    // Validar formulario
     if (this.recipeForm.invalid) {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'error',
-        title: 'Por favor complete todos los campos requeridos',
-        showConfirmButton: false,
-        timer: 3000
-      });
+      this.showToast('error', 'Por favor complete todos los campos requeridos');
       return;
     }
 
-    // Validar arrays (ingredientes y pasos)
-    if (!this.validateArrays()) {
-      return;
-    }
-
-    // Validar que haya al menos una imagen
     if (this.images.length === 0) {
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'error',
-        title: 'Debe subir al menos una imagen',
-        showConfirmButton: false,
-        timer: 3000
-      });
+      this.showToast('error', 'Debe subir al menos una imagen');
       return;
     }
 
     // Filtrar ingredientes y pasos vacíos
-    const filteredIngredients = this.recipeForm.value.ingredients.filter((ing: string) => ing && ing.trim() !== '');
-    const filteredSteps = this.recipeForm.value.steps.filter((step: string) => step && step.trim() !== '');
+    const filteredIngredients = this.recipeForm.value.ingredients
+      .filter((ing: string) => ing && ing.trim() !== '');
+    const filteredSteps = this.recipeForm.value.steps
+      .filter((step: string) => step && step.trim() !== '');
 
-    const recipe = {
-      id: uuidv4(),
+    const payload = {
       name: this.recipeForm.value.name.trim(),
       descripcion: this.recipeForm.value.descripcion.trim(),
       ingredients: filteredIngredients,
@@ -185,29 +191,29 @@ export class RecipeUpload {
       avatar: this.authService.currentAvatar()
     };
 
+    if (this.isEditMode && this.recipeIdToEdit) {
+      this.recipeService.updateRecipe(this.recipeIdToEdit, payload);
+      this.showToast('success', 'Receta actualizada correctamente');
+      this.router.navigate(['/recipe', this.recipeIdToEdit]);
+      return;
+    }
+
+    const recipe = {
+      id: uuidv4(),
+      ...payload
+    };
+
     this.recipeService.addRecipe(recipe);
 
-    // Resetear
+    // Resetear y redirigir
     this.recipeForm.reset();
     this.images = [];
     this.currentIndex = 0;
-
-    // Redirigir al home
     this.router.navigate(['home']);
 
-    // Notificación
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
-      icon: 'success',
-      title: 'Receta cargada correctamente',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    });
+    this.showToast('success', 'Receta cargada correctamente');
   }
 
-  // Método para marcar todos los campos como tocados
   private markAllFieldsAsTouched() {
     Object.keys(this.recipeForm.controls).forEach(key => {
       const control = this.recipeForm.get(key);
@@ -221,7 +227,17 @@ export class RecipeUpload {
     });
   }
 
-  // Métodos auxiliares para mostrar errores en el HTML
+  private showToast(icon: 'success' | 'error' | 'warning', title: string) {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon,
+      title,
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
+
   isFieldInvalid(fieldName: string): boolean {
     const field = this.recipeForm.get(fieldName);
     return field ? field.invalid && field.touched : false;

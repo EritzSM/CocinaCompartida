@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { User } from '../interfaces/user';
-import { LoginRespose, SignUpResponse } from '../interfaces/login-response';
+import { LoginResponse, SignUpResponse } from '../interfaces/login-response';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ export class Auth {
         this.verifyLoggedUser();
     }
 
-    login(user: User): LoginRespose {
+    login(user: User): LoginResponse {
         // CORRECCIÓN CLAVE 1:
         // Asegurar que el nombre de usuario no esté vacío para la búsqueda.
         if (!user.username) {

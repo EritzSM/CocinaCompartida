@@ -7,7 +7,6 @@
 
   <div class="recipe-list" *ngIf="allRecipes().length > 0">
     <div class="recipe-card" *ngFor="let recipe of recipesToShow(); trackBy: trackByRecipeId">
-
       <div class="recipe-image">
         <img *ngIf="recipe.images.length > 0; else noImage" [src]="recipe.images[0]" alt="Foto de {{ recipe.name }}">
         <ng-template #noImage>
@@ -16,22 +15,25 @@
           </div>
         </ng-template>
       </div>
-
       <div class="recipe-info">
         <h2>{{ recipe.name }}</h2>
         <p class="recipe-description">{{ recipe.descripcion }}</p>
-        
         <div class="author-info">
           <img [src]="recipe.avatar" alt="Avatar de {{ recipe.author }}" class="avatar" />
           <span class="author-name">Creado por {{ recipe.author }}</span>
         </div>
-
-        <button [routerLink]="['/recipe', recipe.id]" class="view-button">Ver Receta</button>
+        <div class="recipe-actions">
+          <button (click)="toggleLike(recipe.id)" class="like-button" [class.liked]="hasLiked(recipe)">
+            <i class="fa fa-heart"></i> {{ recipe.likes }}
+          </button>
+          <button [routerLink]="['/recipe', recipe.id]" class="view-button">Ver Receta</button>
+        </div>
       </div>
-
     </div>
   </div>
-  
+
+  <div #loadMoreTrigger></div>
+
   <div *ngIf="visibleRecipeCount() >= allRecipes().length && allRecipes().length > 0" class="end-message">
     <p>¡Has llegado al final de las recetas! 🎉</p>
   </div>

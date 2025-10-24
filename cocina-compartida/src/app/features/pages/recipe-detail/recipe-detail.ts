@@ -1,13 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { RecipeService } from '../../../shared/services/recipe'; // Ajusta la ruta si es necesario
 import { Recipe } from '../../../shared/interfaces/recipe';
+import { Auth } from '../../../shared/services/auth';
+import { Comment } from '../../../shared/interfaces/comment';
+import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-recipe-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink], // Importamos CommonModule y RouterLink
+  imports: [CommonModule, RouterLink, FormsModule], // Importamos CommonModule, RouterLink y FormsModule
   templateUrl: './recipe-detail.html',
   styleUrls: ['./recipe-detail.css']
 })
@@ -18,6 +23,10 @@ export class RecipeDetail implements OnInit {
   // Inyección de servicios
   private route = inject(ActivatedRoute);
   private recipeService = inject(RecipeService);
+  authService = inject(Auth);
+  private router = inject(Router);
+
+  newComment: string = '';
 
   // En recipe-detail.component.ts
 
@@ -50,5 +59,90 @@ export class RecipeDetail implements OnInit {
     if (this.recipe && this.recipe.images.length > 0) {
       this.currentIndex = (this.currentIndex - 1 + this.recipe.images.length) % this.recipe.images.length;
     }
+  }
+
+  submitComment() {
+    if (!this.recipe) return;
+
+    if (!this.authService.isLoged()) {
+      Swal.fire({
+        title: '¡Necesitas iniciar sesión!',
+        text: 'Para comentar, primero debes iniciar sesión.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Iniciar Sesión'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/login']);
+        }
+      });
+      return;
+    }
+
+    const text = (this.newComment || '').trim();
+    if (!text) {
+      Swal.fire({ icon: 'warning', title: 'Escribe un comentario' });
+      return;
+    }
+
+    const user = this.authService.getCurrentUser();
+    if (!user) return;
+
+    const comment: Comment = {
+      id: uuidv4(),
+      author: user.username,
+      avatar: user.avatar || 'https://via.placeholder.com/150',
+      text,
+      date: new Date()
+    };
+
+    this.recipeService.addComment(this.recipe.id, comment);
+
+    // refrescar la receta desde el store
+    const updated = this.recipeService.recipes().find(r => r.id === this.recipe!.id);
+    this.recipe = updated;
+
+    this.newComment = '';
+
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: 'Comentario agregado',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  // Acciones: editar y eliminar
+  canEdit(): boolean {
+    if (!this.recipe) return false;
+    const currentUsername = this.authService.getCurrentUsername();
+    return !!currentUsername && this.recipe.author === currentUsername;
+  }
+
+  goToEdit(): void {
+    if (!this.recipe || !this.canEdit()) return;
+    this.router.navigate(['/recipe', this.recipe.id, 'edit']);
+  }
+
+  deleteRecipe(): void {
+    if (!this.recipe || !this.canEdit()) return;
+    Swal.fire({
+      title: 'Eliminar receta',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.recipeService.deleteRecipe(this.recipe!.id);
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Receta eliminada', showConfirmButton: false, timer: 1500 });
+        this.router.navigate(['/profile']);
+      }
+    });
   }
 }

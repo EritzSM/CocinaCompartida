@@ -21,7 +21,18 @@ export class RecipeService {
   }
 
   addRecipe(recipe: Recipe) {
-    this._recipes.update((list) => [...list, recipe]);
+    // Insertar nuevas recetas al inicio para que se vean primero en Explore
+    this._recipes.update((list) => [recipe, ...list]);
+  }
+
+  updateRecipe(recipeId: string, changes: Partial<Recipe>) {
+    this._recipes.update((list) =>
+      list.map((r) => (r.id === recipeId ? { ...r, ...changes } : r))
+    );
+  }
+
+  deleteRecipe(recipeId: string) {
+    this._recipes.update((list) => list.filter((r) => r.id !== recipeId));
   }
   
   private initializeRecipes(): Recipe[] {
@@ -29,15 +40,10 @@ export class RecipeService {
       const storedRecipes = localStorage.getItem(this.STORAGE_KEY);
       
       if (storedRecipes) {
-        // Si hay recetas en localStorage, las combinamos con las precargadas
+        // Si hay recetas en localStorage, usamos esas como fuente de verdad
         const parsedStoredRecipes = JSON.parse(storedRecipes) as Recipe[];
-        
-        // Combinar recetas: primero las precargadas, luego las del localStorage
-        // y eliminar duplicados por ID
-        const allRecipes = [...RECIPES_DATA, ...parsedStoredRecipes];
-        const uniqueRecipes = this.removeDuplicateRecipes(allRecipes);
-        
-        return uniqueRecipes;
+        const uniqueStored = this.removeDuplicateRecipes(parsedStoredRecipes);
+        return uniqueStored;
       } else {
         // Si no hay nada en localStorage, devolvemos solo las recetas precargadas
         return RECIPES_DATA;
@@ -78,5 +84,50 @@ export class RecipeService {
   getUserRecipes(): Recipe[] {
     const precargadasIds = new Set(RECIPES_DATA.map(recipe => recipe.id));
     return this._recipes().filter(recipe => !precargadasIds.has(recipe.id));
+  }
+
+  toggleLike(recipeId: string, userId: string): void {
+    this._recipes.update((list) =>
+      list.map((recipe) => {
+        if (recipe.id !== recipeId) return recipe;
+        const currentLikedBy = recipe.likedBy ? [...recipe.likedBy] : [];
+        const hasLiked = currentLikedBy.includes(userId);
+        const newLikedBy = hasLiked
+          ? currentLikedBy.filter((id) => id !== userId)
+          : [...currentLikedBy, userId];
+        const newLikes = newLikedBy.length;
+        return {
+          ...recipe,
+          likedBy: newLikedBy,
+          likes: newLikes,
+        };
+      })
+    );
+  }
+
+  addComment(recipeId: string, comment: import('../interfaces/comment').Comment): void {
+    this._recipes.update((list) =>
+      list.map((recipe) => {
+        if (recipe.id !== recipeId) return recipe;
+        const currentComments = recipe.comments ? [...recipe.comments] : [];
+        return {
+          ...recipe,
+          comments: [...currentComments, comment],
+        };
+      })
+    );
+  }
+
+  updateAuthorForUser(oldUsername: string, newUsername: string, newAvatar?: string): void {
+    this._recipes.update((list) =>
+      list.map((recipe) => {
+        if (recipe.author !== oldUsername) return recipe;
+        return {
+          ...recipe,
+          author: newUsername,
+          avatar: newAvatar ?? recipe.avatar,
+        };
+      })
+    );
   }
 }

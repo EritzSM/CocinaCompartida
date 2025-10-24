@@ -1,5 +1,5 @@
 <div class="recipe-container" [formGroup]="recipeForm">
-    <h2>Subir Receta</h2>
+    <h2>{{ isEditMode ? 'Editar Receta' : 'Subir Receta' }}</h2>
 
     <!-- Nombre -->
     <div class="form-group">
@@ -68,5 +68,5 @@
     </div>
 
     <!-- Botón Submit -->
-    <button type="button" (click)="onSubmit()">Guardar Receta</button>
+    <button type="button" (click)="onSubmit()">{{ isEditMode ? 'Guardar Cambios' : 'Guardar Receta' }}</button>
 </div>
