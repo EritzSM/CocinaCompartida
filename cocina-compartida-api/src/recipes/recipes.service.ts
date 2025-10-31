@@ -1,60 +1,116 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+// src/recipes/recipes.service.ts
+
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Recipe } from './entities/recipe.entity';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import { Recipe } from './entities/recipe.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class RecipesService {
-  // Usaremos un array en memoria para simular una base de datos.
-  private recipes: Recipe[] = [
-    {
-      id: '1',
-      name: 'Tacos al Pastor',
-      descripcion: 'Un clásico de la cocina mexicana.',
-      ingredients: ['Tortillas de maíz', 'Carne de cerdo', 'Piña', 'Cilantro', 'Cebolla'],
-      steps: ['Marinar la carne', 'Cocer la carne en un trompo', 'Cortar y servir en tortillas con los acompañamientos'],
-      images: ['https://placehold.co/600x400/E9944A/white?text=Tacos'],
-      author: 'ChefMexicano',
-      likes: 150,
-      avatar: 'https://i.pravatar.cc/150?u=chefmexicano'
-    }
-  ];
+  constructor(
+    @InjectRepository(Recipe)
+    private readonly recipeRepository: Repository<Recipe>,
+  ) {}
 
-  findAll(): Recipe[] {
-    return this.recipes;
+  // 🔹 Crear una receta asociada a un usuario
+  async create(createRecipeDto: CreateRecipeDto, user: User): Promise<Recipe> {
+    const recipe = this.recipeRepository.create({
+      ...createRecipeDto,
+      user,
+      likes: 0,
+      likedBy: [],
+    });
+
+    return await this.recipeRepository.save(recipe);
   }
 
-  findOne(id: string): Recipe {
-    const recipe = this.recipes.find(r => r.id === id);
+  // 🔹 Listar todas las recetas
+  async findAll(): Promise<Recipe[]> {
+    return await this.recipeRepository.find({
+      relations: ['user', 'comments', 'comments.user'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  // 🔹 Buscar una receta por ID
+  async findOne(id: string): Promise<Recipe> {
+    const recipe = await this.recipeRepository.findOne({
+      where: { id },
+      relations: ['user', 'comments', 'comments.user'],
+    });
+
     if (!recipe) {
       throw new NotFoundException(`Recipe with ID "${id}" not found`);
     }
+
     return recipe;
   }
 
-  create(createRecipeDto: CreateRecipeDto): Recipe {
-    const newRecipe: Recipe = {
-      id: uuidv4(),
-      ...createRecipeDto,
-      likes: 0, // Valor inicial para los 'me gusta'
-    };
-    this.recipes.push(newRecipe);
-    return newRecipe;
+  // 🔹 Actualizar una receta (solo el autor puede hacerlo)
+  async update(
+    id: string,
+    updateRecipeDto: UpdateRecipeDto,
+    user: User,
+  ): Promise<Recipe> {
+    const recipe = await this.findOne(id);
+
+    if (recipe.user.id !== user.id) {
+      throw new ForbiddenException('You can only update your own recipes');
+    }
+
+    Object.assign(recipe, updateRecipeDto);
+    return await this.recipeRepository.save(recipe);
   }
 
-  update(id: string, updateRecipeDto: UpdateRecipeDto): Recipe {
-    const recipe = this.findOne(id);
-    const updatedRecipe = { ...recipe, ...updateRecipeDto };
-    
-    this.recipes = this.recipes.map(r => (r.id === id ? updatedRecipe : r));
-    
-    return updatedRecipe;
+  // 🔹 Eliminar una receta (solo el autor puede hacerlo)
+  async remove(id: string, user: User): Promise<void> {
+    const recipe = await this.findOne(id);
+
+    if (recipe.user.id !== user.id) {
+      throw new ForbiddenException('You can only delete your own recipes');
+    }
+
+    await this.recipeRepository.remove(recipe);
   }
 
-  remove(id: string) {
-    // Verificamos que la receta exista primero. findOne arrojará error si no.
-    this.findOne(id);
-    this.recipes = this.recipes.filter(r => r.id !== id);
+  // 🔹 Dar like a una receta
+  async likeRecipe(id: string, user: User): Promise<Recipe> {
+    const recipe = await this.findOne(id);
+
+    // Ensure likedBy is initialized to avoid "possibly undefined"
+    if (!recipe.likedBy) {
+      recipe.likedBy = [];
+    }
+
+    if (recipe.likedBy.includes(user.id)) {
+      throw new ForbiddenException('You already liked this recipe');
+    }
+
+    recipe.likedBy.push(user.id);
+    recipe.likes = (recipe.likes ?? 0) + 1;
+
+    return await this.recipeRepository.save(recipe);
+  }
+
+  // 🔹 Quitar like
+  async unlikeRecipe(id: string, user: User): Promise<Recipe> {
+    const recipe = await this.findOne(id);
+
+    // If likedBy is undefined or does not include the user, can't unlike
+    if (!recipe.likedBy || !recipe.likedBy.includes(user.id)) {
+      throw new ForbiddenException('You have not liked this recipe');
+    }
+
+    recipe.likedBy = recipe.likedBy.filter((u) => u !== user.id);
+    recipe.likes = Math.max(0, (recipe.likes ?? 0) - 1);
+
+    return await this.recipeRepository.save(recipe);
   }
 }

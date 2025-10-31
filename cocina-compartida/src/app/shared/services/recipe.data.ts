@@ -7,6 +7,7 @@ export const RECIPES_DATA: Recipe[] = [
     id: uuidv4(),
     name: 'Tarta de Limón y Merengue',
     descripcion: 'Un clásico agridulce con una cubierta de merengue dorado y suave.',
+    category: 'postres',
     ingredients: [
       '200g de galletas de vainilla',
       '100g de mantequilla derretida',
@@ -34,6 +35,7 @@ export const RECIPES_DATA: Recipe[] = [
   {
     id: uuidv4(),
     name: 'Lasaña Clásica de Carne',
+    category: 'platos-fuertes',
     descripcion: 'La receta italiana tradicional, con capas de pasta, ragú y bechamel.',
     ingredients: [
       '500g de carne molida',
@@ -60,6 +62,7 @@ export const RECIPES_DATA: Recipe[] = [
   {
     id: uuidv4(),
     name: 'Tacos al Pastor Caseros',
+    category: 'platos-fuertes',
     descripcion: 'Una versión simplificada para hacer el clásico taco mexicano en casa.',
     ingredients: [
       '1 kg de carne de cerdo (lomo o pierna)',
@@ -82,6 +85,7 @@ export const RECIPES_DATA: Recipe[] = [
   {
     id: uuidv4(),
     name: 'Brownies Súper Chocolatosos',
+    category: 'postres',
     descripcion: 'Receta rápida y fácil para obtener unos brownies húmedos y con corteza crujiente.',
     ingredients: [
       '200g de chocolate negro',
@@ -107,6 +111,7 @@ export const RECIPES_DATA: Recipe[] = [
   {
     id: uuidv4(),
     name: 'Curry de Garbanzos (Vegano)',
+    category: 'platos-fuertes',
     descripcion: 'Un plato de la India, lleno de sabor, especias y muy nutritivo. Perfecto con arroz.',
     ingredients: [
       '1 lata de garbanzos cocidos',

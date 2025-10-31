@@ -1,22 +1,31 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Recipe } from "./recipe.entity";
-import { User } from "src/user/entities/user.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  UpdateDateColumn,
+} from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Recipe } from './recipe.entity';
 
 @Entity('comments')
-export class Comment{
+export class Comment {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @PrimaryGeneratedColumn('uuid')
-    id:string;
+  @Column({ type: 'text' })
+  message: string;
 
-    @ManyToOne(()=>User, user => user.comments)
-    user:User;
-    
-    @ManyToOne(()=>Recipe, recipe => recipe.comments)
-    recipe:Recipe;
-    
-    @Column({type:'varchar'})
-    message:string;
+  @ManyToOne(() => User, (user) => user.comments, { eager: true, onDelete: 'CASCADE' })
+  user: User;
 
-    @CreateDateColumn({name:'created_at'})
-    createdAt:Date;
+  @ManyToOne(() => Recipe, (recipe) => recipe.comments, { onDelete: 'CASCADE' })
+  recipe: Recipe;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

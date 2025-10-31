@@ -1,36 +1,45 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards, Req } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 
-// Define la ruta base para este controlador: /recipes
+import { AuthGuard } from 'src/security/auth.guard';
+import { RecipeOwnerGuard } from 'src/security/recipe-owner.guard';
+
 @Controller('recipes')
+@UseGuards(AuthGuard)
 export class RecipesController {
   constructor(private readonly recipesService: RecipesService) {}
 
-  @Post() // Maneja peticiones POST a /recipes
-  create(@Body() createRecipeDto: CreateRecipeDto) {
-    return this.recipesService.create(createRecipeDto);
+  @Post()
+  create(@Body() createRecipeDto: CreateRecipeDto, @Req() req) {
+    return this.recipesService.create(createRecipeDto, req.user);
   }
 
-  @Get() // Maneja peticiones GET a /recipes
+  @Get()
   findAll() {
     return this.recipesService.findAll();
   }
 
-  @Get(':id') // Maneja peticiones GET a /recipes/:id
+  @Get(':id')
   findOne(@Param('id') id: string) {
     return this.recipesService.findOne(id);
   }
 
-  @Patch(':id') // Maneja peticiones PATCH a /recipes/:id
-  update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
-    return this.recipesService.update(id, updateRecipeDto);
+  @Patch(':id')
+  @UseGuards(RecipeOwnerGuard)
+  update(
+    @Param('id') id: string,
+    @Body() updateRecipeDto: UpdateRecipeDto,
+    @Req() req,
+  ) {
+    return this.recipesService.update(id, updateRecipeDto, req.user);
   }
 
-  @Delete(':id') // Maneja peticiones DELETE a /recipes/:id
-  @HttpCode(HttpStatus.NO_CONTENT) // Devuelve un código 204 en lugar de 200 por defecto
-  remove(@Param('id') id: string) {
-    return this.recipesService.remove(id);
+  @Delete(':id')
+  @UseGuards(RecipeOwnerGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id') id: string, @Req() req) {
+    return this.recipesService.remove(id, req.user);
   }
 }

@@ -1,95 +1,66 @@
-// src/users/users.service.ts
-
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  // Array en memoria para simular la base de datos de usuarios.
-  private users: User[] = [];
+  constructor(
+    @InjectRepository(User)
+    private userRepo: Repository<User>
+  ) {}
 
-  /**
-   * Método privado para omitir la contraseña de un objeto de usuario.
-   * ¡NUNCA devuelvas la contraseña en una respuesta de la API!
-   * @param user - El objeto de usuario completo.
-   * @returns Un objeto de usuario sin la propiedad 'password'.
-   */
   private omitPassword(user: User) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...result } = user;
-    return result;
+    if (!user) return null;
+    const { password, ...data } = user;
+    return data;
   }
 
-  findAll() {
-    // Devuelve todos los usuarios, pero sin sus contraseñas.
-    return this.users.map(this.omitPassword);
-  }
+  async create(dto: CreateUserDto) {
+    const exists = await this.userRepo.findOne({ where: { username: dto.username } });
+    if (exists) throw new ConflictException('Username exists');
 
-  findOne(id: string) {
-    const user = this.users.find((u) => u.id === id);
-    if (!user) {
-      throw new NotFoundException(`User with ID "${id}" not found`);
-    }
-    // Devuelve el usuario encontrado, pero sin su contraseña.
+    const hash = await bcrypt.hash(dto.password, 10);
+
+    const user = this.userRepo.create({ ...dto, password: hash });
+    await this.userRepo.save(user);
+
     return this.omitPassword(user);
   }
 
-  create(createUserDto: CreateUserDto) {
-    // Comprobar si el username ya existe
-    const existingUser = this.users.find(
-      (u) => u.username === createUserDto.username,
-    );
-    if (existingUser) {
-      throw new ConflictException('Username already exists');
-    }
-
-    // En un proyecto real, aquí deberías "hashear" la contraseña antes de guardarla.
-    // Ejemplo con una librería como bcrypt:
-    // const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    const newUser: User = {
-      id: uuidv4(),
-      ...createUserDto,
-      // password: hashedPassword, // <- Así se guardaría en un caso real
-    };
-
-    this.users.push(newUser);
-
-    // Devuelve el nuevo usuario creado, pero sin su contraseña.
-    return this.omitPassword(newUser);
+  async findAll() {
+    const users = await this.userRepo.find();
+    return users.map(u => this.omitPassword(u));
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    // Busca el usuario por su ID
-    const userIndex = this.users.findIndex((u) => u.id === id);
-    if (userIndex === -1) {
-      throw new NotFoundException(`User with ID "${id}" not found`);
-    }
-
-    // Si se está intentando cambiar el username, verificar que no exista ya
-    if (
-      updateUserDto.username &&
-      this.users.some(
-        (u) => u.username === updateUserDto.username && u.id !== id,
-      )
-    ) {
-      throw new ConflictException('Username already exists');
-    }
-
-    // Actualiza el objeto de usuario
-    this.users[userIndex] = { ...this.users[userIndex], ...updateUserDto };
-    
-    // Devuelve el usuario actualizado, pero sin su contraseña.
-    return this.omitPassword(this.users[userIndex]);
+  async findOne(id: string) {
+    const user = await this.userRepo.findOne({ where: { id } });
+    if (!user) throw new NotFoundException();
+    return this.omitPassword(user);
   }
 
-  remove(id: string) {
-    const userIndex = this.users.findIndex((u) => u.id === id);
-    if (userIndex === -1) {
-      throw new NotFoundException(`User with ID "${id}" not found`);
-    }
-    this.users.splice(userIndex, 1);
+  
+  async findByUsername(username: string) {
+    const user = await this.userRepo.findOne({
+      where: { username },
+      select: ['id', 'username', 'password', 'email', 'avatar'] // 👈 Mostrar password intencionalmente
+    });
+    return user;
+  }
+
+  async update(id: string, dto: UpdateUserDto) {
+    await this.userRepo.update(id, dto);
+    const updated = await this.userRepo.findOne({ where: { id } });
+    if (!updated) throw new NotFoundException();
+    return this.omitPassword(updated);
+  }
+
+  async remove(id: string) {
+    const result = await this.userRepo.softDelete(id); // ✅ Mejor soft delete
+    if (!result.affected) throw new NotFoundException();
+    return { success: true, message: 'User removed' };
   }
 }

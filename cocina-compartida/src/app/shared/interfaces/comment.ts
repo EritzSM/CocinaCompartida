@@ -1,7 +1,9 @@
+
 export interface Comment {
   id: string;
-  author: string;
-  avatar: string;
+  author: string;       
   text: string;
-  date: Date;
+  date: Date;           
+  avatar?: string;
+  userId?: string;
 }

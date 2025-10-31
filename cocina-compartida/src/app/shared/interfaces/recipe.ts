@@ -9,7 +9,9 @@ export interface Recipe {
   images: string[];
   author: string;
   avatar: string;
+  category: string;  // Nueva propiedad para la categoría
   likes?: number;
   likedBy?: string[]; // Array de IDs de usuarios a los que les gusta
   comments?: Comment[];
+  createdAt?: string | Date;
 }

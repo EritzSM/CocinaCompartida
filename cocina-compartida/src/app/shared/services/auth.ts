@@ -1,108 +1,169 @@
-import { Injectable, signal, computed } from '@angular/core';
+// shared/services/auth.ts
+import { Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
+
 import { User } from '../interfaces/user';
-import { LoginResponse, SignUpResponse } from '../interfaces/login-response';
+import { LoginResponse } from '../interfaces/login-response';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class Auth {
+  private readonly TOKEN_KEY = 'token';
+  // ✅ CORRECCIÓN: Quitamos el prefijo /api/v1 y usamos el puerto base
+  private readonly BASE_URL = 'http://localhost:3000'; 
 
-    isLoged = signal(false);
-    currentUsername = signal<string>('');
+  // Ajusta estos endpoints a tu backend (NestJS)
+  private readonly LOGIN_ENDPOINT = `${this.BASE_URL}/auth/login`;
+  // ✅ CORRECCIÓN: Apunta a /users (plural)
+  private readonly SIGNUP_ENDPOINT = `${this.BASE_URL}/users`; 
+  private readonly PROFILE_ENDPOINT = `${this.BASE_URL}/auth/me`; // Se asume el endpoint de verificación
 
-    constructor() {
-        this.verifyLoggedUser();
+  // señales (las dejo igual para no romper referencias)
+  isLoged = signal(false);
+  currentUsername = signal<string>('');
+  currentUser = signal<User | null>(null);
+
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
+    this.verifyLoggedUser(); // público
+  }
+
+  // ---------- HELPERS ----------
+
+  private persistLogin(token: string, user?: Partial<User>) {
+    localStorage.setItem(this.TOKEN_KEY, token);
+    if (user) {
+      // set mínimos seguros (no guardamos password)
+      const u: User = {
+        id: user.id || '',
+        username: user.username || '',
+        email: user.email || '',
+        avatar: user.avatar,
+        bio: user.bio,
+        password: '' // nunca guardes password
+      };
+      this.currentUser.set(u);
+      this.currentUsername.set(u.username);
     }
+    this.isLoged.set(true);
+  }
 
-    login(user: User): LoginResponse {
-        // CORRECCIÓN CLAVE 1:
-        // Asegurar que el nombre de usuario no esté vacío para la búsqueda.
-        if (!user.username) {
-            return { success: false, message: 'Nombre de usuario requerido' };
+  // ---------- AUTH API ----------
+  async login(credentials: { username: string; password: string }): Promise<LoginResponse> {
+    try {
+      const res = await lastValueFrom(
+        this.http.post<LoginResponse>(this.LOGIN_ENDPOINT, credentials)
+      );
+
+      if (res.success && res.token) {
+        this.persistLogin(res.token, res.user);
+        // ✅ Redirección al home tras login exitoso (clave para el signup)
+        this.router.navigate(['/home']); 
+      }
+      return res;
+    } catch (error) {
+        let errorMessage = 'Error al intentar iniciar sesión. Revisa tus credenciales.';
+        
+        // Intenta extraer el mensaje de error de NestJS
+        if ((error as any).error && (error as any).error.message) {
+            errorMessage = Array.isArray((error as any).error.message)
+                ? (error as any).error.message.join(', ')
+                : (error as any).error.message;
         }
 
-        let userStr = localStorage.getItem(user.username);
+      return { success: false, message: errorMessage };
+    }
+  }
 
-        // CORRECCIÓN CLAVE 2:
-        // Verificar si el usuario existe antes de intentar parsear y comparar la contraseña.
-        if (userStr) {
-            const storedUser = JSON.parse(userStr) as User;
-            if (user.password === storedUser.password) {
-                sessionStorage.setItem('userLogged', user.username);
-                this.verifyLoggedUser();
-                return { success: true };
-            }
-        }
+  // ✅ CORRECCIÓN de la firma para que coincida con el retorno de login
+  async signup(userData: Omit<User, "id"> ): Promise<LoginResponse> { 
+    try {
+      // 1. POST a /users para crear el usuario
+      await lastValueFrom(
+        this.http.post(this.SIGNUP_ENDPOINT, userData)
+      );
 
-        // Mensaje genérico para seguridad
-        return { success: false, message: 'Usuario o contraseña incorrectos' };
+      // 2. Si la creación fue exitosa, procedemos a loguear inmediatamente.
+      // Esto resuelve el problema de la redirección, ya que el login la maneja.
+      const loginResult = await this.login({
+        username: userData.username,
+        password: userData.password || ''
+      });
+
+      // 3. Devolvemos el resultado del login. Si fue exitoso, el componente 
+      //    sabrá que debe redirigir (aunque ya lo hace el método login).
+      return loginResult;
+
+    } catch (error: any) {
+      // 4. Manejo de error: ej. usuario ya existe.
+      console.error('Error durante el registro:', error);
+
+      let errorMessage = 'Error al intentar registrar el usuario';
+
+      // Si el error es una respuesta HTTP (ej. 400 Bad Request),
+      if (error.error && error.error.message) {
+        errorMessage = Array.isArray(error.error.message)
+          ? error.error.message.join(', ')
+          : error.error.message;
+      }
+
+      // 5. Devolvemos el objeto de error para que el componente de sign-up lo muestre.
+      return { 
+          success: false, 
+          message: errorMessage 
+      } as LoginResponse; 
+    }
+  }
+
+  // 🔓 público y con el mismo nombre/forma que ya usas
+  async verifyLoggedUser(): Promise<void> {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    if (!token) {
+      this.logout();
+      return;
     }
 
-    onSignUp(user: User): SignUpResponse {
-        // CORRECCIÓN CLAVE 3:
-        // Agregar una verificación de seguridad para username.
-        if (!user.username) {
-            return { success: false, message: 'Nombre de usuario no válido' };
-        }
+    try {
+      const user = await lastValueFrom(
+        this.http.get<User>(this.PROFILE_ENDPOINT)
+      );
 
-        let userStr = localStorage.getItem(user.username);
-
-        // CORRECCIÓN CLAVE 4:
-        // La lógica de verificación de existencia de usuario era correcta, pero la corrección 3 la hace más robusta.
-        if (userStr) {
-            return { success: false, message: 'Ya existe el Usuario' };
-        }
-
-        // Guardar el objeto 'user' completo.
-        localStorage.setItem(user.username, JSON.stringify(user));
-        sessionStorage.setItem('userLogged', user.username);
-        this.verifyLoggedUser();
-        return { success: true, redirectTo: 'home' };
+      this.currentUser.set(user);
+      this.currentUsername.set(user.username);
+      this.isLoged.set(true);
+    } catch {
+      this.logout(); // token inválido/expirado
     }
+  }
 
-    logout() {
-        sessionStorage.clear();
-        this.verifyLoggedUser();
-    }
+  logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    this.currentUser.set(null);
+    this.currentUsername.set('');
+    this.isLoged.set(false);
+    this.router.navigate(['/login']);
+  }
 
-    // El método getUserLogged no es necesario si se usa el signal currentUsername
-    // o el método getCurrentUsername(), pero se deja por compatibilidad.
-    getUserLogged() {
-        if (sessionStorage.getItem('userLogged')) {
-            return { username: sessionStorage.getItem('userLogged')! }
-        }
-        return { username: 'unknown-user' };
-    }
+  isAuthenticated(): boolean {
+    return this.isLoged();
+  }
 
-    private verifyLoggedUser() {
-        const username = sessionStorage.getItem('userLogged');
-        const isLogged = !!username;
+  getUserProfile(): User | null {
+    return this.currentUser();
+  }
 
-        this.isLoged.set(isLogged);
+  getCurrentUser(): User | null {
+    return this.currentUser();
+  }
 
-        // Actualizar el signal 'currentUsername'
-        if (isLogged && username) {
-            this.currentUsername.set(username);
+  getUserId(): string | undefined {
+    return this.currentUser()?.id;
+  }
 
-        } else {
-            this.currentUsername.set('');
-        }
-    }
-
-    // MÉTODO NUEVO: Para obtener el username de forma segura
-    getCurrentUsername(): string {
-        const username = sessionStorage.getItem('userLogged');
-        return username || '';
-    }
-    getCurrentUser(): User | null {
-        const username = sessionStorage.getItem('userLogged');
-        if (!username) return null;
-
-        const userStr = localStorage.getItem(username);
-        return userStr ? JSON.parse(userStr) as User : null;
-    }
-
-    currentAvatar(): string {
-        return this.getCurrentUser()?.avatar || "assets/logos/default-avatar.png";
-    }
+  currentAvatar(): string {
+    return this.currentUser()?.avatar || 'assets/logos/default-avatar.png';
+  }
 }

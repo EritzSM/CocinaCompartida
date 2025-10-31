@@ -28,8 +28,31 @@
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 30px;
-    text-align: center;
-    color: var(--color-primary);
+}
+
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+}
+
+select:hover {
+    border-color: #3498db;
+}
+
+select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 /* ======================================= */
@@ -209,6 +232,25 @@
 .carousel .right {
     right: 10px;
     border-radius: 5px;
+}
+
+/* Botón para eliminar la imagen actualmente visible */
+.carousel .delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 50px; /* dejar espacio para la flecha derecha */
+    z-index: 10;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.carousel .delete-btn:hover {
+    background: rgba(0,0,0,0.85);
 }
 
 /* ======================================= */

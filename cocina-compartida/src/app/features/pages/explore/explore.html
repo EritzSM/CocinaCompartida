@@ -1,8 +1,13 @@
 <div class="explore-container">
   <h1>Explora las Recetas</h1>
 
-  <div *ngIf="allRecipes().length === 0" class="no-recipes">
+  <div *ngIf="allRecipes().length === 0 && !searchService.currentQuery()" class="no-recipes">
     <p>Aún no se han cargado recetas. ¡Sube la primera!</p>
+  </div>
+
+  <div *ngIf="allRecipes().length === 0 && searchService.currentQuery()" class="no-results">
+    <p>No se encontraron recetas que coincidan con "{{ searchService.currentQuery() }}"</p>
+    <button class="clear-search" (click)="clearSearch()">Limpiar búsqueda</button>
   </div>
 
   <div class="recipe-list" *ngIf="allRecipes().length > 0">
@@ -30,11 +35,19 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <div #loadMoreTrigger></div>
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading()" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Cargando más recetas...</p>
+    </div>
 
-  <div *ngIf="visibleRecipeCount() >= allRecipes().length && allRecipes().length > 0" class="end-message">
-    <p>¡Has llegado al final de las recetas! 🎉</p>
+    <!-- Load more trigger element -->
+    <div #loadMoreTrigger class="load-more-trigger"></div>
+
+    <!-- End message -->
+    <div *ngIf="visibleRecipeCount() >= allRecipes().length && allRecipes().length > 0" class="end-message">
+      <p>¡Has llegado al final de las recetas! 🎉</p>
+    </div>
   </div>
 </div>

@@ -11,6 +11,22 @@
         </div>
     </div>
 
+    <!-- Categoría -->
+    <div class="form-group">
+        <label>Categoría:</label>
+        <select formControlName="category">
+            <option value="">Selecciona una categoría</option>
+            <option value="entradas">Entradas</option>
+            <option value="platos-fuertes">Platos Fuertes</option>
+            <option value="postres">Postres</option>
+            <option value="bebidas">Bebidas</option>
+            <option value="guarniciones">Guarniciones</option>
+        </select>
+        <div *ngIf="isFieldInvalid('category')" class="error-message">
+            <span>Debes seleccionar una categoría</span>
+        </div>
+    </div>
+
     <!-- Descripción -->
     <div class="form-group">
         <label>Descripción:</label>
@@ -64,6 +80,7 @@
     <div class="carousel" *ngIf="images.length > 0">
         <button class="nav left" (click)="prevImage()">&#10094;</button>
         <img [src]="images[currentIndex]" alt="Imagen de la receta" />
+        <button class="delete-btn" (click)="onDeleteCurrentImage()" title="Eliminar imagen">🗑</button>
         <button class="nav right" (click)="nextImage()">&#10095;</button>
     </div>
 

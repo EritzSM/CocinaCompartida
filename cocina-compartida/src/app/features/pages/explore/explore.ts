@@ -1,9 +1,10 @@
-import { Component, inject, computed, signal, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, inject, computed, signal, ViewChild, ElementRef, AfterViewInit, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecipeService } from '../../../shared/services/recipe';
 import { Recipe } from '../../../shared/interfaces/recipe';
 import { Auth } from '../../../shared/services/auth';
 import { Router, RouterLink } from '@angular/router';
+import { SearchService } from '../../../shared/services/search.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,21 +18,88 @@ export class Explore implements AfterViewInit, OnDestroy {
   private recipeService = inject(RecipeService);
   authService = inject(Auth);
   private router = inject(Router);
+  isLoading = signal<boolean>(false);
+  private previousRecipeCount = 0;
 
   // Referencia al elemento disparador en el HTML
   @ViewChild('loadMoreTrigger') loadMoreTrigger!: ElementRef;
   private observer?: IntersectionObserver;
 
-  readonly allRecipes = this.recipeService.recipes;
-  private readonly recipesPerPage = 3;
+  searchService = inject(SearchService);
+  readonly allRecipes = computed(() => 
+    this.searchService.results().length > 0 
+      ? this.searchService.results() 
+      : this.recipeService.recipes()
+  );
+  private readonly recipesPerPage = 6;
   visibleRecipeCount = signal<number>(this.recipesPerPage);
 
   readonly recipesToShow = computed(() => {
-    return this.allRecipes().slice(0, this.visibleRecipeCount());
+    const count = this.visibleRecipeCount();
+    return this.allRecipes().slice(0, count);
   });
 
-  ngAfterViewInit(): void {
-    this.setupIntersectionObserver();
+  private async loadMore() {
+    if (this.visibleRecipeCount() >= this.allRecipes().length) return;
+
+    this.isLoading.set(true);
+    try {
+      // Simulamos un pequeño retraso para mostrar el estado de carga
+      await new Promise(resolve => setTimeout(resolve, 500));
+      this.visibleRecipeCount.update(count => count + this.recipesPerPage);
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
+
+  private handleNewRecipes() {
+    Swal.fire({
+      title: '¡Nuevas recetas disponibles!',
+      text: '¿Deseas ver las nuevas recetas?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, actualizar',
+      cancelButtonText: 'No, después'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
+
+  clearSearch() {
+    this.searchService.search('');
+    this.searchService.setSortOption('recent');
+  }
+
+  trackByRecipeId(index: number, recipe: Recipe): string {
+    return recipe.id;
+  }
+
+
+  ngAfterViewInit() {
+    // Configuración del observador de intersección
+    this.observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !this.isLoading()) {
+        this.loadMore();
+      }
+    }, { 
+      threshold: 0.5,
+      rootMargin: '100px'
+    });
+
+    // Iniciar observación del elemento disparador
+    this.observer.observe(this.loadMoreTrigger.nativeElement);
+
+    // Efecto para detectar nuevas recetas
+    effect(() => {
+      const currentCount = this.allRecipes().length;
+      if (currentCount > this.previousRecipeCount && this.previousRecipeCount !== 0) {
+        // Se han agregado nuevas recetas
+        this.handleNewRecipes();
+      }
+      this.previousRecipeCount = currentCount;
+    });
   }
 
   ngOnDestroy(): void {
@@ -67,16 +135,13 @@ export class Explore implements AfterViewInit, OnDestroy {
     }
   }
 
-  trackByRecipeId(index: number, recipe: Recipe): string {
-    return recipe.id;
-  }
 
   toggleLike(recipeId: string): void {
     if (!this.authService.isLoged()) {
       this.showLoginAlert("dar 'Me Gusta'");
       return;
     }
-    this.recipeService.toggleLike(recipeId, this.authService.getCurrentUser()!.id);
+    this.recipeService.toggleLike(recipeId)
   }
 
   hasLiked(recipe: Recipe): boolean {

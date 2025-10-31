@@ -1,139 +1,118 @@
-import { Component, OnInit, computed, signal, WritableSignal, Signal } from '@angular/core';
+import { Component, OnInit, computed, signal, WritableSignal, Signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterModule, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
+
 import { Auth } from '../../../shared/services/auth';
 import { RecipeService } from '../../../shared/services/recipe';
-import { Recipe } from '../../../shared/interfaces/recipe';
+import { EditProfileService } from '../../../shared/services/edit-profile.service';
 import { User } from '../../../shared/interfaces/user';
-import {Router, RouterModule, RouterLink } from '@angular/router';
-import { inject } from '@angular/core';
-import { UploadService } from '../../../shared/services/upload';
-import Swal from 'sweetalert2';
+import { Recipe } from '../../../shared/interfaces/recipe';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterModule, FormsModule],
   templateUrl: './profile.html',
-  styleUrls: ['./profile.css']
+  styleUrls: ['./profile.css'],
 })
 export class Profile implements OnInit {
-
   private router = inject(Router);
-  // 2. La señal ahora usará tu interfaz User importada
-  user: WritableSignal<User | null> = signal(null);
+  private auth = inject(Auth);
+  private recipesSvc = inject(RecipeService);
+  private edit = inject(EditProfileService);
 
+  user: WritableSignal<User | null> = signal(null);
   activeTab: WritableSignal<'created' | 'favorites'> = signal('created');
 
   createdRecipes: Signal<Recipe[]> = computed(() => {
-    const allRecipes = this.recipeService.recipes();
-    const currentUser = this.authService.currentUsername();
-    return allRecipes.filter(recipe => recipe.author === currentUser);
+    const all = this.recipesSvc.recipes();
+    const username = this.auth.currentUsername();
+    return all.filter(r => r.author === username);
   });
 
   favoriteRecipes: Signal<Recipe[]> = computed(() => {
-    const allRecipes = this.recipeService.recipes();
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser) return [];
-    return allRecipes.filter(r => (r.likedBy ?? []).includes(currentUser.id));
+    const all = this.recipesSvc.recipes();
+    const u = this.auth.getCurrentUser();
+    return u?.id ? all.filter(r => (r.likedBy ?? []).includes(u.id)) : [];
   });
 
-  displayedRecipes: Signal<Recipe[]> = computed(() => {
-    return this.activeTab() === 'created'
-      ? this.createdRecipes()
-      : this.favoriteRecipes();
-  });
+  displayedRecipes: Signal<Recipe[]> = computed(() =>
+    this.activeTab() === 'created' ? this.createdRecipes() : this.favoriteRecipes()
+  );
 
-  constructor(
-    private authService: Auth,
-    private recipeService: RecipeService,
-    private uploadService: UploadService
-  ) {}
+  // Estado modal
+  modalVisible = false;
+  newUsername = '';
+  newPassword = '';
+  newAvatar: string | undefined;
+  newBio = '';
+  isUpdating = false;
 
   ngOnInit(): void {
     this.loadUserProfile();
   }
 
-  private loadUserProfile(): void {
-    const username = this.authService.getCurrentUsername();
-    if (username) {
-      const userStr = localStorage.getItem(username);
-      if (userStr) {
-        this.user.set(JSON.parse(userStr) as User);
-      }
+  private async loadUserProfile() {
+    try {
+      const cached = this.auth.getCurrentUser();
+      if (!cached) await this.auth.verifyLoggedUser();
+      this.user.set(this.auth.getCurrentUser());
+    } catch (e) {
+      console.error('Error loading user profile:', e);
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar el perfil del usuario' });
     }
   }
 
-  selectTab(tab: 'created' | 'favorites'): void {
+  selectTab(tab: 'created' | 'favorites') {
     this.activeTab.set(tab);
   }
 
-  // Campos para el formulario de actualización
-  modalVisible: boolean = false;
-  newUsername: string = '';
-  newPassword: string = '';
-  newAvatar: string | undefined;
-  newBio: string = ''; // Propiedad para la nueva biografía
-
-  openUpdateProfile(): void {
-    const current = this.user();
-    this.newUsername = current?.username || '';
+  openUpdateProfile() {
+    const u = this.user();
+    this.newUsername = u?.username ?? '';
     this.newPassword = '';
-    this.newAvatar = current?.avatar;
-    this.newBio = current?.bio || ''; // Inicializar con la biografía actual
+    this.newAvatar = u?.avatar;
+    this.newBio = u?.bio ?? '';
     this.modalVisible = true;
   }
 
-  closeUpdateProfile(): void {
+  closeUpdateProfile() {
     this.modalVisible = false;
   }
 
   async onAvatarSelected(ev: any) {
     const file: File | undefined = ev?.target?.files?.[0];
     if (!file) return;
-    const res = await this.uploadService.uploadFile(file);
-    if (res.success && res.data) {
-      this.newAvatar = res.data as string;
-      Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Avatar cargado', showConfirmButton: false, timer: 1500 });
-    } else {
-      Swal.fire({ icon: 'error', title: 'Error al subir la imagen', text: res.error || '' });
-    }
+    this.newAvatar = await this.edit.uploadAvatar(file);
   }
 
-  saveProfileUpdates(): void {
-    const current = this.user();
-    if (!current) return;
-
-    const trimmedUsername = (this.newUsername || '').trim();
-    if (!trimmedUsername) {
+  async saveProfileUpdates() {
+    const username = (this.newUsername || '').trim();
+    if (!username) {
       Swal.fire({ icon: 'warning', title: 'El nombre no puede estar vacío' });
       return;
     }
 
-    const updatedUser: User = {
-      ...current,
-      username: trimmedUsername,
-      avatar: this.newAvatar || current.avatar,
-      password: this.newPassword ? this.newPassword : current.password,
-      bio: this.newBio // Guardar la nueva biografía
+    this.isUpdating = true;
+    const payload = {
+      username,
+      avatar: this.newAvatar,
+      bio: this.newBio,
+      ...(this.newPassword && { password: this.newPassword }),
     };
 
-    if (trimmedUsername !== current.username) {
-      if (localStorage.getItem(trimmedUsername)) {
-        Swal.fire({ icon: 'error', title: 'El nombre de usuario ya existe' });
-        return;
-      }
-      localStorage.removeItem(current.username);
-      localStorage.setItem(trimmedUsername, JSON.stringify(updatedUser));
-      sessionStorage.setItem('userLogged', trimmedUsername);
-      this.recipeService.updateAuthorForUser(current.username, trimmedUsername, updatedUser.avatar);
-    } else {
-      localStorage.setItem(current.username, JSON.stringify(updatedUser));
+    const updated = await this.edit.updateProfile(payload);
+    if (updated) {
+      this.user.set(updated);
+      this.modalVisible = false;
     }
+    this.isUpdating = false;
+  }
 
-    this.user.set(updatedUser);
-    this.authService.currentUsername.set(updatedUser.username);
-    this.modalVisible = false;
-    Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Perfil actualizado', showConfirmButton: false, timer: 1500 });
+  async deleteAccount() {
+    const success = await this.edit.deleteAccount();
+    if (success) this.router.navigate(['/login']);
   }
 }

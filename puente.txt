@@ -1,0 +1,12 @@
+
+main.ts:6  
+ɵNotFound: NG0201: No provider found for `_HttpClient`. Source: Standalone[_App]. Path: _SearchService -> _RecipeService -> _HttpClient. Find more at https://v20.angular.dev/errors/NG0201    at <instance_members_initializer> (recipe.ts:10:18)
+    at new _RecipeService (recipe.ts:38:3)
+
+(anonymous)@main.ts:6
+
+
+recipe.ts:69 
+ addRecipe error 
+HttpErrorResponse
+(anonymous)	@	recipe.ts:69

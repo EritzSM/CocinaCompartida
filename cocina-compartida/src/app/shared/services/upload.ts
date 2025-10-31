@@ -1,11 +1,14 @@
 // services/upload.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UploadResult } from '../interfaces/upload-result';
+import { Storage } from './storage';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
+  private storage = inject(Storage);
   // Validaciones de imagen
   validateImage(file: File): { isValid: boolean; error?: string } {
     const maxSize = 5 * 1024 * 1024; // 5MB
@@ -45,16 +48,35 @@ export class UploadService {
     });
   }
 
-  // Subir múltiples archivos
-  async uploadMultipleFiles(files: File[]): Promise<UploadResult> {
+  // Subir múltiples archivos para una receta (se guarda en subcarpeta por receta)
+  async uploadMultipleFiles(files: File[], recipeId?: string): Promise<UploadResult> {
     try {
-      const base64Promises = files.map(file => this.uploadFile(file));
-      const results = await Promise.all(base64Promises);
-      const successfulUploads = results.filter(result => result.success) as { success: true; data: string }[];
-      
+      if (!recipeId) {
+        // Si no hay recipeId, generar uno temporal para agrupar las imágenes
+        recipeId = uuidv4();
+      }
+
+      const uploadPromises = files.map(async (file) => {
+        // Validar
+        const validation = this.validateImage(file);
+        if (!validation.isValid) throw new Error(validation.error);
+
+        // Comprimir si es necesario
+        let fileToUpload = file;
+        if (file.size > 1024 * 1024) {
+          fileToUpload = await this.compressImage(file);
+        }
+
+        // Subir al bucket de recetas dentro de la subcarpeta recipeId
+        const publicUrl = await this.storage.uploadRecipeImage(fileToUpload, recipeId as string);
+        return publicUrl;
+      });
+
+      const results = await Promise.all(uploadPromises);
+
       return {
         success: true,
-        data: successfulUploads.map(result => result.data)
+        data: results
       };
     } catch (error: any) {
       return {
@@ -65,7 +87,7 @@ export class UploadService {
   }
 
   // Subir archivo único
-  async uploadFile(file: File, compress: boolean = true): Promise<UploadResult> {
+  async uploadFile(file: File, compress: boolean = true, username?: string): Promise<UploadResult> {
     try {
       // Validar archivo
       const validation = this.validateImage(file);
@@ -82,12 +104,13 @@ export class UploadService {
         fileToUpload = await this.compressImage(file);
       }
 
-      // Convertir a Base64
-      const base64Data = await this.fileToBase64(fileToUpload);
-      
+      // Subir a bucket de avatars. Si no se provee username, se genera uno temporal.
+      const userForPath = username && username.trim() ? username.trim() : `tmp-${uuidv4()}`;
+      const publicUrl = await this.storage.uploadAvatar(fileToUpload, userForPath);
+
       return {
         success: true,
-        data: base64Data
+        data: publicUrl
       };
     } catch (error: any) {
       return {

@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { RecipeService } from '../../../shared/services/recipe';
 import { Auth } from '../../../shared/services/auth';
 import { UploadService } from '../../../shared/services/upload';
+import { Storage } from '../../../shared/services/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { Recipe } from '../../../shared/interfaces/recipe';
 
@@ -24,17 +25,21 @@ export class RecipeUpload {
   isUploading = false;
   isEditMode = false;
   recipeIdToEdit: string | null = null;
+  // Id provisional/definitivo de la receta para crear la subcarpeta en el bucket
+  private recipeId: string = uuidv4();
   
   router = inject(Router);
   route = inject(ActivatedRoute);
   authService = inject(Auth);
   recipeService = inject(RecipeService);
   uploadService = inject(UploadService);
+  storage = inject(Storage);
 
   constructor(private fb: FormBuilder) {
     this.recipeForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       descripcion: ['', [Validators.required, Validators.minLength(10)]],
+      category: ['', [Validators.required]],
       ingredients: this.fb.array([this.fb.control('', Validators.required)]),
       steps: this.fb.array([this.fb.control('', Validators.required)])
     });
@@ -45,6 +50,8 @@ export class RecipeUpload {
       if (id) {
         this.isEditMode = true;
         this.recipeIdToEdit = id;
+        // Si estamos en modo edición, usamos el id existente
+        this.recipeId = id;
         const recipe = this.recipeService.recipes().find(r => r.id === id);
         if (!recipe) {
           this.showToast('error', 'Receta no encontrada');
@@ -52,8 +59,9 @@ export class RecipeUpload {
           return;
         }
 
-        const currentUser = this.authService.getCurrentUsername();
-        if (recipe.author !== currentUser) {
+        const currentUser = this.authService.getUserProfile();
+        const username = currentUser ? currentUser.username : '';
+        if (recipe.author !== username) {
           this.showToast('error', 'No tienes permiso para editar esta receta');
           this.router.navigate(['/home']);
           return;
@@ -127,7 +135,7 @@ export class RecipeUpload {
     this.isUploading = true;
 
     try {
-      const result = await this.uploadService.uploadMultipleFiles(files);
+      const result = await this.uploadService.uploadMultipleFiles(files, this.recipeId);
       
       if (result.success && result.data) {
         this.images.push(...result.data as string[]);
@@ -143,11 +151,45 @@ export class RecipeUpload {
     }
   }
 
-  removeImage(index: number) {
+  async removeImage(index: number) {
+    if (index < 0 || index >= this.images.length) return;
+
+    const url = this.images[index];
+
+    // Intentar eliminar la imagen del bucket si es una URL o ruta válida
+    try {
+      await this.storage.deletePhotoByPublicUrl(url);
+      this.showToast('success', 'Imagen eliminada del almacenamiento');
+    } catch (e) {
+      // No bloqueamos la operación si falla la eliminación remota
+      console.error('No se pudo eliminar la imagen del bucket:', e);
+      this.showToast('warning', 'No se pudo eliminar la imagen del servidor, se eliminará localmente');
+    }
+
+    // Eliminar localmente
     this.images.splice(index, 1);
     if (this.currentIndex >= this.images.length) {
       this.currentIndex = Math.max(0, this.images.length - 1);
     }
+  }
+
+  // Handler para el botón de eliminar la imagen actualmente visible
+  onDeleteCurrentImage() {
+    if (this.images.length === 0) return;
+    const idx = this.currentIndex;
+    // Confirmación rápida
+    Swal.fire({
+      title: 'Eliminar imagen',
+      text: '¿Estás seguro que quieres eliminar esta imagen?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.removeImage(idx);
+      }
+    });
   }
 
   nextImage() {
@@ -184,11 +226,13 @@ export class RecipeUpload {
     const payload = {
       name: this.recipeForm.value.name.trim(),
       descripcion: this.recipeForm.value.descripcion.trim(),
+      category: this.recipeForm.value.category,
       ingredients: filteredIngredients,
       steps: filteredSteps,
       images: this.images,
       author: this.authService.currentUsername(),
-      avatar: this.authService.currentAvatar()
+      avatar: this.authService.currentAvatar(),
+      userId: this.authService.getUserId()
     };
 
     if (this.isEditMode && this.recipeIdToEdit) {
@@ -199,7 +243,7 @@ export class RecipeUpload {
     }
 
     const recipe = {
-      id: uuidv4(),
+      id: this.recipeId,
       ...payload
     };
 

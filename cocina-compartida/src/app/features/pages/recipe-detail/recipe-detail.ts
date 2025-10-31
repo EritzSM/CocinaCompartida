@@ -64,7 +64,7 @@ export class RecipeDetail implements OnInit {
   submitComment() {
     if (!this.recipe) return;
 
-    if (!this.authService.isLoged()) {
+    if (!this.authService.isAuthenticated()) {
       Swal.fire({
         title: '¡Necesitas iniciar sesión!',
         text: 'Para comentar, primero debes iniciar sesión.',
@@ -87,40 +87,35 @@ export class RecipeDetail implements OnInit {
       return;
     }
 
-    const user = this.authService.getCurrentUser();
-    if (!user) return;
-
-    const comment: Comment = {
-      id: uuidv4(),
-      author: user.username,
-      avatar: user.avatar || 'https://via.placeholder.com/150',
-      text,
-      date: new Date()
-    };
-
-    this.recipeService.addComment(this.recipe.id, comment);
-
-    // refrescar la receta desde el store
-    const updated = this.recipeService.recipes().find(r => r.id === this.recipe!.id);
-    this.recipe = updated;
-
-    this.newComment = '';
-
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
-      icon: 'success',
-      title: 'Comentario agregado',
-      showConfirmButton: false,
-      timer: 1500
+    // Solo enviamos el texto al backend
+    this.recipeService.addComment(this.recipe.id, { text }).then(() => {
+      // refrescar la receta desde el store
+      const updated = this.recipeService.recipes().find(r => r.id === this.recipe!.id);
+      this.recipe = updated;
+      this.newComment = '';
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Comentario agregado',
+        showConfirmButton: false,
+        timer: 1500
+      });
     });
   }
 
   // Acciones: editar y eliminar
   canEdit(): boolean {
-    if (!this.recipe) return false;
-    const currentUsername = this.authService.getCurrentUsername();
-    return !!currentUsername && this.recipe.author === currentUsername;
+  if (!this.recipe) return false;
+  const user = this.authService.getUserProfile();
+    // Soporta tanto recipe.user.username como recipe.author
+    if (!!user && (this.recipe as any).user && (this.recipe as any).user.username === user.username) {
+      return true;
+    }
+    if (!!user && (this.recipe as any).author && (this.recipe as any).author === user.username) {
+      return true;
+    }
+    return false;
   }
 
   goToEdit(): void {
