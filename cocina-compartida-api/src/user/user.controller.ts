@@ -10,6 +10,7 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Req,
   UseGuards
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -34,15 +35,15 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard)
+  @Patch()
+  update( @Body() updateUserDto: UpdateUserDto , @Req() req: any) {
+    return this.usersService.update(req.user.id, updateUserDto);
+  }
+
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
-  }
-
-  @UseGuards(AuthGuard, RoleGuard)
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
   }
 
   @UseGuards(AuthGuard, RoleGuard)

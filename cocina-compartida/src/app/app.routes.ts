@@ -36,6 +36,10 @@ export const routes: Routes = [
     path: 'profile',
     component: Profile
   },
+  {
+    path: 'profile/:id',
+    component: Profile
+  },
   { 
     path: 'recipe/:id/edit', 
     component: RecipeUpload

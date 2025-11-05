@@ -29,9 +29,9 @@
         </div>
     </div>
 
-    <div class="author-info" *ngIf="recipe.author">
-        <img [src]="recipe.avatar" alt="Avatar" class="author-avatar">
-        <span>Creado por: <strong>{{ recipe.author }}</strong></span>
+    <div class="author-info" *ngIf="recipe.user">
+        <img [src]="recipe.user.avatar" alt="Avatar" class="author-avatar">
+        <span>Creado por: <strong>{{ recipe.user.username }}</strong></span>
     </div>
 
     <div class="sections-container">
@@ -61,13 +61,13 @@
 
         <div *ngIf="recipe.comments && recipe.comments.length > 0; else noComments" class="comments-list">
             <div class="comment-item" *ngFor="let c of recipe.comments">
-                <img [src]="c.avatar" class="comment-avatar" alt="avatar">
+                <img [src]="c.user.avatar" class="comment-avatar" alt="avatar">
                 <div class="comment-body">
                     <div class="comment-meta">
-                        <strong>{{ c.author }}</strong>
-                        <span class="comment-date">{{ c.date | date:'short' }}</span>
+                        <strong>{{ c.user.username }}</strong>
+                        <span class="comment-date">{{ c.createdAt | date:'short' }}</span>
                     </div>
-                    <p class="comment-text">{{ c.text }}</p>
+                    <p class="comment-text">{{ c.message }}</p>
                 </div>
             </div>
         </div>

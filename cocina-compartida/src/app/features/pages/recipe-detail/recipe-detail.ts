@@ -2,69 +2,77 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
-import { RecipeService } from '../../../shared/services/recipe'; // Ajusta la ruta si es necesario
+import { RecipeService } from '../../../shared/services/recipe';
 import { Recipe } from '../../../shared/interfaces/recipe';
 import { Auth } from '../../../shared/services/auth';
-import { Comment } from '../../../shared/interfaces/comment';
 import Swal from 'sweetalert2';
-import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-recipe-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule], // Importamos CommonModule, RouterLink y FormsModule
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './recipe-detail.html',
   styleUrls: ['./recipe-detail.css']
 })
 export class RecipeDetail implements OnInit {
+  // --- Propiedades de Estado ---
   recipe: Recipe | undefined;
-  currentIndex: number = 0;
+  isLoading: boolean = true;
+  error: string | null = null;
 
-  // Inyección de servicios
+  currentIndex: number = 0;
+  newComment: string = '';
+
   private route = inject(ActivatedRoute);
   private recipeService = inject(RecipeService);
   authService = inject(Auth);
   private router = inject(Router);
 
-  newComment: string = '';
+  async ngOnInit(): Promise<void> {
+    this.isLoading = true;
+    this.error = null;
 
-  // En recipe-detail.component.ts
+    const recipeId = this.route.snapshot.paramMap.get('id');
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      // 1. Obtener el parámetro 'id' de la URL (es un string)
-      const recipeId = params['id'];
+    if (!recipeId) {
+      this.isLoading = false;
+      this.error = "Error de URL: No se encontró un ID de receta.";
+      return;
+    }
 
-      // 2. Obtener todas las recetas
-      const recipesList = this.recipeService.recipes();
+    try {
+      const recipeData = await this.recipeService.getRecipeById(recipeId);
 
-      // 3. Buscar la receta cuyo 'id' coincida con el parámetro
-      this.recipe = recipesList.find(r => r.id === recipeId);
-
-      // Manejo de error si la receta no se encuentra
-      if (!this.recipe) {
-        console.error("Receta no encontrada o ID inválido.");
+      if (recipeData) {
+        this.recipe = recipeData;
+      } else {
+        this.error = 'No se pudo encontrar la receta. Es posible que haya sido eliminada.';
       }
-    });
+
+    } catch (e) {
+      console.error('Error al buscar la receta:', e);
+      this.error = 'Hubo un problema al cargar los detalles de la receta.';
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  // Lógica del Carrusel
-  nextImage() {
+  nextImage(): void {
     if (this.recipe && this.recipe.images.length > 0) {
       this.currentIndex = (this.currentIndex + 1) % this.recipe.images.length;
     }
   }
 
-  prevImage() {
+  prevImage(): void {
     if (this.recipe && this.recipe.images.length > 0) {
       this.currentIndex = (this.currentIndex - 1 + this.recipe.images.length) % this.recipe.images.length;
     }
   }
 
-  submitComment() {
+  async submitComment(): Promise<void> {
     if (!this.recipe) return;
 
-    if (!this.authService.isAuthenticated()) {
+    if (!this.authService.isLoged()) {
       Swal.fire({
         title: '¡Necesitas iniciar sesión!',
         text: 'Para comentar, primero debes iniciar sesión.',
@@ -83,15 +91,19 @@ export class RecipeDetail implements OnInit {
 
     const text = (this.newComment || '').trim();
     if (!text) {
-      Swal.fire({ icon: 'warning', title: 'Escribe un comentario' });
+      await Swal.fire({ icon: 'warning', title: 'Escribe un comentario' });
       return;
     }
 
-    // Solo enviamos el texto al backend
-    this.recipeService.addComment(this.recipe.id, { text }).then(() => {
-      // refrescar la receta desde el store
-      const updated = this.recipeService.recipes().find(r => r.id === this.recipe!.id);
-      this.recipe = updated;
+    const recipeId = this.recipe.id;
+
+    try {
+      await this.recipeService.addComment(recipeId, { text });
+      const updatedRecipe = await this.recipeService.getRecipeById(recipeId);
+      if (updatedRecipe) {
+        this.recipe = updatedRecipe;
+      }
+
       this.newComment = '';
       Swal.fire({
         toast: true,
@@ -101,18 +113,19 @@ export class RecipeDetail implements OnInit {
         showConfirmButton: false,
         timer: 1500
       });
-    });
+
+    } catch (e) {
+      console.error("Error al agregar el comentario:", e);
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo agregar el comentario.' });
+    }
   }
 
-  // Acciones: editar y eliminar
   canEdit(): boolean {
-  if (!this.recipe) return false;
-  const user = this.authService.getUserProfile();
-    // Soporta tanto recipe.user.username como recipe.author
-    if (!!user && (this.recipe as any).user && (this.recipe as any).user.username === user.username) {
-      return true;
-    }
-    if (!!user && (this.recipe as any).author && (this.recipe as any).author === user.username) {
+    if (!this.recipe) return false;
+    const user = this.authService.getUserProfile();
+    if (!user) return false;
+
+    if (this.recipe.user && this.recipe.user.id === user.id) {
       return true;
     }
     return false;
@@ -123,21 +136,47 @@ export class RecipeDetail implements OnInit {
     this.router.navigate(['/recipe', this.recipe.id, 'edit']);
   }
 
-  deleteRecipe(): void {
+  async deleteRecipe(): Promise<void> {
     if (!this.recipe || !this.canEdit()) return;
-    Swal.fire({
+
+    const result = await Swal.fire({
       title: 'Eliminar receta',
       text: 'Esta acción no se puede deshacer',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.recipeService.deleteRecipe(this.recipe!.id);
-        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Receta eliminada', showConfirmButton: false, timer: 1500 });
-        this.router.navigate(['/profile']);
-      }
     });
+
+    if (result.isConfirmed) {
+      try {
+        const success = await this.recipeService.deleteRecipe(this.recipe!.id);
+
+        if (success) {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Receta eliminada',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.router.navigate(['/profile']);
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'La receta no pudo ser eliminada (posiblemente error del servidor).'
+          });
+        }
+      } catch (e) {
+        console.error("Error al eliminar la receta:", e);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de Red',
+          text: 'Hubo un problema de conexión al intentar eliminar la receta.'
+        });
+      }
+    }
   }
 }

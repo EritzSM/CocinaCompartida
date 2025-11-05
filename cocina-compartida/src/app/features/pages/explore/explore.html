@@ -5,9 +5,14 @@
     <p>Aún no se han cargado recetas. ¡Sube la primera!</p>
   </div>
 
-  <div *ngIf="allRecipes().length === 0 && searchService.currentQuery()" class="no-results">
-    <p>No se encontraron recetas que coincidan con "{{ searchService.currentQuery() }}"</p>
-    <button class="clear-search" (click)="clearSearch()">Limpiar búsqueda</button>
+  <div *ngIf="allRecipes().length === 0 && (searchService.currentQuery() || searchService.currentCategory() !== 'todas')" class="no-results">
+    <p>No se encontraron recetas que coincidan con los filtros aplicados</p>
+    <button class="clear-search" (click)="clearSearch()">Limpiar filtros</button>
+  </div>
+
+  <div *ngIf="allRecipes().length === 0 && searchService.currentQuery() && searchService.suggestions().length === 0" class="no-results">
+    <p>La receta "{{ searchService.currentQuery() }}" no ha sido encontrada</p>
+    <button class="clear-search" (click)="clearSearch()">Buscar otra receta</button>
   </div>
 
   <div class="recipe-list" *ngIf="allRecipes().length > 0">
@@ -23,10 +28,17 @@
       <div class="recipe-info">
         <h2>{{ recipe.name }}</h2>
         <p class="recipe-description">{{ recipe.descripcion }}</p>
+        
         <div class="author-info">
-          <img [src]="recipe.avatar" alt="Avatar de {{ recipe.author }}" class="avatar" />
-          <span class="author-name">Creado por {{ recipe.author }}</span>
+          <img
+            [src]="recipe.user.avatar ?? 'assets/placeholder-avatar.png'"
+            [alt]="'Avatar de ' + (recipe.user.username )"
+            class="avatar clickable"
+            [routerLink]="['/profile', recipe.user.id]"
+          />
+          <span class="author-name clickable" [routerLink]="['/profile', recipe.user.id]">Creado por {{ recipe.user.username  }}</span>
         </div>
+        
         <div class="recipe-actions">
           <button (click)="toggleLike(recipe.id)" class="like-button" [class.liked]="hasLiked(recipe)">
             <i class="fa fa-heart"></i> {{ recipe.likes }}
@@ -36,16 +48,13 @@
       </div>
     </div>
 
-    <!-- Loading indicator -->
     <div *ngIf="isLoading()" class="loading-spinner">
       <div class="spinner"></div>
       <p>Cargando más recetas...</p>
     </div>
 
-    <!-- Load more trigger element -->
     <div #loadMoreTrigger class="load-more-trigger"></div>
 
-    <!-- End message -->
     <div *ngIf="visibleRecipeCount() >= allRecipes().length && allRecipes().length > 0" class="end-message">
       <p>¡Has llegado al final de las recetas! 🎉</p>
     </div>

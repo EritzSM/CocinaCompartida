@@ -2,53 +2,49 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Comment } from './comment.entity';
 import { User } from 'src/user/entities/user.entity';
+import { Comment } from './comment.entity';
 
 @Entity('recipes')
 export class Recipe {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: false })
   name: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'varchar', nullable: false, default: '' })
   descripcion: string;
 
-  @Column('simple-array')
+  @Column('text', { array: true, nullable: false, default: [] })
   ingredients: string[];
 
-  @Column('simple-array')
+  @Column('text', { array: true, nullable: false, default: [] })
   steps: string[];
 
-  @Column('simple-array', { nullable: true })
-  images?: string[];
+  @Column('text', { array: true, nullable: false, default: [] })
+  images: string[];
 
-  // 🔹 Relación con el usuario (autor)
-  @ManyToOne(() => User, (user) => user.recipes, { eager: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (u) => u.recipes, { onDelete: 'CASCADE', eager: false })
   user: User;
 
-  // 🔹 Likes y usuarios que dieron like
+  @OneToMany(() => Comment, (c) => c.recipe, { cascade: true })
+  comments: Comment[];
+
   @Column({ type: 'int', default: 0 })
   likes: number;
 
-  @Column('simple-array', { nullable: true })
-  likedBy?: string[];
+  @Column('text', { array: true, nullable: false, default: [] })
+  likedBy: string[];
 
-  // 🔹 Relación con los comentarios
-  @OneToMany(() => Comment, (comment) => comment.recipe, { cascade: true })
-  comments?: Comment[];
-
-  // 🔹 Fechas de creación y actualización
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn()
   updatedAt: Date;
 }

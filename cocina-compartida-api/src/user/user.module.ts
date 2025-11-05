@@ -1,4 +1,3 @@
-// src/user/user.module.ts
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -13,18 +12,14 @@ import { AuthModule } from '../auth/auth.module';
   imports: [
     TypeOrmModule.forFeature([User]),
 
-    // Evita ciclos User <-> Auth
     forwardRef(() => AuthModule),
-
-    // Si UserService realmente necesita algo de Recipes (RecipeService/guard),
-    // deja el forwardRef; si NO lo necesita, elimínalo para simplificar.
     forwardRef(() => RecipesModule),
   ],
   controllers: [UserController],
   providers: [UserService],
   exports: [
     UserService,
-    TypeOrmModule, // para que otros módulos puedan usar repos de User si hace falta
+    TypeOrmModule, 
   ],
 })
 export class UserModule {}

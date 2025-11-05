@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class UploadService {
   private storage = inject(Storage);
-  // Validaciones de imagen
+
   validateImage(file: File): { isValid: boolean; error?: string } {
     const maxSize = 5 * 1024 * 1024; // 5MB
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
@@ -31,7 +31,6 @@ export class UploadService {
     return { isValid: true };
   }
 
-  // Convertir archivo a Base64
   private fileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -48,26 +47,22 @@ export class UploadService {
     });
   }
 
-  // Subir múltiples archivos para una receta (se guarda en subcarpeta por receta)
   async uploadMultipleFiles(files: File[], recipeId?: string): Promise<UploadResult> {
     try {
       if (!recipeId) {
-        // Si no hay recipeId, generar uno temporal para agrupar las imágenes
+
         recipeId = uuidv4();
       }
 
       const uploadPromises = files.map(async (file) => {
-        // Validar
         const validation = this.validateImage(file);
         if (!validation.isValid) throw new Error(validation.error);
 
-        // Comprimir si es necesario
         let fileToUpload = file;
         if (file.size > 1024 * 1024) {
           fileToUpload = await this.compressImage(file);
         }
 
-        // Subir al bucket de recetas dentro de la subcarpeta recipeId
         const publicUrl = await this.storage.uploadRecipeImage(fileToUpload, recipeId as string);
         return publicUrl;
       });
@@ -86,10 +81,8 @@ export class UploadService {
     }
   }
 
-  // Subir archivo único
   async uploadFile(file: File, compress: boolean = true, username?: string): Promise<UploadResult> {
     try {
-      // Validar archivo
       const validation = this.validateImage(file);
       if (!validation.isValid) {
         return {
@@ -98,13 +91,11 @@ export class UploadService {
         };
       }
 
-      // Comprimir si es necesario
       let fileToUpload = file;
-      if (compress && file.size > 1024 * 1024) { // Comprimir si > 1MB
+      if (compress && file.size > 1024 * 1024) { 
         fileToUpload = await this.compressImage(file);
       }
 
-      // Subir a bucket de avatars. Si no se provee username, se genera uno temporal.
       const userForPath = username && username.trim() ? username.trim() : `tmp-${uuidv4()}`;
       const publicUrl = await this.storage.uploadAvatar(fileToUpload, userForPath);
 
@@ -120,7 +111,6 @@ export class UploadService {
     }
   }
 
-  // Compresión opcional de imagen
   private compressImage(file: File, maxWidth = 1200, quality = 0.8): Promise<File> {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas');

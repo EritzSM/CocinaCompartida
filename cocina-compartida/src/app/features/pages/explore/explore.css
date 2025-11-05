@@ -235,6 +235,15 @@ object-fit: cover;
   color: #555;
 }
 
+.clickable {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.clickable:hover {
+  opacity: 0.8;
+}
+
 /* --- Contenedor de Acciones (Likes y Ver Receta) --- */
 .recipe-actions {
   display: flex;

@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../services/auth';
 import { SearchService, SortOption } from '../../services/search.service';
+import { Recipe } from '../../interfaces/recipe';
 
 @Component({
   selector: 'app-header',
@@ -14,12 +15,14 @@ import { SearchService, SortOption } from '../../services/search.service';
 })
 export class Header {
   private router = inject(Router);
-  private searchService = inject(SearchService);
+  searchService = inject(SearchService);
   authService = inject(Auth);
   
   searchQuery = '';
   sortOption: SortOption = 'recent';
   selectedCategory = 'todas';
+  showSuggestions = signal(false);
+  selectedSuggestionIndex = signal(-1);
 
   readonly categories = [
     { id: 'todas', name: 'Todas las recetas' },
@@ -35,15 +38,83 @@ export class Header {
   }
 
   onSearch() {
+    this.showSuggestions.set(false);
+    this.selectedSuggestionIndex.set(-1);
     this.searchService.search(this.searchQuery);
+    this.router.navigate(['/explore']);
+  }
+
+  onSearchInput() {
+    if (this.searchQuery.trim()) {
+      this.searchService.search(this.searchQuery);
+      this.showSuggestions.set(true);
+    } else {
+      this.showSuggestions.set(false);
+      this.selectedSuggestionIndex.set(-1);
+    }
+  }
+
+  selectSuggestion(recipe: Recipe) {
+    this.searchQuery = recipe.name;
+    this.showSuggestions.set(false);
+    this.selectedSuggestionIndex.set(-1);
+    this.onSearch();
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    const suggestions = this.searchService.suggestions();
+
+    if (!this.showSuggestions() || suggestions.length === 0) {
+      if (event.key === 'Enter') {
+        this.onSearch();
+      }
+      return;
+    }
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        this.selectedSuggestionIndex.update(index =>
+          index < suggestions.length - 1 ? index + 1 : 0
+        );
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.selectedSuggestionIndex.update(index =>
+          index > 0 ? index - 1 : suggestions.length - 1
+        );
+        break;
+      case 'Enter':
+        event.preventDefault();
+        if (this.selectedSuggestionIndex() >= 0) {
+          this.selectSuggestion(suggestions[this.selectedSuggestionIndex()]);
+        } else {
+          this.onSearch();
+        }
+        break;
+      case 'Escape':
+        this.showSuggestions.set(false);
+        this.selectedSuggestionIndex.set(-1);
+        break;
+    }
+  }
+
+  hideSuggestions() {
+    // Delay hiding to allow click events on suggestions
+    setTimeout(() => {
+      this.showSuggestions.set(false);
+      this.selectedSuggestionIndex.set(-1);
+    }, 150);
   }
 
   onCategoryChange(categoryId: string) {
     this.selectedCategory = categoryId;
     this.searchService.filterByCategory(categoryId);
+    this.router.navigate(['/explore']);
   }
 
   onSortChange() {
     this.searchService.setSortOption(this.sortOption);
+    this.router.navigate(['/explore']);
   }
 }

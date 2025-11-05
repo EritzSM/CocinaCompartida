@@ -9,7 +9,7 @@
     <!-- Añadir la biografía aquí -->
     <p *ngIf="currentUser.bio" class="user-bio">{{ currentUser.bio }}</p>
     
-    <button class="update-profile-btn" (click)="openUpdateProfile()">Actualizar Perfil</button>
+    <button *ngIf="isOwnProfile()" class="update-profile-btn" (click)="openUpdateProfile()">Actualizar Perfil</button>
   </header>
 
   <div class="modal-overlay" *ngIf="modalVisible">
@@ -59,9 +59,9 @@
 
   <nav class="profile-tabs">
     <button class="tab-button" [class.active]="activeTab() === 'created'" (click)="selectTab('created')">
-      Mis Recetas
+      {{ isOwnProfile() ? 'Mis Recetas' : 'Recetas' }}
     </button>
-    <button class="tab-button" [class.active]="activeTab() === 'favorites'" (click)="selectTab('favorites')">
+    <button *ngIf="isOwnProfile()" class="tab-button" [class.active]="activeTab() === 'favorites'" (click)="selectTab('favorites')">
       Favoritos
     </button>
   </nav>
@@ -74,14 +74,14 @@
           [alt]="'Imagen de ' + recipe.name" class="recipe-image">
         <div [routerLink]="['/recipe', recipe.id]" class="recipe-info">
           <h3>{{ recipe.name }}</h3>
-          <p>Por {{ recipe.author }}</p>
+          <p>Por {{ recipe.user.username }}</p>
           <p class="likes"><i class="fa fa-heart"></i> {{ recipe.likes || 0 }}</p>
         </div>
       </div>
     </div>
     <ng-template #noRecipes>
       <div class="no-recipes-message">
-        <p>Aún no tienes recetas en esta sección.</p>
+        <p>{{ isOwnProfile() ? 'Aún no tienes' : 'Aún no hay' }} recetas en esta sección.</p>
       </div>
     </ng-template>
   </main>

@@ -1,7 +1,7 @@
 import { Component, OnInit, computed, signal, WritableSignal, Signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule, RouterLink } from '@angular/router';
+import { Router, RouterModule, RouterLink, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { Auth } from '../../../shared/services/auth';
@@ -19,20 +19,24 @@ import { Recipe } from '../../../shared/interfaces/recipe';
 })
 export class Profile implements OnInit {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private auth = inject(Auth);
   private recipesSvc = inject(RecipeService);
   private edit = inject(EditProfileService);
 
   user: WritableSignal<User | null> = signal(null);
+  isOwnProfile: WritableSignal<boolean> = signal(true);
   activeTab: WritableSignal<'created' | 'favorites'> = signal('created');
 
   createdRecipes: Signal<Recipe[]> = computed(() => {
     const all = this.recipesSvc.recipes();
-    const username = this.auth.currentUsername();
-    return all.filter(r => r.author === username);
+    const currentUser = this.user();
+    if (!currentUser) return [];
+    return all.filter(r => r.user.username === currentUser.username);
   });
 
   favoriteRecipes: Signal<Recipe[]> = computed(() => {
+    if (!this.isOwnProfile()) return [];
     const all = this.recipesSvc.recipes();
     const u = this.auth.getCurrentUser();
     return u?.id ? all.filter(r => (r.likedBy ?? []).includes(u.id)) : [];
@@ -42,7 +46,6 @@ export class Profile implements OnInit {
     this.activeTab() === 'created' ? this.createdRecipes() : this.favoriteRecipes()
   );
 
-  // Estado modal
   modalVisible = false;
   newUsername = '';
   newPassword = '';
@@ -56,9 +59,27 @@ export class Profile implements OnInit {
 
   private async loadUserProfile() {
     try {
-      const cached = this.auth.getCurrentUser();
-      if (!cached) await this.auth.verifyLoggedUser();
-      this.user.set(this.auth.getCurrentUser());
+      const userId = this.route.snapshot.paramMap.get('id');
+      if (userId) {
+        this.isOwnProfile.set(false);
+        const user = await this.edit.fetchUserById(userId);
+        if (user && user !== 'unauthorized') {
+          this.user.set(user);
+          this.activeTab.set('created');
+        } else if (user === 'unauthorized') {
+
+          this.router.navigate(['/home']);
+        } else {
+          Swal.fire({ icon: 'error', title: 'Error', text: 'Usuario no encontrado' });
+          this.router.navigate(['/home']);
+        }
+      } else {
+
+        this.isOwnProfile.set(true);
+        const cached = this.auth.getCurrentUser();
+        if (!cached) await this.auth.verifyLoggedUser();
+        this.user.set(this.auth.getCurrentUser());
+      }
     } catch (e) {
       console.error('Error loading user profile:', e);
       Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar el perfil del usuario' });

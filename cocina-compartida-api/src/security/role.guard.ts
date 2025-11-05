@@ -18,14 +18,14 @@ export class RoleGuard implements CanActivate {
       const payload = this.jwtService.verify(token);
       console.log(payload);
 
-      // For recipe update/delete, check if the user is the owner
+
       if (params.id) {
         const recipe = await this.recipesService.findOne(params.id);
         if (recipe.user.id !== payload['id']) {
           throw new ForbiddenException('Solo puedes editar o eliminar tus propias recetas');
         }
       } else {
-        // Fallback to old logic if no id in params
+
         const body = request.body;
         if (payload['id'] !== body['userId']) {
           throw new ForbiddenException('Acción no autorizada');

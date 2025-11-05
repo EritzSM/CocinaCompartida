@@ -1,31 +1,31 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
+// src/security/auth.guard.ts
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(private readonly jwt: JwtService) {}
 
-  canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest();
-    const authorization = request.header('authorization');
-    if (!authorization) {
-      throw new ForbiddenException('Acceso no autorizado');
-    }
-    const token = this.getToken(authorization);
+  canActivate(ctx: ExecutionContext): boolean {
+    const req = ctx.switchToHttp().getRequest();
+    const auth = req.headers['authorization'] as string | undefined;
+    if (!auth) throw new UnauthorizedException('Falta Authorization');
+
+    const [type, token] = auth.split(' ');
+    if (type !== 'Bearer' || !token) throw new UnauthorizedException('Formato inválido');
+
     try {
-      this.jwtService.verify(token);
-    } catch (error) {
-      console.log(error.message);
-      throw new ForbiddenException(error.message || 'Token no valido');
+      const p = this.jwt.verify(token); 
+      req.user = {
+        id: p.sub ?? p.id,     
+        username: p.username,
+        email: p.email,
+        url: p.url,
+      };
+      if (!req.user.id) throw new UnauthorizedException('Token sin id');
+      return true;
+    } catch {
+      throw new UnauthorizedException('Token inválido o expirado');
     }
-    return true;
-  }
-
-  private getToken(authorization: string) {
-    let token = authorization.split(' ');
-    if (token.length > 1) {
-      return token[1];
-    }
-    return token[0];
   }
 }

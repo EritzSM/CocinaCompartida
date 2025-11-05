@@ -46,7 +46,7 @@ export class UserService {
   async findByUsername(username: string) {
     const user = await this.userRepo.findOne({
       where: { username },
-      select: ['id', 'username', 'password', 'email', 'avatar'] // 👈 Mostrar password intencionalmente
+      select: ['id', 'username', 'password', 'email', 'avatar'] 
     });
     return user;
   }
@@ -59,7 +59,7 @@ export class UserService {
   }
 
   async remove(id: string) {
-    const result = await this.userRepo.softDelete(id); // ✅ Mejor soft delete
+    const result = await this.userRepo.softDelete(id); 
     if (!result.affected) throw new NotFoundException();
     return { success: true, message: 'User removed' };
   }

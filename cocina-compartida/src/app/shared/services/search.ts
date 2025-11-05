@@ -15,7 +15,6 @@ export class SearchService {
   private sortBy = signal<SortOption>('recent');
   private searchQuery = signal<string>('');
 
-  // Expone las señales como solo lectura
   readonly results = this.searchResults.asReadonly();
   readonly currentSort = this.sortBy.asReadonly();
   readonly currentQuery = this.searchQuery.asReadonly();
@@ -37,7 +36,6 @@ export class SearchService {
       recipe.descripcion.toLowerCase().includes(query)
     );
 
-    // Aplicar ordenamiento
     results = this.sortResults(results);
     this.searchResults.set(results);
   }

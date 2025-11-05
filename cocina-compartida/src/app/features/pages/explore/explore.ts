@@ -21,14 +21,14 @@ export class Explore implements AfterViewInit, OnDestroy {
   isLoading = signal<boolean>(false);
   private previousRecipeCount = 0;
 
-  // Referencia al elemento disparador en el HTML
+
   @ViewChild('loadMoreTrigger') loadMoreTrigger!: ElementRef;
   private observer?: IntersectionObserver;
 
   searchService = inject(SearchService);
-  readonly allRecipes = computed(() => 
-    this.searchService.results().length > 0 
-      ? this.searchService.results() 
+  readonly allRecipes = computed(() =>
+    this.searchService.results().length > 0
+      ? this.searchService.results()
       : this.recipeService.recipes()
   );
   private readonly recipesPerPage = 6;
@@ -39,12 +39,20 @@ export class Explore implements AfterViewInit, OnDestroy {
     return this.allRecipes().slice(0, count);
   });
 
+  private recipeUpdateEffect = effect(() => {
+    const currentCount = this.allRecipes().length;
+    if (currentCount > this.previousRecipeCount && this.previousRecipeCount !== 0) {
+      this.handleNewRecipes();
+    }
+    this.previousRecipeCount = currentCount;
+  });
+
+
   private async loadMore() {
     if (this.visibleRecipeCount() >= this.allRecipes().length) return;
 
     this.isLoading.set(true);
     try {
-      // Simulamos un pequeño retraso para mostrar el estado de carga
       await new Promise(resolve => setTimeout(resolve, 500));
       this.visibleRecipeCount.update(count => count + this.recipesPerPage);
     } finally {
@@ -68,8 +76,7 @@ export class Explore implements AfterViewInit, OnDestroy {
   }
 
   clearSearch() {
-    this.searchService.search('');
-    this.searchService.setSortOption('recent');
+    this.searchService.clearFilters();
   }
 
   trackByRecipeId(index: number, recipe: Recipe): string {
@@ -78,52 +85,36 @@ export class Explore implements AfterViewInit, OnDestroy {
 
 
   ngAfterViewInit() {
-    // Configuración del observador de intersección
+
     this.observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !this.isLoading()) {
         this.loadMore();
       }
-    }, { 
+    }, {
       threshold: 0.5,
       rootMargin: '100px'
     });
-
-    // Iniciar observación del elemento disparador
     this.observer.observe(this.loadMoreTrigger.nativeElement);
-
-    // Efecto para detectar nuevas recetas
-    effect(() => {
-      const currentCount = this.allRecipes().length;
-      if (currentCount > this.previousRecipeCount && this.previousRecipeCount !== 0) {
-        // Se han agregado nuevas recetas
-        this.handleNewRecipes();
-      }
-      this.previousRecipeCount = currentCount;
-    });
   }
 
   ngOnDestroy(): void {
-    // Limpiamos el observador para evitar fugas de memoria
     this.observer?.disconnect();
   }
 
   private setupIntersectionObserver(): void {
     const options = {
-      root: null, // Observa intersecciones en relación con el viewport
+      root: null,
       rootMargin: '0px',
-      threshold: 0.5 // Se activa cuando el 50% del elemento es visible
+      threshold: 0.5
     };
 
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        // Si el elemento está intersectando (visible) y hay más recetas por cargar
         if (entry.isIntersecting && this.visibleRecipeCount() < this.allRecipes().length) {
           this.loadMoreRecipes();
         }
       });
     }, options);
-
-    // Empezamos a observar el elemento disparador
     this.observer.observe(this.loadMoreTrigger.nativeElement);
   }
 
@@ -146,9 +137,13 @@ export class Explore implements AfterViewInit, OnDestroy {
 
   hasLiked(recipe: Recipe): boolean {
     if (!this.authService.isLoged()) return false;
-    return recipe.likedBy?.includes(this.authService.getCurrentUser()!.id) ?? false;
+
+    const currentUser = this.authService.getCurrentUser();
+
+    if (!currentUser) return false;
+    return recipe.likedBy?.includes(currentUser.id) ?? false;
   }
-  
+
   private showLoginAlert(action: string): void {
     Swal.fire({
       title: '¡Necesitas iniciar sesión!',

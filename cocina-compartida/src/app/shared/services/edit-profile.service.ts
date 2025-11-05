@@ -1,6 +1,7 @@
 // shared/services/edit-profile.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -15,14 +16,13 @@ export class EditProfileService {
   private auth = inject(Auth);
   private upload = inject(UploadService);
   private recipes = inject(RecipeService);
+  private router = inject(Router);
+  private readonly BASE_URL = 'http://localhost:3000';
+  private readonly USERS = `${this.BASE_URL}/users`;   
 
-  // ==== Config (ajusta a tu API) ====
-  private readonly BASE_URL = 'http://localhost:3000/api/v1';
-  private readonly USERS = `${this.BASE_URL}/user`;   // p. ej.: /user/:id  (si tu API usa /users, cambia aquí)
 
-  /** Si ya tienes HttpInterceptor que agrega Authorization, elimina este helper y no pases headers en las llamadas */
   private getAuthOptions() {
-    const token = localStorage.getItem('token'); // SOLO lectura
+    const token = localStorage.getItem('token');
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -31,7 +31,6 @@ export class EditProfileService {
     };
   }
 
-  // ---- Helpers de UI ----
   private toast(title: string, icon: 'success' | 'error' | 'warning' = 'success') {
     return Swal.fire({ toast: true, position: 'top-end', icon, title, showConfirmButton: false, timer: 1500 });
   }
@@ -44,7 +43,6 @@ export class EditProfileService {
     return this.auth.getCurrentUser();
   }
 
-  // ---- Subida de avatar (se mantiene igual) ----
   async uploadAvatar(file: File): Promise<string | undefined> {
     const u = this.current();
     const username = u?.username || `tmp-${Math.random().toString(36).slice(2, 9)}`;
@@ -62,26 +60,18 @@ export class EditProfileService {
     return undefined;
   }
 
-  // ---- Actualización de perfil (sin ApiService) ----
-  async updateProfile(updateData: Partial<User> & { password?: string }): Promise<User | null> {
+async updateProfile(updateData: Partial<User> & { password?: string }): Promise<User | null> {
     const u = this.current();
     if (!u?.id) {
       this.alert('Error', 'No se encontró el usuario actual');
       return null;
     }
     try {
-      // PATCH /user/:id (ajusta si tu ruta es /users/:id)
       const updated = await firstValueFrom(
-        this.http.patch<User>(`${this.USERS}/${u.id}`, updateData, this.getAuthOptions())
+        this.http.patch<User>(this.USERS, updateData, this.getAuthOptions())
       );
-
-      // Actualiza el estado global de Auth
       this.auth.currentUser.set(updated);
       this.auth.currentUsername.set(updated.username);
-
-      // Si quieres refrescar recetas del usuario (por cambios de username/avatar)
-      // puedes sincronizar optimistamente o recargar todo:
-      // this.recipes.updateAuthorForUser(u.username, updated.username, updated.avatar);
       this.recipes.loadRecipes();
 
       this.toast('Perfil actualizado');
@@ -92,8 +82,38 @@ export class EditProfileService {
       return null;
     }
   }
+  async fetchUserById(userId: string): Promise<User | null | 'unauthorized'> {
+    try {
+      const user = await firstValueFrom(
+        this.http.get<User>(`${this.USERS}/${userId}`, this.getAuthOptions())
+      );
+      return user;
+    } catch (e: any) {
+      console.error('fetch user by id', e);
+      if (e.status === 401) {
+        await this.showLoginAlert();
+        return 'unauthorized';
+      }
+      this.alert('Error', 'No se pudo cargar el perfil del usuario');
+      return null;
+    }
+  }
 
-  // ---- Eliminación de cuenta (sin ApiService) ----
+  private async showLoginAlert(): Promise<void> {
+    const result = await Swal.fire({
+      title: '¡Necesitas iniciar sesión!',
+      text: 'Para ver el perfil de otro usuario, primero debes iniciar sesión.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Iniciar Sesión'
+    });
+    if (result.isConfirmed) {
+      this.router.navigate(['/login']);
+    }
+  }
+
   async deleteAccount(): Promise<boolean> {
     const confirm = await Swal.fire({
       title: '¿Estás seguro?',
@@ -111,7 +131,6 @@ export class EditProfileService {
     if (!u?.id) return false;
 
     try {
-      // DELETE /user/:id (ajusta si tu ruta es /users/:id)
       await firstValueFrom(
         this.http.delete<void>(`${this.USERS}/${u.id}`, this.getAuthOptions())
       );

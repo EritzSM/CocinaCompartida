@@ -1,27 +1,22 @@
-import { IsString, IsArray, IsNotEmpty } from 'class-validator';
+// src/recipes/dto/create-recipe.dto.ts
+import { IsString, IsArray, IsOptional, ArrayMinSize } from 'class-validator';
 
 export class CreateRecipeDto {
   @IsString()
-  @IsNotEmpty()
   name: string;
 
   @IsString()
-  @IsNotEmpty()
   descripcion: string;
 
-  @IsArray()
+  @IsArray() @ArrayMinSize(1)
   @IsString({ each: true })
   ingredients: string[];
 
-  @IsArray()
+  @IsArray() @ArrayMinSize(1)
   @IsString({ each: true })
   steps: string[];
 
-  @IsArray()
+  @IsArray() @IsOptional()
   @IsString({ each: true })
-  images: string[];
-
-  @IsString()
-  @IsNotEmpty()
-  author: string;
+  images?: string[];
 }
