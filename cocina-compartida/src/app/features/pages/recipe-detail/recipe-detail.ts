@@ -98,7 +98,7 @@ export class RecipeDetail implements OnInit {
     const recipeId = this.recipe.id;
 
     try {
-      await this.recipeService.addComment(recipeId, { text });
+      await this.recipeService.addComment(recipeId, { message: text });
       const updatedRecipe = await this.recipeService.getRecipeById(recipeId);
       if (updatedRecipe) {
         this.recipe = updatedRecipe;

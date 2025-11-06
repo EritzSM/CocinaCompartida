@@ -11,7 +11,7 @@ import { UserModule } from '../user/user.module';
     JwtModule.register({
       global: true,
       secret: 'saefaHJgYgjvm',
-      signOptions: { expiresIn: '1m' },
+      signOptions: { expiresIn: '20m' },
     }),
   ],
   controllers: [AuthController],

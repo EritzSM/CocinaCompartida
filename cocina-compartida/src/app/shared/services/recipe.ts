@@ -51,7 +51,7 @@ export class RecipeService {
     return this.interactionService.toggleLike(recipeId);
   }
 
-  addComment(recipeId: string, comment: { text: string }): Promise<void> {
+  addComment(recipeId: string, comment: { message: string }): Promise<void> {
     return this.interactionService.addComment(recipeId, comment);
   }
 

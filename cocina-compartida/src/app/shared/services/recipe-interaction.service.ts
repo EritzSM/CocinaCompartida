@@ -75,7 +75,7 @@ export class RecipeInteractionService {
            Array.isArray(response.likedBy);
   }
 
-  async addComment(recipeId: string, comment: { text: string }): Promise<void> {
+  async addComment(recipeId: string, comment: { message: string }): Promise<void> {
     try {
       const created = await firstValueFrom(
         this.http.post<RecipeComment>(
