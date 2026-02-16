@@ -37,7 +37,7 @@
 
         <div class="author-info">
           <img
-            [src]="recipe.user.avatar ?? 'assets/placeholder-avatar.png'"
+            [src]="recipe.user.avatar ?? '/assets/placeholder-avatar.png'"
             [alt]="'Avatar de ' + (recipe.user.username )"
             class="avatar clickable"
             [routerLink]="['/profile', recipe.user.id]"

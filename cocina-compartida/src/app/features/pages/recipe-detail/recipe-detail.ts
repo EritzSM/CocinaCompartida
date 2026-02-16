@@ -57,6 +57,15 @@ export class RecipeDetail implements OnInit {
     }
   }
 
+  // Normaliza la URL del avatar para asegurar que sea absoluta o comience con '/'
+  getAvatarUrl(avatar?: string | null): string {
+    if (!avatar) return 'assets/logos/default-avatar.png';
+    // Si ya es URL absoluta o data:, devolver tal cual
+    if (/^https?:\/\//i.test(avatar) || avatar.startsWith('data:')) return avatar;
+    // Asegurar que empiece por '/'
+    return avatar.startsWith('/') ? avatar : `/${avatar}`;
+  }
+
   nextImage(): void {
     if (this.recipe && this.recipe.images.length > 0) {
       this.currentIndex = (this.currentIndex + 1) % this.recipe.images.length;

@@ -1,113 +1,59 @@
-import { Injectable } from '@angular/core';
-import { createClient } from '@supabase/supabase-js'
-import { SUPABASE_KEY, SUPABASE_URL } from '../../../environments/environment';
-import { v4 as uuidv4 } from 'uuid';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class Storage {
+  private http = inject(HttpClient);
 
-  private supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
-
-  private async uploadFileToBucket(imageFile: File, bucket: string, path: string): Promise<string> {
-    const fileName = uuidv4();
-    const objectPath = `${path}/${fileName}`.replace(/(^\/|\/\/$)/g, '');
-
-    const { data, error } = await this.supabase.storage
-      .from(bucket)
-      .upload(objectPath, imageFile, { cacheControl: '3600', upsert: false });
-
-    if (error) throw error;
-    const returnedPath = (data as any)?.path ?? (data as any)?.fullPath ?? objectPath;
-    return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${returnedPath}`;
+  // Upload a single recipe image, returns public URL
+  async uploadRecipeImage(imageFile: File, recipeId: string): Promise<string> {
+    const fd = new FormData();
+    fd.append('files', imageFile);
+    const res = await firstValueFrom(this.http.post<{ urls: string[] }>(`/api/uploads/recipes/${recipeId}`, fd));
+    return (res.urls && res.urls[0]) || '';
   }
 
-  uploadRecipeImage(imageFile: File, recipeId: string) {
-    return this.uploadFileToBucket(imageFile, 'recipes', recipeId);
+  // Upload avatar, returns public URL
+  async uploadAvatar(imageFile: File, username: string): Promise<string> {
+    const fd = new FormData();
+    fd.append('file', imageFile);
+    const q = username ? `?username=${encodeURIComponent(username)}` : '';
+    const res = await firstValueFrom(this.http.post<{ url: string }>(`/api/uploads/avatar${q}`, fd));
+    return res.url || '';
   }
 
-  uploadAvatar(imageFile: File, username: string) {
-    const safeUser = username || 'anonymous';
-    return this.uploadFileToBucket(imageFile, 'avatars', safeUser);
-  }
-
-  getPublicUrl(bucket: string, path: string) {
-    return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
-  }
-
-  async deleteFile(bucket: string, objectPath: string): Promise<void> {
-    try {
-      const normalized = objectPath.replace(/^\//, '');
-      const { error } = await this.supabase.storage.from(bucket).remove([normalized]);
-      if (error) {
-        console.error(`Error eliminando archivo ${normalized} en bucket ${bucket}:`, error);
-        throw error;
-      }
-    } catch (e) {
-      console.error('Error inesperado en deleteFile:', e);
-      throw e;
-    }
-  }
-
+  // Given a public path or URL, attempt to delete it from the API storage
   async deletePhotoByPublicUrl(publicUrlOrPath: string): Promise<void> {
     try {
       if (!publicUrlOrPath) return;
-      const urlWithoutQuery = publicUrlOrPath.split('?')[0];
-
-      const publicSegment = '/storage/v1/object/public/';
-
-      if (urlWithoutQuery.includes(publicSegment)) {
-        const idx = urlWithoutQuery.indexOf(publicSegment) + publicSegment.length;
-        const bucketAndPath = urlWithoutQuery.substring(idx);
-
-        const firstSlash = bucketAndPath.indexOf('/');
-        if (firstSlash === -1) {
-          throw new Error('URL pública inválida: no contiene ruta dentro del bucket');
-        }
-        const bucket = bucketAndPath.substring(0, firstSlash);
-        const objectPath = bucketAndPath.substring(firstSlash + 1);
-        await this.deleteFile(bucket, objectPath);
-        return;
+      // Normalize to path under /uploads
+      let path = publicUrlOrPath;
+      // If full URL, extract path after /uploads/
+      const idx = path.indexOf('/uploads/');
+      if (idx !== -1) {
+        path = path.substring(idx + '/uploads/'.length);
       }
-
-      const parts = urlWithoutQuery.split('/').filter(Boolean);
-      if (parts.length >= 2) {
-        const bucket = parts[0];
-        const objectPath = parts.slice(1).join('/');
-        await this.deleteFile(bucket, objectPath);
-        return;
-      }
-
-      throw new Error('No se pudo interpretar la URL/ruta para eliminar la foto');
+      // Ensure no leading slash
+      path = path.replace(/^\//, '');
+      await firstValueFrom(this.http.request('delete', `/api/uploads`, { body: { path } }));
     } catch (e) {
-      console.error('Error eliminando foto por URL/ruta:', e);
+      console.error('Error deleting file via API', e);
       throw e;
     }
   }
 
-  async deleteRecipeImages(recipeId: string): Promise<void> {
-    try {
-
-      const { data, error } = await this.supabase.storage.from('recipes').list(recipeId, { limit: 1000 });
-      if (error) {
-        console.error('Error listando archivos en bucket recipes:', error);
-        return;
-      }
-
-      if (!data || (data as any[]).length === 0) return;
-
-      // Construir paths a eliminar
-      const paths = (data as any[]).map(f => `${recipeId}/${f.name}`);
-
-      const { error: removeError } = await this.supabase.storage.from('recipes').remove(paths);
-      if (removeError) {
-        console.error('Error eliminando archivos en bucket recipes:', removeError);
-      }
-    } catch (e) {
-      console.error('Error inesperado eliminando imágenes de receta:', e);
+  // deleteRecipeImages: attempt to delete a list of image public URLs
+  async deleteRecipeImages(recipeId: string, imageUrls: string[] = []): Promise<void> {
+    for (const u of imageUrls) {
+      await this.deletePhotoByPublicUrl(u);
     }
   }
 
+  // Keep a helper to format public URL if needed
+  getPublicUrlForPath(path: string) {
+    if (!path) return '';
+    if (path.startsWith('/uploads/')) return path;
+    return `/uploads/${path.replace(/^\//, '')}`;
+  }
 }

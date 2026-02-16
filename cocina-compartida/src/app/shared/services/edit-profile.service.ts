@@ -17,7 +17,7 @@ export class EditProfileService {
   private upload = inject(UploadService);
   private recipes = inject(RecipeService);
   private router = inject(Router);
-  private readonly BASE_URL = 'http://localhost:3000';
+  private readonly BASE_URL = '/api';
   private readonly USERS = `${this.BASE_URL}/users`;   
 
 

@@ -20,7 +20,7 @@ type JwtPayload = {
 @Injectable({ providedIn: 'root' })
 export class Auth {
   private readonly TOKEN_KEY = 'token';
-  private readonly BASE_URL = 'http://localhost:3000';
+  private readonly BASE_URL = '/api';
 
   private readonly LOGIN_ENDPOINT = `${this.BASE_URL}/auth/login`;
   private readonly SIGNUP_ENDPOINT = `${this.BASE_URL}/users`;

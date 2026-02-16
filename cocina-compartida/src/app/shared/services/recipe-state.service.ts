@@ -10,7 +10,7 @@ export class RecipeStateService {
   private _recipes = signal<Recipe[]>([]);
   private _loading = signal<boolean>(false);
   private _error = signal<string | null>(null);
-  private readonly BASE_URL = 'http://localhost:3000';
+  private readonly BASE_URL = '/api';
   private readonly RECIPES = `${this.BASE_URL}/recipes`;
 
   recipes = computed(() => this._recipes());

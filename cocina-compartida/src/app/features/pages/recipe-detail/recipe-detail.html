@@ -30,7 +30,7 @@
     </div>
 
     <div class="author-info" *ngIf="recipe.user">
-        <img [src]="recipe.user.avatar" alt="Avatar" class="author-avatar">
+        <img [src]="getAvatarUrl(recipe.user.avatar)" alt="Avatar" class="author-avatar">
         <span>Creado por: <strong>{{ recipe.user.username }}</strong></span>
     </div>
 
@@ -61,7 +61,7 @@
 
         <div *ngIf="recipe.comments && recipe.comments.length > 0; else noComments" class="comments-list">
             <div class="comment-item" *ngFor="let c of recipe.comments">
-                <img [src]="c.user.avatar" class="comment-avatar" alt="avatar">
+                <img [src]="getAvatarUrl(c.user.avatar)" class="comment-avatar" alt="avatar">
                 <div class="comment-body">
                     <div class="comment-meta">
                         <strong>{{ c.user.username }}</strong>
