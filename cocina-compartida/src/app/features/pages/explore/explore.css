@@ -17,6 +17,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 2.5rem; /* Espacio entre tarjetas */
+  min-height: 200px; /* Altura mínima para mostrar el spinner */
 }
 
 /* --- Tarjeta de Receta Individual --- */
@@ -98,15 +99,157 @@ h1 {
 }
 
 .author-info .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+object-fit: cover;
+
+.author-name {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* --- Botones de Acción --- */
+.recipe-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.like-button, .view-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.like-button {
+  background-color: #f8f9fa;
+  color: #e74c3c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.like-button:hover {
+  background-color: #fee2e2;
+}
+
+.like-button.liked {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.view-button {
+  background-color: #3498db;
+  color: white;
+}
+
+.view-button:hover {
+  background-color: #2980b9;
+}
+
+/* --- Loading Spinner --- */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* --- Load More Trigger --- */
+.load-more-trigger {
+  width: 100%;
+  height: 20px;
+  margin-top: 1rem;
+  opacity: 0;
+}
+
+/* --- Estado sin Recetas --- */
+.no-recipes, .no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.clear-search {
+  padding: 0.75rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-search:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.clear-search:active {
+  transform: translateY(0);
+}
+
+.author-avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  object-fit: cover;
+}
   object-fit: cover;
 }
 
 .author-info .author-name {
   font-weight: 500;
   color: #555;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.clickable:hover {
+  opacity: 0.8;
+}
+
+/* --- Contenedor de Acciones (Likes y Ver Receta) --- */
+.recipe-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 /* --- Botón "Ver Receta" --- */
@@ -119,12 +262,48 @@ h1 {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 1rem;
 }
 
 .view-button:hover {
   background-color: #2980b9;
 }
+
+/* --- Botón "Me Gusta" --- */
+.like-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.like-button:hover {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+}
+
+.like-button .fa-heart {
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+/* Estilo para el botón cuando al usuario le gusta */
+.like-button.liked {
+  background-color: #e74c3c;
+  color: white;
+  border-color: #e74c3c;
+}
+
+.like-button.liked .fa-heart {
+  color: white;
+}
+
 
 /* --- Mensajes de Estado --- */
 .no-recipes, .end-message {

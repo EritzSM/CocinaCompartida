@@ -1,82 +1,95 @@
-// recipe.service.ts
-import { Injectable, signal, effect } from '@angular/core';
-import { RECIPES_DATA } from './recipe.data';
+import { Injectable, inject, computed } from '@angular/core';
 import { Recipe } from '../interfaces/recipe';
+import { RecipeCrudService } from './recipe-crud.service';
+import { RecipeInteractionService } from './recipe-interaction.service';
+import { RecipeStateService } from './recipe-state.service';
+import { Comment as RecipeComment } from '../interfaces/comment';
 
-@Injectable({
-  providedIn: 'root'
+@Injectable({ 
+  providedIn: 'root' 
 })
 export class RecipeService {
-  private readonly STORAGE_KEY = 'my_recipes';
-  private _recipes = signal<Recipe[]>(this.initializeRecipes());
+  private crudService = inject(RecipeCrudService);
+  private interactionService = inject(RecipeInteractionService);
+  private stateService = inject(RecipeStateService);
 
-  get recipes() {
-    return this._recipes.asReadonly();
-  }
+  recipes = computed(() => this.stateService.recipes());
+  loading = computed(() => this.stateService.loading());
+  error = computed(() => this.stateService.error());
 
   constructor() {
-    effect(() => {
-      this.saveRecipesToStorage(this._recipes());
-    });
+    this.crudService.loadRecipes();
   }
 
-  addRecipe(recipe: Recipe) {
-    this._recipes.update((list) => [...list, recipe]);
+  loadRecipes(): Promise<void> {
+    return this.crudService.loadRecipes();
   }
-  
-  private initializeRecipes(): Recipe[] {
-    try {
-      const storedRecipes = localStorage.getItem(this.STORAGE_KEY);
-      
-      if (storedRecipes) {
-        // Si hay recetas en localStorage, las combinamos con las precargadas
-        const parsedStoredRecipes = JSON.parse(storedRecipes) as Recipe[];
+
+  loadTopLikedRecipes(): Promise<Recipe[]> {
+    return this.crudService.loadTopLikedRecipes();
+  }
+
+  getRecipeById(recipeId: string): Promise<Recipe | null> {
+    return this.crudService.getRecipeById(recipeId);
+  }
+
+  addRecipe(
+    recipeInput: Omit<Recipe, 'id' | 'likes' | 'likedBy' | 'comments' | 'user'> & { images?: string[] }
+  ): Promise<Recipe | null> {
+    return this.crudService.createRecipe(recipeInput);
+  }
+
+  updateRecipe(recipeId: string, changes: Partial<Recipe>): Promise<Recipe | null> {
+    return this.crudService.updateRecipe(recipeId, changes);
+  }
+
+  deleteRecipe(recipeId: string): Promise<boolean> {
+    return this.crudService.deleteRecipe(recipeId);
+  }
+
+  toggleLike(recipeId: string): Promise<void> {
+    return this.interactionService.toggleLike(recipeId);
+  }
+
+  addComment(recipeId: string, comment: { message: string }): Promise<void> {
+    return this.interactionService.addComment(recipeId, comment);
+  }
+
+  loadComments(recipeId: string): Promise<RecipeComment[]> {
+    return this.interactionService.loadComments(recipeId);
+  }
+
+  deleteComment(commentId: string): Promise<void> {
+    return this.interactionService.deleteComment(commentId);
+  }
+
+  canUserDeleteComment(commentAuthorId: string): boolean {
+    return this.interactionService.canUserDeleteComment(commentAuthorId);
+  }
+
+  isRecipeLikedByCurrentUser(recipeId: string): boolean {
+    return this.interactionService.isRecipeLikedByCurrentUser(recipeId);
+  }
+
+  getCurrentUserId(): string | null {
+    return this.interactionService.getCurrentUserId();
+  }
+
+  updateAuthorForUser(oldUsername: string, newUsername: string, newAvatar?: string): void {
+    this.stateService.updateRecipes(list =>
+      list.map(recipe => {
+        const currentUsername = recipe.user?.username;
+        if (currentUsername !== oldUsername) return recipe;
         
-        // Combinar recetas: primero las precargadas, luego las del localStorage
-        // y eliminar duplicados por ID
-        const allRecipes = [...RECIPES_DATA, ...parsedStoredRecipes];
-        const uniqueRecipes = this.removeDuplicateRecipes(allRecipes);
-        
-        return uniqueRecipes;
-      } else {
-        // Si no hay nada en localStorage, devolvemos solo las recetas precargadas
-        return RECIPES_DATA;
-      }
-
-    } catch (e) {
-      console.error("Error loading recipes from localStorage", e);
-      return RECIPES_DATA; // En caso de error, devolvemos las recetas precargadas
-    }
-  }
-
-  private removeDuplicateRecipes(recipes: Recipe[]): Recipe[] {
-    const seen = new Set();
-    return recipes.filter(recipe => {
-      if (seen.has(recipe.id)) {
-        return false;
-      }
-      seen.add(recipe.id);
-      return true;
-    });
-  }
-
-  private saveRecipesToStorage(recipes: Recipe[]) {
-    try {
-      // Guardamos todas las recetas (precargadas + nuevas) en localStorage
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(recipes));
-    } catch (e) {
-      console.error("Error saving recipes to localStorage", e);
-    }
-  }
-
-  // Opcional: Método para resetear a las recetas precargadas
-  resetToDefaultRecipes() {
-    this._recipes.set(RECIPES_DATA);
-  }
-
-  // Opcional: Método para obtener solo las recetas del usuario (excluyendo precargadas)
-  getUserRecipes(): Recipe[] {
-    const precargadasIds = new Set(RECIPES_DATA.map(recipe => recipe.id));
-    return this._recipes().filter(recipe => !precargadasIds.has(recipe.id));
+        return {
+          ...recipe,
+          user: { 
+            ...(recipe.user ?? { id: '' }), 
+            username: newUsername, 
+            avatar: newAvatar ?? recipe.user?.avatar 
+          },
+        } as Recipe;
+      })
+    );
   }
 }

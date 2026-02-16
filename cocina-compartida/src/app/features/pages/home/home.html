@@ -23,22 +23,34 @@
     <div class="recipe-card" *ngFor="let recipe of featuredRecipes; trackBy: trackByRecipeId"> 
 
       <div class="recipe-image">
-        <img *ngIf="recipe.images.length > 0" [src]="recipe.images[0]" alt="Foto de {{ recipe.name }}">
-        <div *ngIf="recipe.images.length === 0" class="placeholder-image">
-          <span>Sin imagen</span>
-        </div>
+        <img *ngIf="recipe.images.length > 0; else noImage" [src]="recipe.images[0]" alt="Foto de {{ recipe.name }}">
+        <ng-template #noImage>
+          <div class="placeholder-image">
+            <span>Sin Imagen</span>
+          </div>
+        </ng-template>
       </div>
 
       <div class="recipe-info">
         <h2>{{ recipe.name }}</h2>
-        <p>{{ recipe.descripcion }}</p>
-        <p class="author-info">
-          Creado por:
-          <img [src]="recipe.avatar" alt="Avatar del autor" class="avatar" />
-          <span class="author-name">{{ recipe.author }}</span>
-        </p>
+        <p class="recipe-description">{{ recipe.descripcion }}</p>
 
-        <button [routerLink]="['/recipe', recipe.id]" class="view-button">Ver Receta</button>
+        <div class="author-info">
+          <img
+            [src]="recipe.user.avatar ?? 'assets/placeholder-avatar.png'"
+            [alt]="'Avatar de ' + (recipe.user.username )"
+            class="avatar clickable"
+            [routerLink]="['/profile', recipe.user.id]"
+          />
+          <span class="author-name clickable" [routerLink]="['/profile', recipe.user.id]">Creado por {{ recipe.user.username  }}</span>
+        </div>
+
+        <div class="recipe-actions">
+          <button class="like-button" (click)="toggleLike(recipe)">
+            <i class="fa fa-heart"></i> {{ recipe.likes || 0 }}
+          </button>
+          <button [routerLink]="['/recipe', recipe.id]" class="view-button">Ver Receta</button>
+        </div>
       </div>
 
     </div>

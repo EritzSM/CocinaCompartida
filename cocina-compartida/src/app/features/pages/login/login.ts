@@ -3,8 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Auth } from '../../../shared/services/auth';
-import { User } from '../../../shared/interfaces/user';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -13,54 +12,61 @@ import Swal from 'sweetalert2'
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
+
 export class Login {
   fb = inject(FormBuilder);
   router = inject(Router);
   authService = inject(Auth);
 
-  // ✅ CORRECCIÓN CLAVE: Cambiar 'email' por 'username' y ajustar sus validadores.
   loginForm = this.fb.group({
-    username: ['', [Validators.required, Validators.minLength(2)]], // Usar username
+    username: ['', [Validators.required, Validators.minLength(2)]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   showPassword = false;
-  isLoginting = false;
+  isLoggingIn = false;
 
-
-  // Verificar si un campo tiene error
   hasError(controlName: string, errorType: string) {
     const control = this.loginForm.get(controlName);
-    return control && control.touched && control.hasError(errorType);
+    return !!(control && control.touched && control.hasError(errorType));
   }
 
-  // Toggle para mostrar/ocultar contraseña
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  // Envío del formulario
-  onLogin() {
-    if (!this.loginForm.valid) {
-            Swal.fire({
-                title: "Ops!",
-                text: "El formulario no es valido",
-                icon: "error"
-            });
-            return;
-        }
-        let user = this.loginForm.value as User;
+  async onLogin(): Promise<void> {
+    this.loginForm.markAllAsTouched();
 
-        let response = this.authService.login(user);
-        if (response.success) {
-            this.router.navigate(['/home'])
-            return;
-        }
-        Swal.fire({
-            title: "Ops!",
-            text: response.message,
-            icon: "error"
-        });
-
+    if (this.isLoggingIn || !this.loginForm.valid) {
+      Swal.fire({ title: "Ops!", text: "Por favor complete todos los campos correctamente", icon: "error" });
+      return;
     }
+
+    this.isLoggingIn = true;
+
+    try {
+      const { username, password } = this.loginForm.getRawValue() as { username: string; password: string };
+
+      const response = await this.authService.login({
+        username: username.trim(),
+        password
+      });
+
+      if (response.success) {
+        await this.router.navigate(['/home'], { replaceUrl: true });
+      } else {
+        Swal.fire({
+          title: "Ops!",
+          text: response.message || "Error al iniciar sesión",
+          icon: "error"
+        });
+      }
+    } catch (error) {
+      console.error('Error en login:', error);
+      Swal.fire({ title: "Error", text: "Ocurrió un error inesperado", icon: "error" });
+    } finally {
+      this.isLoggingIn = false;
+    }
+  }
 }

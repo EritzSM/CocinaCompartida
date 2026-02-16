@@ -1,54 +1,182 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { RecipeService } from '../../../shared/services/recipe'; // Ajusta la ruta si es necesario
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
+import { RecipeService } from '../../../shared/services/recipe';
 import { Recipe } from '../../../shared/interfaces/recipe';
+import { Auth } from '../../../shared/services/auth';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-recipe-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink], // Importamos CommonModule y RouterLink
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './recipe-detail.html',
   styleUrls: ['./recipe-detail.css']
 })
 export class RecipeDetail implements OnInit {
+  // --- Propiedades de Estado ---
   recipe: Recipe | undefined;
-  currentIndex: number = 0;
+  isLoading: boolean = true;
+  error: string | null = null;
 
-  // Inyección de servicios
+  currentIndex: number = 0;
+  newComment: string = '';
+
   private route = inject(ActivatedRoute);
   private recipeService = inject(RecipeService);
+  authService = inject(Auth);
+  private router = inject(Router);
 
-  // En recipe-detail.component.ts
+  async ngOnInit(): Promise<void> {
+    this.isLoading = true;
+    this.error = null;
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      // 1. Obtener el parámetro 'id' de la URL (es un string)
-      const recipeId = params['id'];
+    const recipeId = this.route.snapshot.paramMap.get('id');
 
-      // 2. Obtener todas las recetas
-      const recipesList = this.recipeService.recipes();
+    if (!recipeId) {
+      this.isLoading = false;
+      this.error = "Error de URL: No se encontró un ID de receta.";
+      return;
+    }
 
-      // 3. Buscar la receta cuyo 'id' coincida con el parámetro
-      this.recipe = recipesList.find(r => r.id === recipeId);
+    try {
+      const recipeData = await this.recipeService.getRecipeById(recipeId);
 
-      // Manejo de error si la receta no se encuentra
-      if (!this.recipe) {
-        console.error("Receta no encontrada o ID inválido.");
+      if (recipeData) {
+        this.recipe = recipeData;
+      } else {
+        this.error = 'No se pudo encontrar la receta. Es posible que haya sido eliminada.';
       }
-    });
+
+    } catch (e) {
+      console.error('Error al buscar la receta:', e);
+      this.error = 'Hubo un problema al cargar los detalles de la receta.';
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  // Lógica del Carrusel
-  nextImage() {
+  nextImage(): void {
     if (this.recipe && this.recipe.images.length > 0) {
       this.currentIndex = (this.currentIndex + 1) % this.recipe.images.length;
     }
   }
 
-  prevImage() {
+  prevImage(): void {
     if (this.recipe && this.recipe.images.length > 0) {
       this.currentIndex = (this.currentIndex - 1 + this.recipe.images.length) % this.recipe.images.length;
+    }
+  }
+
+  async submitComment(): Promise<void> {
+    if (!this.recipe) return;
+
+    if (!this.authService.isLoged()) {
+      Swal.fire({
+        title: '¡Necesitas iniciar sesión!',
+        text: 'Para comentar, primero debes iniciar sesión.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Iniciar Sesión'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/login']);
+        }
+      });
+      return;
+    }
+
+    const text = (this.newComment || '').trim();
+    if (!text) {
+      await Swal.fire({ icon: 'warning', title: 'Escribe un comentario' });
+      return;
+    }
+
+    const recipeId = this.recipe.id;
+
+    try {
+      await this.recipeService.addComment(recipeId, { message: text });
+      const updatedRecipe = await this.recipeService.getRecipeById(recipeId);
+      if (updatedRecipe) {
+        this.recipe = updatedRecipe;
+      }
+
+      this.newComment = '';
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Comentario agregado',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+    } catch (e) {
+      console.error("Error al agregar el comentario:", e);
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo agregar el comentario.' });
+    }
+  }
+
+  canEdit(): boolean {
+    if (!this.recipe) return false;
+    const user = this.authService.getUserProfile();
+    if (!user) return false;
+
+    if (this.recipe.user && this.recipe.user.id === user.id) {
+      return true;
+    }
+    return false;
+  }
+
+  goToEdit(): void {
+    if (!this.recipe || !this.canEdit()) return;
+    this.router.navigate(['/recipe', this.recipe.id, 'edit']);
+  }
+
+  async deleteRecipe(): Promise<void> {
+    if (!this.recipe || !this.canEdit()) return;
+
+    const result = await Swal.fire({
+      title: 'Eliminar receta',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const success = await this.recipeService.deleteRecipe(this.recipe!.id);
+
+        if (success) {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Receta eliminada',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.router.navigate(['/profile']);
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'La receta no pudo ser eliminada (posiblemente error del servidor).'
+          });
+        }
+      } catch (e) {
+        console.error("Error al eliminar la receta:", e);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de Red',
+          text: 'Hubo un problema de conexión al intentar eliminar la receta.'
+        });
+      }
     }
   }
 }

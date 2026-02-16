@@ -22,7 +22,7 @@
     color: #0056b3;
 }
 
-/* --- Nuevo Encabezado --- */
+/* --- Encabezado --- */
 .recipe-main-header {
     text-align: center;
     margin-bottom: 40px;
@@ -39,6 +39,41 @@
     font-size: 1.5em;
     color: #7f8c8d;
     margin: 5px 0 0 0;
+}
+
+/* --- NUEVO: Estilos para Acciones del Propietario (Editar/Eliminar) --- */
+.owner-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.owner-actions button {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.owner-actions button:first-of-type {
+    background-color: #007bff; /* Azul primario */
+}
+
+.owner-actions button:first-of-type:hover {
+    background-color: #0056b3;
+}
+
+.owner-actions button:last-of-type {
+    background-color: #dc3545; /* Rojo para indicar peligro/eliminar */
+}
+
+.owner-actions button:last-of-type:hover {
+    background-color: #c82333;
 }
 
 
@@ -103,40 +138,26 @@
     font-size: 0.9em;
 }
 
-/* --- Secciones de Ingredientes, Pasos y Consejos (Layout de 3 columnas) --- */
+/* --- Secciones de Ingredientes y Pasos --- */
 .sections-container {
     display: flex;
-    flex-wrap: wrap; 
-    gap: 30px; /* Aumentamos el espacio para mayor separación */
+    flex-wrap: wrap;
+    gap: 30px;
     justify-content: center;
 }
 
 .ingredients-section,
-.steps-section,
-.extra-tips-section {
-    flex: 1 1 300px; /* Crece y encoge, con un tamaño base de 300px */
+.steps-section {
+    flex: 1 1 300px;
     padding: 30px;
     border-radius: 8px;
     min-height: 250px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-/* Colores de fondo para las secciones */
-.ingredients-section {
-    background-color: #f8f9f9; 
-}
-
-.steps-section {
-    background-color: #f8f9f9;
-}
-
-.extra-tips-section { 
     background-color: #f8f9f9;
 }
 
 .ingredients-section h2,
-.steps-section h2,
-.extra-tips-section h2 {
+.steps-section h2 {
     font-size: 1.5em;
     color: #2c3e50;
     margin-top: 0;
@@ -145,13 +166,8 @@
     padding-bottom: 10px;
 }
 
-.extra-tips-section p {
-    line-height: 1.6;
-}
-
-/* Estilos de las listas */
-.ingredients-section ul {
-    list-style-type: disc;
+.ingredients-section ul,
+.steps-section ol {
     padding-left: 20px;
 }
 
@@ -159,20 +175,144 @@
     margin-bottom: 10px;
 }
 
-.steps-section ol {
-    list-style-type: decimal;
-    padding-left: 20px;
-}
-
 .steps-section li {
     margin-bottom: 15px;
     line-height: 1.6;
 }
 
+/* --- Información del Autor --- */
+.author-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.author-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #bdc3c7;
+}
+
+/* --- NUEVO: Sección de Comentarios --- */
+.comments-section {
+    margin-top: 50px;
+}
+
+.comments-section h2 {
+    font-size: 1.8em;
+    color: #2c3e50;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+/* Formulario para nuevo comentario */
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: 1em;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.comment-form button {
+    align-self: flex-end; /* Alinea el botón a la derecha */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.comment-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Lista de comentarios */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 15px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-body {
+    flex: 1;
+}
+
+.comment-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.comment-meta strong {
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+
+.comment-meta .comment-date {
+    font-size: 0.85em;
+    color: #7f8c8d;
+}
+
+.comment-text {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.no-comments {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+    padding: 20px;
+    background-color: #f8f9f9;
+    border-radius: 8px;
+}
+
+
 /* --- Responsive para dispositivos pequeños --- */
 @media (max-width: 768px) {
     .sections-container {
-        flex-direction: column; 
+        flex-direction: column;
     }
 
     .recipe-detail-container {
@@ -186,27 +326,4 @@
     .recipe-main-header p {
         font-size: 1.2em;
     }
-}
-/* --- Información del Autor --- */
-.author-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40px;
-    font-size: 1.1em;
-    color: #555;
-}
-
-.author-avatar {
-    /* 👇 Estas propiedades controlan el tamaño */
-    width: 30px; /* Ancho deseado, por ejemplo 30px */
-    height: 30px; /* Altura deseada, igual al ancho para que sea un círculo */
-    
-    /* 👇 Estas propiedades controlan la forma y el ajuste */
-    border-radius: 50%; /* Hace que la imagen sea perfectamente circular */
-    object-fit: cover; /* Asegura que la imagen no se distorsione */
-    
-    /* 👇 Estilos adicionales */
-    margin-right: 10px;
-    border: 2px solid #bdc3c7;
 }

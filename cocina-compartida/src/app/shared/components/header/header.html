@@ -4,10 +4,53 @@
             CocinaCompartida®
         </div>
 
+           <div class="search-section">
+               <div class="search-box" [class.suggestions-open]="showSuggestions()">
+                   <input
+                       type="text"
+                       [(ngModel)]="searchQuery"
+                       (input)="onSearchInput()"
+                       (keydown)="onKeyDown($event)"
+                       (blur)="hideSuggestions()"
+                       placeholder="Buscar recetas..."
+                       class="search-input"
+                       autocomplete="off"
+                   />
+                   <i class="fas fa-search search-icon" (click)="onSearch()"></i>
+
+                   <!-- Suggestions dropdown -->
+                   <div class="suggestions-dropdown" *ngIf="showSuggestions() && searchService.suggestions().length > 0">
+                       <div
+                           class="suggestion-item"
+                           *ngFor="let recipe of searchService.suggestions(); let i = index"
+                           [class.selected]="i === selectedSuggestionIndex()"
+                           (mousedown)="selectSuggestion(recipe)"
+                       >
+                           <div class="suggestion-content">
+                               <strong>{{ recipe.name }}</strong>
+                               <span class="suggestion-category">{{ recipe.category }}</span>
+                           </div>
+                           <small class="suggestion-author">por {{ recipe.user.username }}</small>
+                       </div>
+                   </div>
+               </div>
+
+               <div class="sort-options">
+                   <select [(ngModel)]="sortOption" (change)="onSortChange()">
+                       <option value="recent">Más recientes</option>
+                       <option value="oldest">Más antiguas</option>
+                       <option value="likes">Más likes</option>
+                   </select>
+               </div>
+           </div>
+
         <nav class="main-nav">
             <a routerLink="/explore" class="nav-link">Explorar</a>
-            <a href="#" class="nav-link">Categorías</a>
-            <a href="#" class="nav-link">Blog</a>
+            <div class="categories-menu">
+                <select [(ngModel)]="selectedCategory" (ngModelChange)="onCategoryChange($event)" class="category-select">
+                    <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                </select>
+            </div>
         </nav>
 
         <div class="auth-section">
@@ -19,7 +62,7 @@
             <!-- Mostrar si ESTÁ logueado -->
             <div *ngIf="authService.isLoged()" class="user-menu">
                 <!-- 👇 Usa el método getCurrentUsername() en lugar de la señal -->
-                <span routerLink="/profile" class="welcome-text">Hola, {{ authService.getCurrentUsername() }}</span>
+                <span routerLink="/profile" class="welcome-text">Hola, {{ authService.currentUsername() }}</span>
                 <button routerLink="/home "(click)="authService.logout()" class="logout-btn">Cerrar Sesión</button>
             </div>
         </div>
