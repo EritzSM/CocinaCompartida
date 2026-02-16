@@ -1,0 +1,56 @@
+services:
+  web:
+    build:
+      context: ./cocina-compartida
+      dockerfile: Dockerfile
+    image: cocina-compartida:latest
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./cocina-compartida-api
+      dockerfile: Dockerfile
+    image: cocina-compartida-api:latest
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=cocina
+      - NODE_ENV=development
+      - DB_SSL=false
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - api_uploads:/app/uploads  # Volumen persistente para uploads
+    # ✅ Asegurar que las carpetas existen al iniciar
+    command: sh -c "mkdir -p /app/uploads/avatars /app/uploads/recipes && chmod -R 755 /app/uploads && node dist/main.js"
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cocina
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  api_uploads:

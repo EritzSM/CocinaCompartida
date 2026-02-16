@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@supabase/supabase-js": "^2.76.1"
+    "@nestjs/serve-static": "^5.0.4"
   }
 }

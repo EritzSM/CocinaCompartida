@@ -1,106 +1,92 @@
 # CocinaCompartida
 
-## Descripción
+Descripción
+-----------
+CocinaCompartida es una plataforma web para compartir, descubrir y gestionar recetas de cocina. La aplicación incluye:
+- Interfaz de usuario (Angular) para explorar recetas, subir contenido y gestionar perfiles.
+- API REST (NestJS) que expone endpoints para autenticación, gestión de usuarios, recetas, comentarios y subida de imágenes.
+- PostgreSQL como almacenamiento relacional y un volumen para `uploads` donde se guardan imágenes (avatares y fotos de recetas).
 
-CocinaCompartida es una aplicación web full-stack que permite a los usuarios descubrir, compartir y disfrutar de recetas culinarias. La plataforma conecta a amantes de la comida ("foodies") para que puedan subir sus creaciones, explorar recetas de otros usuarios y gestionar su perfil personal. El frontend está desarrollado con Angular y el backend con NestJS, utilizando PostgreSQL como base de datos y Supabase para almacenamiento de imágenes.
+Arquitectura y tecnologías
+--------------------------
+- Frontend: Angular (TypeScript), RxJS, SweetAlert2.
+- Backend: NestJS (TypeScript), TypeORM, JWT para autenticación, bcrypt para hashing.
+- Base de datos: PostgreSQL.
+- Servidor estático / proxy: nginx (contenedor `web`) sirve la SPA y proxifica `/api/` al backend.
+- Almacenamiento de imágenes: archivos guardados en el volumen `api_uploads` y servidos vía nginx en `/uploads`.
 
-## Características
+Funcionalidades principales
+---------------------------
+- Registro, login y autenticación por token (JWT).
+- Crear, editar y eliminar recetas (incluye imágenes).
+- Subida de avatares y gestión de perfil.
+- Comentarios y sistema de "me gusta" en recetas.
+- Visualización de detalle de receta con carrusel de imágenes.
 
-- **Inicio (Home)**: Página principal con recetas destacadas y acceso rápido a explorar o crear nuevas recetas.
-- **Explorar (Explore)**: Navega y busca entre todas las recetas disponibles en la plataforma.
-- **Subir Receta (Recipe Upload)**: Permite a los usuarios autenticados crear y publicar nuevas recetas con imágenes, descripciones e instrucciones.
-- **Detalle de Receta (Recipe Detail)**: Vista detallada de una receta específica, incluyendo ingredientes, pasos y información del autor.
-- **Perfil (Profile)**: Gestión del perfil de usuario, incluyendo información personal y recetas publicadas.
-- **Autenticación**: Sistema de login y registro para usuarios.
-- **Interfaz Responsiva**: Diseño adaptativo para dispositivos móviles y de escritorio.
+Ejecutar con Docker (recomendado)
+--------------------------------
+Prerrequisitos: `docker` y `docker compose` instalados.
 
-## Tecnologías Utilizadas
+1) Construir las imágenes y levantar los servicios:
 
-### Frontend
-- **Framework**: Angular 20
-- **Lenguaje**: TypeScript
-- **Estilos**: CSS
-- **Dependencias Principales**:
-  - RxJS para manejo de observables
-  - SweetAlert2 para notificaciones
-  - UUID para generación de identificadores únicos
-  - Supabase para almacenamiento de imágenes
+```bash
+cd D:/CocinaCompartida
+docker compose build --no-cache
+docker compose up -d
+```
 
-### Backend
-- **Framework**: NestJS
-- **Lenguaje**: TypeScript
-- **Base de Datos**: PostgreSQL
-- **ORM**: TypeORM
-- **Autenticación**: JWT
-- **Dependencias Principales**:
-  - bcrypt para hashing de contraseñas
-  - class-validator para validación de datos
+2) Parar y limpiar todo:
 
-## Instalación y Configuración
+```bash
+docker compose down -v
+```
 
-### Prerrequisitos
-- Node.js (versión 18 o superior)
-- npm o yarn
-- PostgreSQL (para la base de datos)
-- Una cuenta en Supabase (para almacenamiento de imágenes)
+Puntos de acceso
+-----------------
+- Frontend (nginx): http://localhost:8081
+- API backend (directo): http://localhost:3000
 
-### Backend (API)
+Nota: El frontend realiza peticiones a rutas relativas bajo `/api/`, por lo que nginx debe proxificar `/api/` al servicio `api`.
 
-1. Navega al directorio del backend:
-   ```bash
-   cd cocina-compartida-api
-   ```
+Variables de entorno (principales)
+---------------------------------
+Configura estas variables para el servicio `api` (archivo `.env` o en el entorno de Compose):
 
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
+- `DB_HOST` (por defecto `db` en compose)
+- `DB_PORT` (por defecto `5432`)
+- `DB_USER` (por defecto `postgres`)
+- `DB_PASSWORD` (por defecto `postgres`)
+- `DB_NAME` (p. ej. `cocina`)
+- `JWT_SECRET` (clave para tokens JWT)
+- `PORT` (puerto del API, por defecto `3000`)
 
-3. Configura las variables de entorno:
-   - Copia el archivo `.template.env` a `.env`:
-     ```bash
-     cp .template.env .env
-     ```
-   - Edita `.env` con tus configuraciones:
-     - `DB_HOST`: Host de PostgreSQL (ej. localhost)
-     - `DB_PORT`: Puerto de PostgreSQL (ej. 5432)
-     - `DB_USER`: Usuario de PostgreSQL
-     - `DB_PASSWORD`: Contraseña de PostgreSQL
-     - `DB_NAME`: Nombre de la base de datos
-     - `JWT_SECRET`: Clave secreta para JWT
-     - `PORT`: Puerto del servidor (por defecto 3000)
+Volúmenes y puertos relevantes
+-----------------------------
+- Puerto frontend: `8081` (host) → `80` (contenedor `web`).
+- Puerto backend: `3000` (host) → `3000` (contenedor `api`).
+- Volúmenes: `api_uploads` (imágenes), `db_data` (datos PostgreSQL).
 
-4. Inicia el servidor de desarrollo:
-   ```bash
-   npm run start:dev
-   ```
+Depuración y logs
+-----------------
+- Ver logs en tiempo real:
+  - `docker compose logs -f api`
+  - `docker compose logs -f web`
+- Si las imágenes no se muestran: comprobar que la ruta comience por `/uploads/` y que nginx esté devolviendo `Content-Type` correcto (`image/png`, `image/jpeg`).
 
-   El backend estará disponible en `http://localhost:3000`.
+Desarrollo sin contenedores
+---------------------------
+- Frontend:
+  ```bash
+  cd cocina-compartida
+  npm install
+  npm start
+  ```
+- Backend:
+  ```bash
+  cd cocina-compartida-api
+  npm install
+  cp .template.env .env
+  npm run start:dev
+  ```
 
-### Frontend
-
-1. Navega al directorio del frontend:
-   ```bash
-   cd cocina-compartida
-   ```
-
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-
-3. Inicia el servidor de desarrollo:
-   ```bash
-   npm start
-   ```
-
-   La aplicación estará disponible en `http://localhost:4200`.
-
-## Uso
-
-- Asegúrate de que tanto el backend como el frontend estén ejecutándose.
-- Navega a la página de inicio para ver recetas destacadas.
-- Regístrate o inicia sesión para acceder a funciones completas.
-- Explora recetas existentes o sube tus propias creaciones.
-- Gestiona tu perfil y visualiza tus recetas publicadas.
 
