@@ -111,6 +111,43 @@ export class RecipeCrudService {
     }
   }
 
+  async downloadPDF(recipeId: string): Promise<void> {
+    try {
+      const url = `${this.state.getRecipeUrl(recipeId)}/download?format=pdf`;
+      const response = await firstValueFrom(
+        this.http.get(url, { responseType: 'blob', ...this.state.getAuthOptions() })
+      );
+      this.triggerDownload(response, 'receta.pdf');
+    } catch (error) {
+      console.error('downloadPDF error', error);
+      this.state.setError('No se pudo descargar el PDF');
+    }
+  }
+
+  async downloadImage(recipeId: string): Promise<void> {
+    try {
+      const url = `${this.state.getRecipeUrl(recipeId)}/download?format=image`;
+      const response = await firstValueFrom(
+        this.http.get(url, { responseType: 'blob', ...this.state.getAuthOptions() })
+      );
+      this.triggerDownload(response, 'receta.jpg');
+    } catch (error) {
+      console.error('downloadImage error', error);
+      this.state.setError('No se pudo descargar la imagen');
+    }
+  }
+
+  private triggerDownload(blob: Blob, filename: string): void {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
+
   private prepareRecipePayload(
     recipeInput: Omit<Recipe, 'id' | 'likes' | 'likedBy' | 'comments' | 'user'> & { images?: string[] }
   ) {

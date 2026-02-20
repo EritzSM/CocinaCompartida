@@ -75,6 +75,14 @@ export class RecipeService {
     return this.interactionService.getCurrentUserId();
   }
 
+  downloadPDF(recipeId: string): Promise<void> {
+    return this.crudService.downloadPDF(recipeId);
+  }
+
+  downloadImage(recipeId: string): Promise<void> {
+    return this.crudService.downloadImage(recipeId);
+  }
+
   updateAuthorForUser(oldUsername: string, newUsername: string, newAvatar?: string): void {
     this.stateService.updateRecipes(list =>
       list.map(recipe => {

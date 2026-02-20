@@ -41,39 +41,78 @@
     margin: 5px 0 0 0;
 }
 
-/* --- NUEVO: Estilos para Acciones del Propietario (Editar/Eliminar) --- */
+/* --- Estilos para Acciones del Propietario y Descarga --- */
 .owner-actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
     margin-top: 25px;
 }
 
+.admin-actions,
+.download-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .owner-actions button {
     border: none;
-    padding: 12px 24px;
+    padding: 10px 18px;
     border-radius: 8px;
-    font-size: 1em;
+    font-size: 0.95em;
     font-weight: 600;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.owner-actions button:first-of-type {
+.owner-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-actions button:first-of-type {
     background-color: #007bff; /* Azul primario */
 }
 
-.owner-actions button:first-of-type:hover {
+.admin-actions button:first-of-type:hover {
     background-color: #0056b3;
 }
 
-.owner-actions button:last-of-type {
+.admin-actions button:last-of-type {
     background-color: #dc3545; /* Rojo para indicar peligro/eliminar */
 }
 
-.owner-actions button:last-of-type:hover {
+.admin-actions button:last-of-type:hover {
     background-color: #c82333;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pdf-btn {
+    background-color: #e74c3c; /* Color para PDF */
+}
+
+.pdf-btn:hover {
+    background-color: #c0392b;
+}
+
+.image-btn {
+    background-color: #16a085; /* Color para imagen */
+}
+
+.image-btn:hover {
+    background-color: #117a65;
 }
 
 

@@ -188,4 +188,57 @@ export class RecipeDetail implements OnInit {
       }
     }
   }
+
+  async downloadPDF(): Promise<void> {
+    if (!this.recipe) return;
+    
+    try {
+      await this.recipeService.downloadPDF(this.recipe.id);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'PDF descargado',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } catch (e) {
+      console.error('Error al descargar PDF:', e);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo descargar el PDF de la receta.'
+      });
+    }
+  }
+
+  async downloadImage(): Promise<void> {
+    if (!this.recipe || !this.recipe.images || this.recipe.images.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sin imagen',
+        text: 'Esta receta no tiene imágenes para descargar.'
+      });
+      return;
+    }
+    
+    try {
+      await this.recipeService.downloadImage(this.recipe.id);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Imagen descargada',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } catch (e) {
+      console.error('Error al descargar imagen:', e);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo descargar la imagen de la receta.'
+      });
+    }
+  }
 }
