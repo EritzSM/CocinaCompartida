@@ -14,7 +14,7 @@
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
         <label for="email">Email</label>
-        <input type="email" id="username" formControlName="username" placeholder="jane@framer.com"
+        <input type="email" id="email" formControlName="email" placeholder="jane@framer.com"
             [class.error]="hasError('email', 'required') || hasError('email', 'email')">
         <span class="error-message" *ngIf="hasError('email', 'required')">
             El email es requerido

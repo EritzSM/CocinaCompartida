@@ -31,7 +31,6 @@ services:
     restart: unless-stopped
     volumes:
       - api_uploads:/app/uploads  # Volumen nombrado para persistencia cross-platform
-    # ✅ Asegurar que las carpetas existen al iniciar
     command: sh -c "mkdir -p /app/uploads/avatars /app/uploads/recipes && chmod -R 755 /app/uploads && node dist/main.js"
 
   db:

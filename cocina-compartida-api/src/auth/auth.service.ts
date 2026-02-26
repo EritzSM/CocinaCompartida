@@ -12,23 +12,23 @@ export class AuthService {
   ) {}
 
   async login(request: LoginDto) {
-    const user = await this.userService.findByUsername(request.username);
+    const user = await this.userService.findByEmail(request.email);
 
     if (!user) {
-      throw new NotFoundException('Usuario o contraseña incorrectos');
+      throw new NotFoundException('Correo o contraseña incorrectos');
     }
 
     const isMatch = await bcrypt.compare(request.password, user.password);
 
     if (!isMatch) {
-      throw new NotFoundException('Usuario o contraseña incorrectos');
+      throw new NotFoundException('Correo o contraseña incorrectos');
     }
 
     const payload = {
       id: user.id,
-      username: user.username,
-      role: user.role,
       email: user.email,
+      role: user.role,
+      username: user.username,
       url: user.avatar,
     };
 

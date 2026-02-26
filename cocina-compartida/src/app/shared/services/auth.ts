@@ -91,7 +91,7 @@ export class Auth {
   }
 
   // ---------------- API ----------------
-  async login(credentials: { username: string; password: string }): Promise<LoginResponse> {
+  async login(credentials: { email: string; password: string }): Promise<LoginResponse> {
     try {
       const res = await lastValueFrom(
         this.http.post<LoginResponse>(this.LOGIN_ENDPOINT, credentials)
@@ -118,7 +118,7 @@ export class Auth {
 
       // 2) Autologin
       const loginResult = await this.login({
-        username: userData.username,
+        email: userData.email!,
         password: userData.password || ''
       });
 

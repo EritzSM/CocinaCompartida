@@ -9,9 +9,9 @@ export class AuthController {
 
   @Post('login')
   login(@Body() request: LoginDto) {
-    if (request.password && request.username) {
+    if (request.password && request.email) {
       return this.authService.login(request);
     }
-    throw new BadRequestException('username y password son obligatorios');
+    throw new BadRequestException('email y password son obligatorios');
   }
 }

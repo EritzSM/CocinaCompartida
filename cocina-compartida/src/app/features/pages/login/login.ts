@@ -19,7 +19,7 @@ export class Login {
   authService = inject(Auth);
 
   loginForm = this.fb.group({
-    username: ['', [Validators.required, Validators.minLength(2)]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
@@ -46,10 +46,10 @@ export class Login {
     this.isLoggingIn = true;
 
     try {
-      const { username, password } = this.loginForm.getRawValue() as { username: string; password: string };
+      const { email, password } = this.loginForm.getRawValue() as { email: string; password: string };
 
       const response = await this.authService.login({
-        username: username.trim(),
+        email: email.trim(),
         password
       });
 

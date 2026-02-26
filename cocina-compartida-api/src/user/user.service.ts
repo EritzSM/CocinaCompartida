@@ -23,6 +23,11 @@ export class UserService {
     const exists = await this.userRepo.findOne({ where: { username: dto.username } });
     if (exists) throw new ConflictException('Username exists');
 
+    if (dto.email) {
+      const emailExists = await this.userRepo.findOne({ where: { email: dto.email } });
+      if (emailExists) throw new ConflictException('Email already exists');
+    }
+
     const hash = await bcrypt.hash(dto.password, 10);
 
     const user = this.userRepo.create({ ...dto, password: hash });
@@ -43,15 +48,20 @@ export class UserService {
   }
 
   
-  async findByUsername(username: string) {
+  async findByEmail(email: string) {
     const user = await this.userRepo.findOne({
-      where: { username },
+      where: { email },
       select: ['id', 'username', 'password', 'email', 'avatar'] 
     });
     return user;
   }
 
   async update(id: string, dto: UpdateUserDto) {
+    if (dto.email) {
+      const emailExists = await this.userRepo.findOne({ where: { email: dto.email } });
+      if (emailExists && emailExists.id !== id) throw new ConflictException('Email already exists');
+    }
+
     await this.userRepo.update(id, dto);
     const updated = await this.userRepo.findOne({ where: { id } });
     if (!updated) throw new NotFoundException();

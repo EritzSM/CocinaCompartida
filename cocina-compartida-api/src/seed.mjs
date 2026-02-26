@@ -140,7 +140,7 @@ async function loginAdmin() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: 'admin',
+        email: 'admin@example.com',
         password: plainPassword,
       }),
     });
