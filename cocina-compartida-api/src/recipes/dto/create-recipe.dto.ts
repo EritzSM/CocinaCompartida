@@ -8,6 +8,9 @@ export class CreateRecipeDto {
   @IsString()
   descripcion: string;
 
+  @IsString() @IsOptional()
+  category?: string;
+
   @IsArray() @ArrayMinSize(1)
   @IsString({ each: true })
   ingredients: string[];

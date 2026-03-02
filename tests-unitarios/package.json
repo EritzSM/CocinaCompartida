@@ -1,0 +1,22 @@
+{
+  "name": "cocina-compartida-tests-unitarios",
+  "version": "1.0.0",
+  "description": "Módulo independiente de pruebas unitarias para CocinaCompartida - 5 funcionalidades, 170 tests basados en diagramas de flujo",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:explorar": "jest --verbose explorar",
+    "test:detalle": "jest --verbose detalle",
+    "test:crud": "jest --verbose crud",
+    "test:categorias": "jest --verbose categorias",
+    "test:favoritos": "jest --verbose favoritos",
+    "test:coverage": "jest --coverage --verbose"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/*.test.js"],
+    "verbose": true
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

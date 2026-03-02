@@ -154,6 +154,7 @@ export class RecipeCrudService {
     return {
       name: recipeInput.name?.trim(),
       descripcion: recipeInput.descripcion?.trim(),
+      category: recipeInput.category ?? '',
       ingredients: recipeInput.ingredients ?? [],
       steps: recipeInput.steps ?? [],
       images: recipeInput.images ?? [],

@@ -60,6 +60,7 @@ export class RecipeUploadService {
     recipeForm.patchValue({
       name: recipe.name,
       descripcion: recipe.descripcion,
+      category: recipe.category || '',
     });
 
     this.recipeFormService.clearAndLoadFormArray(recipeForm.get('ingredients') as any, recipe.ingredients);

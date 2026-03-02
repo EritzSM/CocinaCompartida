@@ -30,6 +30,9 @@ export class Recipe {
   @Column('text', { array: true, nullable: false, default: [] })
   images: string[];
 
+  @Column({ type: 'varchar', nullable: false, default: '' })
+  category: string;
+
   @ManyToOne(() => User, (u) => u.recipes, { onDelete: 'CASCADE', eager: false })
   user: User;
 
