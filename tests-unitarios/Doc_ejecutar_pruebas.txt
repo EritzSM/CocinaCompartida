@@ -1,0 +1,7 @@
+cd tests-unitarios
+npm test                    # Todos (170 tests)
+npm run test:explorar       # Solo Explorar
+npm run test:detalle        # Solo Detalle
+npm run test:crud           # Solo CRUD
+npm run test:categorias     # Solo Categorías
+npm run test:favoritos      # Solo Favoritos
