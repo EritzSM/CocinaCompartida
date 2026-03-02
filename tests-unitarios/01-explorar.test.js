@@ -1,8 +1,6 @@
 /**
  * ============================================================
- * PRUEBAS UNITARIAS - Funcionalidad 1: EXPLORAR RECETAS
- * Diagrama 3 (Flujo): 16 conexiones × 2 = 32 pruebas
- *
+ * PRUEBAS UNITARIAS - EXPLORAR RECETAS
  * Código analizado: search() + updateSuggestions() + updateResults()
  * Servicio: SearchService (frontend Angular)
  * ============================================================

@@ -1,8 +1,6 @@
 /**
  * ============================================================
- * PRUEBAS UNITARIAS - Funcionalidad 3: CRUD DE RECETAS
- * Diagrama 5 (Flujo): 21 conexiones × 2 = 42 pruebas
- *
+ * PRUEBAS UNITARIAS - CRUD DE RECETAS
  * Código analizado: submitRecipe() + create() + update() + remove()
  * Servicios: RecipeUploadService + RecipesService
  * ============================================================

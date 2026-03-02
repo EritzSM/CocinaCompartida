@@ -1,8 +1,6 @@
 /**
  * ============================================================
- * PRUEBAS UNITARIAS - Funcionalidad 5: FAVORITOS / TOGGLE LIKE
- * Diagrama 9 (Flujo): 14 conexiones × 2 = 28 pruebas
- *
+ * PRUEBAS UNITARIAS - FAVORITOS / TOGGLE LIKE
  * Código analizado: toggleLike() (backend + frontend)
  * Servicios: RecipesService.toggleLike + RecipeInteractionService.toggleLike
  * ============================================================

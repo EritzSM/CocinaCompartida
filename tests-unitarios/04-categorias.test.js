@@ -1,8 +1,6 @@
 /**
  * ============================================================
- * PRUEBAS UNITARIAS - Funcionalidad 4: CATEGORÍAS / FILTRAR POR CATEGORÍA
- * Diagrama 8 (Flujo): 16 conexiones × 2 = 32 pruebas
- *
+ * PRUEBAS UNITARIAS - CATEGORÍAS / FILTRAR POR CATEGORÍA
  * Código analizado: onCategoryChange() + filterByCategory() + updateResults()
  * Servicio: SearchService (frontend Angular)
  * ============================================================

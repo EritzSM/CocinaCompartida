@@ -1,8 +1,6 @@
 /**
  * ============================================================
- * PRUEBAS UNITARIAS - Funcionalidad 2: DETALLE DE RECETA
- * Diagrama 4 (Flujo): 18 conexiones × 2 = 36 pruebas
- *
+ * PRUEBAS UNITARIAS - DETALLE DE RECETA
  * Código analizado: findOne() + update() + remove() + findCommentsByRecipe()
  * Servicio: RecipesService (backend NestJS)
  * ============================================================
