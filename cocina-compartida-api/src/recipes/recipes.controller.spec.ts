@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RecipesController } from './recipes.controller';
 import { RecipesService } from './recipes.service';
 
-describe('RecipesController', () => {
+describe('Controlador de Recetas', () => {
   let controller: RecipesController;
 
   beforeEach(async () => {
@@ -14,7 +14,7 @@ describe('RecipesController', () => {
     controller = module.get<RecipesController>(RecipesController);
   });
 
-  it('should be defined', () => {
+  it('debe estar definido', () => {
     expect(controller).toBeDefined();
   });
 });
