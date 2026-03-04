@@ -42,3 +42,19 @@ testem.log
 Thumbs.db
 
 environment.ts
+
+# Documentos de oficina
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.xlsm
+*.csv
+*.ppt
+*.pptx
+
+# Archivos temporales de Office
+~$*.docx
+~$*.xlsx
+~$*.pptx
