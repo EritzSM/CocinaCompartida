@@ -1,0 +1,6 @@
+projectKey=cocinacompartida
+serverUrl=http://localhost:9000
+serverVersion=26.3.0.120487
+dashboardUrl=http://localhost:9000/dashboard?id=cocinacompartida
+ceTaskId=028ef656-2b88-4049-9d0d-9f37d7974e9a
+ceTaskUrl=http://localhost:9000/api/ce/task?id=028ef656-2b88-4049-9d0d-9f37d7974e9a
