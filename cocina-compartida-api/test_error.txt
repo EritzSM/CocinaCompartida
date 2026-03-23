@@ -1,0 +1,30 @@
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2msrc/__tests__/[22m[1mauth.service.spec.ts[22m
+  [1m● [22mTest suite failed to run
+
+    Cannot find module 'src/recipes/entities/comment.entity' from 'user/entities/user.entity.ts'
+
+    Require stack:
+      user/entities/user.entity.ts
+      user/user.service.ts
+      auth/auth.service.ts
+      __tests__/auth.service.spec.ts
+
+    [0m [90m  8 |[39m
+     [90m  9 |[39m } [36mfrom[39m [32m'typeorm'[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 10 |[39m [36mimport[39m { [33mComment[39m } [36mfrom[39m [32m'src/recipes/entities/comment.entity'[39m[33m;[39m
+     [90m    |[39m [31m[1m^[22m[39m
+     [90m 11 |[39m [36mimport[39m { [33mRecipe[39m } [36mfrom[39m [32m'src/recipes/entities/recipe.entity'[39m[33m;[39m
+     [90m 12 |[39m
+     [90m 13 |[39m [33m@[39m[33mEntity[39m([32m'users'[39m)[0m
+
+      [2mat Resolver._throwModNotFoundError ([22m../node_modules/jest-resolve/build/index.js[2m:863:11)[22m
+      [2mat Object.<anonymous> ([22muser/entities/user.entity.ts[2m:10:1)[22m
+      [2mat Object.<anonymous> ([22muser/user.service.ts[2m:5:1)[22m
+      [2mat Object.<anonymous> ([22mauth/auth.service.ts[2m:3:1)[22m
+      [2mat Object.<anonymous> ([22m[0m[36m__tests__/auth.service.spec.ts[39m[0m[2m:1:1)[22m
+
+[1mTest Suites: [22m[1m[31m1 failed[39m[22m, 1 total
+[1mTests:       [22m0 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        1.458 s
+[2mRan all test suites[22m[2m matching [22msrc/__tests__/auth.service.spec.ts[2m.[22m

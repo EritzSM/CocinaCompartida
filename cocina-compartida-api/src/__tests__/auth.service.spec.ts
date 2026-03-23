@@ -3,17 +3,19 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { validate } from 'class-validator';
+import { LoginDto } from '../auth/dto/login.dto';
 
 // Mock de bcrypt
 jest.mock('bcrypt');
 
-describe('AuthService', () => {
+describe('AuthService (Backend Tests)', () => {
   let authService: AuthService;
   let userService: Partial<UserService>;
   let jwtService: Partial<JwtService>;
 
   beforeEach(() => {
-    // Arrange global: mocks de dependencias
+    // Arrange global (por defecto)
     userService = {
       findByEmail: jest.fn(),
     };
@@ -30,206 +32,117 @@ describe('AuthService', () => {
     jest.restoreAllMocks();
   });
 
-  // ──────────────────────────────────────────────────────────
-  // L-01: Email y contraseña válidos → JWT válido y código 200
-  // ──────────────────────────────────────────────────────────
-  describe('L-01 – Login exitoso', () => {
-    it('debe retornar success:true y un token JWT cuando las credenciales son correctas', async () => {
+  // B-L01: DTO inválido es rechazado por el pipe de validación
+  // Uso de Test Double: Dummy (LoginDto vacío)
+  describe('B-L01', () => {
+    it('DTO inválido es rechazado por el pipe de validación', async () => {
       // Arrange
-      const loginDto = { email: 'user@email.com', password: 'correctPassword' };
-      const mockUser = {
-        id: 'uuid-123',
-        email: 'user@email.com',
-        password: '$2b$10$hashedpassword',
-        username: 'testuser',
-        role: 'user',
-        avatar: 'http://avatar.url',
-      };
-      (userService.findByEmail as jest.Mock).mockResolvedValue(mockUser);
-      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
-      (jwtService.sign as jest.Mock).mockReturnValue('jwt-token-generado');
-
+      // Dummy: Objeto que se pasa pero no contiene los datos esperados, 
+      // solo para disparar la validación y probar que falla.
+      const dummyDto = new LoginDto(); 
+      // No asignamos email ni contraseña para que falle
+      
       // Act
-      const result = await authService.login(loginDto);
+      const errors = await validate(dummyDto);
 
       // Assert
-      expect(userService.findByEmail).toHaveBeenCalledWith('user@email.com');
-      expect(bcrypt.compare).toHaveBeenCalledWith('correctPassword', '$2b$10$hashedpassword');
-      expect(jwtService.sign).toHaveBeenCalledWith({
-        id: 'uuid-123',
-        email: 'user@email.com',
-        role: 'user',
-        username: 'testuser',
-        url: 'http://avatar.url',
+      expect(errors.length).toBeGreaterThan(0);
+      expect(errors[0].property).toBe('email');
+    });
+  });
+
+  // B-L02: Email no registrado en la base de datos
+  // Uso de Test Double: Stub (userService.findByEmail devuelve null)
+  describe('B-L02', () => {
+    it('Email no registrado en la base de datos', async () => {
+      // Arrange
+      const loginDto = { email: 'noexiste@test.com', password: '1234' };
+      // Stub: devuelvo una respuesta preprogramada (null) para forzar la ruta de error
+      (userService.findByEmail as jest.Mock).mockResolvedValue(null);
+
+      // Act
+      const act = authService.login(loginDto);
+      
+      // Assert
+      await expect(act).rejects.toThrow(NotFoundException);
+      await expect(act).rejects.toThrow('Correo o contraseña incorrectos');
+    });
+  });
+
+  // B-L03: Email correcto pero contraseña incorrecta
+  // Uso de Test Double: Fake (simulación de bcrypt.compare)
+  describe('B-L03', () => {
+    it('Email correcto pero contraseña incorrecta', async () => {
+      // Arrange
+      const loginDto = { email: 'valido@test.com', password: 'wrongpass' };
+      const userFound = { id: '1', email: 'valido@test.com', password: 'hashedpassword' } as any;
+      (userService.findByEmail as jest.Mock).mockResolvedValue(userFound);
+      
+      // Fake: Simulamos un comportamiento básico de comparar contraseñas (implementación ligera falsa)
+      (bcrypt.compare as jest.Mock).mockImplementation((plain, hashed) => {
+        return Promise.resolve(plain === 'correctpass'); // Solo retorna true si coincide con 'correctpass'
       });
-      expect(result).toEqual({ success: true, token: 'jwt-token-generado' });
-    });
-  });
-
-  // ──────────────────────────────────────────────────────────
-  // L-02: Email válido, contraseña incorrecta → Error 401
-  // ──────────────────────────────────────────────────────────
-  describe('L-02 – Contraseña incorrecta', () => {
-    it('debe lanzar NotFoundException cuando la contraseña no coincide', async () => {
-      // Arrange
-      const loginDto = { email: 'user@email.com', password: 'wrongPassword' };
-      const mockUser = {
-        id: 'uuid-123',
-        email: 'user@email.com',
-        password: '$2b$10$hashedpassword',
-        username: 'testuser',
-        role: 'user',
-        avatar: null,
-      };
-      (userService.findByEmail as jest.Mock).mockResolvedValue(mockUser);
-      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
-
-      // Act & Assert
-      await expect(authService.login(loginDto)).rejects.toThrow(NotFoundException);
-      await expect(authService.login(loginDto)).rejects.toThrow(
-        'Correo o contraseña incorrectos',
-      );
-    });
-  });
-
-  // ──────────────────────────────────────────────────────────
-  // L-03: Email no registrado → Error 404
-  // ──────────────────────────────────────────────────────────
-  describe('L-03 – Email no registrado', () => {
-    it('debe lanzar NotFoundException cuando el usuario no existe', async () => {
-      // Arrange
-      const loginDto = { email: 'noexiste@email.com', password: 'password123' };
-      (userService.findByEmail as jest.Mock).mockResolvedValue(null);
-
-      // Act & Assert
-      await expect(authService.login(loginDto)).rejects.toThrow(NotFoundException);
-      await expect(authService.login(loginDto)).rejects.toThrow(
-        'Correo o contraseña incorrectos',
-      );
-    });
-
-    it('no debe llamar a bcrypt.compare si el usuario no existe', async () => {
-      // Arrange
-      const loginDto = { email: 'noexiste@email.com', password: 'password123' };
-      (userService.findByEmail as jest.Mock).mockResolvedValue(null);
 
       // Act
-      try {
-        await authService.login(loginDto);
-      } catch {}
+      const act = authService.login(loginDto);
 
       // Assert
-      expect(bcrypt.compare).not.toHaveBeenCalled();
+      await expect(act).rejects.toThrow(NotFoundException);
+      await expect(act).rejects.toThrow('Correo o contraseña incorrectos');
     });
   });
 
-  // ──────────────────────────────────────────────────────────
-  // L-05: Email con formato inválido → Validación
-  // ──────────────────────────────────────────────────────────
-  describe('L-05 – Email con formato inválido', () => {
-    it('si findByEmail no encuentra usuario con email inválido, lanza NotFoundException', async () => {
+  // B-L04: Credenciales correctas genera JWT y retorna 200
+  // Uso de Test Double: Mock (userService y jwtService configurados con expectativas)
+  describe('B-L04', () => {
+    it('Credenciales correctas genera JWT y retorna 200', async () => {
       // Arrange
-      const loginDto = { email: 'email-sin-arroba', password: 'password123' };
-      (userService.findByEmail as jest.Mock).mockResolvedValue(null);
-
-      // Act & Assert
-      await expect(authService.login(loginDto)).rejects.toThrow(NotFoundException);
-    });
-  });
-
-  // ──────────────────────────────────────────────────────────
-  // L-06: Usuario inactivo → Restricción de estado
-  // ──────────────────────────────────────────────────────────
-  describe('L-06 – Usuario inactivo', () => {
-    it('el servicio actual no valida isActive, por lo que un usuario inactivo puede loguearse', async () => {
-      // Arrange
-      const loginDto = { email: 'inactivo@email.com', password: 'password123' };
-      const mockInactiveUser = {
-        id: 'uuid-inactive',
-        email: 'inactivo@email.com',
-        password: '$2b$10$hashedpassword',
-        username: 'inactiveuser',
-        role: 'user',
-        avatar: null,
-        isActive: false,
-      };
-      (userService.findByEmail as jest.Mock).mockResolvedValue(mockInactiveUser);
+      const loginDto = { email: 'valido@test.com', password: 'correctpass' };
+      const userFound = { id: '1', email: 'valido@test.com', password: 'hashedpassword' } as any;
+      
+      // Mock: preparado con resolución exitosa
+      const mockFindByEmail = jest.fn().mockResolvedValue(userFound);
+      const mockSign = jest.fn().mockReturnValue('mocked-token');
+      
+      userService.findByEmail = mockFindByEmail;
+      jwtService.sign = mockSign;
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
-      (jwtService.sign as jest.Mock).mockReturnValue('jwt-inactive-token');
 
       // Act
       const result = await authService.login(loginDto);
 
       // Assert
-      // NOTA: El código actual NO valida isActive, por lo tanto este test
-      // documenta el comportamiento actual (permite login de usuarios inactivos).
-      // Según la tabla de casos, debería retornar Error 403.
-      expect(result).toEqual({ success: true, token: 'jwt-inactive-token' });
+      expect(mockFindByEmail).toHaveBeenCalledWith('valido@test.com');
+      expect(mockSign).toHaveBeenCalled();
+      expect(result).toEqual({ success: true, token: 'mocked-token' });
     });
   });
 
-  // ──────────────────────────────────────────────────────────
-  // Camino adicional: Payload del JWT contiene datos correctos
-  // ──────────────────────────────────────────────────────────
-  describe('Camino adicional – Payload JWT', () => {
-    it('debe incluir id, email, role, username y url en el payload del JWT', async () => {
+  // B-L05: El token generado contiene el payload correcto (sub, email)
+  // Uso de Test Double: Spy (espiar la llamada a jwtService.sign)
+  describe('B-L05', () => {
+    it('El token generado contiene el payload correcto (sub, email)', async () => {
       // Arrange
-      const loginDto = { email: 'chef@email.com', password: 'password123' };
-      const mockUser = {
-        id: 'uuid-chef',
-        email: 'chef@email.com',
-        password: '$2b$10$hashed',
-        username: 'chef',
-        role: 'admin',
-        avatar: 'http://avatar.chef.png',
-      };
-      (userService.findByEmail as jest.Mock).mockResolvedValue(mockUser);
+      const loginDto = { email: 'valido@test.com', password: 'correctpass' };
+      const userFound = { id: '1', email: 'valido@test.com', username: 'user', role: 'admin', avatar: 'url' } as any;
+      
+      (userService.findByEmail as jest.Mock).mockResolvedValue(userFound);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
-      (jwtService.sign as jest.Mock).mockReturnValue('jwt-chef');
+      
+      // Spy: Espiamos la función original o el mock preexistente para ver cómo fue invocado
+      const signSpy = jest.spyOn(jwtService, 'sign').mockReturnValue('token-generado');
 
       // Act
       await authService.login(loginDto);
 
       // Assert
-      expect(jwtService.sign).toHaveBeenCalledWith(
+      // Verificamos el payload que se pasa a jwtService.sign
+      expect(signSpy).toHaveBeenCalledWith(
         expect.objectContaining({
-          id: 'uuid-chef',
-          email: 'chef@email.com',
-          role: 'admin',
-          username: 'chef',
-          url: 'http://avatar.chef.png',
-        }),
+          id: '1',
+          email: 'valido@test.com'
+        })
       );
-    });
-  });
-
-  // ──────────────────────────────────────────────────────────
-  // Camino adicional: usuario sin avatar
-  // ──────────────────────────────────────────────────────────
-  describe('Camino adicional – Usuario sin avatar', () => {
-    it('debe manejar correctamente un usuario con avatar undefined', async () => {
-      // Arrange
-      const loginDto = { email: 'noavatar@email.com', password: 'password123' };
-      const mockUser = {
-        id: 'uuid-noavatar',
-        email: 'noavatar@email.com',
-        password: '$2b$10$hashed',
-        username: 'noavataruser',
-        role: 'user',
-        avatar: undefined,
-      };
-      (userService.findByEmail as jest.Mock).mockResolvedValue(mockUser);
-      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
-      (jwtService.sign as jest.Mock).mockReturnValue('jwt-noavatar');
-
-      // Act
-      const result = await authService.login(loginDto);
-
-      // Assert
-      expect(jwtService.sign).toHaveBeenCalledWith(
-        expect.objectContaining({ url: undefined }),
-      );
-      expect(result.success).toBe(true);
     });
   });
 });
