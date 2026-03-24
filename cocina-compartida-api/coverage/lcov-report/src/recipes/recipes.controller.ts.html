@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.23% </span>
+                <span class="strong">72.05% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/68</span>
+                <span class='fraction'>49/68</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.7% </span>
+                <span class="strong">53.65% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/41</span>
+                <span class='fraction'>22/41</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.33% </span>
+                <span class="strong">26.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/15</span>
+                <span class='fraction'>4/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.92% </span>
+                <span class="strong">70.76% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/65</span>
+                <span class='fraction'>46/65</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -346,39 +346,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
@@ -505,39 +505,39 @@ export class RecipesController {
 &nbsp;
     // Generar PDF simple con pdfkit
     const PDFDocument = require('pdfkit');
-    const doc = <span class="cstat-no" title="statement not covered" >new PDFDocument({ size: 'A4', margin: 50 });</span>
+    const doc = new PDFDocument({ size: 'A4', margin: 50 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    res.setHeader('Content-Type', 'application/pdf');</span>
-    const safeName = <span class="cstat-no" title="statement not covered" >(recipe.name || 'recipe').replace(/[^a-z0-9]/gi, '_').toLowerCase();</span>
-<span class="cstat-no" title="statement not covered" >    res.setHeader('Content-Disposition', `attachment; filename=\"${safeName}.pdf\"`);</span>
+    res.setHeader('Content-Type', 'application/pdf');
+    const safeName = (recipe.name || <span class="branch-1 cbranch-no" title="branch not covered" >'recipe')</span>.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    res.setHeader('Content-Disposition', `attachment; filename=\"${safeName}.pdf\"`);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    doc.pipe(res);</span>
+    doc.pipe(res);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    doc.fontSize(20).text(recipe.name || 'Receta', { underline: true });</span>
-<span class="cstat-no" title="statement not covered" >    doc.moveDown();</span>
+    doc.fontSize(20).text(recipe.name || <span class="branch-1 cbranch-no" title="branch not covered" >'Receta',</span> { underline: true });
+    doc.moveDown();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (recipe.descripcion) {</span>
-<span class="cstat-no" title="statement not covered" >      doc.fontSize(12).text(recipe.descripcion);</span>
-<span class="cstat-no" title="statement not covered" >      doc.moveDown();</span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (recipe.descripcion) {
+      doc.fontSize(12).text(recipe.descripcion);
+      doc.moveDown();
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (Array.isArray(recipe.ingredients) &amp;&amp; recipe.ingredients.length) {</span>
-<span class="cstat-no" title="statement not covered" >      doc.fontSize(14).text('Ingredientes:');</span>
-<span class="cstat-no" title="statement not covered" >      doc.fontSize(12);</span>
-<span class="cstat-no" title="statement not covered" >      recipe.ingredients.forEach(<span class="fstat-no" title="function not covered" >(i</span>ng: string, i: number) =&gt; <span class="cstat-no" title="statement not covered" >doc.text(`${i + 1}. ${ing}`))</span>;</span>
-<span class="cstat-no" title="statement not covered" >      doc.moveDown();</span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (Array.isArray(recipe.ingredients) &amp;&amp; recipe.ingredients.length) {
+      doc.fontSize(14).text('Ingredientes:');
+      doc.fontSize(12);
+      recipe.ingredients.forEach((ing: string, i: number) =&gt; doc.text(`${i + 1}. ${ing}`));
+      doc.moveDown();
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (Array.isArray(recipe.steps) &amp;&amp; recipe.steps.length) {</span>
-<span class="cstat-no" title="statement not covered" >      doc.fontSize(14).text('Pasos:');</span>
-<span class="cstat-no" title="statement not covered" >      doc.fontSize(12);</span>
-<span class="cstat-no" title="statement not covered" >      recipe.steps.forEach(<span class="fstat-no" title="function not covered" >(s</span>tep: string, i: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        doc.text(`${i + 1}. ${step}`);</span>
-<span class="cstat-no" title="statement not covered" >        doc.moveDown(0.2);</span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (Array.isArray(recipe.steps) &amp;&amp; recipe.steps.length) {
+      doc.fontSize(14).text('Pasos:');
+      doc.fontSize(12);
+      recipe.steps.forEach((step: string, i: number) =&gt; {
+        doc.text(`${i + 1}. ${step}`);
+        doc.moveDown(0.2);
       });
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    doc.end();</span>
+    doc.end();
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -547,7 +547,7 @@ export class RecipesController {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-24T00:39:57.331Z
+                at 2026-03-24T13:55:38.759Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
