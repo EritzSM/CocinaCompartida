@@ -25,10 +25,9 @@ describe('AuthGuard', () => {
     guard = new AuthGuard(jwtService as JwtService);
   });
 
-  // ──────────────────────────────────────────────────────────
   // PU-02 / RP-03 / C-03: Sin token → Error 401
-  // ──────────────────────────────────────────────────────────
-  describe('PU-02 / RP-03 / C-03 – Sin token de autorización', () => {
+
+  describe('PU-02 / RP-03 / C-03 Sin token de autorización', () => {
     it('debe lanzar UnauthorizedException si no hay header Authorization', () => {
       // Arrange
       const ctx = createMockContext({});
@@ -46,10 +45,10 @@ describe('AuthGuard', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // PU-03: Token inválido o expirado → Error 401
-  // ──────────────────────────────────────────────────────────
-  describe('PU-03 – Token inválido o expirado', () => {
+
+  describe('PU-03 Token inválido o expirado', () => {
     it('debe lanzar UnauthorizedException si el token es inválido', () => {
       // Arrange
       const ctx = createMockContext({ authorization: 'Bearer token-invalido' });
@@ -89,10 +88,8 @@ describe('AuthGuard', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
   // Token válido → permite acceso
-  // ──────────────────────────────────────────────────────────
-  describe('Token válido – permite acceso', () => {
+  describe('Token válido permite acceso', () => {
     it('debe retornar true y setear req.user cuando el token es válido con sub', () => {
       // Arrange
       const mockReq = { headers: { authorization: 'Bearer valid-token' }, user: undefined } as any;
@@ -145,10 +142,9 @@ describe('AuthGuard', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // Camino adicional: Token sin id ni sub → Error 401
-  // ──────────────────────────────────────────────────────────
-  describe('Camino adicional – Token sin id ni sub', () => {
+  describe('Camino adicional Token sin id ni sub', () => {
     it('debe lanzar UnauthorizedException si el token no tiene id ni sub', () => {
       // Arrange
       const ctx = createMockContext({ authorization: 'Bearer token-sin-id' });

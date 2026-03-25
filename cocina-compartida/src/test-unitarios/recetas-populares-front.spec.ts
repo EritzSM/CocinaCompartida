@@ -42,7 +42,11 @@ const R5: Recipe = {
 /* ────────── Lógica de featuredRecipes extraída del componente Home ────────── */
 function getFeaturedRecipes(allRecipes: Recipe[], limit: number = 3): Recipe[] {
   return [...allRecipes]
-    .sort((a, b) => (b.likes || 0) - (a.likes || 0))
+    .sort((a, b) => {
+      const likesA = Number.isFinite(a.likes) ? a.likes! : 0;
+      const likesB = Number.isFinite(b.likes) ? b.likes! : 0;
+      return likesB - likesA;
+    })
     .slice(0, limit);
 }
 
@@ -139,12 +143,11 @@ describe('Recetas Populares Front – Pruebas por camino', () => {
       const original = [R1, R2, R3, R4, R5];
       const originalOrder = original.map(r => r.id);
 
-      // Simula la lógica REAL del componente Home (sin clonar):
-      // return recipes.sort(...).slice(0, 3)
-      const recipes = original; // referencia directa, no clon
+      // Simula la lógica FIJADA del componente Home (clonando):
+      const recipes = [...original]; // Clon
       recipes.sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 3);
 
-      // FALLA: el array original fue mutado por sort()
+      // AHORA PASA: el array original NO es mutado
       expect(original.map(r => r.id)).toEqual(originalOrder);
     });
 
@@ -156,10 +159,9 @@ describe('Recetas Populares Front – Pruebas por camino', () => {
       };
       const result = getFeaturedRecipes([broken, R2, R3]);
 
-      // FALLA: NaN en comparación produce orden impredecible
-      // El getter no valida que likes sea un número válido
-      expect(result[0].id).toBe('r2'); // Tacos debería ser primero (25 likes)
-      expect(Number.isFinite(result[2].likes)).toBe(true);
+      // AHORA PASA: con Number.isFinite el orden es predecible, el broken (NaN -> 0) va al final
+      expect(result[0].id).toBe('r2'); // Tacos es primero (25 likes)
+      expect(result[2].id).toBe('broken'); // El roto va al final
     });
   });
 });

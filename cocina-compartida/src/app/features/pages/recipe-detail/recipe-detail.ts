@@ -37,6 +37,7 @@ export class RecipeDetail implements OnInit {
     if (!recipeId) {
       this.isLoading = false;
       this.error = "Error de URL: No se encontró un ID de receta.";
+      this.router.navigate(['/home']);
       return;
     }
 
@@ -46,7 +47,7 @@ export class RecipeDetail implements OnInit {
       if (recipeData) {
         this.recipe = recipeData;
       } else {
-        this.error = 'No se pudo encontrar la receta. Es posible que haya sido eliminada.';
+        this.error = 'Hubo un problema al cargar la receta. Es posible que haya sido eliminada.';
       }
 
     } catch (e) {

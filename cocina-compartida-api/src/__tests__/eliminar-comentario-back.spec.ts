@@ -2,17 +2,15 @@ import { RecipesService } from '../recipes/recipes.service';
 import { NotFoundException, ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '../security/auth.guard';
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  ELIMINAR COMENTARIO BACK – Pruebas AAA (Arrange, Act, Assert) con Mocks
 //  4 caminos + 2 pruebas de fallo
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 describe('Eliminar Comentario Back – Pruebas por camino', () => {
 
-  // ──────────────────────────────────────────────────────────
+
   //  C1: 1→2→3→4→FIN
   //  Token inválido → AuthGuard lanza 401
-  // ──────────────────────────────────────────────────────────
+
   describe('C1: Token inválido (401)', () => {
 
     it('C1-T1: lanza UnauthorizedException si no hay header Authorization', () => {

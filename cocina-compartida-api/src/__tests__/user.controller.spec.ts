@@ -18,10 +18,9 @@ describe('UserController', () => {
     controller = new UserController(userService as UserService);
   });
 
-  // ──────────────────────────────────────────────────────────
   // PU-01: GET /users/:id con token válido → perfil correcto
-  // ──────────────────────────────────────────────────────────
-  describe('PU-01 – Consulta de perfil exitosa', () => {
+
+  describe('PU-01  Consulta de perfil exitosa', () => {
     it('debe llamar a userService.findOne con el id y retornar el perfil', async () => {
       // Arrange
       const userId = 'uuid-perfil';
@@ -43,10 +42,10 @@ describe('UserController', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // PU-06: GET /users/:id → Usuario no encontrado → 404
-  // ──────────────────────────────────────────────────────────
-  describe('PU-06 – Usuario no encontrado', () => {
+
+  describe('PU-06  Usuario no encontrado', () => {
     it('debe propagar NotFoundException desde el servicio', async () => {
       // Arrange
       const userId = 'uuid-no-existe';
@@ -59,10 +58,10 @@ describe('UserController', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // POST /users → Registro delega correctamente
-  // ──────────────────────────────────────────────────────────
-  describe('Registro – Controller delega al servicio', () => {
+
+  describe('Registro Controller delega al servicio', () => {
     it('debe llamar a userService.create con el DTO completo', async () => {
       // Arrange
       const createDto = {
@@ -86,10 +85,10 @@ describe('UserController', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // PATCH /users → Update con request autenticado
-  // ──────────────────────────────────────────────────────────
-  describe('Update – Controller delega al servicio', () => {
+
+  describe('Update Controller delega al servicio', () => {
     it('debe llamar a userService.update con id del usuario autenticado', async () => {
       // Arrange
       const updateDto = { bio: 'Nueva bio' };
@@ -110,10 +109,10 @@ describe('UserController', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // GET /users → findAll
-  // ──────────────────────────────────────────────────────────
-  describe('findAll – Controller delega al servicio', () => {
+
+  describe('findAll Controller delega al servicio', () => {
     it('debe retornar la lista de usuarios del servicio', async () => {
       // Arrange
       const mockUsers = [
@@ -131,10 +130,10 @@ describe('UserController', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // DELETE /users/:id → Remove
-  // ──────────────────────────────────────────────────────────
-  describe('Remove – Controller delega al servicio', () => {
+
+  describe('Remove Controller delega al servicio', () => {
     it('debe llamar a userService.remove con el id', async () => {
       // Arrange
       const userId = 'uuid-delete';

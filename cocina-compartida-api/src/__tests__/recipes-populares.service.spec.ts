@@ -1,7 +1,7 @@
 import { RecipesService } from '../recipes/recipes.service';
 import { NotFoundException } from '@nestjs/common';
 
-describe('RecipesService – Recetas Populares (findTopLiked)', () => {
+describe('RecipesService Recetas Populares (findTopLiked)', () => {
   let service: RecipesService;
   let recipeRepo: any;
   let commentRepo: any;
@@ -25,10 +25,9 @@ describe('RecipesService – Recetas Populares (findTopLiked)', () => {
     service = new RecipesService(recipeRepo, commentRepo);
   });
 
-  // ──────────────────────────────────────────────────────────
   // RP-01: Recetas con diferentes likes → ordenadas descendente
-  // ──────────────────────────────────────────────────────────
-  describe('RP-01 – Recetas ordenadas por likes descendente', () => {
+
+  describe('RP-01 Recetas ordenadas por likes descendente', () => {
     it('debe retornar recetas ordenadas de mayor a menor según número de likes', async () => {
       // Arrange
       const mockRecipes = [
@@ -53,10 +52,9 @@ describe('RecipesService – Recetas Populares (findTopLiked)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
   // RP-02: No existen recetas → lista vacía
-  // ──────────────────────────────────────────────────────────
-  describe('RP-02 – No existen recetas registradas', () => {
+
+  describe('RP-02 No existen recetas registradas', () => {
     it('debe retornar lista vacía cuando no hay recetas', async () => {
       // Arrange
       recipeRepo.find.mockResolvedValue([]);
@@ -70,10 +68,9 @@ describe('RecipesService – Recetas Populares (findTopLiked)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
   // RP-04: Recetas con igual número de likes
-  // ──────────────────────────────────────────────────────────
-  describe('RP-04 – Recetas con igual número de likes', () => {
+
+  describe('RP-04 Recetas con igual número de likes', () => {
     it('debe mostrar todas las recetas sin error manteniendo orden consistente', async () => {
       // Arrange
       const mockRecipes = [
@@ -100,10 +97,10 @@ describe('RecipesService – Recetas Populares (findTopLiked)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // RP-05: Validación de estructura de respuesta
-  // ──────────────────────────────────────────────────────────
-  describe('RP-05 – Estructura de respuesta', () => {
+
+  describe('RP-05 Estructura de respuesta', () => {
     it('cada receta debe contener los campos esperados (id, name, likes, descripcion, etc.)', async () => {
       // Arrange
       const mockRecipe = {
@@ -141,10 +138,10 @@ describe('RecipesService – Recetas Populares (findTopLiked)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // RP-06: Alta cantidad de registros → responde correctamente
-  // ──────────────────────────────────────────────────────────
-  describe('RP-06 – Alta cantidad de registros', () => {
+
+  describe('RP-06  Alta cantidad de registros', () => {
     it('debe responder correctamente sin error con muchos registros', async () => {
       // Arrange
       const mockRecipes = Array.from({ length: 3 }, (_, i) => ({
@@ -186,9 +183,8 @@ describe('RecipesService – Recetas Populares (findTopLiked)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // Camino adicional: findTopLiked usa limit por defecto = 3
-  // ──────────────────────────────────────────────────────────
   describe('Camino adicional – Límite por defecto', () => {
     it('debe usar take: 3 como límite por defecto', async () => {
       // Arrange
@@ -204,10 +200,9 @@ describe('RecipesService – Recetas Populares (findTopLiked)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
+
   // Camino adicional: Las relaciones se cargan correctamente
-  // ──────────────────────────────────────────────────────────
-  describe('Camino adicional – Carga de relaciones', () => {
+  describe('Camino adicional  Carga de relaciones', () => {
     it('debe solicitar relaciones user, comments, comments.user', async () => {
       // Arrange
       recipeRepo.find.mockResolvedValue([]);
