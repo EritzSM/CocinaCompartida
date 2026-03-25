@@ -12,7 +12,7 @@ describe('Frontend - RecipeCrudService (Recetas Populares)', () => {
   beforeEach(() => {
     // Arrange: Preparamos los Spies para aislar el State Service de la lógica del CRUD
     stateSpy = jasmine.createSpyObj('RecipeStateService', [
-      'setLoading', 'clearError', 'setRecipes', 'setError', 
+      'setLoading', 'clearError', 'setRecipes', 'setError',
       'updateRecipes', 'rollbackRecipes'
     ]);
     // Definimos getters falsos (Stubs) para variables internas del estado
@@ -34,9 +34,8 @@ describe('Frontend - RecipeCrudService (Recetas Populares)', () => {
     httpMock.verify();
   });
 
-  // ──────────────────────────────────────────────────────────
   // RP-01 a RP-06: Recetas Populares (Top Liked)
-  // ──────────────────────────────────────────────────────────
+
   describe('loadTopLikedRecipes()', () => {
     it('RP-01/RP-04/RP-05: debe hacer un GET a /api/recipes/top-liked y devolver arreglos ordenados', async () => {
       // Arrange
@@ -100,9 +99,7 @@ describe('Frontend - RecipeCrudService (Recetas Populares)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
   // Validaciones Adicionales: Comprobar el manejo del Loading/Error
-  // ──────────────────────────────────────────────────────────
   describe('loadRecipes() global', () => {
     it('debe actualizar el estado global (setLoading, clearError, setRecipes) - Test Double Spies', async () => {
       // Arrange

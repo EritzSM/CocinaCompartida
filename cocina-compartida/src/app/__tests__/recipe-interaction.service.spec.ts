@@ -16,10 +16,10 @@ describe('Frontend - RecipeInteractionService (Comentarios)', () => {
     // Arrange global
     // Test Double (Spy): estado central de recetas y auth
     stateSpy = jasmine.createSpyObj('RecipeStateService', [
-      'getRecipeCommentsUrl', 'getAuthOptions', 'updateRecipes', 
+      'getRecipeCommentsUrl', 'getAuthOptions', 'updateRecipes',
       'rollbackRecipes', 'setError', 'getCommentUrl', 'recipes'
     ]);
-    
+
     authSpy = jasmine.createSpyObj('Auth', ['getCurrentUser']);
 
     // Test Double (Stub): Por defecto auth options devuelve un header simulado
@@ -64,7 +64,7 @@ describe('Frontend - RecipeInteractionService (Comentarios)', () => {
       const req = httpMock.expectOne('/api/recipes/uuid-recipe-1/comments');
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(newCommentData); // Validamos que el body vaya integro
-      
+
       // Enviamos flush
       req.flush(savedComment);
       await commentPromise;
@@ -74,23 +74,23 @@ describe('Frontend - RecipeInteractionService (Comentarios)', () => {
     });
 
     it('C-02/Error nativo: debe rollbackear y triggerear setError si falla (Test Double Stub de Error)', async () => {
-       // Arrange
-       const recipeId = 'uuid-recipe-error';
-       const newCommentData = { message: '' }; // C-02: Comentario vacío, el backend rechaza con 400
-       stateSpy.getRecipeCommentsUrl.and.returnValue(`/api/recipes/${recipeId}/comments`);
- 
-       // Act
-       const commentPromise = service.addComment(recipeId, newCommentData);
- 
-       // Test Double (Stub): Error 400 Bad Request
-       const req = httpMock.expectOne(`/api/recipes/${recipeId}/comments`);
-       req.flush({ message: 'El comentario no puede estar vacío' }, { status: 400, statusText: 'Bad Request' });
- 
-       await commentPromise;
- 
-       // Assert
-       // Verificamos que se ejecutó set Error por fallo del POST
-       expect(stateSpy.setError).toHaveBeenCalledWith('No se pudo agregar el comentario');
+      // Arrange
+      const recipeId = 'uuid-recipe-error';
+      const newCommentData = { message: '' }; // C-02: Comentario vacío, el backend rechaza con 400
+      stateSpy.getRecipeCommentsUrl.and.returnValue(`/api/recipes/${recipeId}/comments`);
+
+      // Act
+      const commentPromise = service.addComment(recipeId, newCommentData);
+
+      // Test Double (Stub): Error 400 Bad Request
+      const req = httpMock.expectOne(`/api/recipes/${recipeId}/comments`);
+      req.flush({ message: 'El comentario no puede estar vacío' }, { status: 400, statusText: 'Bad Request' });
+
+      await commentPromise;
+
+      // Assert
+      // Verificamos que se ejecutó set Error por fallo del POST
+      expect(stateSpy.setError).toHaveBeenCalledWith('No se pudo agregar el comentario');
     });
   });
 
@@ -123,7 +123,7 @@ describe('Frontend - RecipeInteractionService (Comentarios)', () => {
       const commentId = 'error-delete';
       stateSpy.getCommentUrl.and.returnValue(`/api/comments/${commentId}`);
       // Recuperar estado ficticio inicial
-      const previousDummyState = [{ dummy: 'state'}] as unknown as Recipe[];
+      const previousDummyState = [{ dummy: 'state' }] as unknown as Recipe[];
       stateSpy.recipes.and.returnValue(previousDummyState as any);
 
       // Act

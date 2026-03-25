@@ -36,9 +36,7 @@ describe('Frontend - AuthService (Login y Registro)', () => {
     httpMock.verify(); // Verifica que no haya peticiones http pendientes
   });
 
-  // ──────────────────────────────────────────────────────────
   // L-01: Email y contraseña válidos → Login exitoso
-  // ──────────────────────────────────────────────────────────
   describe('L-01 – Login exitoso con Mock Http', () => {
     it('debe enviar request POST, persistir token y navegar a /home', async () => {
       // Arrange
@@ -71,14 +69,12 @@ describe('Frontend - AuthService (Login y Registro)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
   // L-02 / L-03: Errores en login
-  // ──────────────────────────────────────────────────────────
   describe('L-02 / L-03 – Email/Password incorrecto (Test Doubles Http Stub)', () => {
     it('debe manejar error del servidor y retornar success: false', async () => {
       // Arrange
       const credentials = { email: 'user@test.com', password: 'wrongpass' };
-      
+
       // Act
       const loginPromise = service.login(credentials);
 
@@ -96,9 +92,7 @@ describe('Frontend - AuthService (Login y Registro)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
   // L-04/L-05: Validación y errores de estructura
-  // ──────────────────────────────────────────────────────────
   describe('L-04/L-05 – Errores de validación', () => {
     it('debe manejar error 400 por validación de campos vacíos', async () => {
       // Arrange
@@ -119,9 +113,7 @@ describe('Frontend - AuthService (Login y Registro)', () => {
     });
   });
 
-  // ──────────────────────────────────────────────────────────
   // Registro: R-01 a R-05
-  // ──────────────────────────────────────────────────────────
   describe('R-01 a R-05 – Método signup() y autologin', () => {
     it('debe crear usuario y luego auto-loguearse (Mock y Spies anidados)', async () => {
       // Arrange
@@ -137,6 +129,9 @@ describe('Frontend - AuthService (Login y Registro)', () => {
       const reqSignup = httpMock.expectOne('/api/users');
       expect(reqSignup.request.method).toBe('POST');
       reqSignup.flush(signupResponse);
+
+      // Allow microtasks to clear so tracking the next http call works after lastValueFrom
+      await Promise.resolve();
 
       // Test Double (Mock): Al responder Signup exitoso, el servicio llama a Login. Interceptamos:
       const reqLogin = httpMock.expectOne('/api/auth/login');
