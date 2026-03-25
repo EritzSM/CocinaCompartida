@@ -3,6 +3,7 @@ import { RecipeUpload } from './recipe-upload';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router, provideRouter } from '@angular/router';
 import { RecipeUploadService } from '../../../shared/services/recipe-upload.service';
+import { RecipeService } from '../../../shared/services/recipe';
 import Swal from 'sweetalert2';
 
 describe('RecipeUpload Component (Frontend Tests)', () => {
@@ -23,13 +24,20 @@ describe('RecipeUpload Component (Frontend Tests)', () => {
       isEditMode: false,
       
       createRecipeForm: jasmine.createSpy('createRecipeForm').and.returnValue(new FormBuilder().group({
-        name: [''], descripcion: [''], ingredients: [[]], steps: [[]]
+        name: [''], category: [''], descripcion: [''], ingredients: [new FormBuilder().array([])], steps: [new FormBuilder().array([])]
       })),
       initializeEditMode: jasmine.createSpy('initializeEditMode'),
-      // Estos son los métodos core que la tabla pide probar explícita o implícitamente a través de onSubmit
       submitRecipe: jasmine.createSpy('submitRecipe'),
       createRecipe: jasmine.createSpy('createRecipe'),
-      updateRecipe: jasmine.createSpy('updateRecipe')
+      updateRecipe: jasmine.createSpy('updateRecipe'),
+      // Adiciones para evitar TypeErrors en el template/componente
+      validateField: jasmine.createSpy('validateField').and.returnValue(false),
+      validateArrayField: jasmine.createSpy('validateArrayField').and.returnValue(false),
+      addFormArrayItem: jasmine.createSpy('addFormArrayItem'),
+      removeFormArrayItem: jasmine.createSpy('removeFormArrayItem'),
+      uploadFiles: jasmine.createSpy('uploadFiles').and.returnValue(Promise.resolve(true)),
+      removeImage: jasmine.createSpy('removeImage'),
+      navigateImages: jasmine.createSpy('navigateImages'),
     };
 
     spyOn(Swal, 'fire');
@@ -39,9 +47,13 @@ describe('RecipeUpload Component (Frontend Tests)', () => {
       providers: [
         provideRouter([]),
         FormBuilder,
+        { provide: RecipeService, useValue: { recipes: jasmine.createSpy('recipes').and.returnValue([]) } },
       ]
     })
-    .overrideProvider(RecipeUploadService, { useValue: mockRecipeService }) // Reemplazamos el provider a nivel componente
+    .overrideComponent(RecipeUpload, {
+      remove: { providers: [RecipeUploadService] },
+      add: { providers: [{ provide: RecipeUploadService, useValue: mockRecipeService }] }
+    })
     .compileComponents();
 
     fixture = TestBed.createComponent(RecipeUpload);

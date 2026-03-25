@@ -5,6 +5,7 @@ import { Auth } from './auth';
 import { Comment as RecipeComment } from '../interfaces/comment';
 import { RecipeStateService } from './recipe-state.service';
 import { Recipe } from '../interfaces/recipe';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -106,7 +107,26 @@ export class RecipeInteractionService {
   async deleteComment(commentId: string): Promise<void> {
     const previousState = this.state.recipes();
     
+    // Validar existencia previa (Bug F1)
+    const allComments = previousState.flatMap(r => r.comments || []);
+    if (!allComments.some(c => c.id === commentId)) {
+      this.state.setError('El comentario no existe');
+      return;
+    }
+    
     try {
+      // Confirmación (Bug F2)
+      const result = await Swal.fire({
+        title: '¿Eliminar comentario?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (!result.isConfirmed) return;
+
       await firstValueFrom(
         this.http.delete<void>(
           this.state.getCommentUrl(commentId),
