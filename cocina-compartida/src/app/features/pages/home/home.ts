@@ -27,8 +27,12 @@ export class Home {
   get featuredRecipes(): Recipe[] {
     const recipes = this.allRecipes();
     
-    return recipes
-      .sort((a, b) => (b.likes || 0) - (a.likes || 0))
+    return [...recipes]
+      .sort((a, b) => {
+        const likesA = Number.isFinite(a.likes) ? a.likes! : 0;
+        const likesB = Number.isFinite(b.likes) ? b.likes! : 0;
+        return likesB - likesA;
+      })
       .slice(0, this.initialRecipesCount);
   }
 

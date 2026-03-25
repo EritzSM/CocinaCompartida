@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "@nestjs/serve-static": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "ts-jest": "^29.4.6"
   }
 }
