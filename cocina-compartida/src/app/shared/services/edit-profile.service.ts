@@ -45,7 +45,7 @@ export class EditProfileService {
 
   async uploadAvatar(file: File): Promise<string | undefined> {
     const u = this.current();
-    const username = u?.username || `tmp-${Math.random().toString(36).slice(2, 9)}`;
+    const username = u?.username || `tmp-${crypto.randomUUID().slice(0, 7)}`;
     try {
       const res = await this.upload.uploadFile(file, true, username);
       if (res.success && res.data) {

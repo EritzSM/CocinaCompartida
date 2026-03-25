@@ -28,8 +28,15 @@ module.exports = function (config) {
         { type: 'text-summary' },
       ],
     },
-    reporters: ['progress', 'kjhtml'],
-    browsers: ['Chrome'],
+    reporters: ['progress', 'kjhtml', 'coverage'],
+    browsers: ['ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage']
+      }
+    },
+    singleRun: false,
     restartOnFileChange: true,
   });
 };

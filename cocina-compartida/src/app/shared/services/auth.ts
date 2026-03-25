@@ -41,7 +41,7 @@ export class Auth {
     try {
       const [, payload] = token.split('.');
       if (!payload) return null;
-      const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+      const json = atob(payload.replaceAll('-', '+').replaceAll('_', '/'));
       return JSON.parse(decodeURIComponent(escape(json)));
     } catch {
       return null;
@@ -132,7 +132,7 @@ export class Auth {
     }
   }
 
-  async verifyLoggedUser(): Promise<void> {
+  verifyLoggedUser(): void {
     const token = localStorage.getItem(this.TOKEN_KEY);
     if (!token) {
       this.logout(false);
