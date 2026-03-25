@@ -124,7 +124,7 @@ describe('RecipeDetail Component – Pruebas Unitarias', () => {
       await component.ngOnInit();
 
       // Assert
-      expect(component.error).toContain('No se pudo encontrar la receta');
+      expect(component.error).toContain('Hubo un problema al cargar la receta');
       expect(component.recipe).toBeUndefined();
     });
 

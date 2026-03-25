@@ -120,7 +120,7 @@ describe('Descargar PDF (Frontend Tests)', () => {
     it('F-P04: downloadImage dispara la descarga de imagen', async () => {
       const blob = new Blob(['data'], { type: 'image/png' });
       const promise = service.downloadImage('r1');
-      httpTestingController.expectOne('/api/recipes/r1/download-image').flush(blob);
+      httpTestingController.expectOne('/api/recipes/r1/download?format=image').flush(blob);
       await promise;
       expect(mockAnchor.click).toHaveBeenCalled();
     });

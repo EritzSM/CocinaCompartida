@@ -5,6 +5,7 @@ import { RecipeStateService } from '../shared/services/recipe-state.service';
 import { Auth } from '../shared/services/auth';
 import { Recipe } from '../shared/interfaces/recipe';
 import { of, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  FAVORITES/BOOKMARKS – Pruebas Unitarias (Patrón AAA)
@@ -24,7 +25,8 @@ const DUMMY_RECIPE: Recipe = {
   id: 'r1', name: 'Test Recipe', descripcion: 'Test',
   ingredients: ['a'], steps: ['b'], images: ['c'],
   category: 'Test', user: { id: 'u1', username: 'chef' },
-  likes: 5, likedBy: ['u2', 'u3'], comments: []
+  likes: 5, likedBy: ['u2', 'u3'],
+  comments: [{ id: 'c1', message: 'Great!', user: { id: 'u2', username: 'commenter' }, createdAt: new Date(), updatedAt: new Date() }]
 };
 
 describe('Favorites/Bookmarks (RecipeInteractionService) – Pruebas Unitarias', () => {
@@ -74,6 +76,11 @@ describe('Favorites/Bookmarks (RecipeInteractionService) – Pruebas Unitarias',
     });
 
     service = TestBed.inject(RecipeInteractionService);
+
+    // Mock Swal for deleteComment confirmation dialog
+    spyOn(Swal, 'fire').and.returnValue(
+      Promise.resolve({ isConfirmed: true, isDenied: false, isDismissed: false } as any)
+    );
   });
 
   // ──────────────────────────────────────────────────────────
