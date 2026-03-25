@@ -19,8 +19,10 @@ describe('Frontend - EditProfileService (Perfil de Usuario)', () => {
     // Arrange: Creamos Test Doubles (Spies) para aislar dependencias complejas
     authSpy = jasmine.createSpyObj('Auth', ['getCurrentUser', 'logout']);
     // Fake signals/properties en el Spy
-    authSpy.currentUser = { set: jasmine.createSpy('set') } as any;
-    authSpy.currentUsername = { set: jasmine.createSpy('set') } as any;
+    authSpy.currentUser = jasmine.createSpy('currentUserSignal') as any;
+    (authSpy.currentUser as any).set = jasmine.createSpy('setCurrentUser');
+    authSpy.currentUsername = jasmine.createSpy('currentUsernameSignal') as any;
+    (authSpy.currentUsername as any).set = jasmine.createSpy('setCurrentUsername');
 
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     recipeSpy = jasmine.createSpyObj('RecipeService', ['loadRecipes']);

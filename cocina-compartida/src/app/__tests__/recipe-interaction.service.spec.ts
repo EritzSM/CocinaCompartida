@@ -5,6 +5,7 @@ import { RecipeStateService } from '../shared/services/recipe-state.service';
 import { Auth } from '../shared/services/auth';
 import { Comment as RecipeComment } from '../shared/interfaces/comment';
 import { Recipe } from '../shared/interfaces/recipe';
+import Swal from 'sweetalert2';
 
 describe('Frontend - RecipeInteractionService (Comentarios)', () => {
   let service: RecipeInteractionService;
@@ -24,6 +25,8 @@ describe('Frontend - RecipeInteractionService (Comentarios)', () => {
 
     // Test Double (Stub): Por defecto auth options devuelve un header simulado
     stateSpy.getAuthOptions.and.returnValue({ headers: {} } as any);
+
+    spyOn(Swal, 'fire').and.returnValue(Promise.resolve({ isConfirmed: true } as any));
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -98,20 +101,22 @@ describe('Frontend - RecipeInteractionService (Comentarios)', () => {
     it('debe hacer DELETE, guardar previous state y remover el comentario del estado global (Optimistic Update pattern)', async () => {
       // Arrange
       const commentId = 'c-to-delete';
-      stateSpy.getCommentUrl.and.returnValue(`/api/comments/${commentId}`);
-      // Guardar mock anterior simulando el retorno actual
+      stateSpy.getCommentUrl.and.returnValue(`/api/recipes/comments/${commentId}`);
       stateSpy.recipes.and.returnValue([{ id: 'r1', comments: [{ id: commentId } as RecipeComment] }] as any[]);
 
       // Act
       const deletePromise = service.deleteComment(commentId);
+      
+      // Esperar al microtask del Swal.fire promise de forma robusta
+      await new Promise(r => setTimeout(r, 0));
 
       // Assert & Mock Response
-      const req = httpMock.expectOne(`/api/comments/${commentId}`);
+      const req = httpMock.expectOne(`/api/recipes/comments/${commentId}`);
       expect(req.request.method).toBe('DELETE');
       req.flush({});
 
       await deletePromise;
-
+      
       // Se guardó previous state
       expect(stateSpy.recipes).toHaveBeenCalled();
       // Y se actualizó localmente (removeCommentFromAllRecipes llama a updateRecipes)
@@ -121,16 +126,19 @@ describe('Frontend - RecipeInteractionService (Comentarios)', () => {
     it('debe usar rollbackRecipes() si falla la eliminación', async () => {
       // Arrange
       const commentId = 'error-delete';
-      stateSpy.getCommentUrl.and.returnValue(`/api/comments/${commentId}`);
-      // Recuperar estado ficticio inicial
-      const previousDummyState = [{ dummy: 'state' }] as unknown as Recipe[];
+      stateSpy.getCommentUrl.and.returnValue(`/api/recipes/comments/${commentId}`);
+      // Recuperar estado ficticio inicial - DEBE CONTENER EL COMENTARIO para pasar la validación de existencia
+      const previousDummyState = [{ id: 'r1', comments: [{ id: commentId } as RecipeComment] }] as Recipe[];
       stateSpy.recipes.and.returnValue(previousDummyState as any);
 
       // Act
       const deletePromise = service.deleteComment(commentId);
+      
+      // Esperar microtask de Swal.fire de forma robusta
+      await new Promise(r => setTimeout(r, 0));
 
       // Fallo 500 simulado
-      httpMock.expectOne(`/api/comments/${commentId}`).flush(null, { status: 500, statusText: 'Error' });
+      httpMock.expectOne(`/api/recipes/comments/${commentId}`).flush(null, { status: 500, statusText: 'Error' });
       await deletePromise;
 
       // Assert

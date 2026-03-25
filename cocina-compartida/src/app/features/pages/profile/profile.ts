@@ -82,7 +82,9 @@ export class Profile implements OnInit {
       }
     } catch (e) {
       console.error('Error loading user profile:', e);
+      this.isOwnProfile.set(true);
       Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cargar el perfil del usuario' });
+      this.router.navigate(['/home']);
     }
   }
 
@@ -110,18 +112,21 @@ export class Profile implements OnInit {
   }
 
   async saveProfileUpdates() {
+    if (this.isUpdating) return;
+
     const username = (this.newUsername || '').trim();
-    if (!username) {
-      Swal.fire({ icon: 'warning', title: 'El nombre no puede estar vacío' });
+    if (username.length < 3) {
+      Swal.fire({ icon: 'warning', title: 'El nombre debe tener al menos 3 caracteres' });
       return;
     }
 
     this.isUpdating = true;
+    const password = (this.newPassword || '').trim();
     const payload = {
       username,
       avatar: this.newAvatar,
       bio: this.newBio,
-      ...(this.newPassword && { password: this.newPassword }),
+      ...(password && { password }),
     };
 
     const updated = await this.edit.updateProfile(payload);

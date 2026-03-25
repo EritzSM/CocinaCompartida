@@ -90,12 +90,12 @@ export class SignUp {
   }
 
   async onSignUp(): Promise<void> {
-    if (!this.signUpForm.valid) {
-      this.showAlert('Ops!', 'Por favor complete todos los campos requeridos correctamente');
-      return;
-    }
     if (this.signUpForm.hasError('passwordMismatch')) {
       this.showAlert('Ops!', 'Las contraseñas no coinciden');
+      return;
+    }
+    if (!this.signUpForm.valid) {
+      this.showAlert('Ops!', 'Por favor complete todos los campos requeridos correctamente');
       return;
     }
 

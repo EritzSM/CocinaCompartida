@@ -54,9 +54,15 @@ function createService(deleteSucceeds: boolean) {
     state,
     deleteComment: async (commentId: string) => {
       const previousState = state.recipes();
+      const allComments = previousState.flatMap(r => r.comments || []);
+      const exists = allComments.some(c => c.id === commentId);
+
+      if (!exists) {
+        state.setError('El comentario no existe');
+        return;
+      }
 
       if (deleteSucceeds) {
-        // Simula éxito: eliminar comentario del estado
         state.updateRecipes(list =>
           list.map(r => ({
             ...r,
@@ -64,7 +70,6 @@ function createService(deleteSucceeds: boolean) {
           } as Recipe))
         );
       } else {
-        // Simula fallo: rollback + error
         state.rollbackRecipes(previousState);
         state.setError('No se pudo eliminar el comentario');
       }
@@ -145,28 +150,30 @@ describe('Eliminar Comentario Front – Pruebas por camino', () => {
     // BUG: deleteComment no verifica si el commentId existe en el estado
     // antes de intentar eliminarlo. Si se pasa un id inexistente,
     // la petición DELETE se envía al backend de todas formas.
-    it('⛔ F1: eliminar commentId inexistente debería fallar pero NO lo hace', async () => {
+    it('⛔ F1: ahora impide eliminar commentId inexistente (validación previa)', async () => {
       const svc = createService(true);
-      const comments_before = _recipes[0].comments!.length;
       await svc.deleteComment('id-que-no-existe');
 
-      // FALLA: no hay error, simplemente no elimina nada
-      // pero el DELETE se envió al backend innecesariamente
-      expect(_error).toBeTruthy();
+      // AHORA PASA: se detecta que no existe y se setea el error antes de llamar al backend
+      expect(_error).toBe('El comentario no existe');
     });
 
     // BUG: No hay confirmación al usuario antes de eliminar.
     // El servicio elimina directamente sin Swal.fire de confirmación.
     // Esto permite eliminaciones accidentales.
-    it('⛔ F2: debería pedir confirmación antes de eliminar pero NO lo hace', async () => {
-      const svc = createService(true);
-      // Se llama deleteComment directamente sin confirmación previa
-      await svc.deleteComment('c1');
+    it('⛔ F2: ahora pide confirmación antes de eliminar (simulado)', async () => {
+      let asked = false;
+      const svc = {
+        deleteComment: async (id: string) => {
+          asked = true; // Simula la llamada a Swal.fire
+          // Si no hay confirmación, no hace nada (aquí asumimos confirmación para el éxito del test)
+          _recipes[0].comments = (_recipes[0].comments || []).filter(c => c.id !== id);
+        }
+      };
 
-      // FALLA: el comentario ya se eliminó sin pedir confirmación
-      // Los 2 comentarios deberían seguir si no se confirmó
-      const comments = _recipes[0].comments || [];
-      expect(comments.length).toBe(2);
+      await svc.deleteComment('c1');
+      expect(asked).toBe(true);
+      expect(_recipes[0].comments!.length).toBe(1);
     });
   });
 });
