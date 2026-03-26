@@ -28,7 +28,11 @@ export class RecipeDetail implements OnInit {
   authService = inject(Auth);
   private router = inject(Router);
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
+    this.loadRecipe();
+  }
+
+  private async loadRecipe(): Promise<void> {
     this.isLoading = true;
     this.error = null;
 

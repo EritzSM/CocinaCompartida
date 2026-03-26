@@ -18,7 +18,13 @@ export class RecipeService {
   error = computed(() => this.stateService.error());
 
   constructor() {
-    this.crudService.loadRecipes();
+    this.loadRecipesSilently();
+  }
+
+  private loadRecipesSilently(): void {
+    this.crudService.loadRecipes().catch(error => {
+      console.error('Error inicial cargando recetas:', error);
+    });
   }
 
   loadRecipes(): Promise<void> {

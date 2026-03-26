@@ -77,7 +77,7 @@ export class Profile implements OnInit {
 
         this.isOwnProfile.set(true);
         const cached = this.auth.getCurrentUser();
-        if (!cached) await this.auth.verifyLoggedUser();
+        if (!cached) this.auth.verifyLoggedUser();
         this.user.set(this.auth.getCurrentUser());
       }
     } catch (e) {

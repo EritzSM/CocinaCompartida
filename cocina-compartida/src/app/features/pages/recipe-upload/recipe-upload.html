@@ -7,7 +7,8 @@
         <input type="text" id="recipeName" formControlName="name" placeholder="Ej. Pastel de chocolate" />
         <div *ngIf="isFieldInvalid('name')" class="error-message">
             <span *ngIf="recipeForm.get('name')?.errors?.['required']">El nombre es requerido</span>
-            <span *ngIf="recipeForm.get('name')?.errors?.['minLength']">El nombre debe tener al menos 2 caracteres</span>
+            <span *ngIf="recipeForm.get('name')?.errors?.['minLength']">El nombre debe tener al menos 2
+                caracteres</span>
         </div>
     </div>
 
@@ -30,17 +31,20 @@
     <!-- Descripción -->
     <div class="form-group">
         <label for="recipeDescription">Descripción:</label>
-        <input type="text" id="recipeDescription" formControlName="descripcion" placeholder="Ej. Fácil para compartir en familia" />
+        <input type="text" id="recipeDescription" formControlName="descripcion"
+            placeholder="Ej. Fácil para compartir en familia" />
         <div *ngIf="isFieldInvalid('descripcion')" class="error-message">
             <span *ngIf="recipeForm.get('descripcion')?.errors?.['required']">La descripción es requerida</span>
-            <span *ngIf="recipeForm.get('descripcion')?.errors?.['minLength']">La descripción debe tener al menos 10 caracteres</span>
+            <span *ngIf="recipeForm.get('descripcion')?.errors?.['minLength']">La descripción debe tener al menos 10
+                caracteres</span>
         </div>
     </div>
 
     <!-- Ingredientes -->
     <div class="form-group">
-        <label id="ingredientsLabel">Ingredientes:</label>
-        <div formArrayName="ingredients" aria-labelledby="ingredientsLabel">
+        <span id="ingredientsLabel">Ingredientes:</span>
+        <fieldset formArrayName="ingredients">
+            <legend>Ingredientes:</legend>
             <div *ngFor="let ing of ingredients.controls; let i = index" class="dynamic-field">
                 <input type="text" [formControlName]="i" placeholder="Ingrediente {{i+1}}" />
                 <button type="button" (click)="removeIngredient(i)">X</button>
@@ -48,14 +52,15 @@
                     Este ingrediente no puede estar vacío
                 </div>
             </div>
-        </div>
+        </fieldset>
         <button type="button" (click)="addIngredient()">+ Agregar ingrediente</button>
     </div>
 
     <!-- Pasos -->
     <div class="form-group">
-        <label id="stepsLabel">Pasos de la receta:</label>
-        <div formArrayName="steps" aria-labelledby="stepsLabel">
+        <span id="stepsLabel" class="form-label">Pasos de la receta:</span>
+        <fieldset formArrayName="steps">
+            <legend>Pasos de la receta:</legend>
             <div *ngFor="let step of steps.controls; let i = index" class="dynamic-field">
                 <textarea [formControlName]="i" placeholder="Paso {{i+1}}"></textarea>
                 <button type="button" (click)="removeStep(i)">X</button>
@@ -63,15 +68,16 @@
                     Este paso no puede estar vacío
                 </div>
             </div>
-        </div>
+        </fieldset>
         <button type="button" (click)="addStep()">+ Agregar paso</button>
     </div>
 
     <!-- Subir imágenes -->
     <div class="form-group">
         <label for="uploadImages" class="upload primary">Subir imágenes</label>
-        <input type="file" id="uploadImages" (change)="onUploadFile($event)" multiple />
-        <div *ngIf="images.length === 0 && recipeForm.touched" class="error-message">
+        <input type="file" id="uploadImages" formControlName="images" (change)="onUploadFile($event)" multiple
+            aria-describedby="imagesHelp" />
+        <div id="imagesHelp" *ngIf="images.length === 0 && recipeForm.touched" class="error-message">
             Debe subir al menos una imagen
         </div>
     </div>
@@ -79,7 +85,7 @@
     <!-- Carrusel -->
     <div class="carousel" *ngIf="images.length > 0">
         <button class="nav left" (click)="prevImage()">&#10094;</button>
-        <img [src]="images[currentIndex]" alt="Imagen de la receta" />
+        <img [src]="images[currentIndex]" alt="Foto de la receta" />
         <button class="delete-btn" (click)="onDeleteCurrentImage()" title="Eliminar imagen">🗑</button>
         <button class="nav right" (click)="nextImage()">&#10095;</button>
     </div>
