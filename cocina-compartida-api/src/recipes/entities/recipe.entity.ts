@@ -36,6 +36,9 @@ export class Recipe {
   @OneToMany(() => Comment, (c) => c.recipe, { cascade: true })
   comments: Comment[];
 
+  @Column('text', { array: true, nullable: true, default: [] })
+  tags: string[];
+
   @Column({ type: 'int', default: 0 })
   likes: number;
 

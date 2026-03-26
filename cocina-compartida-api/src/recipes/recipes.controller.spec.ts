@@ -3,10 +3,24 @@ import { RecipesController } from './recipes.controller';
 import { RecipesService } from './recipes.service';
 import { NotFoundException } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { Reflector } from '@nestjs/core'; 
-import { AuthGuard } from '../security/auth.guard'; 
+import { Reflector } from '@nestjs/core';
+import { AuthGuard } from '../security/auth.guard';
 import { GUARDS_METADATA } from '@nestjs/common/constants';
 import { JwtService } from '@nestjs/jwt';
+
+// Mock pdfkit — el módulo puede no estar instalado
+jest.mock('pdfkit', () => {
+  return jest.fn().mockImplementation(() => {
+    const stream = {
+      fontSize: jest.fn().mockReturnThis(),
+      text: jest.fn().mockReturnThis(),
+      moveDown: jest.fn().mockReturnThis(),
+      pipe: jest.fn().mockReturnThis(),
+      end: jest.fn(),
+    };
+    return stream;
+  });
+});
 
 describe('RecipesController (Backend Download PDF Tests)', () => {
   let controller: RecipesController;

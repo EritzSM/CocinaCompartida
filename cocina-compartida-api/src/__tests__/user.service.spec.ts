@@ -92,6 +92,20 @@ describe('UserService', () => {
 
       // Act & Assert
       await expect(service.create(createDto)).rejects.toThrow(ConflictException);
+    });
+
+    it('debe incluir mensaje "Email already exists"', async () => {
+      // Arrange
+      const createDto = {
+        username: 'otrouser',
+        password: 'Password123',
+        email: 'duplicado@email.com',
+      };
+      userRepo.findOne
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce({ id: 'uuid-existing', email: 'duplicado@email.com' });
+
+      // Act & Assert
       await expect(service.create(createDto)).rejects.toThrow('Email already exists');
     });
   });
@@ -111,6 +125,18 @@ describe('UserService', () => {
 
       // Act & Assert
       await expect(service.create(createDto)).rejects.toThrow(ConflictException);
+    });
+
+    it('debe incluir mensaje "Username exists"', async () => {
+      // Arrange
+      const createDto = {
+        username: 'existente',
+        password: 'Password123',
+        email: 'nuevo@email.com',
+      };
+      userRepo.findOne.mockResolvedValueOnce({ id: 'uuid-existente', username: 'existente' });
+
+      // Act & Assert
       await expect(service.create(createDto)).rejects.toThrow('Username exists');
     });
   });

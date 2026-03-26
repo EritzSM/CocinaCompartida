@@ -21,6 +21,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
       create: jest.fn(),
       save: jest.fn(),
       remove: jest.fn(),
+      softRemove: jest.fn(),
     };
     service = new RecipesService(recipeRepo, commentRepo);
   });
@@ -214,13 +215,13 @@ describe('RecipesService – Comentarios (createComment)', () => {
         user: { id: 'uuid-owner' },
       };
       commentRepo.findOne.mockResolvedValue(mockComment);
-      commentRepo.remove.mockResolvedValue(undefined);
+      commentRepo.softRemove.mockResolvedValue(undefined);
 
       // Act
       await service.removeComment(commentId, user);
 
       // Assert
-      expect(commentRepo.remove).toHaveBeenCalledWith(mockComment);
+      expect(commentRepo.softRemove).toHaveBeenCalledWith(mockComment);
     });
 
     it('debe lanzar NotFoundException si el comentario no existe', async () => {

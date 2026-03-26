@@ -44,6 +44,16 @@ export class RecipesService {
     });
   }
 
+  // Filtrar por tag
+  async findByTag(tag: string): Promise<Recipe[]> {
+    const all = await this.recipeRepository.find({
+      relations: ['user', 'comments', 'comments.user'],
+    });
+    return all.filter(
+      (r) => Array.isArray(r.tags) && r.tags.includes(tag),
+    );
+  }
+
   // Listar top recipes por likes
   async findTopLiked(limit: number = 3): Promise<Recipe[]> {
     if (limit <= 0) {
