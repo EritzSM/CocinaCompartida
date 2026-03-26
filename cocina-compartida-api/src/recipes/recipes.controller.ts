@@ -24,7 +24,7 @@ import { RecipeOwnerGuard } from 'src/security/recipe-owner.guard';
 
 @Controller('recipes')
 export class RecipesController {
-  constructor(private readonly recipesService: RecipesService) {}
+  constructor(private readonly recipesService: RecipesService) { }
 
   // Crear receta (autenticado)
   @UseGuards(AuthGuard)
@@ -125,7 +125,7 @@ export class RecipesController {
     const doc = new PDFDocument({ size: 'A4', margin: 50 });
 
     res.setHeader('Content-Type', 'application/pdf');
-    const safeName = (recipe.name || 'recipe').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const safeName = (recipe.name || 'recipe').replaceAll(/[^a-z0-9]/gi, '_').toLowerCase();
     res.setHeader('Content-Disposition', `attachment; filename=\"${safeName}.pdf\"`);
 
     doc.pipe(res);
