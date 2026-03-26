@@ -2,6 +2,9 @@ import {
   Injectable,
   NotFoundException,
   ForbiddenException,
+  BadRequestException,
+  InternalServerErrorException,
+  ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -43,11 +46,18 @@ export class RecipesService {
 
   // Listar top recipes por likes
   async findTopLiked(limit: number = 3): Promise<Recipe[]> {
-    return await this.recipeRepository.find({
-      relations: ['user', 'comments', 'comments.user'],
-      order: { likes: 'DESC', createdAt: 'DESC' },
-      take: limit,
-    });
+    if (limit <= 0) {
+      throw new BadRequestException('Limit must be greater than 0');
+    }
+    try {
+      return await this.recipeRepository.find({
+        relations: ['user', 'comments', 'comments.user'],
+        order: { likes: 'DESC', createdAt: 'DESC' },
+        take: limit,
+      });
+    } catch {
+      throw new InternalServerErrorException('Error fetching top recipes');
+    }
   }
 
   // Buscar una
@@ -133,11 +143,15 @@ export class RecipesService {
 
   async findCommentsByRecipe(recipeId: string): Promise<Comment[]> {
     await this.findOne(recipeId);
-    return await this.commentRepository.find({
-      where: { recipe: { id: recipeId } },
-      relations: ['user'],
-      order: { createdAt: 'ASC' },
-    });
+    try {
+      return await this.commentRepository.find({
+        where: { recipe: { id: recipeId } },
+        relations: ['user'],
+        order: { createdAt: 'ASC' },
+      });
+    } catch {
+      throw new InternalServerErrorException('Error fetching comments');
+    }
   }
 
   async removeComment(commentId: string, user: User): Promise<void> {
@@ -154,6 +168,10 @@ export class RecipesService {
       throw new ForbiddenException('You can only delete your own comments');
     }
 
-    await this.commentRepository.remove(comment);
+    try {
+      await this.commentRepository.softRemove(comment);
+    } catch {
+      throw new ConflictException('Error deleting comment');
+    }
   }
 }

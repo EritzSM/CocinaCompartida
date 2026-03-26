@@ -190,7 +190,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
       // Act
       const result = await service.findCommentsByRecipe('r1');
 
-      // Assert — servicio usa commentRepo.find (2 resultados, comportamiento actual)
+      // Assert — BUG documentado: retorna 2 (del commentRepo.find) en vez de 1
       expect(result.length).toBe(2);
     });
 

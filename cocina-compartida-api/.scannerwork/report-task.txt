@@ -1,6 +1,0 @@
-projectKey=cocina-compartida-API
-serverUrl=http://localhost:9000
-serverVersion=26.3.0.120487
-dashboardUrl=http://localhost:9000/dashboard?id=cocina-compartida-API
-ceTaskId=996edec5-31b5-498b-b294-8befd59d682a
-ceTaskUrl=http://localhost:9000/api/ce/task?id=996edec5-31b5-498b-b294-8befd59d682a

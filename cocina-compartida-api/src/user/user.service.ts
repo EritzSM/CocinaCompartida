@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -42,7 +42,12 @@ export class UserService {
   }
 
   async findOne(id: string) {
-    const user = await this.userRepo.findOne({ where: { id } });
+    let user: User | null;
+    try {
+      user = await this.userRepo.findOne({ where: { id } });
+    } catch {
+      throw new InternalServerErrorException('Error al consultar la base de datos');
+    }
     if (!user) throw new NotFoundException();
     return this.omitPassword(user);
   }
@@ -62,7 +67,12 @@ export class UserService {
       if (emailExists && emailExists.id !== id) throw new ConflictException('Email already exists');
     }
 
-    await this.userRepo.update(id, dto);
+    await this.userRepo.update({ id }, dto);
+
+    if (!dto || Object.keys(dto).length === 0) {
+      throw new BadRequestException('No fields to update');
+    }
+
     const updated = await this.userRepo.findOne({ where: { id } });
     if (!updated) throw new NotFoundException();
     return this.omitPassword(updated);

@@ -160,7 +160,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
 
       // Assert
       expect((result as any).email).toBe('newunique@test.com');
-      expect(mockUserRepository.update).toHaveBeenCalledWith(userId, updateDto);
+      expect(mockUserRepository.update).toHaveBeenCalledWith({ id: userId }, updateDto);
     });
   });
 

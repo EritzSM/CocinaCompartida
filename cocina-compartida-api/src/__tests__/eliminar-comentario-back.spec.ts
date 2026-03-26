@@ -175,6 +175,7 @@ describe('Eliminar Comentario Back – Pruebas por camino', () => {
       const mockCommentRepo = {
         findOne: jest.fn().mockResolvedValue(comment),
         remove: jest.fn().mockResolvedValue(undefined),
+        softRemove: jest.fn().mockResolvedValue(undefined),
       };
       const mockRecipeRepo = { findOne: jest.fn() };
       const service = new RecipesService(mockRecipeRepo as any, mockCommentRepo as any);
@@ -185,7 +186,7 @@ describe('Eliminar Comentario Back – Pruebas por camino', () => {
         .resolves.toBeUndefined();
     });
 
-    it('C4-T2: se invoca remove con el comentario correcto', async () => {
+    it('C4-T2: se invoca softRemove con el comentario correcto', async () => {
       // Arrange
       const comment = {
         id: 'c1',
@@ -197,6 +198,7 @@ describe('Eliminar Comentario Back – Pruebas por camino', () => {
       const mockCommentRepo = {
         findOne: jest.fn().mockResolvedValue(comment),
         remove: jest.fn().mockResolvedValue(undefined),
+        softRemove: jest.fn().mockResolvedValue(undefined),
       };
       const mockRecipeRepo = { findOne: jest.fn() };
       const service = new RecipesService(mockRecipeRepo as any, mockCommentRepo as any);
@@ -206,8 +208,8 @@ describe('Eliminar Comentario Back – Pruebas por camino', () => {
       await service.removeComment('c1', ownerUser as any);
 
       // Assert
-      expect(mockCommentRepo.remove).toHaveBeenCalledTimes(1);
-      expect(mockCommentRepo.remove).toHaveBeenCalledWith(comment);
+      expect(mockCommentRepo.softRemove).toHaveBeenCalledTimes(1);
+      expect(mockCommentRepo.softRemove).toHaveBeenCalledWith(comment);
     });
 
     it('C4-T3: la función retorna void (sin contenido)', async () => {
@@ -222,6 +224,7 @@ describe('Eliminar Comentario Back – Pruebas por camino', () => {
       const mockCommentRepo = {
         findOne: jest.fn().mockResolvedValue(comment),
         remove: jest.fn().mockResolvedValue(undefined),
+        softRemove: jest.fn().mockResolvedValue(undefined),
       };
       const mockRecipeRepo = { findOne: jest.fn() };
       const service = new RecipesService(mockRecipeRepo as any, mockCommentRepo as any);
@@ -250,6 +253,7 @@ describe('Eliminar Comentario Back – Pruebas por camino', () => {
       const mockCommentRepo = {
         findOne: jest.fn().mockResolvedValue(comment),
         remove: jest.fn().mockResolvedValue(undefined),
+        softRemove: jest.fn().mockResolvedValue(undefined),
       };
       const mockRecipeRepo = { findOne: jest.fn() };
       const service = new RecipesService(mockRecipeRepo as any, mockCommentRepo as any);
@@ -315,7 +319,7 @@ describe('Eliminar Comentario Back – Pruebas por camino', () => {
       const dbError = new Error('FOREIGN KEY constraint failed');
       const mockCommentRepo = {
         findOne: jest.fn().mockResolvedValue(comment),
-        remove: jest.fn().mockRejectedValue(dbError),
+        softRemove: jest.fn().mockRejectedValue(dbError),
       };
       const mockRecipeRepo = { findOne: jest.fn() };
       const service = new RecipesService(mockRecipeRepo as any, mockCommentRepo as any);

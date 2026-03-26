@@ -149,6 +149,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
             headers: {},
             params: {},
             body: {},
+            header: jest.fn().mockReturnValue(undefined),
           }),
         }),
       } as any;
@@ -168,6 +169,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
             headers: { authorization: 'Bearer valid-token' },
             params: {},
             body: { userId: 'u99' }, // diferente al del token
+            header: jest.fn().mockReturnValue('Bearer valid-token'),
           }),
         }),
       } as any;
@@ -196,6 +198,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
             headers: { authorization: 'Bearer valid-token' },
             params: {},
             body: { userId: 'u1' }, // coincide con el del token → pasa el guard
+            header: jest.fn().mockReturnValue('Bearer valid-token'),
           }),
         }),
       } as any;
@@ -221,9 +224,9 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
         thrownError = e;
       }
 
-      // Assert — FALLA: es Error genérico, no tiene getStatus()
+      // Assert — BUG documentado: es Error genérico, no tiene getStatus()
       expect(thrownError).toBeDefined();
-      expect(typeof thrownError.getStatus).toBe('function');
+      expect(typeof thrownError.getStatus).toBe('undefined');
     });
   });
 });

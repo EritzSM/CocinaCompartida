@@ -78,6 +78,9 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
+            "include": [
+              "src/app/**/*.spec.ts"
+            ],
             "assets": [
               {
                 "glob": "**/*",
