@@ -13,17 +13,25 @@ export class RecipeImageService {
   currentIndex = 0;
   isUploading = false;
 
-  async uploadFiles(files: File[], recipeId: string): Promise<boolean> {
+  readonly MAX_IMAGES = 5;
+
+  async uploadFiles(files: File[], recipeId: string): Promise<boolean | 'limit'> {
     if (!files.length) return false;
+
+    const slotsLeft = this.MAX_IMAGES - this.images.length;
+    if (slotsLeft <= 0) return 'limit';
+
+    // Only take as many files as the remaining slots allow
+    const allowedFiles = files.slice(0, slotsLeft);
 
     this.isUploading = true;
 
     try {
-      const result = await this.uploadService.uploadMultipleFiles(files, recipeId);
+      const result = await this.uploadService.uploadMultipleFiles(allowedFiles, recipeId);
       
       if (result.success && result.data) {
         this.images.push(...result.data as string[]);
-        return true;
+        return allowedFiles.length < files.length ? 'limit' : true;
       }
       return false;
     } catch {

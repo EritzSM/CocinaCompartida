@@ -10,6 +10,7 @@ import { Auth } from '../../../shared/services/auth';
 import { LoginResponse } from '../../../shared/interfaces/login-response';
 import { User } from '../../../shared/interfaces/user';
 import { UploadService } from '../../../shared/services/upload';
+import { RecipeFormService } from '../../../shared/services/recipe-form.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -33,7 +34,7 @@ export class SignUp {
   uploadService = inject(UploadService);
 
   signUpForm = this.fb.group({
-    username: ['', [Validators.required, Validators.minLength(2)]],
+    username: ['', [Validators.required, Validators.minLength(2), RecipeFormService.meaningfulText]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     rePassword: ['', [Validators.required]],

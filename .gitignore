@@ -33,3 +33,15 @@ dist/
 ~$*.docx
 ~$*.xlsx
 ~$*.pptx
+
+# Pipeline Documentation (Solo Jenkinsfile)
+JENKINS_SETUP.md
+PIPELINE_QUICKSTART.md
+PIPELINE_FLOW_DIAGRAM.md
+PIPELINE_LOGS_EXAMPLES.md
+PIPELINE_CHECKLIST.sh
+README_PIPELINE.md
+.env.example
+Jenkinsfile.simplified
+vars/
+pipeline-local-test.sh

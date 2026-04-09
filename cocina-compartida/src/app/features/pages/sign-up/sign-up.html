@@ -42,6 +42,9 @@
         <div *ngIf="hasError('username', 'required')" class="error-message">
             El nombre es obligatorio.
         </div>
+        <div *ngIf="hasError('username', 'meaningfulText')" class="error-message">
+            El nombre debe contener al menos una letra.
+        </div>
 
         <label for="email">Email</label>
         <input type="email" id="email" formControlName="email" placeholder="jane@framer.com" required>

@@ -9,6 +9,7 @@
             <span *ngIf="recipeForm.get('name')?.errors?.['required']">El nombre es requerido</span>
             <span *ngIf="recipeForm.get('name')?.errors?.['minLength']">El nombre debe tener al menos 2
                 caracteres</span>
+            <span *ngIf="recipeForm.get('name')?.errors?.['meaningfulText']">El nombre debe contener al menos una letra</span>
         </div>
     </div>
 
@@ -37,6 +38,7 @@
             <span *ngIf="recipeForm.get('descripcion')?.errors?.['required']">La descripción es requerida</span>
             <span *ngIf="recipeForm.get('descripcion')?.errors?.['minLength']">La descripción debe tener al menos 10
                 caracteres</span>
+            <span *ngIf="recipeForm.get('descripcion')?.errors?.['meaningfulText']">La descripción debe contener al menos una letra</span>
         </div>
     </div>
 
@@ -49,7 +51,7 @@
                 <input type="text" [formControlName]="i" placeholder="Ingrediente {{i+1}}" />
                 <button type="button" (click)="removeIngredient(i)">X</button>
                 <div *ngIf="isArrayFieldInvalid(ingredients, i)" class="error-message">
-                    Este ingrediente no puede estar vacío
+                    Este ingrediente no puede estar vacío ni contener solo números o caracteres especiales
                 </div>
             </div>
         </fieldset>
@@ -65,7 +67,7 @@
                 <textarea [formControlName]="i" placeholder="Paso {{i+1}}"></textarea>
                 <button type="button" (click)="removeStep(i)">X</button>
                 <div *ngIf="isArrayFieldInvalid(steps, i)" class="error-message">
-                    Este paso no puede estar vacío
+                    Este paso no puede estar vacío ni contener solo números o caracteres especiales
                 </div>
             </div>
         </fieldset>
@@ -75,7 +77,7 @@
     <!-- Subir imágenes -->
     <div class="form-group">
         <label for="uploadImages" class="upload primary">Subir imágenes</label>
-        <input type="file" id="uploadImages" formControlName="images" (change)="onUploadFile($event)" multiple
+        <input type="file" id="uploadImages" (change)="onUploadFile($event)" multiple
             aria-describedby="imagesHelp" />
         <div id="imagesHelp" *ngIf="images.length === 0 && recipeForm.touched" class="error-message">
             Debe subir al menos una imagen

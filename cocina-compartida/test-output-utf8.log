@@ -1,0 +1,881 @@
+﻿
+> cocina-compartida@0.0.0 test
+> ng test --watch=false
+
+[33mÔØ»[39m Building...
+[32mÔ£ö[39m Building...
+[1mInitial chunk files[22m                      [2m | [22m[1mNames[22m                                 [2m | [22m [1mRaw size[22m
+[32mchunk-XS632LZP.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m  [36m2.26 MB[39m[2m | [22m
+[32mpolyfills.js[39m                             [2m | [22m[2mpolyfills[22m                             [2m | [22m  [36m1.03 MB[39m[2m | [22m
+[32mchunk-BKHLYFWU.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m[36m312.06 kB[39m[2m | [22m
+[32mchunk-NEMTGNLM.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m[36m242.19 kB[39m[2m | [22m
+[32mchunk-M2RMLAH6.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m[36m197.19 kB[39m[2m | [22m
+[32mchunk-ICONLAJO.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m[36m150.93 kB[39m[2m | [22m
+[32mchunk-ZHOXYIIY.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m96.00 kB[39m[2m | [22m
+[32mchunk-3UWN67IH.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m82.48 kB[39m[2m | [22m
+[32mchunk-RWV4OSXC.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m70.19 kB[39m[2m | [22m
+[32mspec-explore.component.spec.js[39m           [2m | [22m[2mspec-explore.component.spec[22m           [2m | [22m [36m69.06 kB[39m[2m | [22m
+[32mjasmine-cleanup-1.js[39m                     [2m | [22m[2mjasmine-cleanup-1[22m                     [2m | [22m [36m67.20 kB[39m[2m | [22m
+[32mchunk-YSAXJTTE.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m63.60 kB[39m[2m | [22m
+[32mchunk-O25HNRDP.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m58.05 kB[39m[2m | [22m
+[32mchunk-ORZDZJMA.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m53.34 kB[39m[2m | [22m
+[32mspec-recipe-upload.spec.js[39m               [2m | [22m[2mspec-recipe-upload.spec[22m               [2m | [22m [36m50.14 kB[39m[2m | [22m
+[32mchunk-NPJYSRQV.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m48.64 kB[39m[2m | [22m
+[32mchunk-U4VUFTBC.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m48.05 kB[39m[2m | [22m
+[32mchunk-LLK2AX3S.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m45.78 kB[39m[2m | [22m
+[32mchunk-ZCY7GSOU.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m44.41 kB[39m[2m | [22m
+[32mchunk-C45Z4YW5.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m43.62 kB[39m[2m | [22m
+[32mchunk-5SXIRFEJ.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m43.35 kB[39m[2m | [22m
+[32mspec-home.component.spec.js[39m              [2m | [22m[2mspec-home.component.spec[22m              [2m | [22m [36m37.31 kB[39m[2m | [22m
+[32mchunk-4LLLP7WA.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m33.00 kB[39m[2m | [22m
+[32mspec-login.spec.js[39m                       [2m | [22m[2mspec-login.spec[22m                       [2m | [22m [36m28.93 kB[39m[2m | [22m
+[32mchunk-CJYR4P7H.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m28.61 kB[39m[2m | [22m
+[32mchunk-UCY5XCLJ.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m28.09 kB[39m[2m | [22m
+[32mspec-app.spec.js[39m                         [2m | [22m[2mspec-app.spec[22m                         [2m | [22m [36m26.15 kB[39m[2m | [22m
+[32mchunk-X6KFEYXS.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m24.98 kB[39m[2m | [22m
+[32mchunk-OY77AT76.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m23.11 kB[39m[2m | [22m
+[32mchunk-JVABAY36.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m22.64 kB[39m[2m | [22m
+[32mchunk-7BNDPEQL.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m20.45 kB[39m[2m | [22m
+[32mspec-recipe-detail.component.spec.js[39m     [2m | [22m[2mspec-recipe-detail.component.spec[22m     [2m | [22m [36m19.71 kB[39m[2m | [22m
+[32mspec-favorites-bookmarks.service.spec.js[39m [2m | [22m[2mspec-favorites-bookmarks.service.spec[22m [2m | [22m [36m14.85 kB[39m[2m | [22m
+[32mspec-recipe-crud-full.service.spec.js[39m    [2m | [22m[2mspec-recipe-crud-full.service.spec[22m    [2m | [22m [36m14.60 kB[39m[2m | [22m
+[32mchunk-YQRVUOOT.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m [36m12.23 kB[39m[2m | [22m
+[32mspec-recipe-upload.service.spec.js[39m       [2m | [22m[2mspec-recipe-upload.service.spec[22m       [2m | [22m [36m11.43 kB[39m[2m | [22m
+[32mspec-search-categories.service.spec.js[39m   [2m | [22m[2mspec-search-categories.service.spec[22m   [2m | [22m [36m10.22 kB[39m[2m | [22m
+[32mspec-editar-perfil-front.spec.js[39m         [2m | [22m[2mspec-editar-perfil-front.spec[22m         [2m | [22m [36m10.02 kB[39m[2m | [22m
+[32mspec-ver-perfil-front.spec.js[39m            [2m | [22m[2mspec-ver-perfil-front.spec[22m            [2m | [22m  [36m9.81 kB[39m[2m | [22m
+[32mspec-header.component.spec.js[39m            [2m | [22m[2mspec-header.component.spec[22m            [2m | [22m  [36m9.35 kB[39m[2m | [22m
+[32mspec-recipe-facade.service.spec.js[39m       [2m | [22m[2mspec-recipe-facade.service.spec[22m       [2m | [22m  [36m8.89 kB[39m[2m | [22m
+[32mspec-recipe-form.service.spec.js[39m         [2m | [22m[2mspec-recipe-form.service.spec[22m         [2m | [22m  [36m8.70 kB[39m[2m | [22m
+[32mspec-auth-utils.spec.js[39m                  [2m | [22m[2mspec-auth-utils.spec[22m                  [2m | [22m  [36m8.61 kB[39m[2m | [22m
+[32mspec-profile.component.spec.js[39m           [2m | [22m[2mspec-profile.component.spec[22m           [2m | [22m  [36m8.05 kB[39m[2m | [22m
+[32mspec-ver-comentario-front.spec.js[39m        [2m | [22m[2mspec-ver-comentario-front.spec[22m        [2m | [22m  [36m7.89 kB[39m[2m | [22m
+[32mspec-recipe-upload-extra.service.spec.js[39m [2m | [22m[2mspec-recipe-upload-extra.service.spec[22m [2m | [22m  [36m7.76 kB[39m[2m | [22m
+[32mspec-sign-up.component.spec.js[39m           [2m | [22m[2mspec-sign-up.component.spec[22m           [2m | [22m  [36m7.28 kB[39m[2m | [22m
+[32mspec-recipe-image.service.spec.js[39m        [2m | [22m[2mspec-recipe-image.service.spec[22m        [2m | [22m  [36m7.09 kB[39m[2m | [22m
+[32mspec-recipe-data.service.spec.js[39m         [2m | [22m[2mspec-recipe-data.service.spec[22m         [2m | [22m  [36m6.97 kB[39m[2m | [22m
+[32mspec-upload.service.spec.js[39m              [2m | [22m[2mspec-upload.service.spec[22m              [2m | [22m  [36m6.73 kB[39m[2m | [22m
+[32mspec-recipe-detail.spec.js[39m               [2m | [22m[2mspec-recipe-detail.spec[22m               [2m | [22m  [36m6.70 kB[39m[2m | [22m
+[32mspec-recipe-interaction.service.spec.js[39m  [2m | [22m[2mspec-recipe-interaction.service.spec[22m  [2m | [22m  [36m6.60 kB[39m[2m | [22m
+[32mspec-sign-up.spec.js[39m                     [2m | [22m[2mspec-sign-up.spec[22m                     [2m | [22m  [36m6.52 kB[39m[2m | [22m
+[32mspec-edit-profile-extra.service.spec.js[39m  [2m | [22m[2mspec-edit-profile-extra.service.spec[22m  [2m | [22m  [36m6.46 kB[39m[2m | [22m
+[32mspec-auth.service.spec.js[39m                [2m | [22m[2mspec-auth.service.spec[22m                [2m | [22m  [36m6.23 kB[39m[2m | [22m
+[32mspec-recetas-populares-front.spec.js[39m     [2m | [22m[2mspec-recetas-populares-front.spec[22m     [2m | [22m  [36m6.22 kB[39m[2m | [22m
+[32mspec-edit-profile.service.spec.js[39m        [2m | [22m[2mspec-edit-profile.service.spec[22m        [2m | [22m  [36m5.91 kB[39m[2m | [22m
+[32mspec-recipe-state.service.spec.js[39m        [2m | [22m[2mspec-recipe-state.service.spec[22m        [2m | [22m  [36m5.87 kB[39m[2m | [22m
+[32mchunk-OIM7JFOJ.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m  [36m5.65 kB[39m[2m | [22m
+[32mspec-eliminar-comentario-front.spec.js[39m   [2m | [22m[2mspec-eliminar-comentario-front.spec[22m   [2m | [22m  [36m5.34 kB[39m[2m | [22m
+[32mspec-storage.service.spec.js[39m             [2m | [22m[2mspec-storage.service.spec[22m             [2m | [22m  [36m5.01 kB[39m[2m | [22m
+[32mspec-recipe-interaction.service-2.spec.js[39m[2m | [22m[2mspec-recipe-interaction.service-2.spec[22m[2m | [22m  [36m4.94 kB[39m[2m | [22m
+[32mtest_main.js[39m                             [2m | [22m[2mtest_main[22m                             [2m | [22m  [36m4.41 kB[39m[2m | [22m
+[32mspec-recipe-crud.service.spec.js[39m         [2m | [22m[2mspec-recipe-crud.service.spec[22m         [2m | [22m  [36m4.26 kB[39m[2m | [22m
+[32mchunk-HBW54YOI.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m  [36m3.02 kB[39m[2m | [22m
+[32mchunk-LPKVXZS7.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m  [36m2.91 kB[39m[2m | [22m
+[32mspec-notificacion.service.spec.js[39m        [2m | [22m[2mspec-notificacion.service.spec[22m        [2m | [22m  [36m2.57 kB[39m[2m | [22m
+[32mstyles.css[39m                               [2m | [22m[2mstyles[22m                                [2m | [22m  [36m2.30 kB[39m[2m | [22m
+[32mchunk-S6HCXUCE.js[39m                        [2m | [22m[2m-[22m                                     [2m | [22m[36m934 bytes[39m[2m | [22m
+[32mjasmine-cleanup-0.js[39m                     [2m | [22m[2mjasmine-cleanup-0[22m                     [2m | [22m[36m519 bytes[39m[2m | [22m
+
+[1m [22m                                        [2m | [22m[1mInitial total[22m                         [2m | [22m  [1m5.63 MB[22m
+
+Application bundle generation complete. [2.412 seconds] - 2026-03-26T11:08:36.240Z
+
+[32m26 03 2026 06:08:36.511:INFO [karma-server]: [39mKarma v6.4.4 server started at http://localhost:9876/
+[32m26 03 2026 06:08:36.512:INFO [launcher]: [39mLaunching browsers ChromeHeadlessNoSandbox with concurrency unlimited
+[32m26 03 2026 06:08:36.527:INFO [launcher]: [39mStarting browser ChromeHeadless
+[32m26 03 2026 06:08:37.120:INFO [Chrome Headless 146.0.0.0 (Windows 10)]: [39mConnected on socket 69rzxFZeDDvAA7LuAAAB with id 75986027
+Chrome Headless 146.0.0.0 (Windows 10): Executed 0 of 471[32m SUCCESS[39m (0 secs / 0 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 1 of 471[32m SUCCESS[39m (0 secs / 0.008 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 2 of 471[32m SUCCESS[39m (0 secs / 0.009 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 3 of 471[32m SUCCESS[39m (0 secs / 0.01 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 4 of 471[32m SUCCESS[39m (0 secs / 0.011 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 5 of 471[32m SUCCESS[39m (0 secs / 0.014 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 6 of 471[32m SUCCESS[39m (0 secs / 0.015 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 7 of 471[32m SUCCESS[39m (0 secs / 0.017 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 8 of 471[32m SUCCESS[39m (0 secs / 0.018 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 9 of 471[32m SUCCESS[39m (0 secs / 0.019 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 10 of 471[32m SUCCESS[39m (0 secs / 0.02 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 11 of 471[32m SUCCESS[39m (0 secs / 0.022 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 12 of 471[32m SUCCESS[39m (0 secs / 0.023 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 13 of 471[32m SUCCESS[39m (0 secs / 0.023 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 14 of 471[32m SUCCESS[39m (0 secs / 0.024 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 15 of 471[32m SUCCESS[39m (0 secs / 0.025 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 16 of 471[32m SUCCESS[39m (0 secs / 0.026 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 17 of 471[32m SUCCESS[39m (0 secs / 0.026 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 18 of 471[32m SUCCESS[39m (0 secs / 0.026 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 19 of 471[32m SUCCESS[39m (0 secs / 0.057 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 20 of 471[32m SUCCESS[39m (0 secs / 0.059 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 21 of 471[32m SUCCESS[39m (0 secs / 0.06 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 22 of 471[32m SUCCESS[39m (0 secs / 0.061 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 23 of 471[32m SUCCESS[39m (0 secs / 0.074 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 24 of 471[32m SUCCESS[39m (0 secs / 0.076 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 25 of 471[32m SUCCESS[39m (0 secs / 0.288 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 26 of 471[32m SUCCESS[39m (0 secs / 0.292 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 27 of 471[32m SUCCESS[39m (0 secs / 0.296 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 28 of 471[32m SUCCESS[39m (0 secs / 0.299 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 29 of 471[32m SUCCESS[39m (0 secs / 0.3 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 30 of 471[32m SUCCESS[39m (0 secs / 0.301 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 31 of 471[32m SUCCESS[39m (0 secs / 0.302 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 32 of 471[32m SUCCESS[39m (0 secs / 0.303 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 33 of 471[32m SUCCESS[39m (0 secs / 0.304 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 34 of 471[32m SUCCESS[39m (0 secs / 0.304 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 35 of 471[32m SUCCESS[39m (0 secs / 0.309 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 36 of 471[32m SUCCESS[39m (0 secs / 0.31 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 37 of 471[32m SUCCESS[39m (0 secs / 0.311 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 38 of 471[32m SUCCESS[39m (0 secs / 0.312 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 39 of 471[32m SUCCESS[39m (0 secs / 0.313 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 40 of 471[32m SUCCESS[39m (0 secs / 0.313 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 41 of 471[32m SUCCESS[39m (0 secs / 0.314 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 42 of 471[32m SUCCESS[39m (0 secs / 0.315 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 43 of 471[32m SUCCESS[39m (0 secs / 0.316 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 44 of 471[32m SUCCESS[39m (0 secs / 0.317 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 45 of 471[32m SUCCESS[39m (0 secs / 0.318 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 46 of 471[32m SUCCESS[39m (0 secs / 0.318 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 47 of 471[32m SUCCESS[39m (0 secs / 0.318 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 48 of 471[32m SUCCESS[39m (0 secs / 0.319 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 49 of 471[32m SUCCESS[39m (0 secs / 0.32 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 50 of 471[32m SUCCESS[39m (0 secs / 0.32 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 51 of 471[32m SUCCESS[39m (0 secs / 0.32 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 52 of 471[32m SUCCESS[39m (0 secs / 0.321 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 53 of 471[32m SUCCESS[39m (0 secs / 0.321 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 54 of 471[32m SUCCESS[39m (0 secs / 0.321 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 55 of 471[32m SUCCESS[39m (0 secs / 0.322 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 56 of 471[32m SUCCESS[39m (0 secs / 0.322 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 57 of 471[32m SUCCESS[39m (0 secs / 0.322 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 58 of 471[32m SUCCESS[39m (0 secs / 0.323 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 59 of 471[32m SUCCESS[39m (0 secs / 0.324 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 60 of 471[32m SUCCESS[39m (0 secs / 0.325 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 61 of 471[32m SUCCESS[39m (0 secs / 0.326 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 62 of 471[32m SUCCESS[39m (0 secs / 0.327 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 63 of 471[32m SUCCESS[39m (0 secs / 0.328 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 64 of 471[32m SUCCESS[39m (0 secs / 0.328 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 65 of 471[32m SUCCESS[39m (0 secs / 0.328 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 66 of 471[32m SUCCESS[39m (0 secs / 0.329 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 67 of 471[32m SUCCESS[39m (0 secs / 0.33 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 68 of 471[32m SUCCESS[39m (0 secs / 0.331 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 69 of 471[32m SUCCESS[39m (0 secs / 0.331 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 70 of 471[32m SUCCESS[39m (0 secs / 0.332 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 71 of 471[32m SUCCESS[39m (0 secs / 0.333 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 72 of 471[32m SUCCESS[39m (0 secs / 0.333 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 73 of 471[32m SUCCESS[39m (0 secs / 0.334 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 74 of 471[32m SUCCESS[39m (0 secs / 0.335 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 75 of 471[32m SUCCESS[39m (0 secs / 0.336 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 76 of 471[32m SUCCESS[39m (0 secs / 0.337 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 77 of 471[32m SUCCESS[39m (0 secs / 0.338 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 78 of 471[32m SUCCESS[39m (0 secs / 0.339 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 79 of 471[32m SUCCESS[39m (0 secs / 0.34 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 80 of 471[32m SUCCESS[39m (0 secs / 0.341 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 81 of 471[32m SUCCESS[39m (0 secs / 0.341 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 82 of 471[32m SUCCESS[39m (0 secs / 0.345 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 83 of 471[32m SUCCESS[39m (0 secs / 0.348 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 84 of 471[32m SUCCESS[39m (0 secs / 0.349 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 85 of 471[32m SUCCESS[39m (0 secs / 0.35 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 86 of 471[32m SUCCESS[39m (0 secs / 0.351 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 87 of 471[32m SUCCESS[39m (0 secs / 0.352 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 88 of 471[32m SUCCESS[39m (0 secs / 0.353 secs)
+[1A[2KERROR: [36m'Error loading user profile:', Error: Network Error
+Error: Network Error
+    at Object.fetchUserById (http://localhost:9876/base/src/app/__tests__/ver-perfil-front.spec.ts:75:57)
+    at Profile2.<anonymous> (http://localhost:9876/base/src/app/features/pages/profile/profile.ts:65:38)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Profile2.loadUserProfile (http://localhost:9876/base/chunk-YSAXJTTE.js:2180:16)
+    at Profile2.ngOnInit (http://localhost:9876/base/src/app/features/pages/profile/profile.ts:57:10)
+    at http://localhost:9876/base/src/app/__tests__/ver-perfil-front.spec.ts:330:18
+    at Generator.next (<anonymous>)[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 88 of 471[32m SUCCESS[39m (0 secs / 0.353 secs)
+ERROR: 'Error loading user profile:', Error: Network Error
+Error: Network Error
+    at Object.fetchUserById (http://localhost:9876/base/src/app/__tests__/ver-perfil-front.spec.ts:75:57)
+    at Profile2.<anonymous> (http://localhost:9876/base/src/app/features/pages/profile/profile.ts:65:38)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Profile2.loadUserProfile (http://localhost:9876/base/chunk-YSAXJTTE.js:2180:16)
+    at Profile2.ngOnInit (http://localhost:9876/base/src/app/features/pages/profile/profile.ts:57:10)
+    at http://localhost:9876/base/src/app/__tests__/ver-perfil-front.spec.ts:330:18
+    at Generator.next (<anonymous>)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 89 of 471[32m SUCCESS[39m (0 secs / 0.366 secs)
+[1A[2KERROR: [36m'Error loading user profile:', Error: Network Error
+Error: Network Error
+    at Object.fetchUserById (http://localhost:9876/base/src/app/__tests__/ver-perfil-front.spec.ts:75:57)
+    at Profile2.<anonymous> (http://localhost:9876/base/src/app/features/pages/profile/profile.ts:65:38)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Profile2.loadUserProfile (http://localhost:9876/base/chunk-YSAXJTTE.js:2180:16)
+    at Profile2.ngOnInit (http://localhost:9876/base/src/app/features/pages/profile/profile.ts:57:10)
+    at http://localhost:9876/base/src/app/__tests__/ver-perfil-front.spec.ts:318:18
+    at Generator.next (<anonymous>)[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 89 of 471[32m SUCCESS[39m (0 secs / 0.366 secs)
+ERROR: 'Error loading user profile:', Error: Network Error
+Error: Network Error
+    at Object.fetchUserById (http://localhost:9876/base/src/app/__tests__/ver-perfil-front.spec.ts:75:57)
+    at Profile2.<anonymous> (http://localhost:9876/base/src/app/features/pages/profile/profile.ts:65:38)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Profile2.loadUserProfile (http://localhost:9876/base/chunk-YSAXJTTE.js:2180:16)
+    at Profile2.ngOnInit (http://localhost:9876/base/src/app/features/pages/profile/profile.ts:57:10)
+    at http://localhost:9876/base/src/app/__tests__/ver-perfil-front.spec.ts:318:18
+    at Generator.next (<anonymous>)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 90 of 471[32m SUCCESS[39m (0 secs / 0.37 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 91 of 471[32m SUCCESS[39m (0 secs / 0.372 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 92 of 471[32m SUCCESS[39m (0 secs / 0.373 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 93 of 471[32m SUCCESS[39m (0 secs / 0.373 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 94 of 471[32m SUCCESS[39m (0 secs / 0.373 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 95 of 471[32m SUCCESS[39m (0 secs / 0.373 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 96 of 471[32m SUCCESS[39m (0 secs / 0.374 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 97 of 471[32m SUCCESS[39m (0 secs / 0.391 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 98 of 471[32m SUCCESS[39m (0 secs / 0.392 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 99 of 471[32m SUCCESS[39m (0 secs / 0.403 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 100 of 471[32m SUCCESS[39m (0 secs / 0.404 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 101 of 471[32m SUCCESS[39m (0 secs / 0.405 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 102 of 471[32m SUCCESS[39m (0 secs / 0.405 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 103 of 471[32m SUCCESS[39m (0 secs / 0.405 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 104 of 471[32m SUCCESS[39m (0 secs / 0.405 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 105 of 471[32m SUCCESS[39m (0 secs / 0.406 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 106 of 471[32m SUCCESS[39m (0 secs / 0.407 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 107 of 471[32m SUCCESS[39m (0 secs / 0.408 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 108 of 471[32m SUCCESS[39m (0 secs / 0.408 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 109 of 471[32m SUCCESS[39m (0 secs / 0.408 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 110 of 471[32m SUCCESS[39m (0 secs / 0.409 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 111 of 471[32m SUCCESS[39m (0 secs / 0.41 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 112 of 471[32m SUCCESS[39m (0 secs / 0.411 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 113 of 471[32m SUCCESS[39m (0 secs / 0.411 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 114 of 471[32m SUCCESS[39m (0 secs / 0.411 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 115 of 471[32m SUCCESS[39m (0 secs / 0.412 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 116 of 471[32m SUCCESS[39m (0 secs / 0.413 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 117 of 471[32m SUCCESS[39m (0 secs / 0.414 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 118 of 471[32m SUCCESS[39m (0 secs / 0.414 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 119 of 471[32m SUCCESS[39m (0 secs / 0.414 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 120 of 471[32m SUCCESS[39m (0 secs / 0.414 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 121 of 471[32m SUCCESS[39m (0 secs / 0.415 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 122 of 471[32m SUCCESS[39m (0 secs / 0.416 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 123 of 471[32m SUCCESS[39m (0 secs / 0.417 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 124 of 471[32m SUCCESS[39m (0 secs / 0.418 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 125 of 471[32m SUCCESS[39m (0 secs / 0.418 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 126 of 471[32m SUCCESS[39m (0 secs / 0.419 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 127 of 471[32m SUCCESS[39m (0 secs / 0.42 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 128 of 471[32m SUCCESS[39m (0 secs / 0.421 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 129 of 471[32m SUCCESS[39m (0 secs / 0.422 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 130 of 471[32m SUCCESS[39m (0 secs / 0.422 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 131 of 471[32m SUCCESS[39m (0 secs / 0.422 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 132 of 471[32m SUCCESS[39m (0 secs / 0.423 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 133 of 471[32m SUCCESS[39m (0 secs / 0.424 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 134 of 471[32m SUCCESS[39m (0 secs / 0.425 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 135 of 471[32m SUCCESS[39m (0 secs / 0.426 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 136 of 471[32m SUCCESS[39m (0 secs / 0.427 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 137 of 471[32m SUCCESS[39m (0 secs / 0.428 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 138 of 471[32m SUCCESS[39m (0 secs / 0.429 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 139 of 471[32m SUCCESS[39m (0 secs / 0.43 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 140 of 471[32m SUCCESS[39m (0 secs / 0.431 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 141 of 471[32m SUCCESS[39m (0 secs / 0.432 secs)
+[1A[2KERROR: [36m'fetch user by id', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 401, statusText: 'Unauthorized', url: '/api/users/unauthorized-user', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/users/unauthorized-user: 401 Unauthorized', error: null}[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 141 of 471[32m SUCCESS[39m (0 secs / 0.432 secs)
+ERROR: 'fetch user by id', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 401, statusText: 'Unauthorized', url: '/api/users/unauthorized-user', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/users/unauthorized-user: 401 Unauthorized', error: null}
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 142 of 471[32m SUCCESS[39m (0 secs / 0.432 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 143 of 471[32m SUCCESS[39m (0 secs / 0.432 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 144 of 471[32m SUCCESS[39m (0 secs / 0.433 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 145 of 471[32m SUCCESS[39m (0 secs / 0.433 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 146 of 471[32m SUCCESS[39m (0 secs / 0.433 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 147 of 471[32m SUCCESS[39m (0 secs / 0.434 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 148 of 471[32m SUCCESS[39m (0 secs / 0.435 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 149 of 471[32m SUCCESS[39m (0 secs / 0.435 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 150 of 471[32m SUCCESS[39m (0 secs / 0.435 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 151 of 471[32m SUCCESS[39m (0 secs / 0.436 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 152 of 471[32m SUCCESS[39m (0 secs / 0.437 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 153 of 471[32m SUCCESS[39m (0 secs / 0.438 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 154 of 471[32m SUCCESS[39m (0 secs / 0.439 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 155 of 471[32m SUCCESS[39m (0 secs / 0.44 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 156 of 471[32m SUCCESS[39m (0 secs / 0.441 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 157 of 471[32m SUCCESS[39m (0 secs / 0.442 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 158 of 471[32m SUCCESS[39m (0 secs / 0.442 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 159 of 471[32m SUCCESS[39m (0 secs / 0.442 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 160 of 471[32m SUCCESS[39m (0 secs / 0.443 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 161 of 471[32m SUCCESS[39m (0 secs / 0.444 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 162 of 471[32m SUCCESS[39m (0 secs / 0.445 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 163 of 471[32m SUCCESS[39m (0 secs / 0.446 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 164 of 471[32m SUCCESS[39m (0 secs / 0.45 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 165 of 471[32m SUCCESS[39m (0 secs / 0.451 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 166 of 471[32m SUCCESS[39m (0 secs / 0.451 secs)
+[1A[2KERROR: [36m'toggleLike error', Error: 500 Server Error
+Error: 500 Server Error
+    at http://localhost:9876/base/src/app/shared/services/recipe-interaction.service.spec.ts:143:57
+    at _Observable.init [as _subscribe] (http://localhost:9876/base/node_modules/rxjs/src/internal/observable/throwError.ts:123:68)
+    at _Observable._trySubscribe (http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:235:19)
+    at http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:225:18
+    at errorContext (http://localhost:9876/base/node_modules/rxjs/src/internal/util/errorContext.ts:29:5)
+    at _Observable.subscribe (http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:211:5)
+    at http://localhost:9876/base/node_modules/rxjs/src/internal/firstValueFrom.ts:73:12
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at firstValueFrom (http://localhost:9876/base/node_modules/rxjs/src/internal/firstValueFrom.ts:58:10)
+    at RecipeInteractionService2.<anonymous> (http://localhost:9876/base/src/app/shared/services/recipe-interaction.service.ts:27:30)[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 166 of 471[32m SUCCESS[39m (0 secs / 0.451 secs)
+ERROR: 'toggleLike error', Error: 500 Server Error
+Error: 500 Server Error
+    at http://localhost:9876/base/src/app/shared/services/recipe-interaction.service.spec.ts:143:57
+    at _Observable.init [as _subscribe] (http://localhost:9876/base/node_modules/rxjs/src/internal/observable/throwError.ts:123:68)
+    at _Observable._trySubscribe (http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:235:19)
+    at http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:225:18
+    at errorContext (http://localhost:9876/base/node_modules/rxjs/src/internal/util/errorContext.ts:29:5)
+    at _Observable.subscribe (http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:211:5)
+    at http://localhost:9876/base/node_modules/rxjs/src/internal/firstValueFrom.ts:73:12
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at firstValueFrom (http://localhost:9876/base/node_modules/rxjs/src/internal/firstValueFrom.ts:58:10)
+    at RecipeInteractionService2.<anonymous> (http://localhost:9876/base/src/app/shared/services/recipe-interaction.service.ts:27:30)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 167 of 471[32m SUCCESS[39m (0 secs / 0.625 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 168 of 471[32m SUCCESS[39m (0 secs / 0.626 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 169 of 471[32m SUCCESS[39m (0 secs / 0.627 secs)
+[1A[2KERROR: [36m'toggleLike error', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/shared/services/recipe-interaction.service.spec.ts:127:57
+    at _Observable.init [as _subscribe] (http://localhost:9876/base/node_modules/rxjs/src/internal/observable/throwError.ts:123:68)
+    at _Observable._trySubscribe (http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:235:19)
+    at http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:225:18
+    at errorContext (http://localhost:9876/base/node_modules/rxjs/src/internal/util/errorContext.ts:29:5)
+    at _Observable.subscribe (http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:211:5)
+    at http://localhost:9876/base/node_modules/rxjs/src/internal/firstValueFrom.ts:73:12
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at firstValueFrom (http://localhost:9876/base/node_modules/rxjs/src/internal/firstValueFrom.ts:58:10)
+    at RecipeInteractionService2.<anonymous> (http://localhost:9876/base/src/app/shared/services/recipe-interaction.service.ts:27:30)[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 169 of 471[32m SUCCESS[39m (0 secs / 0.627 secs)
+ERROR: 'toggleLike error', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/shared/services/recipe-interaction.service.spec.ts:127:57
+    at _Observable.init [as _subscribe] (http://localhost:9876/base/node_modules/rxjs/src/internal/observable/throwError.ts:123:68)
+    at _Observable._trySubscribe (http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:235:19)
+    at http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:225:18
+    at errorContext (http://localhost:9876/base/node_modules/rxjs/src/internal/util/errorContext.ts:29:5)
+    at _Observable.subscribe (http://localhost:9876/base/node_modules/rxjs/src/internal/Observable.ts:211:5)
+    at http://localhost:9876/base/node_modules/rxjs/src/internal/firstValueFrom.ts:73:12
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at firstValueFrom (http://localhost:9876/base/node_modules/rxjs/src/internal/firstValueFrom.ts:58:10)
+    at RecipeInteractionService2.<anonymous> (http://localhost:9876/base/src/app/shared/services/recipe-interaction.service.ts:27:30)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 170 of 471[32m SUCCESS[39m (0 secs / 0.627 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 171 of 471[32m SUCCESS[39m (0 secs / 0.627 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 172 of 471[32m SUCCESS[39m (0 secs / 0.628 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 173 of 471[32m SUCCESS[39m (0 secs / 0.629 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 174 of 471[32m SUCCESS[39m (0 secs / 0.63 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 175 of 471[32m SUCCESS[39m (0 secs / 0.631 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 176 of 471[32m SUCCESS[39m (0 secs / 0.632 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 177 of 471[32m SUCCESS[39m (0 secs / 0.632 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 178 of 471[32m SUCCESS[39m (0 secs / 0.632 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 179 of 471[32m SUCCESS[39m (0 secs / 0.633 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 180 of 471[32m SUCCESS[39m (0 secs / 0.633 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 181 of 471[32m SUCCESS[39m (0 secs / 0.633 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 182 of 471[32m SUCCESS[39m (0 secs / 0.644 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 183 of 471[32m SUCCESS[39m (0 secs / 0.645 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 184 of 471[32m SUCCESS[39m (0 secs / 0.646 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 185 of 471[32m SUCCESS[39m (0 secs / 0.647 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 186 of 471[32m SUCCESS[39m (0 secs / 0.648 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 187 of 471[32m SUCCESS[39m (0 secs / 0.648 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 188 of 471[32m SUCCESS[39m (0 secs / 0.648 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 189 of 471[32m SUCCESS[39m (0 secs / 0.649 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 190 of 471[32m SUCCESS[39m (0 secs / 0.65 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 191 of 471[32m SUCCESS[39m (0 secs / 0.651 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 192 of 471[32m SUCCESS[39m (0 secs / 0.652 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 193 of 471[32m SUCCESS[39m (0 secs / 0.653 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 194 of 471[32m SUCCESS[39m (0 secs / 0.653 secs)
+[1A[2KERROR: [36m'fetch user by id', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 401, statusText: 'Unauthorized', url: '/api/users/u2', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/users/u2: 401 Unauthorized', error: 'Unauthorized'}[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 194 of 471[32m SUCCESS[39m (0 secs / 0.653 secs)
+ERROR: 'fetch user by id', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 401, statusText: 'Unauthorized', url: '/api/users/u2', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/users/u2: 401 Unauthorized', error: 'Unauthorized'}
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 195 of 471[32m SUCCESS[39m (0 secs / 0.653 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 196 of 471[32m SUCCESS[39m (0 secs / 0.653 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 197 of 471[32m SUCCESS[39m (0 secs / 0.653 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 198 of 471[32m SUCCESS[39m (0 secs / 0.654 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 199 of 471[32m SUCCESS[39m (0 secs / 0.655 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 200 of 471[32m SUCCESS[39m (0 secs / 0.655 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 201 of 471[32m SUCCESS[39m (0 secs / 0.656 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 202 of 471[32m SUCCESS[39m (0 secs / 0.657 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 203 of 471[32m SUCCESS[39m (0 secs / 0.666 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 204 of 471[32m SUCCESS[39m (0 secs / 0.667 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 205 of 471[32m SUCCESS[39m (0 secs / 0.668 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 206 of 471[32m SUCCESS[39m (0 secs / 0.669 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 207 of 471[32m SUCCESS[39m (0 secs / 0.67 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 208 of 471[32m SUCCESS[39m (0 secs / 0.671 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 209 of 471[32m SUCCESS[39m (0 secs / 0.672 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 210 of 471[32m SUCCESS[39m (0 secs / 0.673 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 211 of 471[32m SUCCESS[39m (0 secs / 0.674 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 212 of 471[32m SUCCESS[39m (0 secs / 0.675 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 213 of 471[32m SUCCESS[39m (0 secs / 0.676 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 214 of 471[32m SUCCESS[39m (0 secs / 0.677 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 215 of 471[32m SUCCESS[39m (0 secs / 0.679 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 216 of 471[32m SUCCESS[39m (0 secs / 0.679 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 217 of 471[32m SUCCESS[39m (0 secs / 0.68 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 218 of 471[32m SUCCESS[39m (0 secs / 0.68 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 219 of 471[32m SUCCESS[39m (0 secs / 0.68 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 220 of 471[32m SUCCESS[39m (0 secs / 0.681 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 221 of 471[32m SUCCESS[39m (0 secs / 0.682 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 222 of 471[32m SUCCESS[39m (0 secs / 0.683 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 223 of 471[32m SUCCESS[39m (0 secs / 0.684 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 224 of 471[32m SUCCESS[39m (0 secs / 0.684 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 225 of 471[32m SUCCESS[39m (0 secs / 0.684 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 226 of 471[32m SUCCESS[39m (0 secs / 0.685 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 227 of 471[32m SUCCESS[39m (0 secs / 0.685 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 228 of 471[32m SUCCESS[39m (0 secs / 0.686 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 229 of 471[32m SUCCESS[39m (0 secs / 0.687 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 230 of 471[32m SUCCESS[39m (0 secs / 0.688 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 231 of 471[32m SUCCESS[39m (0 secs / 0.688 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 232 of 471[32m SUCCESS[39m (0 secs / 0.689 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 233 of 471[32m SUCCESS[39m (0 secs / 0.69 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 234 of 471[32m SUCCESS[39m (0 secs / 0.691 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 235 of 471[32m SUCCESS[39m (0 secs / 0.692 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 236 of 471[32m SUCCESS[39m (0 secs / 0.692 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 237 of 471[32m SUCCESS[39m (0 secs / 0.693 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 238 of 471[32m SUCCESS[39m (0 secs / 0.694 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 239 of 471[32m SUCCESS[39m (0 secs / 0.694 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 240 of 471[32m SUCCESS[39m (0 secs / 0.695 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 241 of 471[32m SUCCESS[39m (0 secs / 0.696 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 242 of 471[32m SUCCESS[39m (0 secs / 0.702 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 243 of 471[32m SUCCESS[39m (0 secs / 0.703 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 244 of 471[32m SUCCESS[39m (0 secs / 0.703 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 245 of 471[32m SUCCESS[39m (0 secs / 0.704 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 246 of 471[32m SUCCESS[39m (0 secs / 0.705 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 247 of 471[32m SUCCESS[39m (0 secs / 0.706 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 248 of 471[32m SUCCESS[39m (0 secs / 0.707 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 249 of 471[32m SUCCESS[39m (0 secs / 0.708 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 250 of 471[32m SUCCESS[39m (0 secs / 0.708 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 251 of 471[32m SUCCESS[39m (0 secs / 0.708 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 252 of 471[32m SUCCESS[39m (0 secs / 0.709 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 253 of 471[32m SUCCESS[39m (0 secs / 0.71 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 254 of 471[32m SUCCESS[39m (0 secs / 0.711 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 255 of 471[32m SUCCESS[39m (0 secs / 0.712 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 256 of 471[32m SUCCESS[39m (0 secs / 0.713 secs)
+[1A[2K[31mChrome Headless 146.0.0.0 (Windows 10) RecipeUpload Component (Frontend Tests) F-R03: isEditMode=true invoca updateRecipe en lugar de createRecipe FAILED[39m
+	Error: Cannot find control with name: 'images'
+	    at _throwError (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:332:9)
+	    at setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:74:19)
+	    at _FormGroupDirective.addControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_group_directive.ts:215:5)
+	    at _FormControlName._setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:219:59)
+	    at _FormControlName.ngOnChanges (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:170:28)
+	    at _FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/features/ng_onchanges_feature.ts:83:10)
+	    at callHookInternal (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+	    at callHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:322:5)
+	    at callHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:270:9)
+	    at executeInitAndCheckHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:205:5)
+Chrome Headless 146.0.0.0 (Windows 10): Executed 257 of 471[31m (1 FAILED)[39m (0 secs / 0.754 secs)
+[1A[2K[31mChrome Headless 146.0.0.0 (Windows 10) RecipeUpload Component (Frontend Tests) F-R01: Formulario inv├ílido muestra Swal y no llama al servicio FAILED[39m
+	Error: Cannot find control with name: 'images'
+	    at _throwError (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:332:9)
+	    at setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:74:19)
+	    at _FormGroupDirective.addControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_group_directive.ts:215:5)
+	    at _FormControlName._setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:219:59)
+	    at _FormControlName.ngOnChanges (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:170:28)
+	    at _FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/features/ng_onchanges_feature.ts:83:10)
+	    at callHookInternal (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+	    at callHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:322:5)
+	    at callHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:270:9)
+	    at executeInitAndCheckHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:205:5)
+Chrome Headless 146.0.0.0 (Windows 10): Executed 258 of 471[31m (2 FAILED)[39m (0 secs / 0.765 secs)
+[1A[2K[31mChrome Headless 146.0.0.0 (Windows 10) RecipeUpload Component (Frontend Tests) F-R02: Sin im├ígenes muestra Swal espec├¡fico y no llama al servicio FAILED[39m
+	Error: Cannot find control with name: 'images'
+	    at _throwError (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:332:9)
+	    at setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:74:19)
+	    at _FormGroupDirective.addControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_group_directive.ts:215:5)
+	    at _FormControlName._setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:219:59)
+	    at _FormControlName.ngOnChanges (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:170:28)
+	    at _FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/features/ng_onchanges_feature.ts:83:10)
+	    at callHookInternal (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+	    at callHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:322:5)
+	    at callHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:270:9)
+	    at executeInitAndCheckHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:205:5)
+Chrome Headless 146.0.0.0 (Windows 10): Executed 259 of 471[31m (3 FAILED)[39m (0 secs / 0.774 secs)
+[1A[2K[31mChrome Headless 146.0.0.0 (Windows 10) RecipeUpload Component (Frontend Tests) F-R06: Env├¡o exitoso muestra toast y navega a /home FAILED[39m
+	Error: Cannot find control with name: 'images'
+	    at _throwError (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:332:9)
+	    at setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:74:19)
+	    at _FormGroupDirective.addControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_group_directive.ts:215:5)
+	    at _FormControlName._setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:219:59)
+	    at _FormControlName.ngOnChanges (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:170:28)
+	    at _FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/features/ng_onchanges_feature.ts:83:10)
+	    at callHookInternal (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+	    at callHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:322:5)
+	    at callHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:270:9)
+	    at executeInitAndCheckHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:205:5)
+Chrome Headless 146.0.0.0 (Windows 10): Executed 260 of 471[31m (4 FAILED)[39m (0 secs / 0.785 secs)
+[1A[2K[31mChrome Headless 146.0.0.0 (Windows 10) RecipeUpload Component (Frontend Tests) F-R07: Error inesperado (catch) muestra Swal gen├®rico FAILED[39m
+	Error: Cannot find control with name: 'images'
+	    at _throwError (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:332:9)
+	    at setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:74:19)
+	    at _FormGroupDirective.addControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_group_directive.ts:215:5)
+	    at _FormControlName._setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:219:59)
+	    at _FormControlName.ngOnChanges (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:170:28)
+	    at _FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/features/ng_onchanges_feature.ts:83:10)
+	    at callHookInternal (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+	    at callHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:322:5)
+	    at callHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:270:9)
+	    at executeInitAndCheckHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:205:5)
+Chrome Headless 146.0.0.0 (Windows 10): Executed 261 of 471[31m (5 FAILED)[39m (0 secs / 0.795 secs)
+[1A[2K[31mChrome Headless 146.0.0.0 (Windows 10) RecipeUpload Component (Frontend Tests) F-R08: isSubmitting vuelve a false en el finally FAILED[39m
+	Error: Cannot find control with name: 'images'
+	    at _throwError (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:332:9)
+	    at setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:74:19)
+	    at _FormGroupDirective.addControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_group_directive.ts:215:5)
+	    at _FormControlName._setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:219:59)
+	    at _FormControlName.ngOnChanges (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:170:28)
+	    at _FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/features/ng_onchanges_feature.ts:83:10)
+	    at callHookInternal (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+	    at callHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:322:5)
+	    at callHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:270:9)
+	    at executeInitAndCheckHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:205:5)
+Chrome Headless 146.0.0.0 (Windows 10): Executed 262 of 471[31m (6 FAILED)[39m (0 secs / 0.803 secs)
+[1A[2K[31mChrome Headless 146.0.0.0 (Windows 10) RecipeUpload Component (Frontend Tests) F-R04: isEditMode=false invoca createRecipe FAILED[39m
+	Error: Cannot find control with name: 'images'
+	    at _throwError (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:332:9)
+	    at setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:74:19)
+	    at _FormGroupDirective.addControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_group_directive.ts:215:5)
+	    at _FormControlName._setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:219:59)
+	    at _FormControlName.ngOnChanges (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:170:28)
+	    at _FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/features/ng_onchanges_feature.ts:83:10)
+	    at callHookInternal (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+	    at callHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:322:5)
+	    at callHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:270:9)
+	    at executeInitAndCheckHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:205:5)
+Chrome Headless 146.0.0.0 (Windows 10): Executed 263 of 471[31m (7 FAILED)[39m (0 secs / 0.811 secs)
+[1A[2K[31mChrome Headless 146.0.0.0 (Windows 10) RecipeUpload Component (Frontend Tests) F-R05: Respuesta success=false muestra Swal con mensaje del servidor FAILED[39m
+	Error: Cannot find control with name: 'images'
+	    at _throwError (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:332:9)
+	    at setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/shared.ts:74:19)
+	    at _FormGroupDirective.addControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_group_directive.ts:215:5)
+	    at _FormControlName._setUpControl (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:219:59)
+	    at _FormControlName.ngOnChanges (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/forms/src/directives/reactive_directives/form_control_name.ts:170:28)
+	    at _FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/features/ng_onchanges_feature.ts:83:10)
+	    at callHookInternal (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:290:10)
+	    at callHook (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:322:5)
+	    at callHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:270:9)
+	    at executeInitAndCheckHooks (http://localhost:9876/k8-fastbuild-ST-199a4f3c4e20/bin/packages/core/src/render3/hooks.ts:205:5)
+Chrome Headless 146.0.0.0 (Windows 10): Executed 264 of 471[31m (8 FAILED)[39m (0 secs / 0.819 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 265 of 471[31m (8 FAILED)[39m (0 secs / 0.821 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 266 of 471[31m (8 FAILED)[39m (0 secs / 0.822 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 267 of 471[31m (8 FAILED)[39m (0 secs / 0.822 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 268 of 471[31m (8 FAILED)[39m (0 secs / 0.823 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 269 of 471[31m (8 FAILED)[39m (0 secs / 0.823 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 270 of 471[31m (8 FAILED)[39m (0 secs / 0.824 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 271 of 471[31m (8 FAILED)[39m (0 secs / 0.825 secs)
+[1A[2KWARN: [36m'Spec 'Storage Service ÔÇô Pruebas Unitarias deletePhotoByPublicUrl ST-06: no hace request si URL est├í vac├¡a' has no expectations.'[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 271 of 471[31m (8 FAILED)[39m (0 secs / 0.825 secs)
+WARN: 'Spec 'Storage Service ÔÇô Pruebas Unitarias deletePhotoByPublicUrl ST-06: no hace request si URL est├í vac├¡a' has no expectations.'
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 272 of 471[31m (8 FAILED)[39m (0 secs / 0.825 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 273 of 471[31m (8 FAILED)[39m (0 secs / 0.826 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 274 of 471[31m (8 FAILED)[39m (0 secs / 0.827 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 275 of 471[31m (8 FAILED)[39m (0 secs / 0.828 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 276 of 471[31m (8 FAILED)[39m (0 secs / 0.828 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 277 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 278 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 279 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 280 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 281 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 282 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 283 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 284 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 285 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 286 of 471[31m (8 FAILED)[39m (0 secs / 0.829 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 287 of 471[31m (8 FAILED)[39m (0 secs / 0.853 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 288 of 471[31m (8 FAILED)[39m (0 secs / 0.859 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 289 of 471[31m (8 FAILED)[39m (0 secs / 0.862 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 290 of 471[31m (8 FAILED)[39m (0 secs / 0.866 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 291 of 471[31m (8 FAILED)[39m (0 secs / 0.871 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 292 of 471[31m (8 FAILED)[39m (0 secs / 0.875 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 293 of 471[31m (8 FAILED)[39m (0 secs / 0.879 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 294 of 471[31m (8 FAILED)[39m (0 secs / 0.88 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 295 of 471[31m (8 FAILED)[39m (0 secs / 0.88 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 296 of 471[31m (8 FAILED)[39m (0 secs / 0.881 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 297 of 471[31m (8 FAILED)[39m (0 secs / 0.881 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 298 of 471[31m (8 FAILED)[39m (0 secs / 0.881 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 299 of 471[31m (8 FAILED)[39m (0 secs / 0.881 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 300 of 471[31m (8 FAILED)[39m (0 secs / 0.881 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 301 of 471[31m (8 FAILED)[39m (0 secs / 0.882 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 302 of 471[31m (8 FAILED)[39m (0 secs / 0.885 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 303 of 471[31m (8 FAILED)[39m (0 secs / 0.887 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 304 of 471[31m (8 FAILED)[39m (0 secs / 0.888 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 305 of 471[31m (8 FAILED)[39m (0 secs / 0.889 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 306 of 471[31m (8 FAILED)[39m (0 secs / 0.891 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 307 of 471[31m (8 FAILED)[39m (0 secs / 0.893 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 308 of 471[31m (8 FAILED)[39m (0 secs / 0.895 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 309 of 471[31m (8 FAILED)[39m (0 secs / 0.896 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 310 of 471[31m (8 FAILED)[39m (0 secs / 0.898 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 311 of 471[31m (8 FAILED)[39m (0 secs / 1.114 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 312 of 471[31m (8 FAILED)[39m (0 secs / 1.116 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 313 of 471[31m (8 FAILED)[39m (0 secs / 1.119 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 314 of 471[31m (8 FAILED)[39m (0 secs / 1.121 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 315 of 471[31m (8 FAILED)[39m (0 secs / 1.123 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 316 of 471[31m (8 FAILED)[39m (0 secs / 1.125 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 317 of 471[31m (8 FAILED)[39m (0 secs / 1.127 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 318 of 471[31m (8 FAILED)[39m (0 secs / 1.129 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 319 of 471[31m (8 FAILED)[39m (0 secs / 1.13 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 320 of 471[31m (8 FAILED)[39m (0 secs / 1.131 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 321 of 471[31m (8 FAILED)[39m (0 secs / 1.132 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 322 of 471[31m (8 FAILED)[39m (0 secs / 1.133 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 323 of 471[31m (8 FAILED)[39m (0 secs / 1.133 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 324 of 471[31m (8 FAILED)[39m (0 secs / 1.133 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 325 of 471[31m (8 FAILED)[39m (0 secs / 1.134 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 326 of 471[31m (8 FAILED)[39m (0 secs / 1.135 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 327 of 471[31m (8 FAILED)[39m (0 secs / 1.135 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 328 of 471[31m (8 FAILED)[39m (0 secs / 1.135 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 329 of 471[31m (8 FAILED)[39m (0 secs / 1.135 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 330 of 471[31m (8 FAILED)[39m (0 secs / 1.136 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 331 of 471[31m (8 FAILED)[39m (0 secs / 1.137 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 332 of 471[31m (8 FAILED)[39m (0 secs / 1.138 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 333 of 471[31m (8 FAILED)[39m (0 secs / 1.139 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 334 of 471[31m (8 FAILED)[39m (0 secs / 1.14 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 335 of 471[31m (8 FAILED)[39m (0 secs / 1.141 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 336 of 471[31m (8 FAILED)[39m (0 secs / 1.142 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 337 of 471[31m (8 FAILED)[39m (0 secs / 1.143 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 338 of 471[31m (8 FAILED)[39m (0 secs / 1.143 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 339 of 471[31m (8 FAILED)[39m (0 secs / 1.143 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 340 of 471[31m (8 FAILED)[39m (0 secs / 1.144 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 341 of 471[31m (8 FAILED)[39m (0 secs / 1.145 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 342 of 471[31m (8 FAILED)[39m (0 secs / 1.146 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 343 of 471[31m (8 FAILED)[39m (0 secs / 1.147 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 344 of 471[31m (8 FAILED)[39m (0 secs / 1.147 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 345 of 471[31m (8 FAILED)[39m (0 secs / 1.148 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 346 of 471[31m (8 FAILED)[39m (0 secs / 1.149 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 347 of 471[31m (8 FAILED)[39m (0 secs / 1.149 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 348 of 471[31m (8 FAILED)[39m (0 secs / 1.15 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 349 of 471[31m (8 FAILED)[39m (0 secs / 1.151 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 350 of 471[31m (8 FAILED)[39m (0 secs / 1.151 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 351 of 471[31m (8 FAILED)[39m (0 secs / 1.152 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 352 of 471[31m (8 FAILED)[39m (0 secs / 1.152 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 353 of 471[31m (8 FAILED)[39m (0 secs / 1.153 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 354 of 471[31m (8 FAILED)[39m (0 secs / 1.153 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 355 of 471[31m (8 FAILED)[39m (0 secs / 1.161 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 356 of 471[31m (8 FAILED)[39m (0 secs / 1.162 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 357 of 471[31m (8 FAILED)[39m (0 secs / 1.163 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 358 of 471[31m (8 FAILED)[39m (0 secs / 1.164 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 359 of 471[31m (8 FAILED)[39m (0 secs / 1.164 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 360 of 471[31m (8 FAILED)[39m (0 secs / 1.167 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 361 of 471[31m (8 FAILED)[39m (0 secs / 1.172 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 362 of 471[31m (8 FAILED)[39m (0 secs / 1.173 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 363 of 471[31m (8 FAILED)[39m (0 secs / 1.174 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 364 of 471[31m (8 FAILED)[39m (0 secs / 1.174 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 365 of 471[31m (8 FAILED)[39m (0 secs / 1.179 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 366 of 471[31m (8 FAILED)[39m (0 secs / 1.184 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 367 of 471[31m (8 FAILED)[39m (0 secs / 1.186 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 368 of 471[31m (8 FAILED)[39m (0 secs / 1.188 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 369 of 471[31m (8 FAILED)[39m (0 secs / 1.189 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 370 of 471[31m (8 FAILED)[39m (0 secs / 1.192 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 371 of 471[31m (8 FAILED)[39m (0 secs / 1.196 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 372 of 471[31m (8 FAILED)[39m (0 secs / 1.198 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 373 of 471[31m (8 FAILED)[39m (0 secs / 1.2 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 374 of 471[31m (8 FAILED)[39m (0 secs / 1.202 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 375 of 471[31m (8 FAILED)[39m (0 secs / 1.204 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 376 of 471[31m (8 FAILED)[39m (0 secs / 1.206 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 377 of 471[31m (8 FAILED)[39m (0 secs / 1.207 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 378 of 471[31m (8 FAILED)[39m (0 secs / 1.209 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 379 of 471[31m (8 FAILED)[39m (0 secs / 1.211 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 380 of 471[31m (8 FAILED)[39m (0 secs / 1.213 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 381 of 471[31m (8 FAILED)[39m (0 secs / 1.214 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 382 of 471[31m (8 FAILED)[39m (0 secs / 1.215 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 383 of 471[31m (8 FAILED)[39m (0 secs / 1.217 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 384 of 471[31m (8 FAILED)[39m (0 secs / 1.218 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 385 of 471[31m (8 FAILED)[39m (0 secs / 1.219 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 386 of 471[31m (8 FAILED)[39m (0 secs / 1.221 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 387 of 471[31m (8 FAILED)[39m (0 secs / 1.222 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 388 of 471[31m (8 FAILED)[39m (0 secs / 1.224 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 389 of 471[31m (8 FAILED)[39m (0 secs / 1.226 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 390 of 471[31m (8 FAILED)[39m (0 secs / 1.227 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 391 of 471[31m (8 FAILED)[39m (0 secs / 1.229 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 392 of 471[31m (8 FAILED)[39m (0 secs / 1.23 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 393 of 471[31m (8 FAILED)[39m (0 secs / 1.232 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 394 of 471[31m (8 FAILED)[39m (0 secs / 1.233 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 395 of 471[31m (8 FAILED)[39m (0 secs / 1.233 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 396 of 471[31m (8 FAILED)[39m (0 secs / 1.234 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 397 of 471[31m (8 FAILED)[39m (0 secs / 1.234 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 398 of 471[31m (8 FAILED)[39m (0 secs / 1.234 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 399 of 471[31m (8 FAILED)[39m (0 secs / 1.234 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 400 of 471[31m (8 FAILED)[39m (0 secs / 1.235 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 401 of 471[31m (8 FAILED)[39m (0 secs / 1.235 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 402 of 471[31m (8 FAILED)[39m (0 secs / 1.235 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 403 of 471[31m (8 FAILED)[39m (0 secs / 1.236 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 404 of 471[31m (8 FAILED)[39m (0 secs / 1.236 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 405 of 471[31m (8 FAILED)[39m (0 secs / 1.236 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 406 of 471[31m (8 FAILED)[39m (0 secs / 1.236 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 407 of 471[31m (8 FAILED)[39m (0 secs / 1.236 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 408 of 471[31m (8 FAILED)[39m (0 secs / 1.237 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 409 of 471[31m (8 FAILED)[39m (0 secs / 1.237 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 410 of 471[31m (8 FAILED)[39m (0 secs / 1.238 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 411 of 471[31m (8 FAILED)[39m (0 secs / 1.238 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 412 of 471[31m (8 FAILED)[39m (0 secs / 1.239 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 413 of 471[31m (8 FAILED)[39m (0 secs / 1.239 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 414 of 471[31m (8 FAILED)[39m (0 secs / 1.239 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 415 of 471[31m (8 FAILED)[39m (0 secs / 1.239 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 416 of 471[31m (8 FAILED)[39m (0 secs / 1.239 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 417 of 471[31m (8 FAILED)[39m (0 secs / 1.24 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 418 of 471[31m (8 FAILED)[39m (0 secs / 1.241 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 419 of 471[31m (8 FAILED)[39m (0 secs / 1.242 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 420 of 471[31m (8 FAILED)[39m (0 secs / 1.243 secs)
+[1A[2KERROR: [36m'downloadPDF error', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 500, statusText: 'Unknown Error', url: '/api/recipes/r1/download?format=pdf', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/recipes/r1/download?format=pdf: 500 ', error: ErrorEvent{isTrusted: false}}[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 420 of 471[31m (8 FAILED)[39m (0 secs / 1.243 secs)
+ERROR: 'downloadPDF error', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 500, statusText: 'Unknown Error', url: '/api/recipes/r1/download?format=pdf', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/recipes/r1/download?format=pdf: 500 ', error: ErrorEvent{isTrusted: false}}
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 421 of 471[31m (8 FAILED)[39m (0 secs / 1.244 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 422 of 471[31m (8 FAILED)[39m (0 secs / 1.245 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 423 of 471[31m (8 FAILED)[39m (0 secs / 1.246 secs)
+[1A[2KERROR: [36m'addComment error', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 400, statusText: 'Bad Request', url: '/api/recipes/uuid-recipe-error/comments', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/recipes/uuid-recipe-error/comments: 400 Bad Request', error: Object{message: 'El comentario no puede estar vac├¡o'}}[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 423 of 471[31m (8 FAILED)[39m (0 secs / 1.246 secs)
+ERROR: 'addComment error', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 400, statusText: 'Bad Request', url: '/api/recipes/uuid-recipe-error/comments', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/recipes/uuid-recipe-error/comments: 400 Bad Request', error: Object{message: 'El comentario no puede estar vac├¡o'}}
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 424 of 471[31m (8 FAILED)[39m (0 secs / 1.247 secs)
+[1A[2KERROR: [36m'deleteComment error', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 500, statusText: 'Error', url: '/api/recipes/comments/error-delete', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/recipes/comments/error-delete: 500 Error', error: null}[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 424 of 471[31m (8 FAILED)[39m (0 secs / 1.247 secs)
+ERROR: 'deleteComment error', HttpErrorResponse{headers: _HttpHeaders{headers: Map{}, normalizedNames: Map{}, lazyInit: undefined, lazyUpdate: null}, status: 500, statusText: 'Error', url: '/api/recipes/comments/error-delete', ok: false, type: undefined, redirected: undefined, name: 'HttpErrorResponse', message: 'Http failure response for /api/recipes/comments/error-delete: 500 Error', error: null}
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 425 of 471[31m (8 FAILED)[39m (0 secs / 1.248 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 426 of 471[31m (8 FAILED)[39m (0 secs / 1.248 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 427 of 471[31m (8 FAILED)[39m (0 secs / 1.248 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 428 of 471[31m (8 FAILED)[39m (0 secs / 1.249 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 429 of 471[31m (8 FAILED)[39m (0 secs / 1.25 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 430 of 471[31m (8 FAILED)[39m (0 secs / 1.251 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 431 of 471[31m (8 FAILED)[39m (0 secs / 1.252 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 432 of 471[31m (8 FAILED)[39m (0 secs / 1.254 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 433 of 471[31m (8 FAILED)[39m (0 secs / 1.255 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 434 of 471[31m (8 FAILED)[39m (0 secs / 1.255 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 435 of 471[31m (8 FAILED)[39m (0 secs / 1.256 secs)
+[1A[2KERROR: [36m'Error al buscar la receta:', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:63:36
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Object.getRecipeById (http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:62:48)
+    at RecipeDetail2.<anonymous> (http://localhost:9876/base/src/app/features/pages/recipe-detail/recipe-detail.ts:49:51)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 435 of 471[31m (8 FAILED)[39m (0 secs / 1.256 secs)
+ERROR: 'Error al buscar la receta:', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:63:36
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Object.getRecipeById (http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:62:48)
+    at RecipeDetail2.<anonymous> (http://localhost:9876/base/src/app/features/pages/recipe-detail/recipe-detail.ts:49:51)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 436 of 471[31m (8 FAILED)[39m (0 secs / 1.265 secs)
+[1A[2KERROR: [36m'Error al buscar la receta:', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:63:36
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Object.getRecipeById (http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:62:48)
+    at RecipeDetail2.<anonymous> (http://localhost:9876/base/src/app/features/pages/recipe-detail/recipe-detail.ts:49:51)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 436 of 471[31m (8 FAILED)[39m (0 secs / 1.265 secs)
+ERROR: 'Error al buscar la receta:', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:63:36
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Object.getRecipeById (http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:62:48)
+    at RecipeDetail2.<anonymous> (http://localhost:9876/base/src/app/features/pages/recipe-detail/recipe-detail.ts:49:51)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 437 of 471[31m (8 FAILED)[39m (0 secs / 1.266 secs)
+[1A[2KERROR: [36m'Error al buscar la receta:', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:63:36
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Object.getRecipeById (http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:62:48)
+    at RecipeDetail2.<anonymous> (http://localhost:9876/base/src/app/features/pages/recipe-detail/recipe-detail.ts:49:51)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 437 of 471[31m (8 FAILED)[39m (0 secs / 1.266 secs)
+ERROR: 'Error al buscar la receta:', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:63:36
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at Object.getRecipeById (http://localhost:9876/base/src/app/__tests__/ver-comentario-front.spec.ts:62:48)
+    at RecipeDetail2.<anonymous> (http://localhost:9876/base/src/app/features/pages/recipe-detail/recipe-detail.ts:49:51)
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 438 of 471[31m (8 FAILED)[39m (0 secs / 1.267 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 439 of 471[31m (8 FAILED)[39m (0 secs / 1.273 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 440 of 471[31m (8 FAILED)[39m (0 secs / 1.275 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 441 of 471[31m (8 FAILED)[39m (0 secs / 1.276 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 442 of 471[31m (8 FAILED)[39m (0 secs / 1.278 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 443 of 471[31m (8 FAILED)[39m (0 secs / 1.28 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 444 of 471[31m (8 FAILED)[39m (0 secs / 1.281 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 445 of 471[31m (8 FAILED)[39m (0 secs / 1.283 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 446 of 471[31m (8 FAILED)[39m (0 secs / 1.284 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 447 of 471[31m (8 FAILED)[39m (0 secs / 1.284 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 448 of 471[31m (8 FAILED)[39m (0 secs / 1.284 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 449 of 471[31m (8 FAILED)[39m (0 secs / 1.285 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 450 of 471[31m (8 FAILED)[39m (0 secs / 1.287 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 451 of 471[31m (8 FAILED)[39m (0 secs / 1.288 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 452 of 471[31m (8 FAILED)[39m (0 secs / 1.289 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 453 of 471[31m (8 FAILED)[39m (0 secs / 1.29 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 454 of 471[31m (8 FAILED)[39m (0 secs / 1.291 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 455 of 471[31m (8 FAILED)[39m (0 secs / 1.291 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 456 of 471[31m (8 FAILED)[39m (0 secs / 1.292 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 457 of 471[31m (8 FAILED)[39m (0 secs / 1.292 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 458 of 471[31m (8 FAILED)[39m (0 secs / 1.292 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 459 of 471[31m (8 FAILED)[39m (0 secs / 1.293 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 460 of 471[31m (8 FAILED)[39m (0 secs / 1.293 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 461 of 471[31m (8 FAILED)[39m (0 secs / 1.293 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 462 of 471[31m (8 FAILED)[39m (0 secs / 1.294 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 463 of 471[31m (8 FAILED)[39m (0 secs / 1.294 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 464 of 471[31m (8 FAILED)[39m (0 secs / 1.295 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 465 of 471[31m (8 FAILED)[39m (0 secs / 1.296 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 466 of 471[31m (8 FAILED)[39m (0 secs / 1.303 secs)
+[1A[2KERROR: [36m'Error en login:', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/features/pages/login/login.spec.ts:140:58
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at UserContext.<anonymous> (http://localhost:9876/base/src/app/features/pages/login/login.spec.ts:134:95)
+    at _ZoneDelegate.invoke (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:398:28)
+    at _ProxyZoneSpec.onInvoke (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+    at _ZoneDelegate.invoke (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:397:34)
+    at ZoneImpl.run (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:113:43)[39m
+Chrome Headless 146.0.0.0 (Windows 10): Executed 466 of 471[31m (8 FAILED)[39m (0 secs / 1.303 secs)
+ERROR: 'Error en login:', Error: Network error
+Error: Network error
+    at http://localhost:9876/base/src/app/features/pages/login/login.spec.ts:140:58
+    at Generator.next (<anonymous>)
+    at http://localhost:9876/base/chunk-HBW54YOI.js:67:61
+    at new ZoneAwarePromise (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:2701:25)
+    at __async (http://localhost:9876/base/chunk-HBW54YOI.js:51:10)
+    at UserContext.<anonymous> (http://localhost:9876/base/src/app/features/pages/login/login.spec.ts:134:95)
+    at _ZoneDelegate.invoke (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:398:28)
+    at _ProxyZoneSpec.onInvoke (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone-testing.js:2132:39)
+    at _ZoneDelegate.invoke (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:397:34)
+    at ZoneImpl.run (http://localhost:9876/base/node_modules/zone.js/fesm2015/zone.js:113:43)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 467 of 471[31m (8 FAILED)[39m (0 secs / 1.308 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 468 of 471[31m (8 FAILED)[39m (0 secs / 1.311 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 469 of 471[31m (8 FAILED)[39m (0 secs / 1.314 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 470 of 471[31m (8 FAILED)[39m (0 secs / 1.317 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 471 of 471[31m (8 FAILED)[39m (0 secs / 1.32 secs)
+[1A[2KChrome Headless 146.0.0.0 (Windows 10): Executed 471 of 471[31m (8 FAILED)[39m (1.473 secs / 1.32 secs)
+[31mTOTAL: 8 FAILED, 463 SUCCESS[39m
+
+=============================== Coverage summary ===============================
+Statements   : 86.74% ( 1034/1192 )
+Branches     : 72.53% ( 280/386 )
+Functions    : 80.93% ( 242/299 )
+Lines        : 87.69% ( 955/1089 )
+================================================================================

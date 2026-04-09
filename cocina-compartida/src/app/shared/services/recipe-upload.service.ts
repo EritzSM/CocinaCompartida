@@ -60,6 +60,7 @@ export class RecipeUploadService {
     recipeForm.patchValue({
       name: recipe.name,
       descripcion: recipe.descripcion,
+      category: recipe.category,
     });
 
     this.recipeFormService.clearAndLoadFormArray(recipeForm.get('ingredients') as any, recipe.ingredients);
@@ -82,15 +83,20 @@ export class RecipeUploadService {
   }
 
   async uploadFiles(files: File[]): Promise<boolean> {
-    const success = await this.recipeImageService.uploadFiles(files, this.recipeDataService.recipeId);
-    
-    if (success) {
+    const result = await this.recipeImageService.uploadFiles(files, this.recipeDataService.recipeId);
+
+    if (result === 'limit') {
+      this.notificationService.showToast('warning', `Máximo ${this.recipeImageService.MAX_IMAGES} imágenes por receta`);
+      return false;
+    }
+
+    if (result) {
       this.notificationService.showToast('success', 'Imágenes subidas correctamente');
     } else {
       this.notificationService.showToast('error', 'Error al subir imágenes');
     }
-    
-    return success;
+
+    return !!result;
   }
 
   async removeImage(index: number): Promise<void> {

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -7,13 +7,20 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RecipeFormService {
   private fb = inject(FormBuilder);
 
+  static meaningfulText(control: AbstractControl): ValidationErrors | null {
+    const val = (control.value ?? '').trim();
+    if (!val) return null;
+    const hasLetter = /[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/.test(val);
+    return hasLetter ? null : { meaningfulText: true };
+  }
+
   createRecipeForm(): FormGroup {
     return this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      descripcion: ['', [Validators.required, Validators.minLength(10)]],
+      name: ['', [Validators.required, Validators.minLength(2), RecipeFormService.meaningfulText]],
+      descripcion: ['', [Validators.required, Validators.minLength(10), RecipeFormService.meaningfulText]],
       category: ['', [Validators.required]],
-      ingredients: this.fb.array([this.fb.control('', Validators.required)]),
-      steps: this.fb.array([this.fb.control('', Validators.required)])
+      ingredients: this.fb.array([this.fb.control('', [Validators.required, RecipeFormService.meaningfulText])]),
+      steps: this.fb.array([this.fb.control('', [Validators.required, RecipeFormService.meaningfulText])])
     });
   }
 
@@ -23,7 +30,7 @@ export class RecipeFormService {
   }
 
   addFormArrayItem(formArray: FormArray): void {
-    formArray.push(this.fb.control('', Validators.required));
+    formArray.push(this.fb.control('', [Validators.required, RecipeFormService.meaningfulText]));
   }
 
   removeFormArrayItem(formArray: FormArray, index: number, minItems: number = 1): boolean {

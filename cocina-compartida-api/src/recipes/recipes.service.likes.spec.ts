@@ -51,7 +51,7 @@ describe('RecipesService (Toggle Like Tests)', () => {
   });
 
   // B-TL01: Receta no encontrada lanza NotFoundException
-  // Uso de Test Double: Stub (Retorna null incondicionalmente simulando ausencia en la BD)
+  // Stub (Retorna null incondicionalmente simulando ausencia en la BD)
   describe('B-TL01', () => {
     it('Receta no encontrada lanza NotFoundException', async () => {
       // Arrange
@@ -65,7 +65,7 @@ describe('RecipesService (Toggle Like Tests)', () => {
   });
 
   // B-TL02: likedBy nulo/indefinido se inicializa como array vacío
-  // Uso de Test Double: Dummy (Un mock de la receta cuyo prop likedBy no está definido intencionalmente)
+  // Dummy (Un mock de la receta cuyo prop likedBy no está definido intencionalmente)
   describe('B-TL02', () => {
     it('likedBy nulo/indefinido se inicializa como array vacío antes de operar', async () => {
       // Arrange
@@ -93,7 +93,7 @@ describe('RecipesService (Toggle Like Tests)', () => {
   });
 
   // B-TL03: Usuario que no ha dado like -> se añade a likedBy y likes++
-  // Uso de Test Double: Fake (Generamos un id ajeno simulando a alguien que nunca dio like)
+  // Fake (Generamos un id ajeno simulando a alguien que nunca dio like)
   describe('B-TL03', () => {
     it('Usuario que no ha dado like -> se añade a likedBy y likes++', async () => {
       // Arrange
@@ -113,7 +113,7 @@ describe('RecipesService (Toggle Like Tests)', () => {
   });
 
   // B-TL04: Usuario que ya dio like -> se quita de likedBy y likes--
-  // Uso de Test Double: Mock (Validamos el removal explícito asertando que ya no esté en la coleccion)
+  // Mock (Validamos el removal explícito asertando que ya no esté en la coleccion)
   describe('B-TL04', () => {
     it('Usuario que ya dio like -> se quita de likedBy y likes--', async () => {
       // Arrange
@@ -134,7 +134,7 @@ describe('RecipesService (Toggle Like Tests)', () => {
   });
 
   // B-TL05: likes siempre es igual a likedBy.length tras la operación
-  // Uso de Test Double: Spy (Observamos la consistencia del objeto final mandado a guardar)
+  // Spy (Observamos la consistencia del objeto final mandado a guardar)
   describe('B-TL05', () => {
     it('likes siempre es igual a likedBy.length tras la operación', async () => {
       // Arrange
@@ -158,7 +158,7 @@ describe('RecipesService (Toggle Like Tests)', () => {
   });
 
   // B-TL06: Retorna { likes, likedBy } correcto (equivalente al success controller/service)
-  // Uso de Test Double: Mock (Aseguramos que el retorno contenga las llaves estructuradas)
+  // Mock (Aseguramos que el retorno contenga las llaves estructuradas)
   describe('B-TL06', () => {
     it('Retorna { likes, likedBy } de forma correcta', async () => {
       // Arrange

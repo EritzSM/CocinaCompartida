@@ -21,12 +21,8 @@ export class App {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         const currentUrl = event.url;
-        // Ocultar en login y signup
-        if (currentUrl.includes('/login') || currentUrl.includes('/sign-up') || currentUrl.includes('/sign-up')) {
-          this.showLayout = false;
-        } else {
-          this.showLayout = true;
-        }
+        const hideRoutes = ['/login', '/sign-up', '/recipe-upload', '/edit'];
+        this.showLayout = !hideRoutes.some(r => currentUrl.includes(r));
       });
   }
 }
