@@ -89,13 +89,25 @@ EOF
 
     post {
         always {
-            echo "✓ Pipeline finalizado"
-            publishHTML([reportDir: 'cocina-compartida/coverage', reportFiles: 'index.html', reportName: 'Frontend Coverage']) || true
-            publishHTML([reportDir: 'cocina-compartida-api/coverage', reportFiles: 'index.html', reportName: 'Backend Coverage']) || true
+            script {
+                echo "✓ Pipeline finalizado"
+                try {
+                    publishHTML([reportDir: 'cocina-compartida/coverage', reportFiles: 'index.html', reportName: 'Frontend Coverage'])
+                } catch (Exception e) {
+                    echo "Reporte Frontend no disponible"
+                }
+                try {
+                    publishHTML([reportDir: 'cocina-compartida-api/coverage', reportFiles: 'index.html', reportName: 'Backend Coverage'])
+                } catch (Exception e) {
+                    echo "Reporte Backend no disponible"
+                }
+            }
         }
         failure {
-            sh 'docker-compose -f docker-compose.yml down || true'
-            echo "✗ Pipeline fallido"
+            script {
+                sh 'docker-compose -f docker-compose.yml down || true'
+                echo "✗ Pipeline fallido"
+            }
         }
     }
 }
