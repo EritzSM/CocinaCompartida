@@ -104,9 +104,11 @@ EOF
             }
         }
         failure {
-            script {
-                sh 'docker-compose -f docker-compose.yml down || true'
-                echo "✗ Pipeline fallido"
+            node(''){
+                script {
+                    sh 'docker-compose -f docker-compose.yml down || true'
+                    echo "✗ Pipeline fallido"
+                }
             }
         }
     }
