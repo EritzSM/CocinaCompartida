@@ -85,14 +85,15 @@ pipeline {
                         script {
                             def scannerHome = tool 'SonarScanner'
                             sh "${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.host.url=\$SONAR_HOST_URL \
+                                -Dsonar.login=\$SONAR_AUTH_TOKEN \
                                 -Dsonar.projectKey=cocinacompartida_front \
                                 -Dsonar.projectName='CocinaCompartida Front' \
                                 -Dsonar.sources=src \
                                 -Dsonar.tests=src \
                                 -Dsonar.test.inclusions=**/*.spec.ts \
                                 -Dsonar.javascript.lcov.reportPaths=coverage/cocina-compartida/lcov.info \
-                                -Dsonar.sourceEncoding=UTF-8"
-                        }
+                                -Dsonar.sourceEncoding=UTF-8"                        }
                     }
                 }
             }
@@ -114,14 +115,15 @@ pipeline {
                         script {
                             def scannerHome = tool 'SonarScanner'
                             sh "${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.host.url=\$SONAR_HOST_URL \
+                                -Dsonar.login=\$SONAR_AUTH_TOKEN \
                                 -Dsonar.projectKey=cocinacompartida_back \
                                 -Dsonar.projectName='CocinaCompartida Backend' \
                                 -Dsonar.sources=src \
                                 -Dsonar.tests=src \
                                 -Dsonar.test.inclusions=**/*.spec.ts \
                                 -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                                -Dsonar.sourceEncoding=UTF-8"
-                        }
+                                -Dsonar.sourceEncoding=UTF-8"                        }
                     }
                 }
             }
