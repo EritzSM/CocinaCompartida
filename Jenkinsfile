@@ -44,7 +44,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 echo 'Ejecutando tests'
-                sh 'cd cocina-compartida && npm test -- --watch=false --passWithNoTests || true'
+                sh 'cd cocina-compartida && npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox || true'
                 sh 'cd cocina-compartida-api && npm run test:cov'
             }
         }
@@ -72,47 +72,22 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo 'Construyendo imagenes Docker'
-                sh '''
-                    if command -v docker >/dev/null 2>&1; then
-                        if docker compose version >/dev/null 2>&1; then
-                            docker compose build --no-cache
-                        elif command -v docker-compose >/dev/null 2>&1; then
-                            docker-compose build --no-cache
-                        else
-                            echo "No se encontró ni 'docker compose' ni 'docker-compose'."; exit 1
-                        fi
-                    else
-                        echo "No se encontró docker en el agente Jenkins."; exit 1
-                    fi
-                '''
+                sh 'docker compose build --no-cache || docker-compose build --no-cache'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Desplegando con docker compose'
-                sh """
-                    cat > .env <<-EOF
-DB_USER=${DB_USER}
+                writeFile file: '.env', text: """DB_USER=${DB_USER}
 DB_PASSWORD=${DB_PASSWORD}
 DB_NAME=${DB_NAME}
-EOF
-                    if command -v docker >/dev/null 2>&1; then
-                        if docker compose version >/dev/null 2>&1; then
-                            docker compose down || true
-                            docker compose up -d
-                            docker compose ps
-                        elif command -v docker-compose >/dev/null 2>&1; then
-                            docker-compose down || true
-                            docker-compose up -d
-                            docker-compose ps
-                        else
-                            echo "No se encontró ni 'docker compose' ni 'docker-compose'."; exit 1
-                        fi
-                    else
-                        echo "No se encontró docker en el agente Jenkins."; exit 1
-                    fi
-                """
+"""
+                sh '''
+                    (docker compose down || docker-compose down) || true
+                    (docker compose up -d || docker-compose up -d)
+                    (docker compose ps || docker-compose ps)
+                '''
             }
         }
 
