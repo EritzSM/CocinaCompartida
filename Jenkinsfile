@@ -9,8 +9,6 @@ pipeline {
         DB_USER        = 'postgres'
         DB_PASSWORD    = 'postgres'
         DB_NAME        = 'cocina_compartida_db'
-        SONAR_HOST_URL = 'http://localhost:9000'
-        SONAR_TOKEN    = credentials('sonar-token')
     }
 
     options {
@@ -57,10 +55,7 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     script {
                         def scannerHome = tool 'SonarScanner'
-                        sh "${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.host.url=${SONAR_HOST_URL} \
-                            -Dsonar.login=${SONAR_TOKEN} \
-                            -Dproject.settings=sonar-project.properties"
+                        sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
                     }
                 }
             }
