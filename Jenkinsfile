@@ -72,15 +72,11 @@ pipeline {
                                 -Dsonar.tests=src \
                                 -Dsonar.test.inclusions=**/*.spec.ts \
                                 -Dsonar.sourceEncoding=UTF-8"
-                            def taskId = sh(
-                                script: "grep 'ceTaskId=' .scannerwork/report-task.txt | cut -d'=' -f2",
-                                returnStdout: true
-                            ).trim()
-                            echo "Frontend task ID: ${taskId}"
-                            timeout(time: 3, unit: 'MINUTES') {
-                                waitForQualityGate abortPipeline: false, taskId: taskId
-                            }
                         }
+                    }
+                    timeout(time: 3, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: false
+                    }
                     }
                 }
             }
@@ -102,15 +98,11 @@ pipeline {
                                 -Dsonar.test.inclusions=**/*.spec.ts \
                                 -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
                                 -Dsonar.sourceEncoding=UTF-8"
-                            def taskId = sh(
-                                script: "grep 'ceTaskId=' .scannerwork/report-task.txt | cut -d'=' -f2",
-                                returnStdout: true
-                            ).trim()
-                            echo "Backend task ID: ${taskId}"
-                            timeout(time: 3, unit: 'MINUTES') {
-                                waitForQualityGate abortPipeline: true, taskId: taskId
-                            }
                         }
+                    }
+                    timeout(time: 3, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true
+                    }
                     }
                 }
             }
