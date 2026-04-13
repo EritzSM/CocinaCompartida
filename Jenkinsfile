@@ -60,25 +60,25 @@ pipeline {
         stage('Frontend SonarQube Analysis') {
             steps {
                 echo 'Ejecutando SonarQube analysis del frontend'
-                dir('cocina-compartida') {                   // 1. dir first
+                dir('cocina-compartida') {
                     sh 'rm -rf .scannerwork'
-                    withSonarQubeEnv('SonarQube') {          // 2. withSonarQubeEnv inside dir
+                    withSonarQubeEnv('SonarQube') {
                         script {
                             def scannerHome = tool 'SonarScanner'
                             sh "${scannerHome}/bin/sonar-scanner \
-                                -Dsonar.host.url=\$SONAR_HOST_URL \
-                                -Dsonar.login=\$SONAR_AUTH_TOKEN \
                                 -Dsonar.projectKey=cocinacompartida_front \
                                 -Dsonar.projectName='CocinaCompartida Front' \
                                 -Dsonar.sources=src \
                                 -Dsonar.tests=src \
                                 -Dsonar.test.inclusions=**/*.spec.ts \
                                 -Dsonar.sourceEncoding=UTF-8"
-                            def props = readProperties file: '.scannerwork/report-task.txt'
-                            def taskId = props['ceTaskId']
+                            def taskId = sh(
+                                script: "grep 'ceTaskId=' .scannerwork/report-task.txt | cut -d'=' -f2",
+                                returnStdout: true
+                            ).trim()
                             echo "Frontend task ID: ${taskId}"
                             timeout(time: 3, unit: 'MINUTES') {
-                                waitForQualityGate abortPipeline: false, taskId: taskId  // 3. waitForQualityGate inside withSonarQubeEnv
+                                waitForQualityGate abortPipeline: false, taskId: taskId
                             }
                         }
                     }
@@ -89,14 +89,12 @@ pipeline {
         stage('Backend SonarQube Analysis') {
             steps {
                 echo 'Ejecutando SonarQube analysis del backend'
-                dir('cocina-compartida-api') {               // 1. dir first
+                dir('cocina-compartida-api') {
                     sh 'rm -rf .scannerwork'
-                    withSonarQubeEnv('SonarQube') {          // 2. withSonarQubeEnv inside dir
+                    withSonarQubeEnv('SonarQube') {
                         script {
                             def scannerHome = tool 'SonarScanner'
                             sh "${scannerHome}/bin/sonar-scanner \
-                                -Dsonar.host.url=\$SONAR_HOST_URL \
-                                -Dsonar.login=\$SONAR_AUTH_TOKEN \
                                 -Dsonar.projectKey=cocinacompartida_back \
                                 -Dsonar.projectName='CocinaCompartida Backend' \
                                 -Dsonar.sources=src \
@@ -104,18 +102,19 @@ pipeline {
                                 -Dsonar.test.inclusions=**/*.spec.ts \
                                 -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
                                 -Dsonar.sourceEncoding=UTF-8"
-                            def props = readProperties file: '.scannerwork/report-task.txt'
-                            def taskId = props['ceTaskId']
+                            def taskId = sh(
+                                script: "grep 'ceTaskId=' .scannerwork/report-task.txt | cut -d'=' -f2",
+                                returnStdout: true
+                            ).trim()
                             echo "Backend task ID: ${taskId}"
                             timeout(time: 3, unit: 'MINUTES') {
-                                waitForQualityGate abortPipeline: true, taskId: taskId   // 3. waitForQualityGate inside withSonarQubeEnv
+                                waitForQualityGate abortPipeline: true, taskId: taskId
                             }
                         }
                     }
                 }
             }
         }
-
         stage('Build Docker Images') {
             steps {
                 echo 'Construyendo imagenes Docker'
