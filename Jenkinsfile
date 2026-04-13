@@ -1,13 +1,15 @@
 pipeline {
-    agent {
-        label 'docker'
+    agent any
+
+    tools {
+        nodejs 'NodeJS-20'
     }
 
     environment {
         DB_USER        = 'postgres'
         DB_PASSWORD    = 'postgres'
         DB_NAME        = 'cocina_compartida_db'
-        SONAR_HOST_URL = 'http://host.docker.internal:9000'
+        SONAR_HOST_URL = 'http://localhost:9000'
         SONAR_TOKEN    = credentials('sonar-token')
     }
 
@@ -29,12 +31,6 @@ pipeline {
                     node --version
                     echo "=== npm ==="
                     npm --version
-                    echo "=== Docker ==="
-                    if command -v docker >/dev/null 2>&1; then docker --version; else echo "Docker no disponible"; fi
-                    echo "=== Docker Compose ==="
-                    if command -v docker-compose >/dev/null 2>&1; then docker-compose --version; else echo "docker-compose no disponible"; fi
-                    echo "=== Java ==="
-                    if command -v java >/dev/null 2>&1; then java -version; else echo "Java no disponible"; fi
                 '''
             }
         }
@@ -60,13 +56,8 @@ pipeline {
                 echo 'Ejecutando SonarQube analysis'
                 withSonarQubeEnv('SonarQube') {
                     script {
-                        sh '''
-                            if ! command -v sonar-scanner > /dev/null 2>&1; then
-                                echo "sonar-scanner no disponible. Instala Sonar Scanner en el agente o configura la herramienta en Jenkins.";
-                                exit 1;
-                            fi
-                            sonar-scanner -Dproject.settings=sonar-project.properties
-                        '''
+                        def scannerHome = tool 'SonarScanner'
+                        sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
                     }
                 }
             }
@@ -83,17 +74,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo 'Construyendo imagenes Docker'
-                sh '''
-                    if ! command -v docker >/dev/null 2>&1; then
-                        echo "Docker no disponible. Instala Docker en el agente.";
-                        exit 1;
-                    fi
-                    if ! command -v docker-compose >/dev/null 2>&1; then
-                        echo "docker-compose no disponible. Instala docker-compose en el agente.";
-                        exit 1;
-                    fi
-                    docker-compose build --no-cache
-                '''
+                sh 'docker-compose build --no-cache'
             }
         }
 
