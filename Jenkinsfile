@@ -84,25 +84,21 @@ pipeline {
                     dir('cocina-compartida') {
                         script {
                             def scannerHome = tool 'SonarScanner'
-                            sh "${scannerHome}/bin/sonar-scanner \
+                            sh """${scannerHome}/bin/sonar-scanner \
                                 -Dsonar.host.url=\$SONAR_HOST_URL \
                                 -Dsonar.login=\$SONAR_AUTH_TOKEN \
                                 -Dsonar.projectKey=cocinacompartida_front \
-                                -Dsonar.projectName='CocinaCompartida Front' \
+                                "-Dsonar.projectName=CocinaCompartida Front" \
                                 -Dsonar.sources=src \
                                 -Dsonar.tests=src \
-                                -Dsonar.test.inclusions=**/*.spec.ts \
+                                "-Dsonar.test.inclusions=**/*.spec.ts" \
                                 -Dsonar.javascript.lcov.reportPaths=coverage/cocina-compartida/lcov.info \
-                                -Dsonar.sourceEncoding=UTF-8"                        }
+                                -Dsonar.sourceEncoding=UTF-8"""
+                        }
                     }
-                }
-            }
-        }
-
-        stage('Frontend Quality Gate') {
-            steps {
-                timeout(time: 3, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
+                    timeout(time: 3, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true
+                    }
                 }
             }
         }
@@ -114,25 +110,21 @@ pipeline {
                     dir('cocina-compartida-api') {
                         script {
                             def scannerHome = tool 'SonarScanner'
-                            sh "${scannerHome}/bin/sonar-scanner \
+                            sh """${scannerHome}/bin/sonar-scanner \
                                 -Dsonar.host.url=\$SONAR_HOST_URL \
                                 -Dsonar.login=\$SONAR_AUTH_TOKEN \
                                 -Dsonar.projectKey=cocinacompartida_back \
-                                -Dsonar.projectName='CocinaCompartida Backend' \
+                                "-Dsonar.projectName=CocinaCompartida Backend" \
                                 -Dsonar.sources=src \
                                 -Dsonar.tests=src \
-                                -Dsonar.test.inclusions=**/*.spec.ts \
+                                "-Dsonar.test.inclusions=**/*.spec.ts" \
                                 -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                                -Dsonar.sourceEncoding=UTF-8"                        }
+                                -Dsonar.sourceEncoding=UTF-8"""
+                        }
                     }
-                }
-            }
-        }
-
-        stage('Backend Quality Gate') {
-            steps {
-                timeout(time: 3, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
+                    timeout(time: 3, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true
+                    }
                 }
             }
         }
