@@ -80,6 +80,8 @@ pipeline {
         stage('Frontend SonarQube Analysis') {
             steps {
                 echo 'Ejecutando SonarQube analysis del frontend'
+                // Limpiar .scannerwork residual en la raíz del workspace
+                sh 'rm -rf .scannerwork'
                 withSonarQubeEnv('SonarQube') {
                     dir('cocina-compartida') {
                         script {
@@ -95,9 +97,9 @@ pipeline {
                                 -Dsonar.javascript.lcov.reportPaths=coverage/cocina-compartida/lcov.info \
                                 -Dsonar.sourceEncoding=UTF-8"""
                         }
-                    }
-                    timeout(time: 3, unit: 'MINUTES') {
-                        waitForQualityGate abortPipeline: true
+                        timeout(time: 3, unit: 'MINUTES') {
+                            waitForQualityGate abortPipeline: true
+                        }
                     }
                 }
             }
@@ -106,6 +108,8 @@ pipeline {
         stage('Backend SonarQube Analysis') {
             steps {
                 echo 'Ejecutando SonarQube analysis del backend'
+                // Limpiar .scannerwork residual en la raíz del workspace
+                sh 'rm -rf .scannerwork'
                 withSonarQubeEnv('SonarQube') {
                     dir('cocina-compartida-api') {
                         script {
@@ -121,9 +125,9 @@ pipeline {
                                 -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
                                 -Dsonar.sourceEncoding=UTF-8"""
                         }
-                    }
-                    timeout(time: 3, unit: 'MINUTES') {
-                        waitForQualityGate abortPipeline: true
+                        timeout(time: 3, unit: 'MINUTES') {
+                            waitForQualityGate abortPipeline: true
+                        }
                     }
                 }
             }
