@@ -1,9 +1,6 @@
 pipeline {
     agent {
-        docker {
-            image 'node:20-alpine'
-            args '-v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker'
-        }
+        label 'docker'
     }
 
     environment {
@@ -33,9 +30,11 @@ pipeline {
                     echo "=== npm ==="
                     npm --version
                     echo "=== Docker ==="
-                    docker --version || echo "Docker no disponible"
+                    if command -v docker >/dev/null 2>&1; then docker --version; else echo "Docker no disponible"; fi
+                    echo "=== Docker Compose ==="
+                    if command -v docker-compose >/dev/null 2>&1; then docker-compose --version; else echo "docker-compose no disponible"; fi
                     echo "=== Java ==="
-                    java -version || echo "Java no disponible"
+                    if command -v java >/dev/null 2>&1; then java -version; else echo "Java no disponible"; fi
                 '''
             }
         }
@@ -63,12 +62,8 @@ pipeline {
                     script {
                         sh '''
                             if ! command -v sonar-scanner > /dev/null 2>&1; then
-                                echo "Instalando sonar-scanner..."
-                                apk add --no-cache openjdk17-jre curl unzip
-                                curl -sSLo /tmp/sonar-scanner.zip \
-                                    https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-x64.zip
-                                unzip -q /tmp/sonar-scanner.zip -d /opt
-                                ln -sf /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner /usr/local/bin/sonar-scanner
+                                echo "sonar-scanner no disponible. Instala Sonar Scanner en el agente o configura la herramienta en Jenkins.";
+                                exit 1;
                             fi
                             sonar-scanner -Dproject.settings=sonar-project.properties
                         '''
@@ -89,8 +84,13 @@ pipeline {
             steps {
                 echo 'Construyendo imagenes Docker'
                 sh '''
-                    if ! command -v docker-compose > /dev/null 2>&1; then
-                        apk add --no-cache docker-cli docker-cli-compose
+                    if ! command -v docker >/dev/null 2>&1; then
+                        echo "Docker no disponible. Instala Docker en el agente.";
+                        exit 1;
+                    fi
+                    if ! command -v docker-compose >/dev/null 2>&1; then
+                        echo "docker-compose no disponible. Instala docker-compose en el agente.";
+                        exit 1;
                     fi
                     docker-compose build --no-cache
                 '''
