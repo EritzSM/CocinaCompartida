@@ -72,22 +72,50 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo 'Construyendo imagenes Docker'
-                sh 'docker compose build --no-cache'  // ← space, not hyphen
+                sh '''
+                    if command -v docker >/dev/null 2>&1; then
+                        if docker compose version >/dev/null 2>&1; then
+                            docker compose build --no-cache
+                        elif command -v docker-compose >/dev/null 2>&1; then
+                            docker-compose build --no-cache
+                        else
+                            echo "No se encontró ni 'docker compose' ni 'docker-compose'. Instala docker-compose en el agente Jenkins.";
+                            exit 1
+                        fi
+                    else
+                        echo "No se encontró docker en el agente Jenkins. Instala Docker.";
+                        exit 1
+                    fi
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Desplegando con docker-compose'
+                echo 'Desplegando con docker compose'
                 sh """
                     cat > .env <<-EOF
         DB_USER=${DB_USER}
         DB_PASSWORD=${DB_PASSWORD}
         DB_NAME=${DB_NAME}
         EOF
-                    docker compose down || true
-                    docker compose up -d
-                    docker compose ps
+                    if command -v docker >/dev/null 2>&1; then
+                        if docker compose version >/dev/null 2>&1; then
+                            docker compose down || true
+                            docker compose up -d
+                            docker compose ps
+                        elif command -v docker-compose >/dev/null 2>&1; then
+                            docker-compose down || true
+                            docker-compose up -d
+                            docker-compose ps
+                        else
+                            echo "No se encontró ni 'docker compose' ni 'docker-compose'. Instala docker-compose en el agente Jenkins.";
+                            exit 1
+                        fi
+                    else
+                        echo "No se encontró docker en el agente Jenkins. Instala Docker.";
+                        exit 1
+                    fi
                 """
             }
         }
