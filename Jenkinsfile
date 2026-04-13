@@ -1,12 +1,16 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS-20' // ← Debe coincidir con el nombre en Jenkins > Tools > NodeJS
+    }
+
     environment {
-        DB_USER = 'postgres'
+        DB_USER     = 'postgres'
         DB_PASSWORD = 'postgres'
-        DB_NAME = 'cocina_compartida_db'
+        DB_NAME     = 'cocina_compartida_db'
         SONAR_HOST_URL = 'http://localhost:9000'
-        SONAR_TOKEN = 'squ_64f24fb977e4fd6e80500fa12de52e7d50891510'
+        SONAR_TOKEN    = credentials('sonar-token') // ← Usar credencial segura, no hardcodeada
     }
 
     options {
@@ -16,57 +20,88 @@ pipeline {
     }
 
     stages {
+
+        stage('Verify Environment') {
+            steps {
+                echo 'Verificando entorno...'
+                sh '''
+                    echo "=== Workspace ==="
+                    ls -la
+                    echo "=== Node ==="
+                    node --version
+                    echo "=== npm ==="
+                    npm --version
+                    echo "=== Docker ==="
+                    docker --version
+                    docker-compose --version
+                '''
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 echo 'Instalando dependencias del frontend y backend'
-                sh '''
-                    cd cocina-compartida && npm ci && cd ..
-                    cd cocina-compartida-api && npm ci && cd ..
-                '''
+                sh 'cd cocina-compartida && npm ci'
+                sh 'cd cocina-compartida-api && npm ci'
+                // Cada sh[] vuelve al workspace raíz automáticamente ✓
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo 'Ejecutando tests'
-                sh '''
-                    cd cocina-compartida && npm test -- --watch=false || true
-                    cd ../cocina-compartida-api && npm run test:cov
-                '''
+                // Frontend
+                sh 'cd cocina-compartida && npm test -- --watch=false --passWithNoTests || true'
+                // Backend con cobertura
+                sh 'cd cocina-compartida-api && npm run test:cov'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 echo 'Ejecutando SonarQube analysis'
-                sh '''
-                    sonar-scanner \
-                        -Dproject.settings=sonar-project.properties \
-                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.login=${SONAR_TOKEN}
-                '''
+                withSonarQubeEnv('SonarQube') { // ← nombre del paso 2
+                    script {
+                        def scannerHome = tool 'SonarScanner' // ← nombre del paso 4
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                                -Dproject.settings=sonar-project.properties
+                        """
+                    }
+                }
+            }
+        }
+
+        // Opcional: esperar resultado del Quality Gate
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
 
         stage('Build Docker Images') {
             steps {
                 echo 'Construyendo imágenes Docker'
-                sh 'docker-compose build'
+                sh 'docker-compose build --no-cache'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Desplegando con docker-compose'
-                sh '''
-                    cat > .env <<EOF
+                sh """
+                    # Usar comillas dobles en Groovy para interpolar variables de entorno
+                    cat > .env <<-EOF
 DB_USER=${DB_USER}
 DB_PASSWORD=${DB_PASSWORD}
 DB_NAME=${DB_NAME}
 EOF
                     docker-compose down || true
                     docker-compose up -d
-                '''
+                    docker-compose ps
+                """
             }
         }
     }
@@ -75,6 +110,12 @@ EOF
         always {
             echo 'Pipeline finalizado'
             archiveArtifacts artifacts: '**/coverage/**', allowEmptyArchive: true
+        }
+        success {
+            echo '✅ Pipeline exitoso'
+        }
+        failure {
+            echo '❌ Pipeline falló — revisar logs'
         }
     }
 }
