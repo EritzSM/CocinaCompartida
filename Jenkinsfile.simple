@@ -2,11 +2,10 @@ pipeline {
     agent any
 
     environment {
+        SONAR_HOST_URL = 'http://localhost:9000'
         DB_USER = 'postgres'
         DB_PASSWORD = 'postgres'
         DB_NAME = 'cocina_compartida_db'
-        SONAR_HOST_URL = 'http://localhost:9000'
-        SONAR_TOKEN = 'squ_64f24fb977e4fd6e80500fa12de52e7d50891510'
     }
 
     options {
@@ -32,18 +31,6 @@ pipeline {
                 sh '''
                     cd cocina-compartida && npm test -- --watch=false || true
                     cd ../cocina-compartida-api && npm run test:cov
-                '''
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                echo 'Ejecutando SonarQube analysis'
-                sh '''
-                    sonar-scanner \
-                        -Dproject.settings=sonar-project.properties \
-                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.login=${SONAR_TOKEN}
                 '''
             }
         }

@@ -45,3 +45,4 @@ README_PIPELINE.md
 Jenkinsfile.simplified
 vars/
 pipeline-local-test.sh
+JENKINS_FIX.md
