@@ -1,21 +1,18 @@
 pipeline {
-        agent {
+    agent {
         docker {
             image 'node:20-alpine'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            // Monta el socket de Docker para poder usar docker-compose dentro del contenedor
+            args '-v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker'
         }
     }
 
-    tools {
-        nodejs 'NodeJS-20' // ← Debe coincidir con el nombre en Jenkins > Tools > NodeJS
-    }
-
     environment {
-        DB_USER     = 'postgres'
-        DB_PASSWORD = 'postgres'
-        DB_NAME     = 'cocina_compartida_db'
-        SONAR_HOST_URL = 'http://localhost:9000'
-        SONAR_TOKEN    = credentials('sonar-token') // ← Usar credencial segura, no hardcodeada
+        DB_USER        = 'postgres'
+        DB_PASSWORD    = 'postgres'
+        DB_NAME        = 'cocina_compartida_db'
+        SONAR_HOST_URL = 'http://host.docker.internal:9000' // localhost desde dentro del contenedor apunta al contenedor, no al host
+        SONAR_TOKEN    = credentials('sonar-token')
     }
 
     options {
@@ -32,13 +29,18 @@ pipeline {
                 sh '''
                     echo "=== Workspace ==="
                     ls -la
+
                     echo "=== Node ==="
                     node --version
+
                     echo "=== npm ==="
                     npm --version
+
                     echo "=== Docker ==="
-                    docker --version
-                    docker-compose --version
+                    docker --version || echo "Docker no disponible en este agente"
+
+                    echo "=== Java (para sonar-scanner) ==="
+                    java -version || echo "Java no disponible"
                 '''
             }
         }
@@ -48,16 +50,15 @@ pipeline {
                 echo 'Instalando dependencias del frontend y backend'
                 sh 'cd cocina-compartida && npm ci'
                 sh 'cd cocina-compartida-api && npm ci'
-                // Cada sh[] vuelve al workspace raíz automáticamente ✓
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo 'Ejecutando tests'
-                // Frontend
+                // Frontend — se ignora si falla para no bloquear el pipeline
                 sh 'cd cocina-compartida && npm test -- --watch=false --passWithNoTests || true'
-                // Backend con cobertura
+                // Backend con cobertura — genera coverage/lcov.info
                 sh 'cd cocina-compartida-api && npm run test:cov'
             }
         }
@@ -65,19 +66,28 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 echo 'Ejecutando SonarQube analysis'
-                withSonarQubeEnv('SonarQube') { // ← nombre del paso 2
+                withSonarQubeEnv('SonarQube') {
                     script {
-                        def scannerHome = tool 'SonarScanner' // ← nombre del paso 4
-                        sh """
-                            ${scannerHome}/bin/sonar-scanner \
+                        // Instala sonar-scanner dentro del contenedor Alpine si no existe
+                        sh '''
+                            if ! command -v sonar-scanner > /dev/null 2>&1; then
+                                echo "Instalando sonar-scanner..."
+                                apk add --no-cache openjdk17-jre curl unzip
+                                curl -sSLo /tmp/sonar-scanner.zip \
+                                    https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-x64.zip
+                                unzip -q /tmp/sonar-scanner.zip -d /opt
+                                ln -sf /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner /usr/local/bin/sonar-scanner
+                            fi
+                        '''
+                        sh '''
+                            sonar-scanner \
                                 -Dproject.settings=sonar-project.properties
-                        """
+                        '''
                     }
                 }
             }
         }
 
-        // Opcional: esperar resultado del Quality Gate
         stage('Quality Gate') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
@@ -89,7 +99,13 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo 'Construyendo imágenes Docker'
-                sh 'docker-compose build --no-cache'
+                sh '''
+                    # Instala docker-compose dentro del contenedor Alpine si no existe
+                    if ! command -v docker-compose > /dev/null 2>&1; then
+                        apk add --no-cache docker-cli docker-cli-compose
+                    fi
+                    docker-compose build --no-cache
+                '''
             }
         }
 
@@ -97,7 +113,6 @@ pipeline {
             steps {
                 echo 'Desplegando con docker-compose'
                 sh """
-                    # Usar comillas dobles en Groovy para interpolar variables de entorno
                     cat > .env <<-EOF
 DB_USER=${DB_USER}
 DB_PASSWORD=${DB_PASSWORD}
@@ -117,10 +132,4 @@ EOF
             archiveArtifacts artifacts: '**/coverage/**', allowEmptyArchive: true
         }
         success {
-            echo '✅ Pipeline exitoso'
-        }
-        failure {
-            echo '❌ Pipeline falló — revisar logs'
-        }
-    }
-}
+            e
