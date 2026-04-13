@@ -66,6 +66,8 @@ pipeline {
                         script {
                             def scannerHome = tool 'SonarScanner'
                             sh "${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.host.url=\$SONAR_HOST_URL \
+                                -Dsonar.login=\$SONAR_AUTH_TOKEN \
                                 -Dsonar.projectKey=cocinacompartida_front \
                                 -Dsonar.projectName='CocinaCompartida Front' \
                                 -Dsonar.sources=src \
@@ -93,6 +95,8 @@ pipeline {
                         script {
                             def scannerHome = tool 'SonarScanner'
                             sh "${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.host.url=\$SONAR_HOST_URL \
+                                -Dsonar.login=\$SONAR_AUTH_TOKEN \
                                 -Dsonar.projectKey=cocinacompartida_back \
                                 -Dsonar.projectName='CocinaCompartida Backend' \
                                 -Dsonar.sources=src \
