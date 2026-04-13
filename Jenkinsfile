@@ -45,7 +45,24 @@ pipeline {
             steps {
                 echo 'Ejecutando pruebas del frontend'
                 dir('cocina-compartida') {
-                    sh 'npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox --code-coverage'
+                    sh '''
+                        if [ -z "${CHROME_BIN}" ]; then
+                            if command -v chromium-browser >/dev/null 2>&1; then
+                                export CHROME_BIN="$(command -v chromium-browser)"
+                            elif command -v chromium >/dev/null 2>&1; then
+                                export CHROME_BIN="$(command -v chromium)"
+                            elif command -v google-chrome-stable >/dev/null 2>&1; then
+                                export CHROME_BIN="$(command -v google-chrome-stable)"
+                            elif command -v google-chrome >/dev/null 2>&1; then
+                                export CHROME_BIN="$(command -v google-chrome)"
+                            else
+                                echo "ERROR: No se encontró un binario de Chrome/Chromium en el agente Jenkins. Instala chromium o google-chrome."
+                                exit 1
+                            fi
+                        fi
+                        echo "Usando CHROME_BIN=${CHROME_BIN}"
+                        npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox --code-coverage
+                    '''
                 }
             }
         }
