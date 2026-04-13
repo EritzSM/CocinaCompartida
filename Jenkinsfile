@@ -79,12 +79,10 @@ pipeline {
                         elif command -v docker-compose >/dev/null 2>&1; then
                             docker-compose build --no-cache
                         else
-                            echo "No se encontró ni 'docker compose' ni 'docker-compose'. Instala docker-compose en el agente Jenkins.";
-                            exit 1
+                            echo "No se encontró ni 'docker compose' ni 'docker-compose'."; exit 1
                         fi
                     else
-                        echo "No se encontró docker en el agente Jenkins. Instala Docker.";
-                        exit 1
+                        echo "No se encontró docker en el agente Jenkins."; exit 1
                     fi
                 '''
             }
@@ -95,10 +93,10 @@ pipeline {
                 echo 'Desplegando con docker compose'
                 sh """
                     cat > .env <<-EOF
-        DB_USER=${DB_USER}
-        DB_PASSWORD=${DB_PASSWORD}
-        DB_NAME=${DB_NAME}
-        EOF
+DB_USER=${DB_USER}
+DB_PASSWORD=${DB_PASSWORD}
+DB_NAME=${DB_NAME}
+EOF
                     if command -v docker >/dev/null 2>&1; then
                         if docker compose version >/dev/null 2>&1; then
                             docker compose down || true
@@ -109,16 +107,16 @@ pipeline {
                             docker-compose up -d
                             docker-compose ps
                         else
-                            echo "No se encontró ni 'docker compose' ni 'docker-compose'. Instala docker-compose en el agente Jenkins.";
-                            exit 1
+                            echo "No se encontró ni 'docker compose' ni 'docker-compose'."; exit 1
                         fi
                     else
-                        echo "No se encontró docker en el agente Jenkins. Instala Docker.";
-                        exit 1
+                        echo "No se encontró docker en el agente Jenkins."; exit 1
                     fi
                 """
             }
         }
+
+    }  // ← THIS was missing — closes stages {}
 
     post {
         always {
