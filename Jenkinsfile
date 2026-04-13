@@ -9,6 +9,7 @@ pipeline {
         DB_USER        = 'postgres'
         DB_PASSWORD    = 'postgres'
         DB_NAME        = 'cocina_compartida_db'
+        CHROME_BIN  = '/usr/bin/google-chrome'
     }
 
     options {
