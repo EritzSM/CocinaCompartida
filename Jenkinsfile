@@ -63,7 +63,7 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 3, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
@@ -72,7 +72,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo 'Construyendo imagenes Docker'
-                sh 'docker-compose build --no-cache'
+                sh 'docker compose build --no-cache'  // ← space, not hyphen
             }
         }
 
@@ -81,17 +81,16 @@ pipeline {
                 echo 'Desplegando con docker-compose'
                 sh """
                     cat > .env <<-EOF
-DB_USER=${DB_USER}
-DB_PASSWORD=${DB_PASSWORD}
-DB_NAME=${DB_NAME}
-EOF
-                    docker-compose down || true
-                    docker-compose up -d
-                    docker-compose ps
+        DB_USER=${DB_USER}
+        DB_PASSWORD=${DB_PASSWORD}
+        DB_NAME=${DB_NAME}
+        EOF
+                    docker compose down || true
+                    docker compose up -d
+                    docker compose ps
                 """
             }
         }
-    }
 
     post {
         always {
