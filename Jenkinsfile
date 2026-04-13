@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker {
             image 'node:20-alpine'
-            // Monta el socket de Docker para poder usar docker-compose dentro del contenedor
             args '-v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker'
         }
     }
@@ -11,7 +10,7 @@ pipeline {
         DB_USER        = 'postgres'
         DB_PASSWORD    = 'postgres'
         DB_NAME        = 'cocina_compartida_db'
-        SONAR_HOST_URL = 'http://host.docker.internal:9000' // localhost desde dentro del contenedor apunta al contenedor, no al host
+        SONAR_HOST_URL = 'http://host.docker.internal:9000'
         SONAR_TOKEN    = credentials('sonar-token')
     }
 
@@ -29,17 +28,13 @@ pipeline {
                 sh '''
                     echo "=== Workspace ==="
                     ls -la
-
                     echo "=== Node ==="
                     node --version
-
                     echo "=== npm ==="
                     npm --version
-
                     echo "=== Docker ==="
-                    docker --version || echo "Docker no disponible en este agente"
-
-                    echo "=== Java (para sonar-scanner) ==="
+                    docker --version || echo "Docker no disponible"
+                    echo "=== Java ==="
                     java -version || echo "Java no disponible"
                 '''
             }
@@ -56,9 +51,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 echo 'Ejecutando tests'
-                // Frontend — se ignora si falla para no bloquear el pipeline
                 sh 'cd cocina-compartida && npm test -- --watch=false --passWithNoTests || true'
-                // Backend con cobertura — genera coverage/lcov.info
                 sh 'cd cocina-compartida-api && npm run test:cov'
             }
         }
@@ -68,7 +61,6 @@ pipeline {
                 echo 'Ejecutando SonarQube analysis'
                 withSonarQubeEnv('SonarQube') {
                     script {
-                        // Instala sonar-scanner dentro del contenedor Alpine si no existe
                         sh '''
                             if ! command -v sonar-scanner > /dev/null 2>&1; then
                                 echo "Instalando sonar-scanner..."
@@ -78,10 +70,7 @@ pipeline {
                                 unzip -q /tmp/sonar-scanner.zip -d /opt
                                 ln -sf /opt/sonar-scanner-6.2.1.4610-linux-x64/bin/sonar-scanner /usr/local/bin/sonar-scanner
                             fi
-                        '''
-                        sh '''
-                            sonar-scanner \
-                                -Dproject.settings=sonar-project.properties
+                            sonar-scanner -Dproject.settings=sonar-project.properties
                         '''
                     }
                 }
@@ -98,9 +87,8 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                echo 'Construyendo imágenes Docker'
+                echo 'Construyendo imagenes Docker'
                 sh '''
-                    # Instala docker-compose dentro del contenedor Alpine si no existe
                     if ! command -v docker-compose > /dev/null 2>&1; then
                         apk add --no-cache docker-cli docker-cli-compose
                     fi
@@ -132,4 +120,10 @@ EOF
             archiveArtifacts artifacts: '**/coverage/**', allowEmptyArchive: true
         }
         success {
-            e
+            echo 'Pipeline exitoso'
+        }
+        failure {
+            echo 'Pipeline fallo - revisar logs'
+        }
+    }
+}
