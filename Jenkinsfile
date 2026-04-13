@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+        agent {
+        docker {
+            image 'node:20-alpine'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
 
     tools {
         nodejs 'NodeJS-20' // ← Debe coincidir con el nombre en Jenkins > Tools > NodeJS
