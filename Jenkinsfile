@@ -106,13 +106,32 @@ pipeline {
             }
         }
         stage('Build Docker Images') {
+            when {
+                expression {
+                    return sh(script: 'command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1', returnStatus: true) == 0
+                }
+            }
             steps {
                 echo 'Construyendo imagenes Docker'
-                sh 'docker compose build --no-cache || docker-compose build --no-cache'
+                sh '''
+                    if command -v docker compose >/dev/null 2>&1; then
+                      docker compose build --no-cache
+                    elif command -v docker-compose >/dev/null 2>&1; then
+                      docker-compose build --no-cache
+                    else
+                      echo 'docker compose / docker-compose no disponible'
+                      exit 1
+                    fi
+                '''
             }
         }
 
         stage('Deploy') {
+            when {
+                expression {
+                    return sh(script: 'command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1', returnStatus: true) == 0
+                }
+            }
             steps {
                 echo 'Desplegando con docker compose'
                 writeFile file: '.env', text: """DB_USER=${DB_USER}
@@ -120,9 +139,18 @@ DB_PASSWORD=${DB_PASSWORD}
 DB_NAME=${DB_NAME}
 """
                 sh '''
-                    (docker compose down || docker-compose down) || true
-                    (docker compose up -d || docker-compose up -d)
-                    (docker compose ps || docker-compose ps)
+                    if command -v docker compose >/dev/null 2>&1; then
+                      docker compose down || true
+                      docker compose up -d
+                      docker compose ps
+                    elif command -v docker-compose >/dev/null 2>&1; then
+                      docker-compose down || true
+                      docker-compose up -d
+                      docker-compose ps
+                    else
+                      echo 'docker compose / docker-compose no disponible'
+                      exit 1
+                    fi
                 '''
             }
         }
