@@ -13,9 +13,10 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname, join } from 'path';
+import { extname, join } from 'node:path';
 import { existsSync, mkdirSync, unlinkSync } from 'fs';
 import { AuthGuard } from 'src/security/auth.guard';
+import * as crypto from 'node:crypto';
 
 @Controller('uploads')
 export class UploadsController {
@@ -37,6 +38,9 @@ export class UploadsController {
           cb(null, `${username}-${Date.now()}${ext}`);
         },
       }),
+      limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB limit
+      },
     }),
   )
   uploadAvatar(@UploadedFile() file: any, @Query('username') username: string) {
@@ -59,11 +63,14 @@ export class UploadsController {
           cb(null, uploadPath);
         },
         filename: (req, file, cb) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const uniqueSuffix = Date.now() + '-' + crypto.randomBytes(8).toString('hex');
           const ext = extname(file.originalname);
           cb(null, `${uniqueSuffix}${ext}`);
         },
       }),
+      limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB limit
+      },
     }),
   )
   uploadRecipeImages(@UploadedFiles() files: Array<any>, @Param('recipeId') recipeId: string) {

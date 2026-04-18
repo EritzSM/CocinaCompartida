@@ -4,7 +4,7 @@ import { RecipesService } from 'src/recipes/recipes.service';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private recipesService: RecipesService) {}
+  constructor(private readonly jwtService: JwtService, private readonly recipesService: RecipesService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();

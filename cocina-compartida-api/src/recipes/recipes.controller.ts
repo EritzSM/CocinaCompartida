@@ -96,9 +96,9 @@ export class RecipesController {
   @Get(':id/download')
   async download(
     @Param('id') id: string,
-    @Query('format') format: string = 'pdf',
     @Req() req,
     @Res() res: Response,
+    @Query('format') format: string = 'pdf',
   ) {
     const recipe = await this.recipesService.findOne(id);
 
@@ -126,7 +126,7 @@ export class RecipesController {
 
     res.setHeader('Content-Type', 'application/pdf');
     const safeName = (recipe.name || 'recipe').replaceAll(/[^a-z0-9]/gi, '_').toLowerCase();
-    res.setHeader('Content-Disposition', `attachment; filename=\"${safeName}.pdf\"`);
+    res.setHeader('Content-Disposition', `attachment; filename="${safeName}.pdf"`);
 
     doc.pipe(res);
 
