@@ -86,7 +86,7 @@ describe('RecipesController (Backend Download PDF Tests)', () => {
       mockRecipesService.findOne.mockRejectedValue(new NotFoundException('No recipe'));
 
       // Act & Assert
-      await expect(controller.download('missing-id', 'pdf', req, res)).rejects.toThrow(NotFoundException);
+      await expect(controller.download('missing-id', req, res, 'pdf')).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -120,7 +120,7 @@ describe('RecipesController (Backend Download PDF Tests)', () => {
       mockRecipesService.findOne.mockResolvedValue(mockRecipe);
 
       // Act
-      await controller.download('r1', 'pdf', req, mockRes);
+      await controller.download('r1', req, mockRes, 'pdf');
 
       // Assert
       expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Type', 'application/pdf');
