@@ -44,7 +44,11 @@ pipeline {
 
         stage('Frontend Tests') {
             steps {
-                echo 'Frontend tests skipped - no Chrome available in CI'
+                echo 'Ejecutando pruebas del frontend'
+                dir('cocina-compartida') {
+                    sh 'npm install puppeteer --no-save'
+                    sh 'CHROME_BIN=$(node -e "console.log(require(\'puppeteer\').executablePath())") npm run test -- --watch=false --browsers=ChromeHeadlessNoSandbox'
+                }
             }
         }
 
@@ -71,6 +75,7 @@ pipeline {
                                 -Dsonar.sources=src \
                                 -Dsonar.tests=src \
                                 -Dsonar.test.inclusions=**/*.spec.ts \
+                                -Dsonar.javascript.lcov.reportPaths=coverage/cocina-compartida/lcov.info \
                                 -Dsonar.sourceEncoding=UTF-8"
                         }
                     }
@@ -106,11 +111,6 @@ pipeline {
             }
         }
         stage('Build Docker Images') {
-            when {
-                expression {
-                    return sh(script: 'command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1', returnStatus: true) == 0
-                }
-            }
             steps {
                 echo 'Construyendo imagenes Docker'
                 sh '''
@@ -127,11 +127,6 @@ pipeline {
         }
 
         stage('Deploy') {
-            when {
-                expression {
-                    return sh(script: 'command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1', returnStatus: true) == 0
-                }
-            }
             steps {
                 echo 'Desplegando con docker compose'
                 writeFile file: '.env', text: """DB_USER=${DB_USER}
