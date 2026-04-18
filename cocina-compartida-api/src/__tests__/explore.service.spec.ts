@@ -40,6 +40,7 @@ describe('RecipesService – Explore (findAll)', () => {
   // ──────────────────────────────────────────────────────────
   describe('EX-01 – findAll retorna recetas con orden descendente por fecha', () => {
     it('debe retornar lista de recetas e invocar find con orden correcto', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica orden y relaciones en la llamada
       // Arrange – Mock: preparamos retorno y verificaremos la llamada
       const mockRecipes = [
         {
@@ -81,6 +82,7 @@ describe('RecipesService – Explore (findAll)', () => {
   // ──────────────────────────────────────────────────────────
   describe('EX-02 – No existen recetas', () => {
     it('debe retornar array vacío cuando no hay recetas registradas', async () => {
+      // Test Double: Stub – mockResolvedValue retorno fijo sin verificar la llamada
       // Arrange – Stub: retorno fijo, no verificamos la llamada
       recipeRepo.find.mockResolvedValue([]);
 
@@ -98,6 +100,7 @@ describe('RecipesService – Explore (findAll)', () => {
   // ──────────────────────────────────────────────────────────
   describe('EX-03 – Carga de relaciones en findAll', () => {
     it('debe incluir las relaciones user, comments y comments.user', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith objectContaining verifica relaciones
       // Arrange – Stub
       recipeRepo.find.mockResolvedValue([]);
 
@@ -118,6 +121,7 @@ describe('RecipesService – Explore (findAll)', () => {
   // ──────────────────────────────────────────────────────────
   describe('EX-04 – Estructura de datos devuelta por findAll', () => {
     it('cada receta debe contener los campos esperados', async () => {
+      // Test Double: Stub – mockResolvedValue retorna receta completa sin verificar args
       // Arrange – Mock
       const mockRecipe = {
         id: 'r3',
@@ -158,6 +162,7 @@ describe('RecipesService – Explore (findAll)', () => {
   // ──────────────────────────────────────────────────────────
   describe('EX-05 – findAll no realiza llamadas redundantes al repositorio', () => {
     it('debe llamar a recipeRepo.find exactamente una vez', async () => {
+      // Test Double: Mock – toHaveBeenCalledTimes verifica llamada única al repositorio
       // Arrange – Stub
       recipeRepo.find.mockResolvedValue([]);
 

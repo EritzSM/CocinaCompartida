@@ -47,6 +47,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
   describe('C1: Usuario existe (200 OK)', () => {
 
     it('C1-T1: retorna usuario sin el campo password', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario sin verificar args
       // Arrange
       mockUserRepo.findOne.mockResolvedValue({ ...DB_USER });
 
@@ -59,6 +60,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C1-T2: retorna username y email correctos', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario sin verificar args
       // Arrange
       mockUserRepo.findOne.mockResolvedValue({ ...DB_USER });
 
@@ -71,6 +73,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C1-T3: retorna el id correcto', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario sin verificar args
       // Arrange
       mockUserRepo.findOne.mockResolvedValue({ ...DB_USER });
 
@@ -82,6 +85,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C1-T4: llama a userRepo.findOne con el id correcto', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica la llamada al repositorio
       // Arrange
       mockUserRepo.findOne.mockResolvedValue({ ...DB_USER });
 
@@ -93,6 +97,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C1-T5: retorna avatar y bio del usuario', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario sin verificar args
       // Arrange
       mockUserRepo.findOne.mockResolvedValue({ ...DB_USER });
 
@@ -118,6 +123,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C2-T1: lanza excepción si no hay header Authorization', () => {
+      // Test Double: Dummy – ctx con headers vacíos, objeto sin comportamiento esperado
       // Arrange
       const guard = new AuthGuard(mockJwt as any);
       const ctx = {
@@ -131,6 +137,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C2-T2: lanza excepción si el token es inválido', () => {
+      // Test Double: Fake – mockImplementation que lanza error real
       // Arrange
       mockJwt.verify.mockImplementation(() => { throw new Error('invalid'); });
       const guard = new AuthGuard(mockJwt as any);
@@ -147,6 +154,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C2-T3: lanza excepción si el formato no es Bearer', () => {
+      // Test Double: Dummy – headers con formato incorrecto, sin comportamiento esperado
       // Arrange
       const guard = new AuthGuard(mockJwt as any);
       const ctx = {
@@ -162,6 +170,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C2-T4: no llama a jwt.verify si no hay header Authorization', () => {
+      // Test Double: Mock – not.toHaveBeenCalled verifica que verify no es invocado
       // Arrange
       const guard = new AuthGuard(mockJwt as any);
       const ctx = {
@@ -178,6 +187,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C2-T5: lanza excepción si el token no tiene id (sub)', () => {
+      // Test Double: Stub – mockReturnValue sin sub, sin verificar args
       // Arrange
       mockJwt.verify.mockReturnValue({ username: 'test', email: 'a@b.com' });
       const guard = new AuthGuard(mockJwt as any);
@@ -201,6 +211,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
   describe('C3: Usuario no existe (404 Not Found)', () => {
 
     it('C3-T1: lanza NotFoundException cuando findOne retorna null', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       mockUserRepo.findOne.mockResolvedValue(null);
 
@@ -209,6 +220,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('C3-T2: lanza NotFoundException con id inexistente', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       mockUserRepo.findOne.mockResolvedValue(null);
 
@@ -226,6 +238,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     // timeout, etc.), el servicio NO lo captura. El error sube como un 500
     // Internal Server Error genérico en lugar de una HttpException manejada.
     it('⛔ F1: error de BD debería devolver HttpException, no error genérico', async () => {
+      // Test Double: Stub – mockRejectedValue pre-programa error de BD sin verificar args
       // Arrange
       mockUserRepo.findOne.mockRejectedValue(new Error('Connection refused'));
 
@@ -249,6 +262,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
   describe('findByEmail', () => {
 
     it('retorna usuario si el email existe', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario sin verificar args
       // Arrange
       mockUserRepo.findOne.mockResolvedValue({ ...DB_USER });
 
@@ -261,6 +275,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('llama a findOne con where y select correctos', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica where y select en la llamada
       // Arrange
       mockUserRepo.findOne.mockResolvedValue({ ...DB_USER });
 
@@ -275,6 +290,7 @@ describe('Ver Perfil Back – Pruebas por camino', () => {
     });
 
     it('retorna null si el email no existe', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       mockUserRepo.findOne.mockResolvedValue(null);
 

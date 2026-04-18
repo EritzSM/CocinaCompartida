@@ -39,6 +39,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
   describe('C1: Hay recetas (200 OK)', () => {
 
     it('C1-T1: retorna un array de recetas', async () => {
+      // Test Double: Stub – mockResolvedValue retorna datos pre-configurados sin verificar args
       // Arrange
       mockRecipeRepo.find.mockResolvedValue([...RECIPES]);
 
@@ -50,6 +51,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
     });
 
     it('C1-T2: retorna máximo 3 recetas por defecto', async () => {
+      // Test Double: Stub – mockResolvedValue retorna datos pre-configurados sin verificar args
       // Arrange
       mockRecipeRepo.find.mockResolvedValue([...RECIPES]);
 
@@ -61,6 +63,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
     });
 
     it('C1-T3: la primera receta es la que tiene más likes', async () => {
+      // Test Double: Stub – mockResolvedValue retorna datos pre-configurados sin verificar args
       // Arrange
       const sorted = [...RECIPES].sort((a, b) => b.likes - a.likes);
       mockRecipeRepo.find.mockResolvedValue(sorted);
@@ -73,6 +76,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
     });
 
     it('C1-T4: respeta un limit personalizado', async () => {
+      // Test Double: Stub – mockResolvedValue retorna datos pre-configurados sin verificar args
       // Arrange
       const top2 = [...RECIPES].sort((a, b) => b.likes - a.likes).slice(0, 2);
       mockRecipeRepo.find.mockResolvedValue(top2);
@@ -85,6 +89,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
     });
 
     it('C1-T5: llama a recipeRepository.find con las opciones correctas', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica la llamada al repositorio
       // Arrange
       mockRecipeRepo.find.mockResolvedValue([...RECIPES]);
 
@@ -100,6 +105,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
     });
 
     it('C1-T6: usa limit por defecto = 3 cuando no se pasa argumento', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith objectContaining verifica el take por defecto
       // Arrange
       mockRecipeRepo.find.mockResolvedValue([...RECIPES]);
 
@@ -120,6 +126,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
   describe('C2: No hay recetas (200 OK, array vacío)', () => {
 
     it('C2-T1: retorna array vacío', async () => {
+      // Test Double: Stub – mockResolvedValue retorna array vacío sin verificar args
       // Arrange
       mockRecipeRepo.find.mockResolvedValue([]);
 
@@ -131,6 +138,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
     });
 
     it('C2-T2: el resultado es un array (no null ni undefined)', async () => {
+      // Test Double: Stub – mockResolvedValue retorna array vacío sin verificar args
       // Arrange
       mockRecipeRepo.find.mockResolvedValue([]);
 
@@ -151,6 +159,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
     // Si se pasa limit = -1 o limit = 0, no lanza error,
     // simplemente retorna un resultado inesperado.
     it('⛔ F1: limit = 0 debería lanzar error pero retorna array vacío', async () => {
+      // Test Double: Stub – mockResolvedValue retorna array vacío sin verificar args
       // Arrange
       mockRecipeRepo.find.mockResolvedValue([]);
 
@@ -170,6 +179,7 @@ describe('Recetas Populares Back – Pruebas por camino', () => {
     // findTopLiked NO lo captura — se propaga como 500 genérico.
     // Debería devolver un HttpException controlada.
     it('⛔ F2: error de BD devuelve 500 genérico en vez de HttpException controlada', async () => {
+      // Test Double: Stub – mockRejectedValue pre-programa error sin verificar args
       // Arrange
       mockRecipeRepo.find.mockRejectedValue(new Error('Connection refused'));
 

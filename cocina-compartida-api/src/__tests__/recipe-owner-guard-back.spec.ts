@@ -30,6 +30,7 @@ describe('RecipeOwnerGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C1: Sin usuario autenticado', () => {
     it('C1-T1: lanza ForbiddenException si no hay userId', async () => {
+      // Test Double: Dummy – user=undefined, contexto mínimo sin comportamiento
       // Arrange
       const ctx = makeContext(undefined, { id: 'r1' });
 
@@ -43,6 +44,7 @@ describe('RecipeOwnerGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C2: Sin recipeId en params', () => {
     it('C2-T1: lanza NotFoundException si no hay recipeId', async () => {
+      // Test Double: Dummy – params vacíos, objeto sin comportamiento esperado
       // Arrange
       const ctx = makeContext({ id: 'u1' }, {});
 
@@ -56,6 +58,7 @@ describe('RecipeOwnerGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C3: Usuario es dueño de la receta', () => {
     it('C3-T1: retorna true si el usuario es dueño', async () => {
+      // Test Double: Stub – mockResolvedValue, no verifica args
       // Arrange
       mockRecipesService.findOne.mockResolvedValue({ id: 'r1', user: { id: 'u1' } });
       const ctx = makeContext({ id: 'u1' }, { id: 'r1' });
@@ -68,6 +71,7 @@ describe('RecipeOwnerGuard – Pruebas por camino', () => {
     });
 
     it('C3-T2: verifica que findOne se llama con el recipeId', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith 'r1' verifica la llamada
       // Arrange
       mockRecipesService.findOne.mockResolvedValue({ id: 'r1', user: { id: 'u1' } });
       const ctx = makeContext({ id: 'u1' }, { id: 'r1' });
@@ -85,6 +89,7 @@ describe('RecipeOwnerGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C4: Usuario no es dueño', () => {
     it('C4-T1: lanza ForbiddenException si el usuario NO es dueño', async () => {
+      // Test Double: Stub – mockResolvedValue retorna receta ajena sin verificar args
       // Arrange
       mockRecipesService.findOne.mockResolvedValue({ id: 'r1', user: { id: 'u2' } });
       const ctx = makeContext({ id: 'u1' }, { id: 'r1' });
@@ -99,6 +104,7 @@ describe('RecipeOwnerGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C5: Receta no encontrada', () => {
     it('C5-T1: lanza NotFoundException si findOne retorna null', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       mockRecipesService.findOne.mockResolvedValue(null);
       const ctx = makeContext({ id: 'u1' }, { id: 'r-none' });

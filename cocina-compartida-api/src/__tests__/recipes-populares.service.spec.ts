@@ -29,6 +29,7 @@ describe('RecipesService Recetas Populares (findTopLiked)', () => {
 
   describe('RP-01 Recetas ordenadas por likes descendente', () => {
     it('debe retornar recetas ordenadas de mayor a menor según número de likes', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica la llamada y el orden al repositorio
       // Arrange
       const mockRecipes = [
         { id: 'r1', name: 'Tacos', likes: 100, descripcion: 'Tacos al pastor', ingredients: ['tortilla'], steps: ['cocinar'], images: [], likedBy: [], createdAt: new Date(), updatedAt: new Date(), user: { id: 'u1', username: 'chef1' }, comments: [] },
@@ -56,6 +57,7 @@ describe('RecipesService Recetas Populares (findTopLiked)', () => {
 
   describe('RP-02 No existen recetas registradas', () => {
     it('debe retornar lista vacía cuando no hay recetas', async () => {
+      // Test Double: Stub – mockResolvedValue [] sin verificar args
       // Arrange
       recipeRepo.find.mockResolvedValue([]);
 
@@ -72,6 +74,7 @@ describe('RecipesService Recetas Populares (findTopLiked)', () => {
 
   describe('RP-04 Recetas con igual número de likes', () => {
     it('debe mostrar todas las recetas sin error manteniendo orden consistente', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith objectContaining verifica order en la llamada
       // Arrange
       const mockRecipes = [
         { id: 'r1', name: 'Tacos', likes: 10, createdAt: new Date('2025-01-03'), user: { id: 'u1' }, comments: [] },
@@ -102,6 +105,7 @@ describe('RecipesService Recetas Populares (findTopLiked)', () => {
 
   describe('RP-05 Estructura de respuesta', () => {
     it('cada receta debe contener los campos esperados (id, name, likes, descripcion, etc.)', async () => {
+      // Test Double: Stub – mockResolvedValue retorna receta completa sin verificar args
       // Arrange
       const mockRecipe = {
         id: 'r1',
@@ -143,6 +147,7 @@ describe('RecipesService Recetas Populares (findTopLiked)', () => {
 
   describe('RP-06  Alta cantidad de registros', () => {
     it('debe responder correctamente sin error con muchos registros', async () => {
+      // Test Double: Stub – mockResolvedValue retorna array generado sin verificar args
       // Arrange
       const mockRecipes = Array.from({ length: 3 }, (_, i) => ({
         id: `r-${i}`,
@@ -169,6 +174,7 @@ describe('RecipesService Recetas Populares (findTopLiked)', () => {
     });
 
     it('debe respetar el límite pasado como parámetro', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith take:5 verifica el límite en la llamada
       // Arrange
       const limit = 5;
       recipeRepo.find.mockResolvedValue([]);
@@ -187,6 +193,7 @@ describe('RecipesService Recetas Populares (findTopLiked)', () => {
   // Camino adicional: findTopLiked usa limit por defecto = 3
   describe('Camino adicional – Límite por defecto', () => {
     it('debe usar take: 3 como límite por defecto', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith objectContaining take:3 verifica el default
       // Arrange
       recipeRepo.find.mockResolvedValue([]);
 
@@ -204,6 +211,7 @@ describe('RecipesService Recetas Populares (findTopLiked)', () => {
   // Camino adicional: Las relaciones se cargan correctamente
   describe('Camino adicional  Carga de relaciones', () => {
     it('debe solicitar relaciones user, comments, comments.user', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith objectContaining relations verifica la llamada
       // Arrange
       recipeRepo.find.mockResolvedValue([]);
 

@@ -41,6 +41,7 @@ describe('RecipesService – Recipe Detail (findOne)', () => {
   // ──────────────────────────────────────────────────────────
   describe('RD-01 – findOne retorna la receta completa cuando existe', () => {
     it('debe retornar la receta con todas sus relaciones cargadas', async () => {
+      // Test Double: Spy – jest.spyOn observa método real del repositorio sin reemplazarlo
       // Arrange – Spy: observamos sin cambiar el comportamiento
       const recipeId = 'uuid-recipe-paella';
       const mockRecipe = {
@@ -78,6 +79,7 @@ describe('RecipesService – Recipe Detail (findOne)', () => {
   // ──────────────────────────────────────────────────────────
   describe('RD-02 – findOne lanza 404 si la receta no existe', () => {
     it('debe lanzar NotFoundException con mensaje descriptivo cuando el ID no existe', async () => {
+      // Test Double: Stub – mockResolvedValue null provoca NotFoundException
       // Arrange – Stub: retorna null incondicionalmente
       const nonExistentId = 'id-fantasma-00000';
       recipeRepo.findOne.mockResolvedValue(null);
@@ -90,6 +92,7 @@ describe('RecipesService – Recipe Detail (findOne)', () => {
     });
 
     it('no debe hacer operaciones adicionales cuando la receta no existe', async () => {
+      // Test Double: Stub + Mock – mockResolvedValue null + not.toHaveBeenCalled en save/remove
       // Arrange – Stub
       recipeRepo.findOne.mockResolvedValue(null);
 
@@ -109,6 +112,7 @@ describe('RecipesService – Recipe Detail (findOne)', () => {
   // ──────────────────────────────────────────────────────────
   describe('RD-03 – findOne pasa los parámetros correctos al repositorio', () => {
     it('debe llamar a findOne del repositorio con where e id correcto', async () => {
+      // Test Double: Spy – jest.spyOn observa la llamada al repositorio con parámetros correctos
       // Arrange – Spy
       const recipeId = 'uuid-test-rd03';
       const mockRecipe = {
@@ -137,6 +141,7 @@ describe('RecipesService – Recipe Detail (findOne)', () => {
   // ──────────────────────────────────────────────────────────
   describe('RD-04 – findOne retorna el objeto sin modificaciones', () => {
     it('debe retornar la referencia exacta del objeto que devuelve el repositorio', async () => {
+      // Test Double: Stub – mockResolvedValue retorna objeto original sin modificaciones
       // Arrange – Stub
       const recipeId = 'uuid-rd04';
       const originalRecipe = {

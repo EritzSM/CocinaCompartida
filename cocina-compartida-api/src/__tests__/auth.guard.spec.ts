@@ -29,6 +29,7 @@ describe('AuthGuard', () => {
 
   describe('PU-02 / RP-03 / C-03 Sin token de autorización', () => {
     it('debe lanzar UnauthorizedException si no hay header Authorization', () => {
+      // Test Double: Dummy – headers vacíos, objeto sin comportamiento esperado
       // Arrange
       const ctx = createMockContext({});
 
@@ -37,6 +38,7 @@ describe('AuthGuard', () => {
     });
 
     it('debe lanzar UnauthorizedException si el header Authorization está vacío', () => {
+      // Test Double: Dummy – header vacío, objeto sin comportamiento esperado
       // Arrange
       const ctx = createMockContext({ authorization: '' });
 
@@ -50,6 +52,7 @@ describe('AuthGuard', () => {
 
   describe('PU-03 Token inválido o expirado', () => {
     it('debe lanzar UnauthorizedException si el token es inválido', () => {
+      // Test Double: Fake – mockImplementation lanza error real de token inválido
       // Arrange
       const ctx = createMockContext({ authorization: 'Bearer token-invalido' });
       (jwtService.verify as jest.Mock).mockImplementation(() => {
@@ -61,6 +64,7 @@ describe('AuthGuard', () => {
     });
 
     it('debe lanzar UnauthorizedException si el token está expirado', () => {
+      // Test Double: Fake – mockImplementation lanza error real de token expirado
       // Arrange
       const ctx = createMockContext({ authorization: 'Bearer token-expirado' });
       (jwtService.verify as jest.Mock).mockImplementation(() => {
@@ -72,6 +76,7 @@ describe('AuthGuard', () => {
     });
 
     it('debe lanzar UnauthorizedException si el formato no es Bearer', () => {
+      // Test Double: Dummy – header con formato incorrecto, sin comportamiento esperado
       // Arrange
       const ctx = createMockContext({ authorization: 'Basic some-credentials' });
 
@@ -80,6 +85,7 @@ describe('AuthGuard', () => {
     });
 
     it('debe lanzar UnauthorizedException si solo tiene Bearer sin token', () => {
+      // Test Double: Dummy – header con solo 'Bearer ' sin token, sin comportamiento
       // Arrange
       const ctx = createMockContext({ authorization: 'Bearer ' });
 
@@ -91,6 +97,7 @@ describe('AuthGuard', () => {
   // Token válido → permite acceso
   describe('Token válido permite acceso', () => {
     it('debe retornar true y setear req.user cuando el token es válido con sub', () => {
+      // Test Double: Mock – verifica req.user resultado con toEqual tras verify exitoso
       // Arrange
       const mockReq = { headers: { authorization: 'Bearer valid-token' }, user: undefined } as any;
       const ctx = {
@@ -119,6 +126,7 @@ describe('AuthGuard', () => {
     });
 
     it('debe usar payload.id si no hay payload.sub', () => {
+      // Test Double: Stub – mockReturnValue retorna payload sin sub, sin verificar args
       // Arrange
       const mockReq = { headers: { authorization: 'Bearer valid-token' }, user: undefined } as any;
       const ctx = {
@@ -146,6 +154,7 @@ describe('AuthGuard', () => {
   // Camino adicional: Token sin id ni sub → Error 401
   describe('Camino adicional Token sin id ni sub', () => {
     it('debe lanzar UnauthorizedException si el token no tiene id ni sub', () => {
+      // Test Double: Stub – mockReturnValue sin id ni sub, sin verificar args
       // Arrange
       const ctx = createMockContext({ authorization: 'Bearer token-sin-id' });
       (jwtService.verify as jest.Mock).mockReturnValue({

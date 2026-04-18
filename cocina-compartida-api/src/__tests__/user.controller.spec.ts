@@ -22,6 +22,7 @@ describe('UserController', () => {
 
   describe('PU-01  Consulta de perfil exitosa', () => {
     it('debe llamar a userService.findOne con el id y retornar el perfil', async () => {
+      // Test Double: Mock – mockResolvedValue + toHaveBeenCalledWith verifica la llamada
       // Arrange
       const userId = 'uuid-perfil';
       const mockProfile = {
@@ -47,6 +48,7 @@ describe('UserController', () => {
 
   describe('PU-06  Usuario no encontrado', () => {
     it('debe propagar NotFoundException desde el servicio', async () => {
+      // Test Double: Stub – solo pre-programa error, no verifica args
       // Arrange
       const userId = 'uuid-no-existe';
       (userService.findOne as jest.Mock).mockRejectedValue(
@@ -63,6 +65,7 @@ describe('UserController', () => {
 
   describe('Registro Controller delega al servicio', () => {
     it('debe llamar a userService.create con el DTO completo', async () => {
+      // Test Double: Mock – mockResolvedValue + toHaveBeenCalledWith verifica la llamada
       // Arrange
       const createDto = {
         username: 'newuser',
@@ -90,6 +93,7 @@ describe('UserController', () => {
 
   describe('Update Controller delega al servicio', () => {
     it('debe llamar a userService.update con id del usuario autenticado', async () => {
+      // Test Double: Mock – mockResolvedValue + toHaveBeenCalledWith verifica la llamada
       // Arrange
       const updateDto = { bio: 'Nueva bio' };
       const req = { user: { id: 'uuid-auth' } };
@@ -114,6 +118,7 @@ describe('UserController', () => {
 
   describe('findAll Controller delega al servicio', () => {
     it('debe retornar la lista de usuarios del servicio', async () => {
+      // Test Double: Mock – mockResolvedValue + toHaveBeenCalled verifica la delegación
       // Arrange
       const mockUsers = [
         { id: 'u1', username: 'user1' },
@@ -135,6 +140,7 @@ describe('UserController', () => {
 
   describe('Remove Controller delega al servicio', () => {
     it('debe llamar a userService.remove con el id', async () => {
+      // Test Double: Mock – mockResolvedValue + toHaveBeenCalledWith verifica la llamada
       // Arrange
       const userId = 'uuid-delete';
       (userService.remove as jest.Mock).mockResolvedValue({ success: true });

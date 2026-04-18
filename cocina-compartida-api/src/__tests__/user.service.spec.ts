@@ -35,6 +35,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('R-01 – Registro exitoso con datos válidos', () => {
     it('debe crear un usuario correctamente y retornar datos sin password', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica bcrypt.hash, create y save
       // Arrange
       const createDto = {
         username: 'nuevouser',
@@ -78,6 +79,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('R-02 – Email duplicado', () => {
     it('debe lanzar ConflictException si el email ya existe', async () => {
+      // Test Double: Stub – mockResolvedValueOnce pre-programa respuestas sin verificar args
       // Arrange
       const createDto = {
         username: 'otrouser',
@@ -95,6 +97,7 @@ describe('UserService', () => {
     });
 
     it('debe incluir mensaje "Email already exists"', async () => {
+      // Test Double: Stub – mockResolvedValueOnce pre-programa respuestas sin verificar args
       // Arrange
       const createDto = {
         username: 'otrouser',
@@ -115,6 +118,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('R-03 – Username duplicado (campos obligatorios)', () => {
     it('debe lanzar ConflictException si el username ya está registrado', async () => {
+      // Test Double: Stub – mockResolvedValueOnce pre-programa username existente sin verificar args
       // Arrange
       const createDto = {
         username: 'existente',
@@ -128,6 +132,7 @@ describe('UserService', () => {
     });
 
     it('debe incluir mensaje "Username exists"', async () => {
+      // Test Double: Stub – mockResolvedValueOnce pre-programa username existente sin verificar args
       // Arrange
       const createDto = {
         username: 'existente',
@@ -146,6 +151,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('R-04 – Contraseña y hashing', () => {
     it('la contraseña se hashea con bcrypt antes de guardar', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica bcrypt.hash y create con hash
       // Arrange
       const createDto = {
         username: 'hashuser',
@@ -177,6 +183,7 @@ describe('UserService', () => {
     });
 
     it('la contraseña original no se almacena en el resultado', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario con hash sin verificar args
       // Arrange
       const createDto = {
         username: 'passuser',
@@ -209,6 +216,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('R-05 – Email inválido', () => {
     it('el servicio actual no valida formato de email, acepta cualquier string', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario con email inválido sin verificar
       // Arrange
       const createDto = {
         username: 'invalidemail',
@@ -242,6 +250,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('Camino adicional – Registro sin email', () => {
     it('debe permitir registrar un usuario sin email', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario sin email sin verificar args
       // Arrange
       const createDto = {
         username: 'sinmail',
@@ -276,6 +285,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('PU-01 – Consultar perfil exitoso', () => {
     it('debe retornar los datos del usuario sin password', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario completo sin verificar args
       // Arrange
       const userId = 'uuid-perfil';
       const mockUser = {
@@ -307,6 +317,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('PU-04 – Perfil sin recetas', () => {
     it('debe retornar el perfil correctamente con recetas vacías', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario sin recetas sin verificar args
       // Arrange
       const userId = 'uuid-norecipes';
       const mockUser = {
@@ -332,6 +343,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('PU-05 – Perfil con recetas', () => {
     it('debe retornar el perfil junto con el listado de sus recetas', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario con recetas sin verificar args
       // Arrange
       const userId = 'uuid-withrecipes';
       const mockUser = {
@@ -361,6 +373,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('PU-06 – Usuario no encontrado', () => {
     it('debe lanzar NotFoundException si el usuario no existe', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       const userId = 'uuid-no-existe';
       userRepo.findOne.mockResolvedValue(null);
@@ -370,6 +383,7 @@ describe('UserService', () => {
     });
 
     it('debe lanzar NotFoundException si el usuario fue soft-deleted', async () => {
+      // Test Double: Stub – mockResolvedValue null simula soft-deleted sin verificar args
       // Arrange
       const userId = 'uuid-deleted';
       userRepo.findOne.mockResolvedValue(null);
@@ -384,6 +398,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('Camino adicional – findAll', () => {
     it('debe retornar todos los usuarios sin el campo password', async () => {
+      // Test Double: Stub – mockResolvedValue retorna lista de usuarios sin verificar args
       // Arrange
       const mockUsers = [
         { id: 'u1', username: 'user1', password: '$hash1', email: 'u1@email.com' },
@@ -402,6 +417,7 @@ describe('UserService', () => {
     });
 
     it('debe retornar lista vacía si no hay usuarios', async () => {
+      // Test Double: Stub – mockResolvedValue retorna array vacío sin verificar args
       // Arrange
       userRepo.find.mockResolvedValue([]);
 
@@ -418,6 +434,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('Camino adicional – Update con email duplicado', () => {
     it('debe lanzar ConflictException si se actualiza a un email ya existente de otro usuario', async () => {
+      // Test Double: Stub – mockResolvedValue retorna otro usuario con mismo email sin verificar
       // Arrange
       const userId = 'uuid-update';
       const updateDto = { email: 'yaexiste@email.com' };
@@ -436,6 +453,7 @@ describe('UserService', () => {
   // ──────────────────────────────────────────────────────────
   describe('Camino adicional – Remove', () => {
     it('debe retornar success al eliminar un usuario existente', async () => {
+      // Test Double: Stub – mockResolvedValue {affected:1} sin verificar args
       // Arrange
       const userId = 'uuid-eliminar';
       userRepo.softDelete.mockResolvedValue({ affected: 1 });
@@ -448,6 +466,7 @@ describe('UserService', () => {
     });
 
     it('debe lanzar NotFoundException si el usuario a eliminar no existe', async () => {
+      // Test Double: Stub – mockResolvedValue {affected:0} sin verificar args
       // Arrange
       const userId = 'uuid-no-existe';
       userRepo.softDelete.mockResolvedValue({ affected: 0 });

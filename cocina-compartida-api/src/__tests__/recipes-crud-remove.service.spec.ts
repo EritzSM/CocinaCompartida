@@ -43,6 +43,7 @@ describe('RecipesService – Recipe CRUD (remove)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CR-D01 – remove lanza NotFoundException cuando la receta no existe', () => {
     it('debe lanzar NotFoundException y no llamar a remove del repositorio', async () => {
+      // Test Double: Dummy + Mock – dummyUser llena la firma + not.toHaveBeenCalled en remove
       // Arrange – Dummy: user solo para cumplir la firma del método
       const dummyUser = { id: 'dummy-user-id' } as User;
       recipeRepo.findOne.mockResolvedValue(null);
@@ -58,6 +59,7 @@ describe('RecipesService – Recipe CRUD (remove)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CR-D02 – remove lanza ForbiddenException cuando el usuario no es el dueño', () => {
     it('debe lanzar ForbiddenException y no eliminar la receta', async () => {
+      // Test Double: Fake + Mock – fakeUser simula impostor + not.toHaveBeenCalled en remove
       // Arrange – Fake: usuario que simula ser dueño con ID diferente
       const fakeUser = { id: 'impostor-id', username: 'impostor' } as User;
       const mockRecipe = {
@@ -73,6 +75,7 @@ describe('RecipesService – Recipe CRUD (remove)', () => {
     });
 
     it('el mensaje de error debe indicar que solo el dueño puede eliminar', async () => {
+      // Test Double: Fake – fakeUser con id diferente al dueño real de la receta
       // Arrange – Fake
       const fakeUser = { id: 'otro-usuario' } as User;
       const mockRecipe = {
@@ -94,6 +97,7 @@ describe('RecipesService – Recipe CRUD (remove)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CR-D03 – remove elimina la receta cuando el usuario es el dueño', () => {
     it('debe llamar a recipeRepo.remove con la receta correcta', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica que remove recibe la receta exacta
       // Arrange – Mock: verificamos que remove sea llamado con la receta exacta
       const ownerUser = { id: 'owner-confirmed' } as User;
       const mockRecipe = {
@@ -118,6 +122,7 @@ describe('RecipesService – Recipe CRUD (remove)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CR-D04 – remove retorna undefined tras eliminar', () => {
     it('debe completar sin retornar ningún valor', async () => {
+      // Test Double: Stub – mockResolvedValue undefined sin verificar args
       // Arrange – Mock
       const ownerUser = { id: 'owner-void' } as User;
       const mockRecipe = {

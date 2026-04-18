@@ -50,6 +50,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
   describe('C1: Admin lista usuarios exitosamente (200 OK)', () => {
 
     it('C1-T1: retorna lista de usuarios sin password', async () => {
+      // Test Double: Stub – mockResolvedValue retorna lista pre-configurada sin verificar args
       // Arrange
       mockRepo.find.mockResolvedValue([{ ...DB_USER }, { ...DB_USER, id: '2', username: 'user2' }]);
 
@@ -64,6 +65,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
     });
 
     it('C1-T2: retorna array vacío si no hay usuarios registrados', async () => {
+      // Test Double: Stub – mockResolvedValue retorna array vacío sin verificar args
       // Arrange
       mockRepo.find.mockResolvedValue([]);
 
@@ -75,6 +77,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
     });
 
     it('C1-T3: retorna id, username, email, avatar, bio y role de cada usuario', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario completo sin verificar args
       // Arrange
       mockRepo.find.mockResolvedValue([{ ...DB_USER }]);
 
@@ -92,6 +95,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
     });
 
     it('C1-T4: llama a userRepo.find sin filtros (devuelve todos)', async () => {
+      // Test Double: Mock – toHaveBeenCalledTimes + toHaveBeenCalledWith verifica la llamada
       // Arrange
       mockRepo.find.mockResolvedValue([{ ...DB_USER }]);
 
@@ -104,6 +108,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
     });
 
     it('C1-T5: el controlador delega al servicio', async () => {
+      // Test Double: Mock – mockService + toHaveBeenCalled verifica la delegación
       // Arrange
       const mockService = { findAll: jest.fn().mockResolvedValue([{ id: '1', username: 'admin' }]) };
       const controller = new UserController(mockService as any);
@@ -117,6 +122,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
     });
 
     it('C1-T6: la contraseña no aparece en ningún usuario de la lista', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuarios con password sin verificar args
       // Arrange
       const users = [
         { ...DB_USER, id: '1' },
@@ -139,6 +145,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
   describe('C2: Usuario no autorizado (403 Forbidden)', () => {
 
     it('C2-T1: RoleGuard lanza ForbiddenException si no hay token', async () => {
+      // Test Double: Stub – context con header mock vacío sin verificar args
       // Arrange
       const mockJwt = { verify: jest.fn() };
       const mockRecipesService = { findOne: jest.fn() };
@@ -159,6 +166,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
     });
 
     it('C2-T2: RoleGuard lanza ForbiddenException si el userId del token no coincide con body.userId', async () => {
+      // Test Double: Stub – mockReturnValue con userId diferente sin verificar args
       // Arrange
       const mockJwt = { verify: jest.fn().mockReturnValue({ id: 'u1' }) };
       const mockRecipesService = { findOne: jest.fn() };
@@ -188,6 +196,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
     // pero NO verifica que el usuario tenga role === 'admin'.
     // Un usuario normal que conozca su propio userId podría acceder.
     it('F1: RoleGuard no valida que el usuario sea admin — cualquier usuario autenticado podría pasar', async () => {
+      // Test Double: Stub – documenta bug: guard no valida rol admin
       // Arrange
       const mockJwt = { verify: jest.fn().mockReturnValue({ id: 'u1', role: 'user' }) }; // rol user, NO admin
       const mockRecipesService = { findOne: jest.fn() };
@@ -213,6 +222,7 @@ describe('Listar (Admin) Back – Pruebas por camino', () => {
     // BUG: Si la base de datos falla al listar usuarios (ej: connection timeout),
     // el servicio no captura el error y sale como 500 genérico.
     it('F2: error de BD en findAll no se convierte en HttpException controlada', async () => {
+      // Test Double: Stub – mockRejectedValue pre-programa error de BD sin verificar args
       // Arrange
       mockRepo.find.mockRejectedValue(new Error('Connection timeout'));
 

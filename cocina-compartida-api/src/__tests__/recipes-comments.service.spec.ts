@@ -31,6 +31,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
   // ──────────────────────────────────────────────────────────
   describe('C-01 – Comentario válido creado exitosamente', () => {
     it('debe crear y retornar el comentario cuando los datos son válidos', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica create, save y findOne
       // Arrange
       const recipeId = 'uuid-recipe';
       const createCommentDto = { message: 'Excelente receta, muy fácil de seguir!' };
@@ -78,6 +79,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
   // ──────────────────────────────────────────────────────────
   describe('C-02 – Comentario vacío', () => {
     it('si se pasa un comentario con mensaje vacío, el servicio lo procesa (la validación es del DTO)', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith objectContaining verifica create con message vacío
       // Arrange
       const recipeId = 'uuid-recipe';
       const createCommentDto = { message: '' };
@@ -119,6 +121,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
   // ──────────────────────────────────────────────────────────
   describe('C-04 – Receta inexistente', () => {
     it('debe lanzar NotFoundException si la receta no existe', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       const recipeId = 'uuid-no-existe';
       const createCommentDto = { message: 'Comentario en receta fantasma' };
@@ -132,6 +135,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
     });
 
     it('no debe intentar crear el comentario si la receta no existe', async () => {
+      // Test Double: Mock – not.toHaveBeenCalled verifica que create y save no se invocan
       // Arrange
       const recipeId = 'uuid-no-existe';
       const createCommentDto = { message: 'Comentario' };
@@ -154,6 +158,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
   // ──────────────────────────────────────────────────────────
   describe('Camino adicional – Listar comentarios por receta', () => {
     it('debe retornar los comentarios de una receta existente', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica where, relations y order en find
       // Arrange
       const recipeId = 'uuid-recipe-comments';
       const mockRecipe = { id: recipeId, name: 'Tacos' };
@@ -177,6 +182,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
     });
 
     it('debe retornar lista vacía si la receta no tiene comentarios', async () => {
+      // Test Double: Stub – mockResolvedValue [] sin verificar args
       // Arrange
       const recipeId = 'uuid-recipe-empty';
       recipeRepo.findOne.mockResolvedValue({ id: recipeId, name: 'Sushi' });
@@ -190,6 +196,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
     });
 
     it('debe lanzar NotFoundException si se listan comentarios de receta inexistente', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       const recipeId = 'uuid-no-existe';
       recipeRepo.findOne.mockResolvedValue(null);
@@ -206,6 +213,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
   // ──────────────────────────────────────────────────────────
   describe('Camino adicional – Eliminar comentario', () => {
     it('debe eliminar un comentario propio', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith softRemove verifica el comentario eliminado
       // Arrange
       const commentId = 'uuid-comment';
       const user = { id: 'uuid-owner' } as any;
@@ -225,6 +233,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
     });
 
     it('debe lanzar NotFoundException si el comentario no existe', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       const commentId = 'uuid-no-comment';
       const user = { id: 'uuid-user' } as any;
@@ -237,6 +246,7 @@ describe('RecipesService – Comentarios (createComment)', () => {
     });
 
     it('debe lanzar ForbiddenException si intenta eliminar un comentario ajeno', async () => {
+      // Test Double: Stub – mockResolvedValue con comentario ajeno sin verificar args
       // Arrange
       const commentId = 'uuid-comment-ajeno';
       const user = { id: 'uuid-otro-user' } as any;

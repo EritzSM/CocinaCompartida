@@ -16,6 +16,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
   describe('C1: Update exitoso (200 OK)', () => {
 
     it('C1-T1: retorna usuario actualizado sin password', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario actualizado sin verificar args
       // Arrange
       const userId = '1';
       const updateDto = { username: 'nuevoNombre' };
@@ -45,6 +46,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
     });
 
     it('C1-T2: el username del resultado es el actualizado', async () => {
+      // Test Double: Mock – toHaveBeenCalled en update verifica que se invocó la actualización
       // Arrange
       const userId = '1';
       const updateDto = { username: 'nuevoNombre' };
@@ -73,6 +75,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
     });
 
     it('C1-T3: el id se mantiene igual tras la actualización', async () => {
+      // Test Double: Stub – mockResolvedValue retorna usuario con mismo id sin verificar args
       // Arrange
       const userId = '1';
       const updateDto = { username: 'nuevoNombre' };
@@ -103,6 +106,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
     //  Email duplicado en otro usuario → 409 Conflict
     // ──────────────────────────────────────────────────────────
     it('C1-T4: lanza ConflictException si email está en otro usuario', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith en findOne verifica la comprobación de email
       // Arrange
       const userId = '1';
       const updateDto = { email: 'existing@test.com' };
@@ -136,6 +140,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
     //  Email update exitoso cuando es único
     // ──────────────────────────────────────────────────────────
     it('C1-T5: update exitoso cuando email es único', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith {id, updateDto} verifica la llamada a update
       // Arrange
       const userId = '1';
       const updateDto = { email: 'newunique@test.com' };
@@ -171,6 +176,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
   describe('C2: Token inválido (401)', () => {
 
     it('C2-T1: lanza UnauthorizedException si no hay Authorization header', () => {
+      // Test Double: Dummy + Mock – ctx vacío + verifica switchToHttp fue llamado
       // Arrange
       const mockJwt = { verify: jest.fn().mockReturnValue({}) };
       const guard = new AuthGuard(mockJwt as any);
@@ -187,6 +193,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
     });
 
     it('C2-T2: lanza UnauthorizedException si el token expiró', () => {
+      // Test Double: Fake + Mock – mockImplementation lanza error real + verifica verify llamado
       // Arrange
       const mockJwt = {
         verify: jest.fn().mockImplementation(() => {
@@ -214,6 +221,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
   describe('C3: Usuario no encontrado tras update (404)', () => {
 
     it('C3-T1: lanza NotFoundException si findOne retorna null tras update', async () => {
+      // Test Double: Stub + Mock – mockResolvedValue null + toHaveBeenCalledWith findOne
       // Arrange
       const userId = '999';
       const updateDto = { username: 'x' };
@@ -231,6 +239,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
     });
 
     it('C3-T2: lanza NotFoundException incluso para id inexistente', async () => {
+      // Test Double: Stub + Mock – mockResolvedValue null + toHaveBeenCalledWith id inexistente
       // Arrange
       const userId = 'no-existo';
       const updateDto = { bio: 'test' };
@@ -249,14 +258,15 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
   });
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  //  ⛔ PRUEBAS QUE HACEN FALLAR EL CÓDIGO
+  //   PRUEBAS QUE HACEN FALLAR EL CÓDIGO
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  describe('⛔ Fallos esperados (bugs)', () => {
+  describe(' Fallos esperados (bugs)', () => {
 
     // BUG: update() no valida que el dto tenga al menos un campo actualizable.
     // Se puede enviar un dto vacío {} y se ejecuta repo.update(id, {})
     // sin hacer nada útil — desperdicia un query a la BD.
-    it('⛔ F1: dto vacío debería lanzar error pero NO lo hace', async () => {
+    it(' F1: dto vacío debería lanzar error pero NO lo hace', async () => {
+      // Test Double: Stub – documenta bug: update acepta dto vacío sin lanzar error
       // Arrange
       const userId = '1';
       const emptyDto = {} as any;
@@ -288,7 +298,8 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
 
     // BUG: Si repo.update lanza error de BD (ej. unique constraint en username),
     // el servicio no lo captura como ConflictException — sube como 500.
-    it('⛔ F2: error de constraint debería ser ConflictException, no 500', async () => {
+    it(' F2: error de constraint debería ser ConflictException, no 500', async () => {
+      // Test Double: Stub – documenta bug: error de BD no se convierte en ConflictException
       // Arrange
       const userId = '1';
       const updateDto = { username: 'duplicado' };
@@ -326,6 +337,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
   describe('remove', () => {
 
     it('retorna success si softDelete afecta un registro', async () => {
+      // Test Double: Stub – mockResolvedValue {affected:1} sin verificar args
       // Arrange
       const mockUserRepository = {
         findOne: jest.fn(),
@@ -342,6 +354,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
     });
 
     it('lanza NotFoundException si softDelete no afecta registros', async () => {
+      // Test Double: Stub – mockResolvedValue {affected:0} sin verificar args
       // Arrange
       const mockUserRepository = {
         findOne: jest.fn(),
@@ -355,6 +368,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
     });
 
     it('llama a softDelete con el id correcto', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica que softDelete recibe el id
       // Arrange
       const mockUserRepository = {
         findOne: jest.fn(),

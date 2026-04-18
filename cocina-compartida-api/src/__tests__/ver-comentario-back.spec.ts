@@ -49,6 +49,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
   describe('C1: Receta con comentarios (200 OK)', () => {
 
     it('C1-T1: retorna un array de comentarios', async () => {
+      // Test Double: Stub – mockResolvedValue retorna datos pre-configurados sin verificar args
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue({ ...RECIPE });
       mockCommentRepo.find.mockResolvedValue([...COMMENTS]);
@@ -62,6 +63,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
     });
 
     it('C1-T2: cada comentario tiene user y message', async () => {
+      // Test Double: Stub – mockResolvedValue retorna comentarios con user sin verificar args
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue({ ...RECIPE });
       mockCommentRepo.find.mockResolvedValue([...COMMENTS]);
@@ -75,6 +77,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
     });
 
     it('C1-T3: llama a commentRepository.find con las opciones correctas', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica where, relations y order
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue({ ...RECIPE });
       mockCommentRepo.find.mockResolvedValue([...COMMENTS]);
@@ -91,6 +94,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
     });
 
     it('C1-T4: verifica que findOne se llama primero para validar la receta', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica que findOne se llama con la receta
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue({ ...RECIPE });
       mockCommentRepo.find.mockResolvedValue([...COMMENTS]);
@@ -113,6 +117,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
   describe('C2: Receta no existe (404)', () => {
 
     it('C2-T1: lanza NotFoundException si la receta no existe', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue(null);
 
@@ -121,6 +126,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
     });
 
     it('C2-T2: el mensaje del error contiene el id buscado', async () => {
+      // Test Double: Stub – mockResolvedValue null sin verificar args
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue(null);
 
@@ -138,6 +144,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
     });
 
     it('C2-T3: no llama a commentRepository.find si la receta no existe', async () => {
+      // Test Double: Mock – not.toHaveBeenCalled verifica que commentRepo.find no se invoca
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue(null);
 
@@ -156,6 +163,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
   describe('C3: Receta sin comentarios (200 OK, array vacío)', () => {
 
     it('C3-T1: retorna array vacío', async () => {
+      // Test Double: Stub – mockResolvedValue [] sin verificar args
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue({ ...RECIPE, comments: [] });
       mockCommentRepo.find.mockResolvedValue([]);
@@ -180,6 +188,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
     // El segundo query podría ser inconsistente si se eliminó un
     // comentario entre ambas queries.
     it('⛔ F1: debería retornar los comentarios del findOne, no hacer 2 queries', async () => {
+      // Test Double: Stub – mockResolvedValue con datos inconsistentes sin verificar args
       // Arrange — receta tiene 1 comentario pero commentRepo retorna 2
       mockRecipeRepo.findOne.mockResolvedValue({
         ...RECIPE,
@@ -197,6 +206,7 @@ describe('Ver Comentarios Back – Pruebas por camino', () => {
     // BUG: Si la BD lanza error en commentRepository.find,
     // el servicio no lo captura — sube como 500 genérico.
     it('⛔ F2: error en commentRepo debería ser HttpException manejada', async () => {
+      // Test Double: Stub – mockRejectedValue pre-programa error de BD sin verificar args
       // Arrange
       mockRecipeRepo.findOne.mockResolvedValue({ ...RECIPE });
       mockCommentRepo.find.mockRejectedValue(new Error('Connection lost'));

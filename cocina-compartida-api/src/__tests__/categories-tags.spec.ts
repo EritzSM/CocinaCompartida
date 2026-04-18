@@ -82,6 +82,7 @@ describe('RecipesService – Categories/Tags (findByTag)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CT-01 – findByTag retorna solo recetas con el tag indicado', () => {
     it('debe retornar únicamente las recetas que contienen el tag "mexicana"', async () => {
+      // Test Double: Stub – mockResolvedValue retorna lista fija sin verificar args
       // Arrange – Stub: retorna lista fija
       recipeRepo.find.mockResolvedValue(buildMockRecipes());
 
@@ -100,6 +101,7 @@ describe('RecipesService – Categories/Tags (findByTag)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CT-02 – findByTag retorna lista vacía cuando no hay coincidencias', () => {
     it('debe retornar [] cuando el tag no existe en ninguna receta', async () => {
+      // Test Double: Stub – mockResolvedValue retorna lista fija sin verificar args
       // Arrange – Stub
       recipeRepo.find.mockResolvedValue(buildMockRecipes());
 
@@ -116,6 +118,7 @@ describe('RecipesService – Categories/Tags (findByTag)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CT-03 – findByTag no falla con recetas sin tags', () => {
     it('debe omitir recetas cuyo campo tags sea null o array vacío', async () => {
+      // Test Double: Stub – mockResolvedValue retorna lista fija sin verificar args
       // Arrange – Stub
       recipeRepo.find.mockResolvedValue(buildMockRecipes());
 
@@ -135,6 +138,7 @@ describe('RecipesService – Categories/Tags (findByTag)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CT-04 – findByTag carga las relaciones correctas', () => {
     it('debe invocar recipeRepo.find con todas las relaciones necesarias', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith verifica relaciones en la llamada a find
       // Arrange – Stub
       recipeRepo.find.mockResolvedValue([]);
 
@@ -155,6 +159,7 @@ describe('RecipesService – Categories/Tags (findByTag)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CT-05 – findByTag filtra de forma consistente con múltiples tags por receta', () => {
     it('debe retornar la receta si posee el tag, independientemente de otros tags', async () => {
+      // Test Double: Fake – mockImplementation con implementación realista de acceso a datos
       // Arrange – Fake: implementación que simula acceso a datos realista
       const fakeData = [
         { id: 'rx1', name: 'Burrito', tags: ['mexicana', 'carne', 'picante'], user: {}, comments: [] },
@@ -177,6 +182,7 @@ describe('RecipesService – Categories/Tags (findByTag)', () => {
   // ──────────────────────────────────────────────────────────
   describe('CT-06 – La entidad Recipe expone el campo tags', () => {
     it('debe tener el campo tags definido y accesible', async () => {
+      // Test Double: Stub – mockResolvedValue retorna receta con tags sin verificar args
       // Arrange – Stub con receta que tiene tags
       const recipeWithTags = {
         id: 'r-tags',

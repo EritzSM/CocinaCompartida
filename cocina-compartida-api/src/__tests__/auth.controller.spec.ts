@@ -19,6 +19,7 @@ describe('AuthController', () => {
   // ──────────────────────────────────────────────────────────
   describe('L-04 – Campos vacíos', () => {
     it('debe lanzar BadRequestException si email y password están vacíos', () => {
+      // Test Double: Dummy – dto vacío sin comportamiento
       // Arrange
       const dto = { email: '', password: '' };
 
@@ -27,6 +28,7 @@ describe('AuthController', () => {
     });
 
     it('debe lanzar BadRequestException si email está vacío', () => {
+      // Test Double: Dummy – dto vacío sin comportamiento
       // Arrange
       const dto = { email: '', password: 'password123' };
 
@@ -35,6 +37,7 @@ describe('AuthController', () => {
     });
 
     it('debe lanzar BadRequestException si password está vacío', () => {
+      // Test Double: Dummy – dto vacío sin comportamiento
       // Arrange
       const dto = { email: 'test@email.com', password: '' };
 
@@ -43,6 +46,7 @@ describe('AuthController', () => {
     });
 
     it('debe lanzar BadRequestException si email es undefined', () => {
+      // Test Double: Dummy – dto vacío sin comportamiento
       // Arrange
       const dto = { email: undefined, password: 'password123' } as any;
 
@@ -51,6 +55,7 @@ describe('AuthController', () => {
     });
 
     it('debe lanzar BadRequestException si password es undefined', () => {
+      // Test Double: Dummy – dto vacío sin comportamiento
       // Arrange
       const dto = { email: 'test@email.com', password: undefined } as any;
 
@@ -59,6 +64,7 @@ describe('AuthController', () => {
     });
 
     it('debe lanzar BadRequestException si email es null', () => {
+      // Test Double: Dummy – dto vacío sin comportamiento
       // Arrange
       const dto = { email: null, password: 'password123' } as any;
 
@@ -67,6 +73,7 @@ describe('AuthController', () => {
     });
 
     it('debe lanzar BadRequestException si password es null', () => {
+      // Test Double: Dummy – dto vacío sin comportamiento
       // Arrange
       const dto = { email: 'test@email.com', password: null } as any;
 
@@ -80,6 +87,7 @@ describe('AuthController', () => {
   // ──────────────────────────────────────────────────────────
   describe('L-01 – Email y contraseña válidos', () => {
     it('debe llamar a authService.login con el dto correcto y retornar JWT', async () => {
+      // Test Double: Mock – mockResolvedValue + toHaveBeenCalledWith verifica la llamada
       // Arrange
       const dto = { email: 'user@email.com', password: 'correctPassword' };
       const expectedResult = { success: true, token: 'jwt-token-mock' };
@@ -99,6 +107,7 @@ describe('AuthController', () => {
   // ──────────────────────────────────────────────────────────
   describe('L-02/L-03 – Errores del servicio se propagan', () => {
     it('debe propagar la excepción si authService.login lanza error', async () => {
+      // Test Double: Stub – solo pre-programa error, no verifica args
       // Arrange
       const dto = { email: 'user@email.com', password: 'wrongPassword' };
       (authService.login as jest.Mock).mockRejectedValue(

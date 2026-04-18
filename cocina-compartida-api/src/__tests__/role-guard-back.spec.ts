@@ -37,6 +37,7 @@ describe('RoleGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C1: Sin authorization header', () => {
     it('C1-T1: lanza ForbiddenException si no hay header authorization', async () => {
+      // Test Double: Stub – headers vacíos, retorna respuesta pre-configurada sin verificar args
       // Arrange
       const ctx = makeContext({});
 
@@ -50,6 +51,7 @@ describe('RoleGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C2: Verificación por params.id (dueño de receta)', () => {
     it('C2-T1: retorna true si el usuario es dueño de la receta', async () => {
+      // Test Double: Stub – mockReturnValue y mockResolvedValue sin verificar args
       // Arrange
       mockJwt.verify.mockReturnValue({ id: 'u1', username: 'chef' });
       mockRecipesService.findOne.mockResolvedValue({ id: 'r1', user: { id: 'u1' } });
@@ -63,6 +65,7 @@ describe('RoleGuard – Pruebas por camino', () => {
     });
 
     it('C2-T2: lanza ForbiddenException si el usuario NO es dueño', async () => {
+      // Test Double: Stub – mockReturnValue y mockResolvedValue sin verificar args
       // Arrange
       mockJwt.verify.mockReturnValue({ id: 'u1', username: 'chef' });
       mockRecipesService.findOne.mockResolvedValue({ id: 'r1', user: { id: 'u2' } });
@@ -78,6 +81,7 @@ describe('RoleGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C3: Verificación por body.userId', () => {
     it('C3-T1: retorna true si body.userId coincide con payload.id', async () => {
+      // Test Double: Stub – mockReturnValue sin verificar args
       // Arrange
       mockJwt.verify.mockReturnValue({ id: 'u1', username: 'chef' });
       const ctx = makeContext({ authorization: 'Bearer valid-token' }, {}, { userId: 'u1' });
@@ -90,6 +94,7 @@ describe('RoleGuard – Pruebas por camino', () => {
     });
 
     it('C3-T2: lanza ForbiddenException si body.userId NO coincide', async () => {
+      // Test Double: Stub – mockReturnValue sin verificar args
       // Arrange
       mockJwt.verify.mockReturnValue({ id: 'u1', username: 'chef' });
       const ctx = makeContext({ authorization: 'Bearer valid-token' }, {}, { userId: 'u99' });
@@ -104,6 +109,7 @@ describe('RoleGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C4: Receta no existe', () => {
     it('C4-T1: lanza NotFoundException si findOne lanza NotFoundException', async () => {
+      // Test Double: Stub – mockRejectedValue pre-programa excepción sin verificar args
       // Arrange
       mockJwt.verify.mockReturnValue({ id: 'u1' });
       mockRecipesService.findOne.mockRejectedValue(new NotFoundException('not found'));
@@ -119,6 +125,7 @@ describe('RoleGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C5: Token inválido', () => {
     it('C5-T1: lanza ForbiddenException si jwt.verify falla', async () => {
+      // Test Double: Fake – mockImplementation que lanza error real
       // Arrange
       mockJwt.verify.mockImplementation(() => { throw new Error('invalid token'); });
       const ctx = makeContext({ authorization: 'Bearer bad-token' }, { id: 'r1' });
@@ -133,6 +140,7 @@ describe('RoleGuard – Pruebas por camino', () => {
   // ──────────────────────────────────────────────────────────
   describe('C6: Extracción del token', () => {
     it('C6-T1: extrae token después de "Bearer "', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith 'my-token-123' verifica extracción del token
       // Arrange
       mockJwt.verify.mockReturnValue({ id: 'u1' });
       mockRecipesService.findOne.mockResolvedValue({ id: 'r1', user: { id: 'u1' } });
@@ -146,6 +154,7 @@ describe('RoleGuard – Pruebas por camino', () => {
     });
 
     it('C6-T2: usa token completo si no tiene prefijo Bearer', async () => {
+      // Test Double: Mock – toHaveBeenCalledWith 'raw-token' verifica extracción sin prefijo
       // Arrange
       mockJwt.verify.mockReturnValue({ id: 'u1' });
       mockRecipesService.findOne.mockResolvedValue({ id: 'r1', user: { id: 'u1' } });
