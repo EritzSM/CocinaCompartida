@@ -1,16 +1,13 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15-alpine
-    container_name: cocina_compartida_db
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_DB: ${DB_NAME:-cocina_compartida_db}
     ports:
-      - "5432:5432"
+      - "${DB_PORT_EXTERNAL:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -23,7 +20,6 @@ services:
     build:
       context: ./cocina-compartida-api
       dockerfile: Dockerfile
-    container_name: cocina_compartida_backend
     restart: always
     environment:
       - DB_HOST=db
@@ -34,7 +30,7 @@ services:
       - DB_SSL=false
       - JWT_SECRET=${JWT_SECRET:-your_super_secret_jwt_key}
     ports:
-      - "3000:3000"
+      - "${BACKEND_PORT_EXTERNAL:-3000}:3000"
     depends_on:
       db:
         condition: service_healthy
@@ -43,10 +39,9 @@ services:
     build:
       context: ./cocina-compartida
       dockerfile: Dockerfile
-    container_name: cocina_compartida_frontend
     restart: always
     ports:
-      - "80:80"
+      - "${FRONTEND_PORT_EXTERNAL:-8081}:80"
     depends_on:
       - backend
 
