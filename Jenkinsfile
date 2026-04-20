@@ -9,9 +9,6 @@ pipeline {
         DB_USER     = 'postgres'
         DB_PASSWORD = 'postgres'
         DB_NAME     = 'cocina_compartida_db'
-        COMPOSE_PROJECT_NAME = 'cocina_compartida_ci'
-        COMPOSE_FILE = 'docker-compose.yml'
-        SHARED_DOCKER_NETWORK = 'ci-net'
     }
 
     options {
@@ -32,17 +29,6 @@ pipeline {
                     node --version
                     echo "=== npm ==="
                     npm --version
-                                        echo "=== Docker ==="
-                                        docker --version
-                                        echo "=== Docker Compose ==="
-                                        if command -v docker compose >/dev/null 2>&1; then
-                                            docker compose version
-                                        elif command -v docker-compose >/dev/null 2>&1; then
-                                            docker-compose --version
-                                        else
-                                            echo 'docker compose / docker-compose no disponible'
-                                            exit 1
-                                        fi
                 '''
             }
         }
@@ -127,15 +113,11 @@ pipeline {
             }
             steps {
                 echo 'Construyendo imagenes Docker'
-                                writeFile file: '.env', text: """DB_USER=${DB_USER}
-DB_PASSWORD=${DB_PASSWORD}
-DB_NAME=${DB_NAME}
-"""
                 sh '''
                     if command -v docker compose >/dev/null 2>&1; then
-                                            docker compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} build --no-cache --pull
+                      docker compose build --no-cache
                     elif command -v docker-compose >/dev/null 2>&1; then
-                                            docker-compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} build --no-cache --pull
+                      docker-compose build --no-cache
                     else
                       echo 'docker compose / docker-compose no disponible'
                       exit 1
@@ -158,33 +140,13 @@ DB_NAME=${DB_NAME}
 """
                 sh '''
                     if command -v docker compose >/dev/null 2>&1; then
-                                            docker compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} down --remove-orphans || true
-                                            docker compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} up -d --build --remove-orphans
-                                            docker compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} ps
-
-                                            if [ -n "${SHARED_DOCKER_NETWORK}" ]; then
-                                                docker network inspect "${SHARED_DOCKER_NETWORK}" >/dev/null 2>&1 || docker network create "${SHARED_DOCKER_NETWORK}"
-                                                for svc in backend frontend; do
-                                                    cid=$(docker compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} ps -q "${svc}")
-                                                    if [ -n "${cid}" ]; then
-                                                        docker network connect "${SHARED_DOCKER_NETWORK}" "${cid}" 2>/dev/null || true
-                                                    fi
-                                                done
-                                            fi
+                      docker compose down || true
+                      docker compose up -d
+                      docker compose ps
                     elif command -v docker-compose >/dev/null 2>&1; then
-                                            docker-compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} down --remove-orphans || true
-                                            docker-compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} up -d --build --remove-orphans
-                                            docker-compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} ps
-
-                                            if [ -n "${SHARED_DOCKER_NETWORK}" ]; then
-                                                docker network inspect "${SHARED_DOCKER_NETWORK}" >/dev/null 2>&1 || docker network create "${SHARED_DOCKER_NETWORK}"
-                                                for svc in backend frontend; do
-                                                    cid=$(docker-compose -f ${COMPOSE_FILE} -p ${COMPOSE_PROJECT_NAME} ps -q "${svc}")
-                                                    if [ -n "${cid}" ]; then
-                                                        docker network connect "${SHARED_DOCKER_NETWORK}" "${cid}" 2>/dev/null || true
-                                                    fi
-                                                done
-                                            fi
+                      docker-compose down || true
+                      docker-compose up -d
+                      docker-compose ps
                     else
                       echo 'docker compose / docker-compose no disponible'
                       exit 1
