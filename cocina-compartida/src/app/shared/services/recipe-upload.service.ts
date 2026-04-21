@@ -38,8 +38,8 @@ export class RecipeUploadService {
     return this.recipeFormService.createRecipeForm();
   }
 
-  initializeEditMode(recipeForm: FormGroup, callback: (success: boolean) => void): void {
-    this.recipeDataService.initializeEditMode((success) => {
+  initializeEditMode(id: string, recipeForm: FormGroup, callback: (success: boolean) => void): void {
+    this.recipeDataService.initializeEditMode(id, (success) => {
       if (!success) {
         this.notificationService.showToast('error', 'Receta no encontrada o sin permisos');
         callback(false);

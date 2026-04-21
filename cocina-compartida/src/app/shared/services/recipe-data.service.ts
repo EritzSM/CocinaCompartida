@@ -18,16 +18,14 @@ export class RecipeDataService {
   recipeIdToEdit: string | null = null;
   recipeId: string = uuidv4();
 
-  initializeEditMode(callback: (success: boolean) => void): void {
-    this.route.params.subscribe(params => {
-      const id = params['id'];
+  initializeEditMode(id: string, callback: (success: boolean) => void): void {
       if (!id) return;
 
       this.isEditMode = true;
       this.recipeIdToEdit = id;
       this.recipeId = id;
       
-      const recipe = this.recipeService.recipes().find(r => r.id === id);
+      const recipe = this.recipeService.recipes().find(r => String(r.id) === String(id));
       if (!recipe) {
         callback(false);
         return;
@@ -42,7 +40,6 @@ export class RecipeDataService {
       }
 
       callback(true);
-    });
   }
 
   getRecipeForEdit(): Recipe | null {

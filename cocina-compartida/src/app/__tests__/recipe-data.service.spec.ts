@@ -99,7 +99,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode(callback);
+      service.initializeEditMode('1', callback);
       paramsSubject.next({}); // sin id
 
       // Assert
@@ -112,7 +112,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode(callback);
+      service.initializeEditMode('1', callback);
       paramsSubject.next({ id: 'r1' });
 
       // Assert
@@ -127,7 +127,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode(callback);
+      service.initializeEditMode('1', callback);
       paramsSubject.next({ id: 'no-existe' });
 
       // Assert
@@ -140,7 +140,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode(callback);
+      service.initializeEditMode('1', callback);
       paramsSubject.next({ id: 'r1' });
 
       // Assert
@@ -153,7 +153,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode(callback);
+      service.initializeEditMode('1', callback);
       paramsSubject.next({ id: 'r1' }); // recipe.user.id='u1' != ''
 
       // Assert

@@ -3,7 +3,6 @@
     --color-secondary: #fff;
     --color-light-gray: #f0f0f0;
     --color-text-gray: #6e6e6e; /* Gris para el subtítulo y enlaces inactivos */
-    --padding-x: 40px; /* Padding horizontal general */
 }
 
 /* Base (pueden ir en estilos globales) */
@@ -23,7 +22,6 @@ body {
     width: 100%;
     padding: 10px 0;
     box-sizing: border-box;
-    /* Estilos para que quede en la parte superior */
     position: sticky; 
     top: 0;
     background-color: var(--color-secondary);
@@ -31,19 +29,91 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.categories-menu {
-    position: relative;
-    margin: 0 1rem;
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ocupa toda la pantalla */
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
-.category-select {
-    padding: 0.5rem 2rem 0.5rem 1rem;
-    font-size: 0.95rem;
-    border: 1px solid #ddd;
+/* Logo */
+.logo {
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+}
+
+/* Sección de Búsqueda y Filtros */
+.search-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 2rem;
+}
+
+.search-box {
+    position: relative;
+    width: 300px;
+}
+
+.search-box.suggestions-open .search-input {
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+/* Tamaño y forma ovalada idénticos para todos */
+.search-input, .category-select, .sort-options select, .action-btn, .logout-btn {
+    height: 38px;
     border-radius: 20px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    font-family: inherit;
+    border: 1px solid #ddd;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0 2.5rem 0 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background: none;
+    border: none;
+}
+
+.search-icon:hover {
+    background: rgba(0,123,255,0.1);
+    color: #007bff;
+}
+
+.sort-options select, .category-select {
+    padding: 0 2rem 0 1rem;
+    cursor: pointer;
     background-color: white;
     color: #333;
-    cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -53,38 +123,77 @@ body {
     transition: all 0.3s ease;
 }
 
-.category-select:hover {
+.sort-options select:hover, .category-select:hover {
     border-color: #3498db;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
 }
 
-.category-select:focus {
-    outline: none;
+.sort-options select:focus, .category-select:focus {
     border-color: #3498db;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
+/* Dropdown de Sugerencias */
+.suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    border-top: 1px solid #eee;
+}
 
-.header-content {
-    max-width:1200px; /* Ancho máximo del contenido */
-    margin: 0 auto;
-    padding: 0 var(--padding-x);
+.suggestion-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover, .suggestion-item.selected {
+    background-color: #f8f9fa;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+    border-radius: 0 0 15px 15px;
+}
+
+.suggestion-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 4px;
 }
 
-/* Logo */
-.logo {
+.suggestion-content strong {
     font-weight: 600;
-    font-size: 16px;
-    letter-spacing: -0.5px;
+    color: #333;
 }
 
-/* Navegación */
+.suggestion-category {
+    font-size: 12px;
+    color: #666;
+    background: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: capitalize;
+}
+
+.suggestion-author {
+    color: #888;
+    font-size: 13px;
+}
+
+/* Navegación (Explorar y Categorías) */
 .main-nav {
     display: flex;
     gap: 25px;
+    align-items: center;
 }
 
 .nav-link {
@@ -98,20 +207,56 @@ body {
     color: var(--color-primary);
 }
 
-/* Botón 'Iniciar Sesión' */
+.categories-menu {
+    position: relative;
+    margin: 0 1rem;
+}
+
+/* Sección de Autenticación */
+.auth-section {
+    display: flex;
+    align-items: center;
+}
+
 .action-btn {
     text-decoration: none;
     background-color: var(--color-primary);
     color: var(--color-secondary);
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 15px;
+    padding: 0 20px;
     font-weight: 500;
     transition: background-color 0.2s;
+    border: none;
 }
 
 .action-btn:hover {
     background-color: #333;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.welcome-text {
+    color: #2c3e50;
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.logout-btn {
+    background: #c4303d;
+    color: white;
+    border: none;
+    padding: 0 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
 }
 
 /* ==================================== */
@@ -123,7 +268,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 60vh; /* Reduce de 100vh a 60vh */
+    min-height: 60vh;
     padding: 40px 20px;
 }
 
@@ -133,7 +278,7 @@ body {
     line-height: 1.1;
     max-width: 800px;
     margin-bottom: 20px;
-    color: var(--color-primary); /* Negro puro */
+    color: var(--color-primary);
 }
 
 .hero-subtitle {
@@ -142,7 +287,7 @@ body {
     line-height: 1.4;
     max-width: 700px;
     margin-bottom: 60px;
-    color: var(--color-text-gray); /* Gris más claro, como en la imagen */
+    color: var(--color-text-gray);
 }
 
 /* Contenedor de Botones */
@@ -153,8 +298,7 @@ body {
 }
 
 /* Botones de Acción */
-.primary-btn,
-.secondary-btn {
+.primary-btn, .secondary-btn {
     text-decoration: none;
     padding: 15px 30px;
     border-radius: 8px;
@@ -179,180 +323,10 @@ body {
 .secondary-btn {
     background-color: var(--color-secondary);
     color: var(--color-primary);
-    border: 1px solid var(--color-light-gray); /* Borde sutil, casi invisible */
+    border: 1px solid var(--color-light-gray);
 }
 
 .secondary-btn:hover {
     background-color: var(--color-light-gray);
     border-color: var(--color-light-gray);
-}
-
-.auth-section {
-    display: flex;
-    align-items: center;
-}
-
-.user-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.welcome-text {
-    color: #2c3e50;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-.logout-btn {
-    background: #c4303d;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background 0.3s ease;
-}
-
-.logout-btn:hover {
-    background: #c0392b;
-}
-
-/* Asegúrate de que el header-content tenga estos estilos */
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-
-    /* Estilos para la sección de búsqueda */
-    .search-section {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin: 0 2rem;
-    }
-
-    .search-box {
-        position: relative;
-        width: 300px;
-    }
-
-    .search-box.suggestions-open {
-        border-radius: 20px 20px 0 0;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 0.5rem 2.5rem 0.5rem 1rem;
-        border: 1px solid #ddd;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        outline: none;
-        transition: border-color 0.3s, box-shadow 0.3s;
-    }
-
-    .search-input:focus {
-        border-color: #3498db;
-        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-    }
-
-    .search-icon {
-        position: absolute;
-        right: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #666;
-        cursor: pointer;
-        padding: 4px;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-    }
-
-    .search-icon:hover {
-        background: rgba(0,123,255,0.1);
-        color: #007bff;
-    }
-
-    .suggestions-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border-radius: 0 0 15px 15px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        max-height: 300px;
-        overflow-y: auto;
-        z-index: 1000;
-        border-top: 1px solid #eee;
-    }
-
-    .suggestion-item {
-        padding: 12px 15px;
-        cursor: pointer;
-        border-bottom: 1px solid #f5f5f5;
-        transition: background-color 0.2s ease;
-    }
-
-    .suggestion-item:hover,
-    .suggestion-item.selected {
-        background-color: #f8f9fa;
-    }
-
-    .suggestion-item:last-child {
-        border-bottom: none;
-        border-radius: 0 0 15px 15px;
-    }
-
-    .suggestion-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 4px;
-    }
-
-    .suggestion-content strong {
-        font-weight: 600;
-        color: #333;
-    }
-
-    .suggestion-category {
-        font-size: 12px;
-        color: #666;
-        background: #e9ecef;
-        padding: 2px 8px;
-        border-radius: 10px;
-        text-transform: capitalize;
-    }
-
-    .suggestion-author {
-        color: #888;
-        font-size: 13px;
-    }
-
-    .sort-options select {
-        padding: 0.5rem;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        font-size: 0.9rem;
-        background-color: white;
-        color: #333;
-        cursor: pointer;
-        outline: none;
-        transition: border-color 0.3s;
-    }
-
-    .sort-options select:hover {
-        border-color: #3498db;
-    }
-
-    .sort-options select:focus {
-        border-color: #3498db;
-        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-    }
 }

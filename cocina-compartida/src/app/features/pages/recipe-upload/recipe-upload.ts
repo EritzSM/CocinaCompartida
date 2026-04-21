@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { RecipeUploadService } from '../../../shared/services/recipe-upload.service';
 
@@ -17,6 +17,7 @@ export class RecipeUpload implements OnInit {
   recipeForm: FormGroup;
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private recipeUploadService = inject(RecipeUploadService);
 
   // Propiedades expuestas para la plantilla
@@ -49,9 +50,14 @@ export class RecipeUpload implements OnInit {
   }
 
   ngOnInit(): void {
-    this.recipeUploadService.initializeEditMode(this.recipeForm, (success) => {
-      if (!success) {
-        this.router.navigate(['/home']);
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.recipeUploadService.initializeEditMode(id, this.recipeForm, (success) => {
+          if (!success) {
+            this.router.navigate(['/home']);
+          }
+        });
       }
     });
   }

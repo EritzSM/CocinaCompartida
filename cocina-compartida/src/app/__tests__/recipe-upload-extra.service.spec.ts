@@ -98,7 +98,7 @@ describe('RecipeUploadService – Pruebas complementarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode(form, callback);
+      service.initializeEditMode('1', form, callback);
 
       // Assert
       expect(callback).toHaveBeenCalledWith(false);
@@ -119,7 +119,7 @@ describe('RecipeUploadService – Pruebas complementarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode(form, callback);
+      service.initializeEditMode('1', form, callback);
 
       // Assert
       expect(callback).toHaveBeenCalledWith(true);
@@ -137,7 +137,7 @@ describe('RecipeUploadService – Pruebas complementarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode(form, callback);
+      service.initializeEditMode('1', form, callback);
 
       // Assert
       expect(callback).toHaveBeenCalledWith(false);
