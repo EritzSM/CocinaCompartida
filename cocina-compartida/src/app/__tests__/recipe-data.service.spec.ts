@@ -99,8 +99,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode('1', callback);
-      paramsSubject.next({}); // sin id
+      service.initializeEditMode('', callback);
 
       // Assert
       expect(callback).not.toHaveBeenCalled();
@@ -112,8 +111,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode('1', callback);
-      paramsSubject.next({ id: 'r1' });
+      service.initializeEditMode('r1', callback);
 
       // Assert
       expect(service.isEditMode).toBeTrue();
@@ -127,8 +125,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode('1', callback);
-      paramsSubject.next({ id: 'no-existe' });
+      service.initializeEditMode('no-existe', callback);
 
       // Assert
       expect(callback).toHaveBeenCalledWith(false);
@@ -140,8 +137,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode('1', callback);
-      paramsSubject.next({ id: 'r1' });
+      service.initializeEditMode('r1', callback);
 
       // Assert
       expect(callback).toHaveBeenCalledWith(false);
@@ -153,8 +149,7 @@ describe('RecipeDataService – Pruebas Unitarias', () => {
       const callback = jasmine.createSpy('callback');
 
       // Act
-      service.initializeEditMode('1', callback);
-      paramsSubject.next({ id: 'r1' }); // recipe.user.id='u1' != ''
+      service.initializeEditMode('r1', callback);
 
       // Assert
       expect(callback).toHaveBeenCalledWith(false);

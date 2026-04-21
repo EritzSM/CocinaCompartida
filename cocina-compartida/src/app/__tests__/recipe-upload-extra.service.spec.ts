@@ -93,7 +93,7 @@ describe('RecipeUploadService – Pruebas complementarias', () => {
   describe('initializeEditMode', () => {
     it('RUE-01: callback false si dataService falla (Stub)', () => {
       // Arrange
-      mockDataService.initializeEditMode.and.callFake((cb: (s: boolean) => void) => cb(false));
+      mockDataService.initializeEditMode.and.callFake((id: string, cb: (s: boolean) => void) => cb(false));
       const form = fb.group({ name: [''], descripcion: [''], ingredients: fb.array(['']), steps: fb.array(['']) });
       const callback = jasmine.createSpy('callback');
 
@@ -112,7 +112,7 @@ describe('RecipeUploadService – Pruebas complementarias', () => {
         ingredients: ['harina', 'tomate'], steps: ['hornear'],
         images: ['pizza.jpg', 'pizza2.jpg']
       };
-      mockDataService.initializeEditMode.and.callFake((cb: (s: boolean) => void) => cb(true));
+      mockDataService.initializeEditMode.and.callFake((id: string, cb: (s: boolean) => void) => cb(true));
       mockDataService.getRecipeForEdit.and.returnValue(recipe);
 
       const form = fb.group({ name: [''], descripcion: [''], ingredients: fb.array(['']), steps: fb.array(['']) });
@@ -130,7 +130,7 @@ describe('RecipeUploadService – Pruebas complementarias', () => {
 
     it('RUE-03: callback false si getRecipeForEdit retorna null', () => {
       // Arrange
-      mockDataService.initializeEditMode.and.callFake((cb: (s: boolean) => void) => cb(true));
+      mockDataService.initializeEditMode.and.callFake((id: string, cb: (s: boolean) => void) => cb(true));
       mockDataService.getRecipeForEdit.and.returnValue(null);
 
       const form = fb.group({ name: [''] });
