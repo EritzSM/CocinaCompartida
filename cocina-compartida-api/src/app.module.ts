@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UploadsModule } from './uploads/uploads.module';
+import { SeederModule } from './seeder/seeder.module';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { UploadsModule } from './uploads/uploads.module';
     UserModule,
     AuthModule,
     RecipesModule,
-    UploadsModule
+    UploadsModule,
+    SeederModule
   ],
 })
 export class AppModule {}

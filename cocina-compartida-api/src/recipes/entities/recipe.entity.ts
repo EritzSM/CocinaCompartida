@@ -39,6 +39,9 @@ export class Recipe {
   @Column('text', { array: true, nullable: true, default: [] })
   tags: string[];
 
+  @Column({ type: 'varchar', nullable: true, default: 'platos-fuertes' })
+  category: string;
+
   @Column({ type: 'int', default: 0 })
   likes: number;
 

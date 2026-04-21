@@ -19,4 +19,8 @@ export class CreateRecipeDto {
   @IsArray() @IsOptional()
   @IsString({ each: true })
   images?: string[];
+
+  @IsString()
+  @IsOptional()
+  category?: string;
 }
