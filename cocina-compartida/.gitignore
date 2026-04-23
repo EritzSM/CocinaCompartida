@@ -59,3 +59,4 @@ environment.ts
 ~$*.docx
 ~$*.xlsx
 ~$*.pptx
+.env
