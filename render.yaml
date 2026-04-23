@@ -1,0 +1,61 @@
+databases:
+  - name: cocina-compartida-db
+    databaseName: cocina_compartida_db
+    user: postgres
+    plan: free
+
+services:
+  # ── Backend (NestJS) ───────────────────────────────────────────────────────
+  - type: web
+    name: cocina-compartida-api
+    runtime: docker
+    dockerfilePath: ./cocina-compartida-api/Dockerfile
+    dockerContext: ./cocina-compartida-api
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DB_HOST
+        fromDatabase:
+          name: cocina-compartida-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: cocina-compartida-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: cocina-compartida-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: cocina-compartida-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: cocina-compartida-db
+          property: database
+      - key: DB_SSL
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true   # Render genera un valor aleatorio seguro automáticamente
+      - key: SUPABASE_URL
+        sync: false           # Se rellena manualmente en el dashboard de Render
+      - key: SUPABASE_SERVICE_KEY
+        sync: false           # Se rellena manualmente en el dashboard de Render
+
+  # ── Frontend (Angular → Nginx) ─────────────────────────────────────────────
+  - type: web
+    name: cocina-compartida-front
+    runtime: docker
+    dockerfilePath: ./cocina-compartida/Dockerfile.render
+    dockerContext: ./cocina-compartida
+    plan: free
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          name: cocina-compartida-api
+          type: web
+          property: host

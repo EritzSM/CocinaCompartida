@@ -10,7 +10,7 @@ import { UserModule } from '../user/user.module';
     forwardRef(() => UserModule),
     JwtModule.register({
       global: true,
-      secret: 'saefaHJgYgjvm',
+      secret: process.env.JWT_SECRET || 'saefaHJgYgjvm',
       signOptions: { expiresIn: '20m' },
     }),
   ],

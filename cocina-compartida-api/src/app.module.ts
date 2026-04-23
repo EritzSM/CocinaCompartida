@@ -6,8 +6,6 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { UploadsModule } from './uploads/uploads.module';
 import { SeederModule } from './seeder/seeder.module';
 
@@ -32,10 +30,7 @@ import { SeederModule } from './seeder/seeder.module';
         connectionTimeoutMillis: 5000,
       },
     }),
-    ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), 'uploads'),
-      serveRoot: '/uploads',
-    }),
+
     UserModule,
     AuthModule,
     RecipesModule,
