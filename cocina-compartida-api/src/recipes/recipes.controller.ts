@@ -106,6 +106,13 @@ export class RecipesController {
     if (format === 'image') {
       if (Array.isArray(recipe.images) && recipe.images.length > 0) {
         const imgUrl = recipe.images[0];
+        
+        // Si la URL es de Supabase (o cualquier URL absoluta), simplemente redirigimos
+        if (imgUrl.startsWith('http://') || imgUrl.startsWith('https://')) {
+          return res.redirect(imgUrl);
+        }
+
+        // Fallback por si hay imágenes antiguas guardadas localmente
         const filename = imgUrl.split('/').pop();
         if (!filename) {
           return res.status(404).json({ error: 'Image filename not found' });
@@ -113,7 +120,7 @@ export class RecipesController {
         const root = join(process.cwd(), 'uploads', 'recipes', id);
         return res.sendFile(filename, { root }, (err) => {
           if (err) {
-            res.status(404).json({ error: 'Image not found' });
+            res.status(404).json({ error: 'Image not found locally' });
           }
         });
       }
