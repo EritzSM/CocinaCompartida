@@ -20,7 +20,7 @@ import { SeederModule } from './seeder/seeder.module';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'cocina',
       autoLoadEntities: true,
-      synchronize: process.env.NODE_ENV !== 'production', // ✅ true en development
+      synchronize: process.env.NODE_ENV !== 'production' || process.env.DB_SYNC === 'true', // ✅ true en development o si se fuerza con DB_SYNC
       ssl: process.env.DB_SSL === 'true' 
         ? { rejectUnauthorized: false }
         : false,
