@@ -1,7 +1,6 @@
 databases:
   - name: cocina-compartida-db
     databaseName: cocina_compartida_db
-    user: postgres
     plan: free
 
 services:
