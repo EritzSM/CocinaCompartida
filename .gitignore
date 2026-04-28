@@ -10,7 +10,6 @@ yarn-error.log*
 *.swp
 *.swo
 .env
-
 # OS
 .DS_Store
 Thumbs.db
@@ -47,3 +46,4 @@ Jenkinsfile.simplified
 vars/
 pipeline-local-test.sh
 JENKINS_FIX.md
+prompts/
