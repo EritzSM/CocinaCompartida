@@ -7,20 +7,25 @@ import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '../security/auth.guard';
 import { GUARDS_METADATA } from '@nestjs/common/constants';
 import { JwtService } from '@nestjs/jwt';
+import { join } from 'path';
 
 // Mock pdfkit — el módulo puede no estar instalado
-jest.mock('pdfkit', () => {
-  return jest.fn().mockImplementation(() => {
-    const stream = {
-      fontSize: jest.fn().mockReturnThis(),
-      text: jest.fn().mockReturnThis(),
-      moveDown: jest.fn().mockReturnThis(),
-      pipe: jest.fn().mockReturnThis(),
-      end: jest.fn(),
-    };
-    return stream;
-  });
-});
+jest.mock(
+  'pdfkit',
+  () => {
+    return jest.fn().mockImplementation(() => {
+      const stream = {
+        fontSize: jest.fn().mockReturnThis(),
+        text: jest.fn().mockReturnThis(),
+        moveDown: jest.fn().mockReturnThis(),
+        pipe: jest.fn().mockReturnThis(),
+        end: jest.fn(),
+      };
+      return stream;
+    });
+  },
+  { virtual: true }
+);
 
 describe('RecipesController (Backend Download PDF Tests)', () => {
   let controller: RecipesController;
@@ -126,6 +131,125 @@ describe('RecipesController (Backend Download PDF Tests)', () => {
       expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Type', 'application/pdf');
       expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Disposition', expect.stringContaining('filename="pastel_gourmet.pdf"'));
       expect(mockRecipesService.findOne).toHaveBeenCalledWith('r1');
+    });
+  });
+
+  // B-P04: Formato image con URL absoluta redirige a la imagen
+  describe('B-P04', () => {
+    it('DownloadImage_CuandoUrlAbsoluta_DebeRedirigir', async () => {
+      // Arrange
+      const req = { user: { id: 'user1' } } as unknown as Request;
+      const mockRes = {
+        redirect: jest.fn(),
+        sendFile: jest.fn(),
+        setHeader: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response;
+      const mockRecipe = {
+        id: 'r1',
+        name: 'Receta',
+        images: ['https://cdn.example.com/receta.jpg'],
+      };
+      mockRecipesService.findOne.mockResolvedValue(mockRecipe);
+
+      // Act
+      await controller.download('r1', req, mockRes, 'image');
+
+      // Assert
+      expect(mockRes.redirect).toHaveBeenCalledWith('https://cdn.example.com/receta.jpg');
+      expect(mockRes.sendFile).not.toHaveBeenCalled();
+    });
+  });
+
+  // B-P05: Formato image con ruta local usa sendFile
+  describe('B-P05', () => {
+    it('DownloadImage_CuandoRutaLocal_DebeUsarSendFile', async () => {
+      // Arrange
+      const req = { user: { id: 'user1' } } as unknown as Request;
+      const mockRes = {
+        redirect: jest.fn(),
+        sendFile: jest.fn(),
+        setHeader: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response;
+      const mockRecipe = {
+        id: 'r1',
+        name: 'Receta',
+        images: ['uploads/recipes/r1/imagen.jpg'],
+      };
+      mockRecipesService.findOne.mockResolvedValue(mockRecipe);
+      const expectedRoot = join(process.cwd(), 'uploads', 'recipes', 'r1');
+
+      // Act
+      await controller.download('r1', req, mockRes, 'image');
+
+      // Assert
+      expect(mockRes.sendFile).toHaveBeenCalledWith('imagen.jpg', { root: expectedRoot }, expect.any(Function));
+      expect(mockRes.redirect).not.toHaveBeenCalled();
+    });
+  });
+
+  // B-P06: Imagen sin filename retorna 404
+  describe('B-P06', () => {
+    it('DownloadImage_CuandoNoHayFilename_DebeRetornar404', async () => {
+      // Arrange
+      const req = { user: { id: 'user1' } } as unknown as Request;
+      const mockRes = {
+        redirect: jest.fn(),
+        sendFile: jest.fn(),
+        setHeader: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response;
+      const mockRecipe = {
+        id: 'r1',
+        name: 'Receta',
+        images: ['uploads/recipes/r1/'],
+      };
+      mockRecipesService.findOne.mockResolvedValue(mockRecipe);
+
+      // Act
+      await controller.download('r1', req, mockRes, 'image');
+
+      // Assert
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Image filename not found' });
+      expect(mockRes.sendFile).not.toHaveBeenCalled();
+    });
+  });
+
+  // B-P07: Sin imagenes cae a PDF
+  describe('B-P07', () => {
+    it('DownloadImage_CuandoNoHayImagenes_DebeGenerarPdf', async () => {
+      // Arrange
+      const req = { user: { id: 'user1' } } as unknown as Request;
+      const mockRes = {
+        setHeader: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+        send: jest.fn(),
+        sendFile: jest.fn(),
+        redirect: jest.fn(),
+        write: jest.fn(),
+        end: jest.fn(),
+        on: jest.fn(),
+        once: jest.fn(),
+        emit: jest.fn(),
+      } as unknown as Response;
+      const mockRecipe = {
+        id: 'r1',
+        name: 'Receta',
+        images: [],
+      };
+      mockRecipesService.findOne.mockResolvedValue(mockRecipe);
+
+      // Act
+      await controller.download('r1', req, mockRes, 'image');
+
+      // Assert
+      expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Type', 'application/pdf');
     });
   });
 });

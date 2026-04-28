@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/19</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>11/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -89,53 +89,53 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/security/recipe-owner.guard.ts
-<span class="cstat-no" title="statement not covered" >import { CanActivate, ExecutionContext, Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';</span>
-<span class="cstat-no" title="statement not covered" >import { RecipesService } from '../recipes/recipes.service';</span>
+import { CanActivate, ExecutionContext, Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { RecipesService } from '../recipes/recipes.service';
 &nbsp;
 @Injectable()
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >RecipeOwnerGuard </span>implements CanActivate {</span></span>
-<span class="fstat-no" title="function not covered" >  constructor(private readonly <span class="cstat-no" title="statement not covered" >r</span>ecipes: R</span>ecipesService) {}
+export class RecipeOwnerGuard implements CanActivate {
+  constructor(private readonly recipes: RecipesService<span class="branch-1 cbranch-no" title="branch not covered" >) {}</span>
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>canActivate(ctx: ExecutionContext): Promise&lt;boolean&gt; {
-    const req = <span class="cstat-no" title="statement not covered" >ctx.switchToHttp().getRequest();</span>
-    const userId = <span class="cstat-no" title="statement not covered" >req.user?.id;</span>
-    const recipeId = <span class="cstat-no" title="statement not covered" >req.params?.id;</span>
+  async canActivate(ctx: ExecutionContext): Promise&lt;boolean&gt; {
+    const req = ctx.switchToHttp().getRequest();
+    const userId = req.user?.id;
+    const recipeId = req.params?.id;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!userId) <span class="cstat-no" title="statement not covered" >throw new ForbiddenException('No autenticado');</span></span>
-<span class="cstat-no" title="statement not covered" >    if (!recipeId) <span class="cstat-no" title="statement not covered" >throw new NotFoundException('Receta no encontrada');</span></span>
+    if (!userId) throw new ForbiddenException('No autenticado');
+    if (!recipeId) throw new NotFoundException('Receta no encontrada');
 &nbsp;
-    const recipe = <span class="cstat-no" title="statement not covered" >await this.recipes.findOne(recipeId);</span>
-<span class="cstat-no" title="statement not covered" >    if (!recipe) <span class="cstat-no" title="statement not covered" >throw new NotFoundException('Receta no encontrada');</span></span>
+    const recipe = await this.recipes.findOne(recipeId);
+    if (!recipe) throw new NotFoundException('Receta no encontrada');
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (recipe.user?.id !== userId) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new ForbiddenException('Solo el dueño puede realizar esta acción');</span>
+    if (recipe.user?.id !== userId) {
+      throw new ForbiddenException('Solo el dueño puede realizar esta acción');
     }
-<span class="cstat-no" title="statement not covered" >    return true;</span>
+    return true;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -145,7 +145,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-21T00:53:15.112Z
+                at 2026-04-28T00:23:52.993Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

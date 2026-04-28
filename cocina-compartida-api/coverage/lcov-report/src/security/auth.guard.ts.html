@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,64 +95,64 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/security/auth.guard.ts
-<span class="cstat-no" title="statement not covered" >import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';</span>
-<span class="cstat-no" title="statement not covered" >import { JwtService } from '@nestjs/jwt';</span>
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 &nbsp;
 @Injectable()
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >AuthGuard </span>implements CanActivate {</span></span>
-<span class="fstat-no" title="function not covered" >  constructor(private readonly <span class="cstat-no" title="statement not covered" >j</span>wt: J</span>wtService) {}
+export class AuthGuard implements CanActivate {
+  constructor(private readonly jwt: JwtService<span class="branch-1 cbranch-no" title="branch not covered" >) {}</span>
 &nbsp;
-<span class="fstat-no" title="function not covered" >  canActivate(</span>ctx: ExecutionContext): boolean {
-    const req = <span class="cstat-no" title="statement not covered" >ctx.switchToHttp().getRequest();</span>
-    const auth = <span class="cstat-no" title="statement not covered" >req.headers['authorization'] as string | undefined;</span>
-<span class="cstat-no" title="statement not covered" >    if (!auth) <span class="cstat-no" title="statement not covered" >throw new UnauthorizedException('Falta Authorization');</span></span>
+  canActivate(ctx: ExecutionContext): boolean {
+    const req = ctx.switchToHttp().getRequest();
+    const auth = req.headers['authorization'] as string | undefined;
+    if (!auth) throw new UnauthorizedException('Falta Authorization');
 &nbsp;
-    const [type, token] = <span class="cstat-no" title="statement not covered" >auth.split(' ');</span>
-<span class="cstat-no" title="statement not covered" >    if (type !== 'Bearer' || !token) <span class="cstat-no" title="statement not covered" >throw new UnauthorizedException('Formato inválido');</span></span>
+    const [type, token] = auth.split(' ');
+    if (type !== 'Bearer' || !token) throw new UnauthorizedException('Formato inválido');
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const p = <span class="cstat-no" title="statement not covered" >this.jwt.verify(token); </span>
-<span class="cstat-no" title="statement not covered" >      req.user = {</span>
+    try {
+      const p = this.jwt.verify(token); 
+      req.user = {
         id: p.sub ?? p.id,     
         username: p.username,
         email: p.email,
         url: p.url,
       };
-<span class="cstat-no" title="statement not covered" >      if (!req.user.id) <span class="cstat-no" title="statement not covered" >throw new UnauthorizedException('Token sin id');</span></span>
-<span class="cstat-no" title="statement not covered" >      return true;</span>
+      if (!req.user.id) throw new UnauthorizedException('Token sin id');
+      return true;
     } catch {
-<span class="cstat-no" title="statement not covered" >      throw new UnauthorizedException('Token inválido o expirado');</span>
+      throw new UnauthorizedException('Token inválido o expirado');
     }
   }
 }
@@ -163,7 +163,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-21T00:53:15.112Z
+                at 2026-04-28T00:23:52.993Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
