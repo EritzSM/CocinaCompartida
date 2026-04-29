@@ -1,7 +1,10 @@
 import { UserController } from '../../../src/user/user.controller';
 import { UserService } from '../../../src/user/user.service';
 
-describe('Listar Admin API Backend', () => {
+import { Actor } from '../../screenplay/actor/Actor';
+import { Afirmar } from '../../screenplay/fluent/Afirmar';
+
+describe('Listar Admin API Backend — Patrón Screenplay', () => {
   let controller: UserController;
   let userService: Partial<UserService>;
 
@@ -10,17 +13,23 @@ describe('Listar Admin API Backend', () => {
     controller = new UserController(userService as UserService);
   });
 
-  // Verifica que el controlador delega al servicio.
-  it('ListarAdminApi_CuandoSeConsulta_DebeDelegar', async () => {
+  /**
+   * Escenario 1:
+   * Dado un administrador,
+   * cuando consulta el listado de usuarios,
+   * entonces el controlador debe delegar al servicio y retornar los datos.
+   */
+  it('Dado un administrador, cuando consulta el listado, entonces debe delegar al servicio y retornar los datos', async () => {
     // Arrange
-    const data = [{ id: 'u1', username: 'admin' }];
-    (userService.findAll as jest.Mock).mockResolvedValue(data);
+    const administrador = Actor.llamado('Administrador');
+    const usuariosEsperados = [{ id: 'u1', username: 'admin' }];
+    (userService.findAll as jest.Mock).mockResolvedValue(usuariosEsperados);
 
     // Act
-    const result = await controller.findAll();
+    const resultado = await administrador.intentar(async () => controller.findAll());
 
     // Assert
-    expect(userService.findAll).toHaveBeenCalled();
-    expect(result).toEqual(data);
+    Afirmar.que(userService.findAll).fueLlamado();
+    Afirmar.que(resultado).esEquivalenteA(usuariosEsperados);
   });
 });

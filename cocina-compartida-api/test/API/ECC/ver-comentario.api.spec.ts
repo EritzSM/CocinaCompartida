@@ -2,43 +2,56 @@ import { NotFoundException } from '@nestjs/common';
 import { RecipesController } from '../../../src/recipes/recipes.controller';
 import { RecipesService } from '../../../src/recipes/recipes.service';
 
-describe('Ver Comentario API Backend', () => {
+import { Actor } from '../../screenplay/actor/Actor';
+import { Afirmar } from '../../screenplay/fluent/Afirmar';
+
+describe('Ver Comentario API Backend — Patrón Screenplay', () => {
   let controller: RecipesController;
   let recipesService: Partial<RecipesService>;
 
   beforeEach(() => {
-    recipesService = {
-      findCommentsByRecipe: jest.fn(),
-    };
+    recipesService = { findCommentsByRecipe: jest.fn() };
     controller = new RecipesController(recipesService as RecipesService);
   });
 
-  // Verifica que el controlador devuelve comentarios cuando el servicio responde OK.
-  it('VerComentarioApi_CuandoServicioResponde_DebeRetornarComentarios', async () => {
+  /**
+   * Escenario 1:
+   * Dado un visitante que consulta los comentarios de una receta existente,
+   * cuando el servicio responde,
+   * entonces debe retornar la lista de comentarios.
+   */
+  it('Dado una receta existente, cuando el visitante consulta los comentarios, entonces debe retornar la lista', async () => {
     // Arrange
-    const comments = [
+    const visitante = Actor.llamado('Visitante');
+    const comentariosEsperados = [
       { id: 'c1', message: 'Buenisima', user: { id: 'u1', username: 'fan' } },
       { id: 'c2', message: 'Excelente', user: { id: 'u2', username: 'fan2' } },
     ];
-    (recipesService.findCommentsByRecipe as jest.Mock).mockResolvedValue(comments);
+    (recipesService.findCommentsByRecipe as jest.Mock).mockResolvedValue(comentariosEsperados);
 
     // Act
-    const result = await controller.listComments('r1');
+    const resultado = await visitante.intentar(async () => controller.listComments('r1'));
 
     // Assert
-    expect(recipesService.findCommentsByRecipe).toHaveBeenCalledWith('r1');
-    expect(result).toEqual(comments);
+    Afirmar.que(recipesService.findCommentsByRecipe).fueLlamadoCon('r1');
+    Afirmar.que(resultado).esEquivalenteA(comentariosEsperados);
   });
 
-  // Verifica que se propaga NotFound si el servicio lo lanza.
-  it('VerComentarioApi_CuandoServicioLanzaNotFound_DebePropagarNotFound', async () => {
+  /**
+   * Escenario 2:
+   * Dado un visitante que consulta comentarios de una receta inexistente,
+   * cuando el servicio lanza NotFoundException,
+   * entonces el controlador debe propagar el error.
+   */
+  it('Dado una receta inexistente, cuando el servicio lanza NotFound, entonces debe propagar la excepción', async () => {
     // Arrange
+    const visitante = Actor.llamado('Visitante');
     (recipesService.findCommentsByRecipe as jest.Mock).mockRejectedValue(new NotFoundException());
 
     // Act
-    const action = controller.listComments('missing');
+    const accion = visitante.intentar(async () => controller.listComments('missing'));
 
     // Assert
-    await expect(action).rejects.toThrow(NotFoundException);
+    await Afirmar.que(accion).rechazaCon(NotFoundException);
   });
 });

@@ -1,14 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-const request = require('supertest');
 import { AppModule } from '../../src/app.module';
 
-describe('Recipes API (e2e) - Patron AAA', () => {
+import { Actor } from '../screenplay/actor/Actor';
+import { ConsumeApi } from '../screenplay/abilities/ConsumeApi';
+import { RegistrarCuenta } from '../screenplay/tasks/auth/RegistrarCuenta';
+import { IniciarSesion } from '../screenplay/tasks/auth/IniciarSesion';
+import { CrearReceta } from '../screenplay/tasks/recipes/CrearReceta';
+import { ListarRecetas } from '../screenplay/tasks/recipes/ListarRecetas';
+import { LaRespuesta } from '../screenplay/questions/LaRespuesta';
+import { Afirmar } from '../screenplay/fluent/Afirmar';
+
+describe('Recipes API (e2e) — Patrón Screenplay', () => {
   let app: INestApplication;
   let jwtToken = '';
 
+  // ─── Setup / Teardown ─────────────────────────────────────────────────────
   beforeAll(async () => {
-    // Setup general
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -16,88 +24,84 @@ describe('Recipes API (e2e) - Patron AAA', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
 
-    // Creación de usuario y obtención del JWT en memoria global
+    // El actor "Cocinero" se registra y obtiene su token para los tests protegidos
     const timestamp = Date.now();
-    const uniqueUser = {
+    const datosCocinero = {
       username: `recipeuser_${timestamp}`,
       email: `recipeuser_${timestamp}@test.com`,
       password: 'Password123!',
     };
 
-    await request(app.getHttpServer()).post('/users').send(uniqueUser);
-    
-    const loginRes = await request(app.getHttpServer())
-      .post('/auth/login')
-      .send({ email: uniqueUser.email, password: uniqueUser.password });
-    
-    jwtToken = loginRes.body.token;
+    const cocinero = Actor.llamado('Cocinero').con(ConsumeApi.usando(app));
+    await cocinero.intentar(RegistrarCuenta.con(datosCocinero));
+
+    const sesion = await cocinero.intentar(
+      IniciarSesion.con({ email: datosCocinero.email, password: datosCocinero.password }),
+    );
+    jwtToken = LaRespuesta.tokenDe(sesion);
   });
 
   afterAll(async () => {
     await app.close();
   });
 
+  // ─── Flujo Protegido de Creación ──────────────────────────────────────────
   describe('Flujo Protegido de Creación', () => {
-    
-    it('/recipes (POST) - Rechaza si no se envía un JWT (401)', async () => {
-      // Arrange (Preparar)
-      const invalidRecipePayload = {
-        name: 'Receta Bloqueada',
-        descripcion: 'Intento malicioso',
-        ingredients: ['Nada'],
-        steps: ['Llorar']
-      };
 
-      // Act (Actuar)
-      const response = await request(app.getHttpServer())
-        .post('/recipes')
-        .send(invalidRecipePayload);
-      
-      // Assert (Afirmar)
-      expect(response.status).toBe(401);
-      // Validamos que el cuerpo traiga la firma oficial de NestJS para este error
-      expect(response.body.message).toContain('Falta Authorization');
+    it('Dado un visitante sin token, cuando intenta crear una receta, entonces debe ser rechazado con 401', async () => {
+      // Arrange — Visitante sin credenciales
+      const visitante = Actor.llamado('Visitante').con(ConsumeApi.usando(app));
+      const recetaNoAutorizada = CrearReceta.con({
+        name: 'Receta Bloqueada',
+        descripcion: 'Intento sin autenticación',
+        ingredients: ['Nada'],
+        steps: ['Llorar'],
+      });
+
+      // Act — El visitante intenta crear la receta sin token
+      const respuesta = await visitante.intentar(recetaNoAutorizada.comoTarea());
+
+      // Assert — Debe ser rechazado
+      Afirmar.que(LaRespuesta.statusDe(respuesta)).esIgualA(401);
+      Afirmar.que(LaRespuesta.cuerpoDe(respuesta).message).contiene('Falta Authorization');
     });
 
-    it('/recipes (POST) - Crea la receta con JWT válido (201)', async () => {
-      // Arrange (Preparar)
-      const validRecipePayload = {
-        name: 'Receta AAA E2E',
-        descripcion: 'Prueba automática de API (Manejo Completo)',
+    it('Dado un cocinero autenticado, cuando crea una receta válida, entonces debe crearse con status 201', async () => {
+      // Arrange — Cocinero con JWT válido
+      const cocinero = Actor.llamado('Cocinero').con(ConsumeApi.usando(app));
+      const nuevaReceta = CrearReceta.con({
+        name: 'Receta Screenplay E2E',
+        descripcion: 'Prueba automática con patrón Screenplay',
         ingredients: ['Agua', 'Verduras'],
         steps: ['Hervir'],
-        category: 'entradas' // Usando la categoría que reparamos recientemente
-      };
-      
-      // Act (Actuar)
-      const response = await request(app.getHttpServer())
-        .post('/recipes')
-        .set('Authorization', `Bearer ${jwtToken}`) // Header de seguridad
-        .send(validRecipePayload);
+        category: 'entradas',
+      }).autenticadoCon(jwtToken);
 
-      // Assert (Afirmar)
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body.name).toBe(validRecipePayload.name);
-      expect(response.body.category).toBe(validRecipePayload.category);
+      // Act — El cocinero crea la receta con su token
+      const respuesta = await cocinero.intentar(nuevaReceta.comoTarea());
+
+      // Assert — La receta debe existir con los datos correctos
+      Afirmar.que(LaRespuesta.statusDe(respuesta)).esIgualA(201);
+      Afirmar.que(LaRespuesta.cuerpoDe(respuesta)).tienePropiedad('id');
+      Afirmar.que(LaRespuesta.cuerpoDe(respuesta).name).esIgualA('Receta Screenplay E2E');
+      Afirmar.que(LaRespuesta.cuerpoDe(respuesta).category).esIgualA('entradas');
     });
   });
 
+  // ─── Flujo Público (CRUD) ─────────────────────────────────────────────────
   describe('Flujo Público (CRUD)', () => {
-    
-    it('/recipes (GET) - Retorna la lista de recetas', async () => {
-      // Arrange (Preparar)
-      const targetEndpoint = '/recipes';
 
-      // Act (Actuar)
-      const response = await request(app.getHttpServer())
-        .get(targetEndpoint);
+    it('Dado cualquier visitante, cuando lista las recetas, entonces debe recibir un arreglo con elementos', async () => {
+      // Arrange — Visitante público
+      const visitante = Actor.llamado('VisitantePublico').con(ConsumeApi.usando(app));
 
-      // Assert (Afirmar)
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBeTruthy();
-      expect(response.body.length).toBeGreaterThan(0);
+      // Act — El visitante consulta el listado público
+      const respuesta = await visitante.intentar(ListarRecetas.ahora());
+
+      // Assert — Debe devolver un arreglo con al menos una receta
+      Afirmar.que(LaRespuesta.statusDe(respuesta)).esIgualA(200);
+      Afirmar.que(LaRespuesta.cuerpoDe(respuesta)).esUnArreglo();
+      Afirmar.que(LaRespuesta.cuerpoDe(respuesta)).tieneElementos();
     });
-
   });
 });

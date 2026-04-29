@@ -1,119 +1,131 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-const request = require('supertest');
 import { AppModule } from './../../src/app.module';
 
-describe('Security Checks (e2e) - Patron AAA', () => {
+import { Actor } from '../screenplay/actor/Actor';
+import { ConsumeApi } from '../screenplay/abilities/ConsumeApi';
+import { RegistrarCuenta } from '../screenplay/tasks/auth/RegistrarCuenta';
+import { IniciarSesion } from '../screenplay/tasks/auth/IniciarSesion';
+import { CrearReceta } from '../screenplay/tasks/recipes/CrearReceta';
+import { LaRespuesta } from '../screenplay/questions/LaRespuesta';
+import { Afirmar } from '../screenplay/fluent/Afirmar';
+
+describe('Security Checks (e2e) — Patrón Screenplay', () => {
   let app: INestApplication;
   let hackerToken = '';
-  let standardUserToken = '';
-  let victimRecipeId = '';
-  let victimUser: any;
+  let tokenVictima = '';
+  let idRecetaVictima = '';
 
+  // ─── Setup / Teardown ─────────────────────────────────────────────────────
   beforeAll(async () => {
-    // Setup general
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    // NestJS default ValidationPipe must be active if they set it up in main.ts
-    // but e2e tests skip main.ts. Usually projects add app.useGlobalPipes() here. 
-    // We assume the global app handles it or we're just testing the guard logic.
     await app.init();
 
-    // 1. Crear el usuario "Víctima"
-    victimUser = {
-      username: `victim_${Date.now()}`,
-      email: `victim_${Date.now()}@test.com`,
+    const ts = Date.now();
+
+    // Actor "Víctima": se registra, inicia sesión y crea una receta
+    const victima = Actor.llamado('Victima').con(ConsumeApi.usando(app));
+    const datosVictima = {
+      username: `victim_${ts}`,
+      email: `victim_${ts}@test.com`,
       password: 'Password123!',
     };
-    await request(app.getHttpServer()).post('/users').send(victimUser);
-    const victimLogin = await request(app.getHttpServer())
-      .post('/auth/login')
-      .send({ email: victimUser.email, password: victimUser.password });
-    standardUserToken = victimLogin.body.token;
+    await victima.intentar(RegistrarCuenta.con(datosVictima));
+    const sesionVictima = await victima.intentar(
+      IniciarSesion.con({ email: datosVictima.email, password: datosVictima.password }),
+    );
+    tokenVictima = LaRespuesta.tokenDe(sesionVictima);
 
-    // La víctima crea una receta
-    const recipeRes = await request(app.getHttpServer())
-      .post('/recipes')
-      .set('Authorization', `Bearer ${standardUserToken}`)
-      .send({
+    const receta = await victima.intentar(
+      CrearReceta.con({
         name: 'Receta de la Víctima',
         descripcion: 'Privada',
         ingredients: ['Agua'],
         steps: ['Hervir'],
-      });
-    victimRecipeId = recipeRes.body.id;
+      })
+        .autenticadoCon(tokenVictima)
+        .comoTarea(),
+    );
+    idRecetaVictima = receta.body.id;
 
-    // 2. Crear el usuario "Hacker"
-    const hackerUser = {
-      username: `hacker_${Date.now()}`,
-      email: `hacker_${Date.now()}@test.com`,
+    // Actor "Hacker": se registra e inicia sesión para obtener su propio token
+    const hacker = Actor.llamado('Hacker').con(ConsumeApi.usando(app));
+    const datosHacker = {
+      username: `hacker_${ts}`,
+      email: `hacker_${ts}@test.com`,
       password: 'Password123!',
     };
-    await request(app.getHttpServer()).post('/users').send(hackerUser);
-    const hackerLogin = await request(app.getHttpServer())
-      .post('/auth/login')
-      .send({ email: hackerUser.email, password: hackerUser.password });
-    hackerToken = hackerLogin.body.token;
+    await hacker.intentar(RegistrarCuenta.con(datosHacker));
+    const sesionHacker = await hacker.intentar(
+      IniciarSesion.con({ email: datosHacker.email, password: datosHacker.password }),
+    );
+    hackerToken = LaRespuesta.tokenDe(sesionHacker);
   });
 
   afterAll(async () => {
     await app.close();
   });
 
+  // ─── Autenticación y Tokens (JWT) ─────────────────────────────────────────
   describe('Autenticación y Tokens (JWT)', () => {
-    it('Debe rechazar un Token JWT falso o malformado (401)', async () => {
-      // Arrange (Preparar)
-      const fakeToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.falso.token_inventado';
-      const targetEndpoint = '/recipes';
 
-      // Act (Actuar)
-      const response = await request(app.getHttpServer())
-        .post(targetEndpoint)
-        .set('Authorization', `Bearer ${fakeToken}`)
-        .send({ name: 'Hack', descripcion: 'Tratando de infiltrar' });
+    it('Dado un token JWT falso, cuando el hacker intenta crear una receta, entonces debe ser rechazado con 401', async () => {
+      // Arrange — Actor Hacker con un token fabricado
+      const hacker = Actor.llamado('Hacker').con(ConsumeApi.usando(app));
+      const tokenFalso = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.falso.token_inventado';
+      const recetaMaliciosa = CrearReceta.con({
+        name: 'Hack',
+        descripcion: 'Tratando de infiltrar',
+        ingredients: [],
+        steps: [],
+      }).autenticadoCon(tokenFalso);
 
-      // Assert (Afirmar)
-      expect(response.status).toBe(401);
-      expect(response.body.message).toContain('Token inválido o expirado'); 
-      // Tu AuthGuard actual lanza "Falta Authorization" si falla el jwt.verify
+      // Act — El hacker intenta crear con token inválido
+      const respuesta = await hacker.intentar(recetaMaliciosa.comoTarea());
+
+      // Assert — Debe ser rechazado
+      Afirmar.que(LaRespuesta.statusDe(respuesta)).esIgualA(401);
+      Afirmar.que(LaRespuesta.cuerpoDe(respuesta).message).contiene('Token inválido o expirado');
     });
   });
 
+  // ─── Control de Acceso basado en Propiedad (IDOR / RecipeOwnerGuard) ──────
   describe('Control de Acceso basado en Propiedad (IDOR / RecipeOwnerGuard)', () => {
-    it('Un usuario no puede eliminar la receta de otro usuario (403 Forbidden)', async () => {
-      // Arrange (Preparar)
-      const targetEndpoint = `/recipes/${victimRecipeId}`;
-      const attackerToken = hackerToken; // El hacker usará su propio token válido
 
-      // Act (Actuar)
-      const response = await request(app.getHttpServer())
-        .delete(targetEndpoint)
-        .set('Authorization', `Bearer ${attackerToken}`);
+    it('Dado un hacker con token válido propio, cuando intenta eliminar la receta de otro, entonces debe recibir 403 Forbidden', async () => {
+      // Arrange — Hacker con su token real pero apuntando a la receta ajena
+      const hacker = Actor.llamado('Hacker').con(ConsumeApi.usando(app));
+      const api = hacker.usar<ConsumeApi>(ConsumeApi.CLAVE);
 
-      // Assert (Afirmar)
-      expect(response.status).toBe(403);
-      // El decorador de NestJS ForbiddenException devuelve Forbidden
-      expect(response.body.message).toContain('Solo el dueño puede realizar esta acción');
+      // Act — Intento de DELETE sobre la receta de la víctima
+      const raw = await api
+        .delete(`/recipes/${idRecetaVictima}`)
+        .set('Authorization', `Bearer ${hackerToken}`);
+      const respuesta = { status: raw.status, body: raw.body };
+
+      // Assert
+      Afirmar.que(LaRespuesta.statusDe(respuesta)).esIgualA(403);
+      Afirmar.que(LaRespuesta.cuerpoDe(respuesta).message).contiene('Solo el dueño puede realizar esta acción');
     });
 
-    it('Un usuario no puede editar la receta de otro usuario (403 Forbidden)', async () => {
-      // Arrange (Preparar)
-      const targetEndpoint = `/recipes/${victimRecipeId}`;
-      const attackerToken = hackerToken;
-      const maliciousPayload = { name: 'Receta Hackeada' };
+    it('Dado un hacker con token válido propio, cuando intenta editar la receta de otro, entonces debe recibir 403 Forbidden', async () => {
+      // Arrange — Hacker con su token real pero apuntando a la receta ajena
+      const hacker = Actor.llamado('Hacker').con(ConsumeApi.usando(app));
+      const api = hacker.usar<ConsumeApi>(ConsumeApi.CLAVE);
 
-      // Act (Actuar)
-      const response = await request(app.getHttpServer())
-        .patch(targetEndpoint)
-        .set('Authorization', `Bearer ${attackerToken}`)
-        .send(maliciousPayload);
+      // Act — Intento de PATCH sobre la receta de la víctima
+      const raw = await api
+        .patch(`/recipes/${idRecetaVictima}`)
+        .set('Authorization', `Bearer ${hackerToken}`)
+        .send({ name: 'Receta Hackeada' });
+      const respuesta = { status: raw.status, body: raw.body };
 
-      // Assert (Afirmar)
-      expect(response.status).toBe(403);
+      // Assert
+      Afirmar.que(LaRespuesta.statusDe(respuesta)).esIgualA(403);
     });
   });
-
 });

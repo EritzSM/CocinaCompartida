@@ -2,73 +2,91 @@ import { UserController } from '../../../src/user/user.controller';
 import { UserService } from '../../../src/user/user.service';
 import { NotFoundException } from '@nestjs/common';
 
-describe('Ver Perfil API Backend', () => {
+import { Actor } from '../../screenplay/actor/Actor';
+import { Afirmar } from '../../screenplay/fluent/Afirmar';
+
+describe('Ver Perfil API Backend — Patrón Screenplay', () => {
   let controller: UserController;
   let userService: Partial<UserService>;
 
   beforeEach(() => {
-    userService = {
-      findOne: jest.fn(),
-    };
+    userService = { findOne: jest.fn() };
     controller = new UserController(userService as UserService);
   });
 
-  // Verifica que el controlador devuelve el perfil cuando el servicio responde OK.
-  it('VerPerfilApi_CuandoUsuarioExiste_DebeRetornarPerfil', async () => {
+  /**
+   * Escenario 1:
+   * Dado un visitante que consulta un perfil existente,
+   * cuando el servicio responde con el usuario,
+   * entonces debe retornar el perfil completo.
+   */
+  it('Dado un usuario existente, cuando el visitante consulta el perfil, entonces debe retornar el perfil', async () => {
     // Arrange
-    const profile = {
+    const visitante = Actor.llamado('Visitante');
+    const perfilEsperado = {
       id: '1',
       username: 'testuser',
       email: 'test@test.com',
       avatar: 'av.png',
       bio: 'bio',
     };
-    (userService.findOne as jest.Mock).mockResolvedValue(profile);
+    (userService.findOne as jest.Mock).mockResolvedValue(perfilEsperado);
 
     // Act
-    const result = await controller.findOne('1');
+    const resultado = await visitante.intentar(async () => controller.findOne('1'));
 
     // Assert
-    expect(userService.findOne).toHaveBeenCalledWith('1');
-    expect(result).toEqual(profile);
+    Afirmar.que(userService.findOne).fueLlamadoCon('1');
+    Afirmar.que(resultado).esEquivalenteA(perfilEsperado);
   });
 
-  // Verifica que el payload incluye campos visibles y omite el password.
-  it('VerPerfilApi_CuandoUsuarioExiste_DebeIncluirCamposEsperados', async () => {
+  /**
+   * Escenario 2:
+   * Dado un visitante que consulta un perfil existente,
+   * cuando el servicio responde,
+   * entonces el payload debe incluir los campos esperados y NO exponer el password.
+   */
+  it('Dado un usuario existente, cuando el visitante consulta el perfil, entonces los campos públicos deben estar presentes y el password ausente', async () => {
     // Arrange
-    const profile = {
+    const visitante = Actor.llamado('Visitante');
+    const perfilPublico = {
       id: '1',
       username: 'testuser',
       email: 'test@test.com',
       avatar: 'av.png',
       bio: 'bio',
     };
-    (userService.findOne as jest.Mock).mockResolvedValue(profile);
+    (userService.findOne as jest.Mock).mockResolvedValue(perfilPublico);
 
     // Act
-    const result = await controller.findOne('1');
+    const resultado = await visitante.intentar(async () => controller.findOne('1'));
 
-    // Assert
-    expect(result).toEqual(
-      expect.objectContaining({
-        id: '1',
-        username: 'testuser',
-        email: 'test@test.com',
-        avatar: 'av.png',
-        bio: 'bio',
-      })
-    );
-    expect(result).not.toHaveProperty('password');
+    // Assert — Campos públicos presentes, password ausente
+    Afirmar.que(resultado).contieneObjeto({
+      id: '1',
+      username: 'testuser',
+      email: 'test@test.com',
+      avatar: 'av.png',
+      bio: 'bio',
+    });
+    Afirmar.que(resultado).noTienePropiedad('password');
   });
 
-  // Verifica que se propaga NotFound cuando el usuario no existe.
-  it('VerPerfilApi_CuandoUsuarioNoExiste_DebeLanzarNotFound', async () => {
+  /**
+   * Escenario 3:
+   * Dado un visitante que consulta un usuario inexistente,
+   * cuando el servicio lanza NotFoundException,
+   * entonces el controlador debe propagar la excepción.
+   */
+  it('Dado un usuario inexistente, cuando el visitante consulta el perfil, entonces debe propagar NotFoundException', async () => {
     // Arrange
+    const visitante = Actor.llamado('Visitante');
     (userService.findOne as jest.Mock).mockRejectedValue(new NotFoundException());
 
     // Act
-    await expect(controller.findOne('missing')).rejects.toThrow(NotFoundException);
+    const accion = visitante.intentar(async () => controller.findOne('missing'));
 
     // Assert
+    await Afirmar.que(accion).rechazaCon(NotFoundException);
   });
 });
