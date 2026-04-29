@@ -54,4 +54,7 @@ services:
     plan: free
     envVars:
       - key: BACKEND_URL
-        value: http://cocina-compartida-api:3000
+        fromService:
+          name: cocina-compartida-api
+          type: web
+          property: url
