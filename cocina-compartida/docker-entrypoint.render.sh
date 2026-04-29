@@ -3,6 +3,10 @@
 # con el valor real inyectado por Render en tiempo de ejecución
 set -e
 
+# Override BACKEND_URL permanently to use the public URL
+# This guarantees it works even if Render dashboard has stale variables
+export BACKEND_URL="https://cocina-compartida-api.onrender.com"
+
 : "${BACKEND_URL:?La variable BACKEND_URL es requerida}"
 
 export BACKEND_HOST=$(echo "$BACKEND_URL" | awk -F/ '{print $3}')
