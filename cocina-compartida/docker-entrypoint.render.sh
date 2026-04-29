@@ -5,9 +5,12 @@ set -e
 
 : "${BACKEND_URL:?La variable BACKEND_URL es requerida}"
 
-envsubst '${BACKEND_URL}' < /etc/nginx/conf.d/default.conf.template \
+# Extraer el DNS interno del sistema para que Nginx pueda resolver hosts dinámicamente
+export NAMESERVER=$(awk '/^nameserver/ {print $2; exit}' /etc/resolv.conf)
+
+envsubst '${BACKEND_URL} ${NAMESERVER}' < /etc/nginx/conf.d/default.conf.template \
   > /etc/nginx/conf.d/default.conf
 
-echo "Nginx configurado con BACKEND_URL=$BACKEND_URL (Internal Networking)"
+echo "Nginx configurado con BACKEND_URL=$BACKEND_URL y NAMESERVER=$NAMESERVER"
 
 exec nginx -g 'daemon off;'
