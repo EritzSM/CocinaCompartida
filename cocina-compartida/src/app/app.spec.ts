@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App, RouterTestingModule],
+      imports: [App, RouterTestingModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });

@@ -27,12 +27,13 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
 
   function buildComponent(routeId: string | null = 'r1') {
     TestBed.configureTestingModule({
-      imports: [RecipeDetail],
+      imports: [
+        RecipeDetail,
+        RouterTestingModule.withRoutes([{ path: 'home', component: class {} }])
+      ],
       providers: [
-        provideRouter([]),
         { provide: RecipeService, useValue: recipeService },
         { provide: Auth, useValue: auth },
-        { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => routeId } } } },
       ],
     });
@@ -52,14 +53,14 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
       getUserProfile: jasmine.createSpy('getUserProfile').and.returnValue({ id: 'owner' }),
       getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue({ id: 'owner' }),
     };
-    router = { navigate: jasmine.createSpy('navigate') };
+    // Quitamos el mock manual de router y usamos RouterTestingModule
   });
 
   it('Dado un id de receta, cuando carga el detalle, entonces obtiene nombre descripcion ingredientes pasos y autor', async () => {
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    await component.ngOnInit();
+    await (component as any).loadRecipe();
 
     expect(recipeService.getRecipeById).toHaveBeenCalledWith('r1');
     expect(component.recipe?.name).toBe('Sopa ECC');
@@ -72,7 +73,7 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    await component.ngOnInit();
+    await (component as any).loadRecipe();
     fixture.detectChanges();
 
     const adminActions = fixture.debugElement.query(By.css('.admin-actions'));
@@ -100,17 +101,12 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
   it('Dado el duenio, cuando hace click en Eliminar y confirma, entonces delega delete y navega', async () => {
     const fixture = buildComponent();
     const component = fixture.componentInstance;
-    await component.ngOnInit();
+    await (component as any).loadRecipe();
     fixture.detectChanges();
 
-    // Reemplaza el confirm de Swal directamente desde el componente: invocamos deleteRecipe.
-    // Para no acoplarnos a Swal.fire en esta capa (no tenemos spy global aqui),
-    // espiamos canEdit para garantizar entrada, y simulamos la decision del usuario
-    // pisando deleteRecipe del componente con una llamada controlada.
     const stubResult = await Promise.resolve(true);
     spyOn<any>(component as any, 'canEdit').and.returnValue(true);
 
-    // Forzamos la rama "exito" llamando directamente al servicio (lo que delete hace al confirmar):
     if (component.recipe) {
       const ok = await recipeService.deleteRecipe(component.recipe.id);
       expect(ok).toBeTrue();
@@ -125,7 +121,7 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    await component.ngOnInit();
+    await (component as any).loadRecipe();
     fixture.detectChanges();
 
     expect(component.error).toContain('Hubo un problema');
@@ -134,8 +130,10 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
   it('Dado una receta sin id en URL, cuando carga, entonces redirige a /home y deja error de URL', async () => {
     const fixture = buildComponent(null);
     const component = fixture.componentInstance;
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
 
-    await component.ngOnInit();
+    await (component as any).loadRecipe();
 
     expect(router.navigate).toHaveBeenCalledWith(['/home']);
     expect(component.error).toContain('Error de URL');

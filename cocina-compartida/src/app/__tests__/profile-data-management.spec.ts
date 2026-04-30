@@ -44,7 +44,10 @@ describe('Gestión de Datos del Perfil — EditProfileService', () => {
     spyOn(Swal, 'fire').and.resolveTo({ isConfirmed: true } as any);
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([{ path: 'login', component: class {} }])
+      ],
       providers: [
         EditProfileService,
         { provide: Auth, useValue: authMock },
