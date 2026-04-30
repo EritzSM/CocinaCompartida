@@ -80,7 +80,7 @@ pipeline {
                         }
                     }
                     timeout(time: 3, unit: 'MINUTES') {
-                        waitForQualityGate abortPipeline: false
+                        waitForQualityGate abortPipeline: true
                     }
                 }
             }

@@ -52,11 +52,11 @@ export class SupabaseStorageService {
   }
 
   private getPublicUrl(relativePath: string): string {
-    return `/uploads/${relativePath.replace(/\\/g, '/')}`;
+    return `/uploads/${relativePath.replaceAll('\\', '/')}`;
   }
 
   private safeSegment(value: string): string {
-    return value.replace(/[^a-zA-Z0-9_-]/g, '_');
+    return value.replaceAll(/[^a-zA-Z0-9_-]/g, '_');
   }
 
   private toRelativePath(pathOrUrl: string): string {
@@ -68,7 +68,7 @@ export class SupabaseStorageService {
       // The value can already be a local relative path.
     }
 
-    path = path.replace(/\\/g, '/');
+    path = path.replaceAll('\\', '/');
     path = path.replace(/^\/?uploads\//, '');
     return path.replace(/^\/+/, '');
   }

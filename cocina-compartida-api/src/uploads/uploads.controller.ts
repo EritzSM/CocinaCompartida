@@ -16,11 +16,11 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/security/auth.guard';
 import { SupabaseStorageService } from './supabase-storage.service';
 
-const IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const IMAGE_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 const imageFileFilter = (_req: any, file: Express.Multer.File, cb: any) => {
-  if (IMAGE_MIME_TYPES.includes(file.mimetype)) {
+  if (IMAGE_MIME_TYPES.has(file.mimetype)) {
     cb(null, true);
   } else {
     cb(new BadRequestException('Tipo de archivo no permitido. Use JPEG, PNG, WebP o GIF'), false);
@@ -49,8 +49,8 @@ export class UploadsController {
     try {
       const url = await this.storageService.uploadAvatar(file, username || 'default');
       return { url };
-    } catch (e: any) {
-      throw new InternalServerErrorException(e.message);
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(this.getErrorMessage(error));
     }
   }
 
@@ -76,8 +76,8 @@ export class UploadsController {
         files.map((file) => this.storageService.uploadRecipeImage(file, recipeId)),
       );
       return { urls };
-    } catch (e: any) {
-      throw new InternalServerErrorException(e.message);
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(this.getErrorMessage(error));
     }
   }
 
@@ -91,8 +91,12 @@ export class UploadsController {
     try {
       await this.storageService.deleteFile(filePath);
       return { message: 'Archivo eliminado' };
-    } catch (e: any) {
+    } catch {
       throw new InternalServerErrorException('Error al eliminar archivo');
     }
+  }
+
+  private getErrorMessage(error: unknown): string {
+    return error instanceof Error && error.message ? error.message : 'Error interno de almacenamiento';
   }
 }
