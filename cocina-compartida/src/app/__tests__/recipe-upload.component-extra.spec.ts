@@ -50,9 +50,11 @@ describe('RecipeUpload Component - cobertura complementaria', () => {
       ],
     })
       .overrideComponent(RecipeUpload, {
-        remove: { providers: [RecipeUploadService] },
-        add: { providers: [{ provide: RecipeUploadService, useValue: uploadService }] },
-        set: { template: '<div></div>', imports: [ReactiveFormsModule] },
+        set: {
+          providers: [{ provide: RecipeUploadService, useValue: uploadService }],
+          template: '<div></div>',
+          imports: [ReactiveFormsModule],
+        },
       })
       .compileComponents();
 
@@ -111,7 +113,7 @@ describe('RecipeUpload Component - cobertura complementaria', () => {
   });
 
   it('RU-C06: navega imagenes y delega validaciones', async () => {
-    const array = component.ingredients as FormArray;
+    const array = component.ingredients;
 
     component.nextImage();
     component.prevImage();

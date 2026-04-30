@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { interval, Subject, of } from 'rxjs';
-import { takeUntil, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 /**
  * Servicio que mantiene el backend de Render despierto
@@ -11,7 +11,7 @@ import { takeUntil, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class KeepAliveService implements OnDestroy {
-  private readonly destroy$ = new Subject<void>();
+  private intervalId?: number;
   private readonly INTERVAL_MS = 5 * 60 * 1000; // 5 minutos
 
   constructor(private readonly http: HttpClient) {
@@ -19,17 +19,13 @@ export class KeepAliveService implements OnDestroy {
   }
 
   private startKeepAlive(): void {
-    interval(this.INTERVAL_MS)
-      .pipe(
-        takeUntil(this.destroy$),
-        catchError(error => {
-          console.warn('[KeepAliveService] Error en petición de health:', error);
-          return of(null);
-        })
-      )
-      .subscribe(() => {
+    this.intervalId = setInterval(() => {
+      try {
         this.pingBackend();
-      });
+      } catch (error) {
+        console.warn('[KeepAliveService] Error en petición de health:', error);
+      }
+    }, this.INTERVAL_MS);
   }
 
   private pingBackend(): void {
@@ -49,7 +45,8 @@ export class KeepAliveService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    if (this.intervalId !== undefined) {
+      clearInterval(this.intervalId);
+    }
   }
 }

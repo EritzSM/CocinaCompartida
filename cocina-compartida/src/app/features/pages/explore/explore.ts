@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal, ViewChild, ElementRef, AfterViewInit, OnDestroy, effect } from '@angular/core';
+import { Component, inject, computed, signal, ViewChild, ElementRef, AfterViewInit, OnDestroy, effect, runInInjectionContext, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecipeService } from '../../../shared/services/recipe';
 import { Recipe } from '../../../shared/interfaces/recipe';
@@ -18,6 +18,7 @@ export class Explore implements AfterViewInit, OnDestroy {
   private readonly recipeService = inject(RecipeService);
   readonly authService = inject(Auth);
   private readonly router = inject(Router);
+  private readonly injector = inject(Injector);
   readonly isLoading = signal<boolean>(false);
   private previousRecipeCount = 0;
 
@@ -101,19 +102,21 @@ export class Explore implements AfterViewInit, OnDestroy {
       }
 
       // Observable effect para conocer cambios en recipesToShow
-      effect(() => {
-        // Si el trigger existe y no hay observer, crear uno
-        if (this.loadMoreTrigger?.nativeElement && !this.observer) {
-          this.observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !this.isLoading()) {
-              this.loadMore();
-            }
-          }, {
-            threshold: 0.5,
-            rootMargin: '100px'
-          });
-          this.observer.observe(this.loadMoreTrigger.nativeElement);
-        }
+      runInInjectionContext(this.injector, () => {
+        effect(() => {
+          // Si el trigger existe y no hay observer, crear uno
+          if (this.loadMoreTrigger?.nativeElement && !this.observer) {
+            this.observer = new IntersectionObserver((entries) => {
+              if (entries[0].isIntersecting && !this.isLoading()) {
+                this.loadMore();
+              }
+            }, {
+              threshold: 0.5,
+              rootMargin: '100px'
+            });
+            this.observer.observe(this.loadMoreTrigger.nativeElement);
+          }
+        });
       });
     });
   }

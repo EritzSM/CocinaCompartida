@@ -13,15 +13,18 @@ describe('KeepAliveService', () => {
     });
 
     httpMock = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(KeepAliveService);
   });
 
   afterEach(() => {
+    if (service) {
+      service.ngOnDestroy();
+    }
     httpMock.verify();
   });
 
   it('KA-01: hace ping al backend cuando se cumple el intervalo', fakeAsync(() => {
     spyOn(console, 'log');
+    service = TestBed.inject(KeepAliveService);
 
     tick(5 * 60 * 1000);
 
@@ -36,6 +39,7 @@ describe('KeepAliveService', () => {
 
   it('KA-02: controla errores del ping sin propagar excepciones', fakeAsync(() => {
     spyOn(console, 'warn');
+    service = TestBed.inject(KeepAliveService);
 
     (service as any).pingBackend();
 
@@ -48,11 +52,13 @@ describe('KeepAliveService', () => {
   }));
 
   it('KA-03: detiene el intervalo al destruir el servicio', fakeAsync(() => {
+    service = TestBed.inject(KeepAliveService);
     service.ngOnDestroy();
 
     tick(5 * 60 * 1000);
 
     httpMock.expectNone('/api/app/health');
+    expect(httpMock.match('/api/app/health').length).toBe(0);
     discardPeriodicTasks();
   }));
 });
