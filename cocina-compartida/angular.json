@@ -79,7 +79,8 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "include": [
-              "src/app/**/*.spec.ts"
+              "src/app/**/*.spec.ts",
+              "test/**/*.spec.ts"
             ],
             "assets": [
               {

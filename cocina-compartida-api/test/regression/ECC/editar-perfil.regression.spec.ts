@@ -12,9 +12,10 @@ describe('Editar Perfil Regression Backend', () => {
     const service = new UserService(userRepo as any);
 
     // Act
-    await expect(service.update('u1', {} as any)).rejects.toThrow(BadRequestException);
+    const action = service.update('u1', {} as any);
 
     // Assert
+    await expect(action).rejects.toThrow(BadRequestException);
     expect(userRepo.update).toHaveBeenCalledWith({ id: 'u1' }, {});
   });
 
@@ -28,11 +29,10 @@ describe('Editar Perfil Regression Backend', () => {
     const service = new UserService(userRepo as any);
 
     // Act
-    await expect(service.update('u1', { email: 'dup@test.com' } as any)).rejects.toThrow(
-      ConflictException
-    );
+    const action = service.update('u1', { email: 'dup@test.com' } as any);
 
     // Assert
+    await expect(action).rejects.toThrow(ConflictException);
     expect(userRepo.update).not.toHaveBeenCalled();
   });
 
@@ -46,10 +46,9 @@ describe('Editar Perfil Regression Backend', () => {
     const service = new UserService(userRepo as any);
 
     // Act
-    await expect(service.update('u1', { username: 'nuevo' } as any)).rejects.toThrow(
-      NotFoundException
-    );
+    const action = service.update('u1', { username: 'nuevo' } as any);
 
     // Assert
+    await expect(action).rejects.toThrow(NotFoundException);
   });
 });

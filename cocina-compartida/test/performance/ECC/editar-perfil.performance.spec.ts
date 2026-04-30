@@ -1,104 +1,93 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Profile } from '../../../src/app/features/pages/profile/profile';
-import { Auth } from '../../../src/app/shared/services/auth';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { signal } from '@angular/core';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 import { EditProfileService } from '../../../src/app/shared/services/edit-profile.service';
+import { Auth } from '../../../src/app/shared/services/auth';
+import { UploadService } from '../../../src/app/shared/services/upload';
 import { RecipeService } from '../../../src/app/shared/services/recipe';
 import { User } from '../../../src/app/shared/interfaces/user';
 
-type Stubs = {
-  auth: { getCurrentUser: jasmine.Spy; verifyLoggedUser: jasmine.Spy };
-  edit: { updateProfile: jasmine.Spy };
-  router: { navigate: jasmine.Spy };
-  route: { snapshot: { paramMap: { get: () => string | null } } };
-  recipe: { loadRecipes: jasmine.Spy; recipes: jasmine.Spy };
-};
-
-const USER: User = {
-  id: '1',
-  username: 'testuser',
-  password: '',
-  email: 'test@test.com',
-  avatar: 'av.png',
-  bio: 'bio',
-};
-
-function buildStubs(updatePromise: Promise<User | null>): Stubs {
-  return {
-    auth: {
-      getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(USER),
-      verifyLoggedUser: jasmine.createSpy('verifyLoggedUser'),
-    },
-    edit: {
-      updateProfile: jasmine.createSpy('updateProfile').and.returnValue(updatePromise),
-    },
-    router: {
-      navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve(true)),
-    },
-    route: {
-      snapshot: { paramMap: { get: () => null } },
-    },
-    recipe: {
-      loadRecipes: jasmine.createSpy('loadRecipes'),
-      recipes: jasmine.createSpy('recipes').and.returnValue([]),
-    },
-  };
-}
-
-async function buildComponent(stubs: Stubs) {
-  await TestBed.configureTestingModule({
-    imports: [Profile],
-    providers: [
-      { provide: Auth, useValue: stubs.auth },
-      { provide: EditProfileService, useValue: stubs.edit },
-      { provide: RecipeService, useValue: stubs.recipe },
-      { provide: Router, useValue: stubs.router },
-      { provide: ActivatedRoute, useValue: stubs.route },
-    ],
-  }).compileComponents();
-
-  const component = TestBed.createComponent(Profile).componentInstance;
-  await component.ngOnInit();
-  await new Promise(resolve => setTimeout(resolve, 0));
-  return component;
-}
-
 describe('Editar Perfil Performance Frontend', () => {
-  beforeEach(() => TestBed.resetTestingModule());
+  let service: EditProfileService;
+  let httpMock: HttpTestingController;
 
-  // Verifica que isUpdating evita llamadas extra cuando ya esta en proceso.
-  it('EditarPerfil_CuandoIsUpdatingEsTrue_NoDebeLlamarUpdate', async () => {
-    // Arrange
-    const stubs = buildStubs(Promise.resolve(USER));
-    const component = await buildComponent(stubs);
-    component.newUsername = 'nuevo';
-    component.isUpdating = true;
+  const USER: User = {
+    id: 'u1',
+    username: 'testuser',
+    password: '',
+    email: 'test@test.com',
+    avatar: 'av.png',
+    bio: 'bio',
+  };
 
-    // Act
-    await component.saveProfileUpdates();
+  beforeEach(() => {
+    const authStub: any = {
+      currentUser: signal<User | null>({ ...USER }),
+      currentUsername: signal<string>(USER.username),
+      getCurrentUser: () => authStub.currentUser(),
+    };
 
-    // Assert
-    expect(stubs.edit.updateProfile).not.toHaveBeenCalled();
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        EditProfileService,
+        { provide: Auth, useValue: authStub },
+        { provide: UploadService, useValue: { uploadFile: jasmine.createSpy('uploadFile') } },
+        { provide: RecipeService, useValue: { loadRecipes: jasmine.createSpy('loadRecipes') } },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
+      ],
+    });
+
+    service = TestBed.inject(EditProfileService);
+    httpMock = TestBed.inject(HttpTestingController);
+    spyOn(Swal, 'fire').and.returnValue(Promise.resolve({} as any));
+    localStorage.setItem('token', 'token');
   });
 
-  // Verifica que un doble click no dispara dos requests.
-  it('EditarPerfil_CuandoDobleSubmit_DebeEnviarUnaSolaSolicitud', async () => {
+  afterEach(() => {
+    httpMock.verify();
+    localStorage.removeItem('token');
+  });
+
+  // Mide latencia promedio sobre N updates secuenciales.
+  it('EditarPerfil_CuandoSeEjecutan20UpdatesSecuenciales_LatenciaPromedioDebeSerInferiorA50ms', async () => {
     // Arrange
-    let resolveUpdate: (value: User | null) => void = () => undefined;
-    const updatePromise = new Promise<User | null>(resolve => {
-      resolveUpdate = resolve;
-    });
-    const stubs = buildStubs(updatePromise);
-    const component = await buildComponent(stubs);
-    component.newUsername = 'nuevo';
+    const iterations = 20;
+    const maxAverageMs = 50;
 
     // Act
-    component.saveProfileUpdates();
-    component.saveProfileUpdates();
-    resolveUpdate(USER);
-    await updatePromise;
+    const start = performance.now();
+    for (let i = 0; i < iterations; i++) {
+      const promise = service.updateProfile({ username: `user_${i}` });
+      const req = httpMock.expectOne('/api/users');
+      req.flush({ ...USER, username: `user_${i}` });
+      await promise;
+    }
+    const averageMs = (performance.now() - start) / iterations;
 
     // Assert
-    expect(stubs.edit.updateProfile).toHaveBeenCalledTimes(1);
+    expect(averageMs).toBeLessThan(maxAverageMs);
+  });
+
+  // Mide throughput bajo updates concurrentes.
+  it('EditarPerfil_CuandoSeEjecutan10UpdatesEnParalelo_DebeFinalizarEnMenosDe300ms', async () => {
+    // Arrange
+    const concurrent = 10;
+    const maxTotalMs = 300;
+
+    // Act
+    const start = performance.now();
+    const promises = Array.from({ length: concurrent }).map((_, i) =>
+      service.updateProfile({ username: `user_${i}` })
+    );
+    const requests = httpMock.match('/api/users');
+    requests.forEach((req, i) => req.flush({ ...USER, username: `user_${i}` }));
+    await Promise.all(promises);
+    const totalMs = performance.now() - start;
+
+    // Assert
+    expect(totalMs).toBeLessThan(maxTotalMs);
   });
 });

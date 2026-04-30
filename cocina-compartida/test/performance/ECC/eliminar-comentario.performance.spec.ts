@@ -11,7 +11,7 @@ describe('Eliminar Comentario Performance Frontend', () => {
   let state: RecipeStateService;
   let httpMock: HttpTestingController;
 
-  const RECIPE: Recipe = {
+  const buildRecipe = (commentCount: number): Recipe => ({
     id: 'r1',
     name: 'Pasta',
     descripcion: 'desc',
@@ -20,16 +20,14 @@ describe('Eliminar Comentario Performance Frontend', () => {
     images: ['img.png'],
     category: 'Italiana',
     user: { id: 'u1', username: 'chef' },
-    comments: [
-      {
-        id: 'c1',
-        message: 'Buen comentario',
-        user: { id: 'u2', username: 'fan' },
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ],
-  };
+    comments: Array.from({ length: commentCount }).map((_, i) => ({
+      id: `c${i}`,
+      message: `comentario ${i}`,
+      user: { id: 'u2', username: 'fan' },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })),
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,18 +50,45 @@ describe('Eliminar Comentario Performance Frontend', () => {
     httpMock.verify();
   });
 
-  // Verifica que se realiza una sola llamada DELETE por eliminacion.
-  it('EliminarComentario_CuandoElimina_DebeEnviarUnaSolaSolicitud', async () => {
+  // Mide latencia promedio sobre N eliminaciones secuenciales.
+  it('EliminarComentario_CuandoSeEjecutan20EliminacionesSecuenciales_LatenciaPromedioDebeSerInferiorA50ms', async () => {
     // Arrange
-    state.setRecipes([RECIPE]);
+    const iterations = 20;
+    const maxAverageMs = 50;
+    state.setRecipes([buildRecipe(iterations)]);
 
     // Act
-    const promise = service.deleteComment('c1');
-    const matches = httpMock.match('/api/recipes/comments/c1');
+    const start = performance.now();
+    for (let i = 0; i < iterations; i++) {
+      const promise = service.deleteComment(`c${i}`);
+      const matches = httpMock.match(`/api/recipes/comments/c${i}`);
+      matches[0].flush({});
+      await promise;
+    }
+    const averageMs = (performance.now() - start) / iterations;
 
     // Assert
-    expect(matches.length).toBe(1);
-    matches[0].flush({});
-    await promise;
+    expect(averageMs).toBeLessThan(maxAverageMs);
+  });
+
+  // Mide throughput bajo eliminaciones concurrentes.
+  it('EliminarComentario_CuandoSeEjecutan10EliminacionesEnParalelo_DebeFinalizarEnMenosDe300ms', async () => {
+    // Arrange
+    const concurrent = 10;
+    const maxTotalMs = 300;
+    state.setRecipes([buildRecipe(concurrent)]);
+
+    // Act
+    const start = performance.now();
+    const promises = Array.from({ length: concurrent }).map((_, i) =>
+      service.deleteComment(`c${i}`)
+    );
+    const all = httpMock.match(req => /^\/api\/recipes\/comments\/c\d+$/.test(req.url));
+    all.forEach(req => req.flush({}));
+    await Promise.all(promises);
+    const totalMs = performance.now() - start;
+
+    // Assert
+    expect(totalMs).toBeLessThan(maxTotalMs);
   });
 });

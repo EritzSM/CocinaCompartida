@@ -16,9 +16,7 @@ describe('Ver Perfil Security Backend', () => {
   }
 
   beforeEach(() => {
-    jwtService = {
-      verify: jest.fn(),
-    };
+    jwtService = { verify: jest.fn() };
     guard = new AuthGuard(jwtService as JwtService);
   });
 
@@ -28,9 +26,10 @@ describe('Ver Perfil Security Backend', () => {
     const ctx = buildContext({});
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica que el formato diferente a Bearer se rechaza.
@@ -39,9 +38,10 @@ describe('Ver Perfil Security Backend', () => {
     const ctx = buildContext({ authorization: 'Basic token' });
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica que un token inválido es rechazado.
@@ -53,9 +53,10 @@ describe('Ver Perfil Security Backend', () => {
     });
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica que un token expirado es rechazado.
@@ -67,9 +68,10 @@ describe('Ver Perfil Security Backend', () => {
     });
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica que un token sin id/sub es rechazado.
@@ -79,9 +81,10 @@ describe('Ver Perfil Security Backend', () => {
     (jwtService.verify as jest.Mock).mockReturnValue({ username: 'user' });
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica que un token válido permite el acceso.
