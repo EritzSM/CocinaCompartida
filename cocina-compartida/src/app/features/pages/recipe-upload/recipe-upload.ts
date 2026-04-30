@@ -15,10 +15,10 @@ import { RecipeUploadService } from '../../../shared/services/recipe-upload.serv
 })
 export class RecipeUpload implements OnInit {
   recipeForm: FormGroup;
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private recipeUploadService = inject(RecipeUploadService);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly recipeUploadService = inject(RecipeUploadService);
 
   // Propiedades expuestas para la plantilla
   get images(): string[] {

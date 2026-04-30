@@ -1,8 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { interval, Subject } from 'rxjs';
+import { interval, Subject, of } from 'rxjs';
 import { takeUntil, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 /**
  * Servicio que mantiene el backend de Render despierto
@@ -12,10 +11,10 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class KeepAliveService implements OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
   private readonly INTERVAL_MS = 5 * 60 * 1000; // 5 minutos
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.startKeepAlive();
   }
 

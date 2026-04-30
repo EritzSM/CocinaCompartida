@@ -17,7 +17,7 @@ export class App {
 
   showLayout = true; // controlar header/footer
 
-  constructor(private router: Router, private keepAlive: KeepAliveService) {
+  constructor(private readonly router: Router, private readonly keepAlive: KeepAliveService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
