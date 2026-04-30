@@ -83,4 +83,14 @@ export class UserService {
     if (!result.affected) throw new NotFoundException();
     return { success: true, message: 'User removed' };
   }
+
+  async removeByEmail(email: string) {
+    const user = await this.userRepo.findOne({ where: { email } });
+    if (!user) throw new NotFoundException(`Usuario con email ${email} no encontrado`);
+    
+    const result = await this.userRepo.softDelete(user.id);
+    if (!result.affected) throw new InternalServerErrorException('Error al eliminar usuario');
+    
+    return { success: true, message: 'User removed', userId: user.id };
+  }
 }
