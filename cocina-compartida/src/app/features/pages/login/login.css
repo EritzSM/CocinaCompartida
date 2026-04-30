@@ -17,6 +17,12 @@ label {
     display: block;
 }
 
+/* Ocultar iconos nativos de navegadores para campos password */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
 /* Ajuste del margen del input para acercarlo al label */
 form input:not(.password-wrapper input) {
     margin-top: -8px; 
@@ -36,11 +42,14 @@ form input:not(.password-wrapper input) {
     margin-top: 0;
     margin-bottom: 0;
     padding-right: 45px;
+    box-sizing: border-box;
 }
 
 .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
@@ -48,7 +57,10 @@ form input:not(.password-wrapper input) {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    padding: 0;
+    z-index: 2;
+    height: 24px;
+    width: 24px;
     transition: color 0.2s;
 }
 

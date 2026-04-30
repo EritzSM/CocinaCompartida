@@ -18,6 +18,12 @@ form input:not(.password-wrapper input) {
     margin-top: -8px; 
 }
 
+/* Ocultar iconos nativos de navegadores para campos password */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
 .password-wrapper {
     position: relative;
     display: flex;
@@ -29,11 +35,14 @@ form input:not(.password-wrapper input) {
     width: 100%;
     margin-bottom: 0;
     padding-right: 45px; /* Espacio para el icono */
+    box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
 }
 
 .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
@@ -41,8 +50,10 @@ form input:not(.password-wrapper input) {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
-    transition: color 0.2s;
+    padding: 0;
+    z-index: 2;
+    height: 24px;
+    width: 24px;
 }
 
 .toggle-password:hover {
@@ -85,8 +96,6 @@ form input:not(.password-wrapper input) {
     text-decoration: none;
 }
 
-/* ... tus estilos existentes ... */
-
 /* ============================================= */
 /* ==    NUEVOS ESTILOS PARA EL AVATAR        == */
 /* ============================================= */
@@ -121,10 +130,10 @@ form input:not(.password-wrapper input) {
 /* Estilo del botón de subida (el icono de la cámara) */
 .upload-button {
     position: absolute;
-    bottom: 0;
+    bottom: 5px; /* Un poco más arriba para que no toque el borde exacto */
     right: 5px;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     background-color: var(--color-primary);
     border-radius: 50%;
     display: flex;
@@ -133,6 +142,7 @@ form input:not(.password-wrapper input) {
     cursor: pointer;
     border: 2px solid var(--color-secondary);
     transition: transform 0.2s ease;
+    box-sizing: border-box;
 }
 
 .upload-button:hover {
@@ -141,10 +151,10 @@ form input:not(.password-wrapper input) {
 
 .delete-avatar-btn {
     position: absolute;
-    bottom: 0;
+    bottom: 5px; /* Mismo valor que el de subida para alinearlos */
     left: 5px;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     background-color: #ff4d4d; /* Rojo para borrar */
     border-radius: 50%;
     display: flex;
@@ -154,6 +164,7 @@ form input:not(.password-wrapper input) {
     border: 2px solid var(--color-secondary);
     transition: transform 0.2s ease;
     padding: 0;
+    box-sizing: border-box;
 }
 
 .delete-avatar-btn:hover {
