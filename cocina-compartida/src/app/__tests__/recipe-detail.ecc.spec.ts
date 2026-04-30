@@ -57,24 +57,26 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     // Quitamos el mock manual de router y usamos RouterTestingModule
   });
 
-  it('Dado un id de receta, cuando carga el detalle, entonces obtiene nombre descripcion ingredientes pasos y autor', async () => {
+  it('Dado un id de receta, cuando carga el detalle, entonces obtiene nombre descripcion ingredientes pasos y autor', fakeAsync(() => {
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    await (component as any).loadRecipe();
+    (component as any).loadRecipe();
+    tick();
 
     expect(recipeService.getRecipeById).toHaveBeenCalledWith('r1');
     expect(component.recipe?.name).toBe('Sopa ECC');
     expect(component.recipe?.ingredients).toEqual(['agua', 'sal']);
     expect(component.recipe?.steps).toEqual(['hervir', 'servir']);
     expect(component.recipe?.user.username).toBe('chef-owner');
-  });
+  }));
 
-  it('Dado que el usuario es duenio, cuando se renderiza el DOM, entonces aparecen los botones Editar y Eliminar', async () => {
+  it('Dado que el usuario es duenio, cuando se renderiza el DOM, entonces aparecen los botones Editar y Eliminar', fakeAsync(() => {
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    await (component as any).loadRecipe();
+    (component as any).loadRecipe();
+    tick();
     fixture.detectChanges();
 
     const adminActions = fixture.debugElement.query(By.css('.admin-actions'));
@@ -84,60 +86,66 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const textos = botones.map((b) => (b.nativeElement.textContent || '').trim());
     expect(textos).toContain('Editar receta');
     expect(textos).toContain('Eliminar');
-  });
+  }));
 
-  it('Dado que el usuario NO es duenio, cuando se renderiza el DOM, entonces no aparecen acciones de propietario', async () => {
+  it('Dado que el usuario NO es duenio, cuando se renderiza el DOM, entonces no aparecen acciones de propietario', fakeAsync(() => {
     auth.getUserProfile.and.returnValue({ id: 'otro' });
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    await (component as any).loadRecipe();
+    (component as any).loadRecipe();
+    tick();
     fixture.detectChanges();
 
     const adminActions = fixture.debugElement.query(By.css('.admin-actions'));
     expect(adminActions).withContext('admin-actions NO debe renderizarse cuando canEdit() es false').toBeNull();
     expect(component.canEdit()).toBeFalse();
-  });
+  }));
 
-  it('Dado el duenio, cuando hace click en Eliminar y confirma, entonces delega delete y navega', async () => {
+  it('Dado el duenio, cuando hace click en Eliminar y confirma, entonces delega delete y navega', fakeAsync(() => {
     const fixture = buildComponent();
     const component = fixture.componentInstance;
-    await (component as any).loadRecipe();
+    (component as any).loadRecipe();
+    tick();
     fixture.detectChanges();
 
-    const stubResult = await Promise.resolve(true);
+    const stubResult = true;
     spyOn<any>(component as any, 'canEdit').and.returnValue(true);
 
     if (component.recipe) {
-      const ok = await recipeService.deleteRecipe(component.recipe.id);
-      expect(ok).toBeTrue();
-      expect(recipeService.deleteRecipe).toHaveBeenCalledWith('r1');
+      recipeService.deleteRecipe(component.recipe.id).then((ok: boolean) => {
+        expect(ok).toBeTrue();
+        expect(recipeService.deleteRecipe).toHaveBeenCalledWith('r1');
+      });
+      tick();
     }
     expect(stubResult).toBeTrue();
-  });
+  }));
 
-  it('Dado una receta inexistente, cuando carga, entonces deja mensaje de error', async () => {
+  it('Dado una receta inexistente, cuando carga, entonces deja mensaje de error', fakeAsync(() => {
     recipeService.getRecipeById.and.returnValue(Promise.resolve(null));
 
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    await (component as any).loadRecipe();
+    (component as any).loadRecipe();
+    tick(); // Procesamos el Promise.resolve(null)
     fixture.detectChanges();
 
     expect(component.error).toBeTruthy();
     expect(component.error).toContain('Hubo un problema');
-  });
+  }));
 
-  it('Dado una receta sin id en URL, cuando carga, entonces redirige a /home y deja error de URL', async () => {
+  it('Dado una receta sin id en URL, cuando carga, entonces redirige a /home y deja error de URL', fakeAsync(() => {
     const fixture = buildComponent(null);
     const component = fixture.componentInstance;
     const router = TestBed.inject(Router);
     spyOn(router, 'navigate');
 
-    await (component as any).loadRecipe();
+    (component as any).loadRecipe();
+    tick();
 
     expect(router.navigate).toHaveBeenCalledWith(['/home']);
     expect(component.error).toContain('Error de URL');
-  });
+  }));
 });
