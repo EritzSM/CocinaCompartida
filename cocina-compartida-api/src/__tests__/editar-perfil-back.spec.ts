@@ -330,7 +330,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
       const mockUserRepository = {
         findOne: jest.fn(),
         update: jest.fn(),
-        delete: jest.fn().mockResolvedValue({ affected: 1 }),
+        softDelete: jest.fn().mockResolvedValue({ affected: 1 }),
       };
       const svc = new UserService(mockUserRepository as any);
 
@@ -346,7 +346,7 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
       const mockUserRepository = {
         findOne: jest.fn(),
         update: jest.fn(),
-        delete: jest.fn().mockResolvedValue({ affected: 0 }),
+        softDelete: jest.fn().mockResolvedValue({ affected: 0 }),
       };
       const svc = new UserService(mockUserRepository as any);
 
@@ -354,12 +354,12 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
       await expect(svc.remove('999')).rejects.toThrow(NotFoundException);
     });
 
-    it('llama a delete con el id correcto', async () => {
+    it('llama a softDelete con el id correcto', async () => {
       // Arrange
       const mockUserRepository = {
         findOne: jest.fn(),
         update: jest.fn(),
-        delete: jest.fn().mockResolvedValue({ affected: 1 }),
+        softDelete: jest.fn().mockResolvedValue({ affected: 1 }),
       };
       const svc = new UserService(mockUserRepository as any);
 
@@ -367,6 +367,6 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
       await svc.remove('abc-123');
 
       // Assert
-      expect(mockUserRepository.delete).toHaveBeenCalledWith('abc-123');
+      expect(mockUserRepository.softDelete).toHaveBeenCalledWith('abc-123');
     });
   });});

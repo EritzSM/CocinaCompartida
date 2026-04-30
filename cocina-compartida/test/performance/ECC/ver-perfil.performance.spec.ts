@@ -1,120 +1,89 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { signal } from '@angular/core';
-import { Profile } from '../../../src/app/features/pages/profile/profile';
-import { Auth } from '../../../src/app/shared/services/auth';
-import { RecipeService } from '../../../src/app/shared/services/recipe';
+import { Router } from '@angular/router';
 import { EditProfileService } from '../../../src/app/shared/services/edit-profile.service';
+import { Auth } from '../../../src/app/shared/services/auth';
+import { UploadService } from '../../../src/app/shared/services/upload';
+import { RecipeService } from '../../../src/app/shared/services/recipe';
 import { User } from '../../../src/app/shared/interfaces/user';
-import { Recipe } from '../../../src/app/shared/interfaces/recipe';
-
-type BuildOptions = {
-  routeId: string | null;
-  fetchResult?: User | null | 'unauthorized';
-};
-
-type Stubs = {
-  auth: { getCurrentUser: jasmine.Spy; verifyLoggedUser: jasmine.Spy };
-  edit: { fetchUserById: jasmine.Spy };
-  recipes: { recipes: any; loadRecipes: jasmine.Spy };
-  router: { navigate: jasmine.Spy };
-  route: { snapshot: { paramMap: { get: () => string | null } } };
-};
-
-function buildStubs(options: BuildOptions): Stubs {
-  const recipesSignal = signal<Recipe[]>([]);
-  return {
-    auth: {
-      getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(null),
-      verifyLoggedUser: jasmine.createSpy('verifyLoggedUser'),
-    },
-    edit: {
-      fetchUserById: jasmine
-        .createSpy('fetchUserById')
-        .and.returnValue(Promise.resolve(options.fetchResult ?? null)),
-    },
-    recipes: {
-      recipes: recipesSignal,
-      loadRecipes: jasmine.createSpy('loadRecipes'),
-    },
-    router: {
-      navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve(true)),
-    },
-    route: {
-      snapshot: { paramMap: { get: () => options.routeId } },
-    },
-  };
-}
-
-async function buildComponent(options: BuildOptions) {
-  const stubs = buildStubs(options);
-  await TestBed.configureTestingModule({
-    imports: [Profile],
-    providers: [
-      { provide: Auth, useValue: stubs.auth },
-      { provide: EditProfileService, useValue: stubs.edit },
-      { provide: RecipeService, useValue: stubs.recipes },
-      { provide: Router, useValue: stubs.router },
-      { provide: ActivatedRoute, useValue: stubs.route },
-    ],
-  }).compileComponents();
-
-  return {
-    component: TestBed.createComponent(Profile).componentInstance,
-    stubs,
-  };
-}
-
-const flush = () => new Promise<void>(resolve => setTimeout(resolve, 0));
 
 describe('Ver Perfil Performance Frontend', () => {
-  beforeEach(() => TestBed.resetTestingModule());
+  let service: EditProfileService;
+  let httpMock: HttpTestingController;
 
-  // Verifica que no se revalida sesión cuando ya hay id en la ruta.
-  it('VerPerfil_CuandoIdEnRuta_NoDebeInvocarVerifyLoggedUser', async () => {
-    // Arrange
-    const profile: User = {
-      id: '99',
-      username: 'otheruser',
-      password: '',
-      email: 'other@test.com',
-      avatar: 'av.png',
-      bio: 'bio',
+  const USER: User = {
+    id: 'u1',
+    username: 'testuser',
+    password: '',
+    email: 'test@test.com',
+    avatar: 'av.png',
+    bio: 'bio',
+  };
+
+  beforeEach(() => {
+    const authStub: any = {
+      currentUser: signal<User | null>({ ...USER }),
+      currentUsername: signal<string>(USER.username),
+      getCurrentUser: () => authStub.currentUser(),
     };
-    const { component, stubs } = await buildComponent({
-      routeId: '99',
-      fetchResult: profile,
+
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        EditProfileService,
+        { provide: Auth, useValue: authStub },
+        { provide: UploadService, useValue: { uploadFile: jasmine.createSpy('uploadFile') } },
+        { provide: RecipeService, useValue: { loadRecipes: jasmine.createSpy('loadRecipes') } },
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
+      ],
     });
 
-    // Act
-    component.ngOnInit();
-    await flush();
-
-    // Assert
-    expect(stubs.auth.verifyLoggedUser).not.toHaveBeenCalled();
+    service = TestBed.inject(EditProfileService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  // Verifica que el fetch de perfil se hace una sola vez.
-  it('VerPerfil_CuandoIdEnRuta_DebeLlamarFetchUnaSolaVez', async () => {
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  // Mide latencia promedio sobre N consultas secuenciales de perfil.
+  it('VerPerfil_CuandoSeConsulta20VecesSecuencial_LatenciaPromedioDebeSerInferiorA50ms', async () => {
     // Arrange
-    const profile: User = {
-      id: '99',
-      username: 'otheruser',
-      password: '',
-      email: 'other@test.com',
-      avatar: 'av.png',
-      bio: 'bio',
-    };
-    const { component, stubs } = await buildComponent({
-      routeId: '99',
-      fetchResult: profile,
-    });
+    const iterations = 20;
+    const maxAverageMs = 50;
 
     // Act
-    component.ngOnInit();
-    await flush();
+    const start = performance.now();
+    for (let i = 0; i < iterations; i++) {
+      const promise = service.fetchUserById(`u${i}`);
+      httpMock.expectOne(`/api/users/u${i}`).flush({ ...USER, id: `u${i}` });
+      await promise;
+    }
+    const averageMs = (performance.now() - start) / iterations;
 
     // Assert
-    expect(stubs.edit.fetchUserById).toHaveBeenCalledTimes(1);
+    expect(averageMs).toBeLessThan(maxAverageMs);
+  });
+
+  // Mide throughput bajo consultas concurrentes de perfil.
+  it('VerPerfil_CuandoSeConsulta10VecesEnParalelo_DebeFinalizarEnMenosDe300ms', async () => {
+    // Arrange
+    const concurrent = 10;
+    const maxTotalMs = 300;
+
+    // Act
+    const start = performance.now();
+    const promises = Array.from({ length: concurrent }).map((_, i) =>
+      service.fetchUserById(`u${i}`)
+    );
+    for (let i = 0; i < concurrent; i++) {
+      httpMock.expectOne(`/api/users/u${i}`).flush({ ...USER, id: `u${i}` });
+    }
+    await Promise.all(promises);
+    const totalMs = performance.now() - start;
+
+    // Assert
+    expect(totalMs).toBeLessThan(maxTotalMs);
   });
 });

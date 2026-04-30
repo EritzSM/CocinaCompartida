@@ -1,3 +1,4 @@
+import { performance } from 'perf_hooks';
 import { RecipesService } from '../../../src/recipes/recipes.service';
 
 const RECIPE = {
@@ -15,22 +16,50 @@ const RECIPE = {
 };
 
 describe('Ver Comentario Performance Backend', () => {
-  // Verifica que el servicio consulta cada repositorio una sola vez.
-  it('VerComentario_CuandoRecetaExiste_DebeConsultarReposUnaSolaVez', async () => {
+  const buildService = () => {
+    const comments = Array.from({ length: 50 }).map((_, i) => ({
+      id: `c${i}`,
+      message: `comentario ${i}`,
+      user: { id: 'u2', username: 'fan' },
+    }));
+    const recipeRepo = { findOne: jest.fn().mockResolvedValue({ ...RECIPE }) };
+    const commentRepo = { find: jest.fn().mockResolvedValue(comments) };
+    return new RecipesService(recipeRepo as any, commentRepo as any);
+  };
+
+  // Mide latencia promedio sobre N consultas secuenciales de comentarios.
+  it('VerComentario_CuandoSeConsultan100Veces_LatenciaPromedioDebeSerInferiorA5ms', async () => {
     // Arrange
-    const recipeRepo = {
-      findOne: jest.fn().mockResolvedValue({ ...RECIPE }),
-    };
-    const commentRepo = {
-      find: jest.fn().mockResolvedValue([]),
-    };
-    const service = new RecipesService(recipeRepo as any, commentRepo as any);
+    const service = buildService();
+    const iterations = 100;
+    const maxAverageMs = 5;
 
     // Act
-    await service.findCommentsByRecipe('r1');
+    const start = performance.now();
+    for (let i = 0; i < iterations; i++) {
+      await service.findCommentsByRecipe('r1');
+    }
+    const averageMs = (performance.now() - start) / iterations;
 
     // Assert
-    expect(recipeRepo.findOne).toHaveBeenCalledTimes(1);
-    expect(commentRepo.find).toHaveBeenCalledTimes(1);
+    expect(averageMs).toBeLessThan(maxAverageMs);
+  });
+
+  // Mide throughput bajo consultas concurrentes de comentarios.
+  it('VerComentario_CuandoSeConsultan50VecesEnParalelo_DebeFinalizarEnMenosDe200ms', async () => {
+    // Arrange
+    const service = buildService();
+    const concurrent = 50;
+    const maxTotalMs = 200;
+
+    // Act
+    const start = performance.now();
+    await Promise.all(
+      Array.from({ length: concurrent }).map(() => service.findCommentsByRecipe('r1'))
+    );
+    const totalMs = performance.now() - start;
+
+    // Assert
+    expect(totalMs).toBeLessThan(maxTotalMs);
   });
 });

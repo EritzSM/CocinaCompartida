@@ -16,9 +16,7 @@ describe('Editar Perfil Security Backend', () => {
   }
 
   beforeEach(() => {
-    jwtService = {
-      verify: jest.fn(),
-    };
+    jwtService = { verify: jest.fn() };
     guard = new AuthGuard(jwtService as JwtService);
   });
 
@@ -28,9 +26,10 @@ describe('Editar Perfil Security Backend', () => {
     const ctx = buildContext({});
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica rechazo con token invalido.
@@ -42,9 +41,10 @@ describe('Editar Perfil Security Backend', () => {
     });
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica rechazo con token expirado.
@@ -56,9 +56,10 @@ describe('Editar Perfil Security Backend', () => {
     });
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica rechazo cuando el token no tiene id.
@@ -68,9 +69,10 @@ describe('Editar Perfil Security Backend', () => {
     (jwtService.verify as jest.Mock).mockReturnValue({ username: 'user' });
 
     // Act
-    expect(() => guard.canActivate(ctx)).toThrow(UnauthorizedException);
+    const action = () => guard.canActivate(ctx);
 
     // Assert
+    expect(action).toThrow(UnauthorizedException);
   });
 
   // Verifica acceso permitido con token valido.

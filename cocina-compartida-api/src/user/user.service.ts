@@ -79,7 +79,7 @@ export class UserService {
   }
 
   async remove(id: string) {
-    const result = await this.userRepo.delete(id);
+    const result = await this.userRepo.softDelete(id);
     if (!result.affected) throw new NotFoundException();
     return { success: true, message: 'User removed' };
   }

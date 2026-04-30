@@ -40,9 +40,10 @@ describe('Ver Perfil Regression Backend', () => {
     userRepo.findOne.mockResolvedValue(null);
 
     // Act
-    await expect(service.findOne('missing')).rejects.toThrow(NotFoundException);
+    const action = service.findOne('missing');
 
     // Assert
+    await expect(action).rejects.toThrow(NotFoundException);
   });
 
   // Verifica que un error del repositorio se traduce a InternalServerError.
@@ -53,8 +54,9 @@ describe('Ver Perfil Regression Backend', () => {
     });
 
     // Act
-    await expect(service.findOne('1')).rejects.toThrow(InternalServerErrorException);
+    const action = service.findOne('1');
 
     // Assert
+    await expect(action).rejects.toThrow(InternalServerErrorException);
   });
 });

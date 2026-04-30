@@ -1,5 +1,5 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { ActivatedRoute, Router, provideRouter } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { RecipeDetail } from '../features/pages/recipe-detail/recipe-detail';
@@ -24,7 +24,7 @@ const RECIPE: Recipe = {
 describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () => {
   let recipeService: any;
   let auth: any;
-  let router: any;
+  let navigateSpy: jasmine.Spy;
 
   function buildComponent(routeId: string | null = 'r1') {
     TestBed.configureTestingModule({
@@ -38,7 +38,9 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
         { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => routeId } } } },
       ],
     });
-    return TestBed.createComponent(RecipeDetail);
+    const fixture = TestBed.createComponent(RecipeDetail);
+    navigateSpy = spyOn(TestBed.inject(Router), 'navigate').and.returnValue(Promise.resolve(true));
+    return fixture;
   }
 
   beforeEach(() => {
@@ -54,14 +56,13 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
       getUserProfile: jasmine.createSpy('getUserProfile').and.returnValue({ id: 'owner' }),
       getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue({ id: 'owner' }),
     };
-    // Quitamos el mock manual de router y usamos RouterTestingModule
   });
 
   it('Dado un id de receta, cuando carga el detalle, entonces obtiene nombre descripcion ingredientes pasos y autor', fakeAsync(() => {
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    fixture.detectChanges(); // Dispara ngOnInit
+    fixture.detectChanges();
     tick();
 
     expect(recipeService.getRecipeById).toHaveBeenCalledWith('r1');
@@ -73,11 +74,10 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
 
   it('Dado que el usuario es duenio, cuando se renderiza el DOM, entonces aparecen los botones Editar y Eliminar', fakeAsync(() => {
     const fixture = buildComponent();
-    const component = fixture.componentInstance;
 
-    fixture.detectChanges(); // Dispara ngOnInit
+    fixture.detectChanges();
     tick();
-    fixture.detectChanges(); // Actualiza DOM
+    fixture.detectChanges();
 
     const adminActions = fixture.debugElement.query(By.css('.admin-actions'));
     expect(adminActions).withContext('Bloque admin-actions debe existir cuando canEdit() es true').not.toBeNull();
@@ -93,9 +93,9 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    fixture.detectChanges(); // Dispara ngOnInit
+    fixture.detectChanges();
     tick();
-    fixture.detectChanges(); // Actualiza DOM
+    fixture.detectChanges();
 
     const adminActions = fixture.debugElement.query(By.css('.admin-actions'));
     expect(adminActions).withContext('admin-actions NO debe renderizarse cuando canEdit() es false').toBeNull();
@@ -105,10 +105,10 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
   it('Dado el duenio, cuando hace click en Eliminar y confirma, entonces delega delete y navega', fakeAsync(() => {
     const fixture = buildComponent();
     const component = fixture.componentInstance;
-    
-    fixture.detectChanges(); // Dispara ngOnInit
+
+    fixture.detectChanges();
     tick();
-    fixture.detectChanges(); // Actualiza DOM
+    fixture.detectChanges();
 
     const stubResult = true;
     spyOn<any>(component, 'canEdit').and.returnValue(true);
@@ -129,9 +129,9 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    fixture.detectChanges(); // Dispara ngOnInit
-    tick(); // Procesamos el Promise.resolve(null)
-    fixture.detectChanges(); // Actualiza DOM
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
 
     expect(component.error).toBeTruthy();
     expect(component.error).toContain('Hubo un problema');
@@ -140,13 +140,11 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
   it('Dado una receta sin id en URL, cuando carga, entonces redirige a /home y deja error de URL', fakeAsync(() => {
     const fixture = buildComponent(null);
     const component = fixture.componentInstance;
-    const router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
 
-    fixture.detectChanges(); // Dispara ngOnInit
+    fixture.detectChanges();
     tick();
 
-    expect(router.navigate).toHaveBeenCalledWith(['/home']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/home']);
     expect(component.error).toContain('Error de URL');
   }));
 });

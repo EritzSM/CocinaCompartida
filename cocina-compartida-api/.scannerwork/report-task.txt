@@ -2,5 +2,5 @@ projectKey=CocinaCompartida-Backend
 serverUrl=http://localhost:9000
 serverVersion=26.3.0.120487
 dashboardUrl=http://localhost:9000/dashboard?id=CocinaCompartida-Backend
-ceTaskId=83b5eed5-afc3-4ae7-9e01-d42409580032
-ceTaskUrl=http://localhost:9000/api/ce/task?id=83b5eed5-afc3-4ae7-9e01-d42409580032
+ceTaskId=205f6707-8be9-46a8-9b6a-d260d2dfc779
+ceTaskUrl=http://localhost:9000/api/ce/task?id=205f6707-8be9-46a8-9b6a-d260d2dfc779
