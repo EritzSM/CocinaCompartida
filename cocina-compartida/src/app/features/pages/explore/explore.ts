@@ -88,37 +88,41 @@ export class Explore implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     // Defer to avoid ExpressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
-      // Solo configurar el observer si el trigger existe en el DOM
       if (this.loadMoreTrigger?.nativeElement) {
-        this.observer = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting && !this.isLoading()) {
-            this.loadMore();
-          }
-        }, {
-          threshold: 0.5,
-          rootMargin: '100px'
-        });
-        this.observer.observe(this.loadMoreTrigger.nativeElement);
+        this.setupIntersectionObserver();
       }
 
       // Observable effect para conocer cambios en recipesToShow
       runInInjectionContext(this.injector, () => {
         effect(() => {
-          // Si el trigger existe y no hay observer, crear uno
           if (this.loadMoreTrigger?.nativeElement && !this.observer) {
-            this.observer = new IntersectionObserver((entries) => {
-              if (entries[0].isIntersecting && !this.isLoading()) {
-                this.loadMore();
-              }
-            }, {
-              threshold: 0.5,
-              rootMargin: '100px'
-            });
-            this.observer.observe(this.loadMoreTrigger.nativeElement);
+            this.setupIntersectionObserver();
           }
         });
       });
     });
+  }
+
+  private setupIntersectionObserver(): void {
+    if (this.observer || !this.loadMoreTrigger?.nativeElement) {
+      return;
+    }
+
+    this.observer = new IntersectionObserver(
+      (entries) => this.onIntersection(entries),
+      {
+        threshold: 0.5,
+        rootMargin: '100px'
+      }
+    );
+
+    this.observer.observe(this.loadMoreTrigger.nativeElement);
+  }
+
+  private onIntersection(entries: IntersectionObserverEntry[]): void {
+    if (entries[0]?.isIntersecting && !this.isLoading()) {
+      this.loadMore();
+    }
   }
 
   ngOnDestroy(): void {
