@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, provideRouter } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { RecipeDetail } from '../features/pages/recipe-detail/recipe-detail';
 import { Auth } from '../shared/services/auth';
