@@ -325,12 +325,12 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
   // ──────────────────────────────────────────────────────────
   describe('remove', () => {
 
-    it('retorna success si softDelete afecta un registro', async () => {
+    it('retorna success si delete afecta un registro', async () => {
       // Arrange
       const mockUserRepository = {
         findOne: jest.fn(),
         update: jest.fn(),
-        softDelete: jest.fn().mockResolvedValue({ affected: 1 }),
+        delete: jest.fn().mockResolvedValue({ affected: 1 }),
       };
       const svc = new UserService(mockUserRepository as any);
 
@@ -341,12 +341,12 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
       expect(result).toEqual({ success: true, message: 'User removed' });
     });
 
-    it('lanza NotFoundException si softDelete no afecta registros', async () => {
+    it('lanza NotFoundException si delete no afecta registros', async () => {
       // Arrange
       const mockUserRepository = {
         findOne: jest.fn(),
         update: jest.fn(),
-        softDelete: jest.fn().mockResolvedValue({ affected: 0 }),
+        delete: jest.fn().mockResolvedValue({ affected: 0 }),
       };
       const svc = new UserService(mockUserRepository as any);
 
@@ -354,12 +354,12 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
       await expect(svc.remove('999')).rejects.toThrow(NotFoundException);
     });
 
-    it('llama a softDelete con el id correcto', async () => {
+    it('llama a delete con el id correcto', async () => {
       // Arrange
       const mockUserRepository = {
         findOne: jest.fn(),
         update: jest.fn(),
-        softDelete: jest.fn().mockResolvedValue({ affected: 1 }),
+        delete: jest.fn().mockResolvedValue({ affected: 1 }),
       };
       const svc = new UserService(mockUserRepository as any);
 
@@ -367,6 +367,6 @@ describe('Editar Perfil Back – Pruebas AAA', () => {
       await svc.remove('abc-123');
 
       // Assert
-      expect(mockUserRepository.softDelete).toHaveBeenCalledWith('abc-123');
+      expect(mockUserRepository.delete).toHaveBeenCalledWith('abc-123');
     });
   });});
