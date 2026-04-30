@@ -52,4 +52,15 @@ export class UserController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
+
+  /**
+   * Endpoint de testing: permite eliminar usuario por email SIN autenticación
+   * Solo usar en ambiente de testing/QA
+   * Ejemplo: DELETE /users/test-email/test@example.com
+   */
+  @Delete('test-email/:email')
+  @HttpCode(HttpStatus.OK)
+  removeByEmailForTesting(@Param('email') email: string) {
+    return this.usersService.removeByEmail(email);
+  }
 }
