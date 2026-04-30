@@ -13,7 +13,6 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { memoryStorage } from 'multer';
 import { AuthGuard } from 'src/security/auth.guard';
 import { SupabaseStorageService } from './supabase-storage.service';
 
@@ -37,7 +36,6 @@ export class UploadsController {
   @Post('avatar')
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: memoryStorage(),
       limits: { fileSize: MAX_FILE_SIZE },
       fileFilter: imageFileFilter,
     }),
@@ -61,7 +59,6 @@ export class UploadsController {
   @Post('recipes/:recipeId')
   @UseInterceptors(
     FilesInterceptor('files', 10, {
-      storage: memoryStorage(),
       limits: { fileSize: MAX_FILE_SIZE },
       fileFilter: imageFileFilter,
     }),
