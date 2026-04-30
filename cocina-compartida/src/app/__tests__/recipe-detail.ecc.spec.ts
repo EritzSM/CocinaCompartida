@@ -91,7 +91,7 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    await component.ngOnInit();
+    await (component as any).loadRecipe();
     fixture.detectChanges();
 
     const adminActions = fixture.debugElement.query(By.css('.admin-actions'));
@@ -125,6 +125,7 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     await (component as any).loadRecipe();
     fixture.detectChanges();
 
+    expect(component.error).toBeTruthy();
     expect(component.error).toContain('Hubo un problema');
   });
 
