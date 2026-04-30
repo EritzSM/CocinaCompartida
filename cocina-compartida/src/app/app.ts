@@ -4,6 +4,7 @@ import { Header } from './shared/components/header/header';
 import { Footer } from './shared/components/footer/footer';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { KeepAliveService } from './shared/services/keep-alive.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class App {
 
   showLayout = true; // controlar header/footer
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private keepAlive: KeepAliveService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {

@@ -17,10 +17,43 @@ label {
     display: block;
 }
 
-/* Ajuste del margen del input para acercarlo al label (heredado del global si lo definimos allí, si no, se pone aquí) */
-form input {
+/* Ajuste del margen del input para acercarlo al label */
+form input:not(.password-wrapper input) {
     margin-top: -8px; 
-    margin-bottom: 20px; /* Agregamos espacio extra después de los inputs */
+    margin-bottom: 20px; 
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: -8px;
+    margin-bottom: 20px;
+}
+
+.password-wrapper input {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right: 45px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: var(--color-primary);
 }
 
 /* --- Botones --- */

@@ -14,8 +14,39 @@ label {
 }
 
 /* Ajuste del margen del input para acercarlo al label */
-form input {
+form input:not(.password-wrapper input) {
     margin-top: -8px; 
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: -8px; /* Aplicamos el ajuste de margen al wrapper en lugar del input */
+}
+
+.password-wrapper input {
+    width: 100%;
+    margin-bottom: 0;
+    padding-right: 45px; /* Espacio para el icono */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: var(--color-primary);
 }
 
 /* Estilo para el botón de acción principal */
@@ -106,6 +137,28 @@ form input {
 
 .upload-button:hover {
     transform: scale(1.1);
+}
+
+.delete-avatar-btn {
+    position: absolute;
+    bottom: 0;
+    left: 5px;
+    width: 36px;
+    height: 36px;
+    background-color: #ff4d4d; /* Rojo para borrar */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid var(--color-secondary);
+    transition: transform 0.2s ease;
+    padding: 0;
+}
+
+.delete-avatar-btn:hover {
+    transform: scale(1.1);
+    background-color: #ff3333;
 }
 
 .avatar-section {
