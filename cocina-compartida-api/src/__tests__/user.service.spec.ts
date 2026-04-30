@@ -17,7 +17,7 @@ describe('UserService', () => {
       create: jest.fn(),
       save: jest.fn(),
       update: jest.fn(),
-      softDelete: jest.fn(),
+      delete: jest.fn(),
     };
     service = new UserService(userRepo);
   });
@@ -438,7 +438,7 @@ describe('UserService', () => {
     it('debe retornar success al eliminar un usuario existente', async () => {
       // Arrange
       const userId = 'uuid-eliminar';
-      userRepo.softDelete.mockResolvedValue({ affected: 1 });
+      userRepo.delete.mockResolvedValue({ affected: 1 });
 
       // Act
       const result = await service.remove(userId);
@@ -450,7 +450,7 @@ describe('UserService', () => {
     it('debe lanzar NotFoundException si el usuario a eliminar no existe', async () => {
       // Arrange
       const userId = 'uuid-no-existe';
-      userRepo.softDelete.mockResolvedValue({ affected: 0 });
+      userRepo.delete.mockResolvedValue({ affected: 0 });
 
       // Act & Assert
       await expect(service.remove(userId)).rejects.toThrow(NotFoundException);

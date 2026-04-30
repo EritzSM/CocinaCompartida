@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router, provideRouter } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
@@ -61,7 +61,7 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    (component as any).loadRecipe();
+    fixture.detectChanges(); // Dispara ngOnInit
     tick();
 
     expect(recipeService.getRecipeById).toHaveBeenCalledWith('r1');
@@ -75,9 +75,9 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    (component as any).loadRecipe();
+    fixture.detectChanges(); // Dispara ngOnInit
     tick();
-    fixture.detectChanges();
+    fixture.detectChanges(); // Actualiza DOM
 
     const adminActions = fixture.debugElement.query(By.css('.admin-actions'));
     expect(adminActions).withContext('Bloque admin-actions debe existir cuando canEdit() es true').not.toBeNull();
@@ -93,9 +93,9 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    (component as any).loadRecipe();
+    fixture.detectChanges(); // Dispara ngOnInit
     tick();
-    fixture.detectChanges();
+    fixture.detectChanges(); // Actualiza DOM
 
     const adminActions = fixture.debugElement.query(By.css('.admin-actions'));
     expect(adminActions).withContext('admin-actions NO debe renderizarse cuando canEdit() es false').toBeNull();
@@ -105,12 +105,13 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
   it('Dado el duenio, cuando hace click en Eliminar y confirma, entonces delega delete y navega', fakeAsync(() => {
     const fixture = buildComponent();
     const component = fixture.componentInstance;
-    (component as any).loadRecipe();
+    
+    fixture.detectChanges(); // Dispara ngOnInit
     tick();
-    fixture.detectChanges();
+    fixture.detectChanges(); // Actualiza DOM
 
     const stubResult = true;
-    spyOn<any>(component as any, 'canEdit').and.returnValue(true);
+    spyOn<any>(component, 'canEdit').and.returnValue(true);
 
     if (component.recipe) {
       recipeService.deleteRecipe(component.recipe.id).then((ok: boolean) => {
@@ -128,9 +129,9 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const fixture = buildComponent();
     const component = fixture.componentInstance;
 
-    (component as any).loadRecipe();
+    fixture.detectChanges(); // Dispara ngOnInit
     tick(); // Procesamos el Promise.resolve(null)
-    fixture.detectChanges();
+    fixture.detectChanges(); // Actualiza DOM
 
     expect(component.error).toBeTruthy();
     expect(component.error).toContain('Hubo un problema');
@@ -142,7 +143,7 @@ describe('RecipeDetail ECC - detalle ingredientes pasos autor y propiedad', () =
     const router = TestBed.inject(Router);
     spyOn(router, 'navigate');
 
-    (component as any).loadRecipe();
+    fixture.detectChanges(); // Dispara ngOnInit
     tick();
 
     expect(router.navigate).toHaveBeenCalledWith(['/home']);
