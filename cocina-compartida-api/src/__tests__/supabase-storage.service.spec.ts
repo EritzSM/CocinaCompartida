@@ -1,22 +1,10 @@
 import { Logger } from '@nestjs/common';
+import { promises as fs } from 'node:fs';
+import { join } from 'node:path';
 import { SupabaseStorageService } from '../uploads/supabase-storage.service';
-import { createClient } from '@supabase/supabase-js';
 
-jest.mock(
-  '@supabase/supabase-js',
-  () => ({
-    createClient: jest.fn(),
-  }),
-  { virtual: true },
-);
-
-describe('SupabaseStorageService', () => {
-  const createClientMock = createClient as jest.Mock;
-
-  let uploadMock: jest.Mock;
-  let removeMock: jest.Mock;
-  let getPublicUrlMock: jest.Mock;
-  let fromMock: jest.Mock;
+describe('SupabaseStorageService local', () => {
+  let uploadsDir: string;
 
   const file = {
     originalname: 'photo.png',
@@ -24,120 +12,74 @@ describe('SupabaseStorageService', () => {
     buffer: Buffer.from('file'),
   } as Express.Multer.File;
 
-  beforeEach(() => {
-    process.env.SUPABASE_URL = 'http://supabase.test';
-    process.env.SUPABASE_SERVICE_KEY = 'service-key';
-
-    uploadMock = jest.fn();
-    removeMock = jest.fn();
-    getPublicUrlMock = jest.fn();
-    fromMock = jest.fn().mockReturnValue({
-      upload: uploadMock,
-      remove: removeMock,
-      getPublicUrl: getPublicUrlMock,
-    });
-
-    createClientMock.mockReturnValue({
-      storage: { from: fromMock },
-    });
+  beforeEach(async () => {
+    uploadsDir = join(process.cwd(), 'tmp-test-uploads', `${Date.now()}-${Math.random()}`);
+    process.env.UPLOADS_DIR = uploadsDir;
 
     jest.spyOn(Logger.prototype, 'error').mockImplementation(() => undefined);
     jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => undefined);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  afterEach(async () => {
+    jest.restoreAllMocks();
+    delete process.env.UPLOADS_DIR;
+    await fs.rm(uploadsDir, { recursive: true, force: true });
   });
 
-  it('Constructor_CuandoFaltanEnv_DebeLanzarError', () => {
-    // Arrange
-    delete process.env.SUPABASE_URL;
-    delete process.env.SUPABASE_SERVICE_KEY;
-
-    // Act
-    const action = () => new SupabaseStorageService();
-
-    // Assert
-    expect(action).toThrow('SUPABASE_URL y SUPABASE_SERVICE_KEY son requeridas');
-  });
-
-  it('UploadRecipeImage_CuandoUploadOk_DebeRetornarUrlPublica', async () => {
-    // Arrange
+  it('UploadRecipeImage_CuandoUploadOk_DebeGuardarArchivoLocalYRetornarUrlPublica', async () => {
     const dateSpy = jest.spyOn(Date, 'now').mockReturnValue(1700000000000);
-    uploadMock.mockResolvedValue({ error: null });
-    getPublicUrlMock.mockReturnValue({ data: { publicUrl: 'https://public/recipes/r1/file.png' } });
-
     const service = new SupabaseStorageService();
 
-    // Act
     const result = await service.uploadRecipeImage(file, 'r1');
 
-    // Assert
-    const [filePath, buffer, options] = uploadMock.mock.calls[0];
-    expect(filePath).toMatch(/^recipes\/r1\/1700000000000-[a-f0-9]{16}\.png$/);
-    expect(buffer).toBe(file.buffer);
-    expect(options).toEqual({ contentType: 'image/png', upsert: false });
-    expect(getPublicUrlMock).toHaveBeenCalledWith(filePath);
-    expect(result).toBe('https://public/recipes/r1/file.png');
+    expect(result).toMatch(/^\/uploads\/recipes\/r1\/1700000000000-[a-f0-9]{16}\.png$/);
+    const relativePath = result.replace('/uploads/', '');
+    await expect(fs.readFile(join(uploadsDir, relativePath))).resolves.toEqual(file.buffer);
 
     dateSpy.mockRestore();
   });
 
-  it('UploadRecipeImage_CuandoUploadFalla_DebeLanzarError', async () => {
-    // Arrange
-    uploadMock.mockResolvedValue({ error: { message: 'fail' } });
+  it('UploadRecipeImage_CuandoRecipeIdTieneCaracteresInvalidos_DebeSanitizarRuta', async () => {
     const service = new SupabaseStorageService();
 
-    // Act
-    const action = service.uploadRecipeImage(file, 'r1');
+    const result = await service.uploadRecipeImage(file, '../recipe id');
 
-    // Assert
-    await expect(action).rejects.toThrow('Error al subir imagen: fail');
+    expect(result).toContain('/uploads/recipes/___recipe_id/');
   });
 
-  it('UploadAvatar_CuandoUploadOk_DebeRetornarUrlPublica', async () => {
-    // Arrange
+  it('UploadAvatar_CuandoUploadOk_DebeGuardarAvatarYRetornarUrlPublica', async () => {
     const dateSpy = jest.spyOn(Date, 'now').mockReturnValue(1700000000000);
-    uploadMock.mockResolvedValue({ error: null });
-    getPublicUrlMock.mockReturnValue({ data: { publicUrl: 'https://public/avatars/u.png' } });
-
     const service = new SupabaseStorageService();
 
-    // Act
     const result = await service.uploadAvatar(file, 'user name');
 
-    // Assert
-    expect(uploadMock).toHaveBeenCalledWith(
-      'avatars/user_name-1700000000000.png',
-      file.buffer,
-      { contentType: 'image/png', upsert: true },
-    );
-    expect(result).toBe('https://public/avatars/u.png');
+    expect(result).toBe('/uploads/avatars/user_name-1700000000000.png');
+    await expect(fs.readFile(join(uploadsDir, 'avatars', 'user_name-1700000000000.png'))).resolves.toEqual(file.buffer);
 
     dateSpy.mockRestore();
   });
 
-  it('DeleteFile_CuandoUrlPublica_DebeEliminarPathRelativo', async () => {
-    // Arrange
-    removeMock.mockResolvedValue({ error: null });
+  it('DeleteFile_CuandoRecibeUrlPublica_DebeEliminarArchivoLocal', async () => {
     const service = new SupabaseStorageService();
+    await fs.mkdir(join(uploadsDir, 'recipes', 'r1'), { recursive: true });
+    await fs.writeFile(join(uploadsDir, 'recipes', 'r1', 'img.png'), file.buffer);
 
-    // Act
-    await service.deleteFile('https://host/storage/v1/object/public/cocina-compartida/recipes/r1/img.png');
+    await service.deleteFile('http://localhost:3000/uploads/recipes/r1/img.png');
 
-    // Assert
-    expect(removeMock).toHaveBeenCalledWith(['recipes/r1/img.png']);
+    await expect(fs.access(join(uploadsDir, 'recipes', 'r1', 'img.png'))).rejects.toThrow();
   });
 
-  it('DeleteFile_CuandoRemoveFalla_NoDebeLanzar', async () => {
-    // Arrange
-    removeMock.mockResolvedValue({ error: { message: 'fail' } });
+  it('DeleteFile_CuandoNoExiste_NoDebeLanzarError', async () => {
     const service = new SupabaseStorageService();
 
-    // Act
-    await service.deleteFile('recipes/r1/img.png');
+    await expect(service.deleteFile('/uploads/recipes/r1/no-existe.png')).resolves.toBeUndefined();
+  });
 
-    // Assert
+  it('DeleteFile_CuandoRutaSaleDelDirectorio_DebeIgnorarYAdvertir', async () => {
+    const service = new SupabaseStorageService();
+
+    await expect(service.deleteFile('../package.json')).resolves.toBeUndefined();
+
     expect(Logger.prototype.warn).toHaveBeenCalled();
   });
 });

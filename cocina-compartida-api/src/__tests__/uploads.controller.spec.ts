@@ -1,14 +1,6 @@
 import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { UploadsController } from '../uploads/uploads.controller';
 
-jest.mock(
-  '@supabase/supabase-js',
-  () => ({
-    createClient: jest.fn(),
-  }),
-  { virtual: true },
-);
-
 describe('UploadsController', () => {
   let controller: UploadsController;
   let storageService: {

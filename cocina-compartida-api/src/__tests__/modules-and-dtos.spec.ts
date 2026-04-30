@@ -8,14 +8,6 @@ import { CreateAuthDto } from '../auth/dto/create-auth.dto';
 import { UpdateAuthDto } from '../auth/dto/update-auth.dto';
 import { Auth } from '../auth/entities/auth.entity';
 
-jest.mock(
-  '@supabase/supabase-js',
-  () => ({
-    createClient: jest.fn(),
-  }),
-  { virtual: true },
-);
-
 describe('Modules and DTOs', () => {
   it('Modules_CuandoSeImportan_DebenEstarDefinidos', () => {
     // Arrange

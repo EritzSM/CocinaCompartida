@@ -1,13 +1,5 @@
 import { UploadsModule } from '../uploads/uploads.module';
 
-jest.mock(
-  '@supabase/supabase-js',
-  () => ({
-    createClient: jest.fn(),
-  }),
-  { virtual: true },
-);
-
 describe('UploadsModule', () => {
   it('UploadsModule_CuandoSeImporta_DebeEstarDefinido', () => {
     // Arrange

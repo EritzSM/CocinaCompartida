@@ -1,11 +1,3 @@
-jest.mock(
-  '@supabase/supabase-js',
-  () => ({
-    createClient: jest.fn(),
-  }),
-  { virtual: true },
-);
-
 const nextTick = () => new Promise<void>((resolve) => setImmediate(resolve));
 
 describe('Main Bootstrap', () => {
@@ -19,6 +11,7 @@ describe('Main Bootstrap', () => {
     // Arrange
     const appMock = {
       useGlobalPipes: jest.fn(),
+      useStaticAssets: jest.fn(),
       enableCors: jest.fn(),
       listen: jest.fn().mockResolvedValue(undefined),
     };
@@ -46,6 +39,10 @@ describe('Main Bootstrap', () => {
       expect.objectContaining({
         exceptionFactory: expect.any(Function),
       }),
+    );
+    expect(appMock.useStaticAssets).toHaveBeenCalledWith(
+      expect.stringContaining('uploads'),
+      { prefix: '/uploads/' },
     );
     expect(appMock.enableCors).toHaveBeenCalledWith({
       origin: ['http://localhost:4200', 'http://localhost:8081'],
