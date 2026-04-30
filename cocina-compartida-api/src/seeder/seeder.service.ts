@@ -2,6 +2,7 @@ import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { randomBytes } from 'node:crypto';
 import { Recipe } from '../recipes/entities/recipe.entity';
 import { User } from '../user/entities/user.entity';
 
@@ -33,7 +34,8 @@ export class SeederService implements OnModuleInit {
     // 1. Crear el usuario Chef Maestro si no existe
     let user = await this.userRepository.findOne({ where: { username: 'ChefMaestro' } });
     if (!user) {
-      const hashedPassword = await bcrypt.hash('password123', 10);
+      const seedPassword = process.env.SEED_USER_PASSWORD?.trim() || randomBytes(16).toString('hex');
+      const hashedPassword = await bcrypt.hash(seedPassword, 10);
       user = this.userRepository.create({
         username: 'ChefMaestro',
         password: hashedPassword,

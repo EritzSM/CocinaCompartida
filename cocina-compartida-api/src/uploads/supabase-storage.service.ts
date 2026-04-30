@@ -31,9 +31,9 @@ export class SupabaseStorageService {
     try {
       const target = this.resolveSafePath(this.toRelativePath(pathOrUrl));
       await fs.unlink(target);
-    } catch (error: any) {
-      if (error?.code !== 'ENOENT') {
-        this.logger.warn(`No se pudo eliminar ${pathOrUrl}: ${error.message}`);
+    } catch (error: unknown) {
+      if (!this.isFileNotFound(error)) {
+        this.logger.warn(`No se pudo eliminar ${pathOrUrl}: ${this.getErrorMessage(error)}`);
       }
     }
   }
@@ -44,9 +44,10 @@ export class SupabaseStorageService {
     try {
       await fs.mkdir(dirname(target), { recursive: true });
       await fs.writeFile(target, buffer);
-    } catch (error: any) {
-      this.logger.error(`Error guardando archivo local: ${error.message}`);
-      throw new Error(`Error al guardar archivo: ${error.message}`);
+    } catch (error: unknown) {
+      const message = this.getErrorMessage(error);
+      this.logger.error(`Error guardando archivo local: ${message}`);
+      throw new Error(`Error al guardar archivo: ${message}`);
     }
   }
 
@@ -81,5 +82,13 @@ export class SupabaseStorageService {
     }
 
     return target;
+  }
+
+  private isFileNotFound(error: unknown): boolean {
+    return typeof error === 'object' && error !== null && 'code' in error && error.code === 'ENOENT';
+  }
+
+  private getErrorMessage(error: unknown): string {
+    return error instanceof Error && error.message ? error.message : 'Error desconocido';
   }
 }

@@ -47,7 +47,7 @@ pipeline {
                 echo 'Ejecutando pruebas del frontend'
                 dir('cocina-compartida') {
                     sh 'npm install puppeteer --no-save'
-                    sh 'CHROME_BIN=$(node -e "console.log(require(\'puppeteer\').executablePath())") npm run test -- --watch=false --browsers=ChromeHeadlessNoSandbox'
+                    sh 'CHROME_BIN=$(node -e "console.log(require(\'puppeteer\').executablePath())") npm run test:cov'
                 }
             }
         }
@@ -71,7 +71,7 @@ pipeline {
                             def scannerHome = tool 'SonarScanner'
                             sh "${scannerHome}/bin/sonar-scanner \
                                 -Dsonar.projectKey=cocinacompartida_front \
-                                -Dsonar.projectName='CocinaCompartida Front' \
+                                -Dsonar.projectName='cocinacompartida_front' \
                                 -Dsonar.sources=src \
                                 -Dsonar.tests=src \
                                 -Dsonar.test.inclusions=**/*.spec.ts \
@@ -95,8 +95,8 @@ pipeline {
                         script {
                             def scannerHome = tool 'SonarScanner'
                             sh "${scannerHome}/bin/sonar-scanner \
-                                -Dsonar.projectKey=cocinacompartida_back \
-                                -Dsonar.projectName='CocinaCompartida Backend' \
+                                -Dsonar.projectKey=CocinaCompartida-Backend \
+                                -Dsonar.projectName='cocinacompartida-back-solution' \
                                 -Dsonar.sources=src \
                                 -Dsonar.tests=src \
                                 -Dsonar.test.inclusions=**/*.spec.ts \

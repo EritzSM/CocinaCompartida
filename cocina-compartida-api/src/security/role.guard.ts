@@ -2,50 +2,65 @@ import { CanActivate, ExecutionContext, ForbiddenException, Injectable, NotFound
 import { JwtService } from '@nestjs/jwt';
 import { RecipesService } from 'src/recipes/recipes.service';
 
+interface JwtPayload {
+  id?: string;
+  sub?: string;
+}
+
 @Injectable()
 export class RoleGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService, private readonly recipesService: RecipesService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const params = request.params;
     const authorization = request.header('authorization');
+
     if (!authorization) {
       throw new ForbiddenException('Acceso no autorizado');
     }
-    const token = this.getToken(authorization);
+
     try {
-      const payload = this.jwtService.verify(token);
-      console.log(payload);
+      const payload = this.jwtService.verify<JwtPayload>(this.getToken(authorization));
+      const authenticatedUserId = payload.sub ?? payload.id;
 
+      if (!authenticatedUserId) {
+        throw new ForbiddenException('Token sin id');
+      }
 
-      if (params.id) {
-        const recipe = await this.recipesService.findOne(params.id);
-        if (recipe.user.id !== payload['id']) {
+      if (request.params?.id) {
+        const recipe = await this.recipesService.findOne(request.params.id);
+
+        if (recipe.user?.id !== authenticatedUserId) {
           throw new ForbiddenException('Solo puedes editar o eliminar tus propias recetas');
         }
-      } else {
 
-        const body = request.body;
-        if (payload['id'] !== body['userId']) {
-          throw new ForbiddenException('Acción no autorizada');
-        }
+        return true;
       }
-    } catch (error) {
+
+      if (authenticatedUserId !== request.body?.userId) {
+        throw new ForbiddenException('Accion no autorizada');
+      }
+
+      return true;
+    } catch (error: unknown) {
       if (error instanceof NotFoundException) {
         throw new NotFoundException('Receta no encontrada');
       }
-      console.log(error.message);
-      throw new ForbiddenException(error.message || 'Token no valido');
+
+      if (error instanceof ForbiddenException) {
+        throw error;
+      }
+
+      throw new ForbiddenException(this.getErrorMessage(error));
     }
-    return true;
   }
 
-  private getToken(authorization: string) {
-    let token = authorization.split(' ');
-    if (token.length > 1) {
-      return token[1];
-    }
-    return token[0];
+  private getToken(authorization: string): string {
+    const token = authorization.split(' ');
+    return token.length > 1 ? token[1] : token[0];
+  }
+
+  private getErrorMessage(error: unknown): string {
+    return error instanceof Error && error.message ? error.message : 'Token no valido';
   }
 }

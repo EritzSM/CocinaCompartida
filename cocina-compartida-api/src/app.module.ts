@@ -9,20 +9,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UploadsModule } from './uploads/uploads.module';
 import { SeederModule } from './seeder/seeder.module';
 
+const rejectUnauthorizedSsl = process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
-      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
       username: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASSWORD || 'postgres',
+      password: process.env.DB_PASSWORD ?? '',
       database: process.env.DB_NAME || 'cocina',
       autoLoadEntities: true,
       synchronize: process.env.NODE_ENV !== 'production' || process.env.DB_SYNC === 'true', // ✅ true en development o si se fuerza con DB_SYNC
       ssl: process.env.DB_SSL === 'true' 
-        ? { rejectUnauthorized: false }
+        ? { rejectUnauthorized: rejectUnauthorizedSsl }
         : false,
       logging: ['error', 'warn', 'schema'], // ✅ Ver las queries de creación
       extra: {

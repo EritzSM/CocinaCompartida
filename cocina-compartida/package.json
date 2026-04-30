@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:cov": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox --code-coverage",
+    "sonar": "sonar-scanner"
   },
   "prettier": {
     "printWidth": 100,

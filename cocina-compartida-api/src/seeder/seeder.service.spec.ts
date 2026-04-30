@@ -49,6 +49,7 @@ describe('SeederService', () => {
   });
 
   afterEach(() => {
+    delete process.env.SEED_USER_PASSWORD;
     jest.restoreAllMocks();
   });
 
@@ -77,6 +78,7 @@ describe('SeederService', () => {
     });
 
     it('should create ChefMaestro user and seed recipes if recipes count < 10', async () => {
+      process.env.SEED_USER_PASSWORD = 'seed-test-password';
       mockRecipeRepository.count.mockResolvedValue(0);
       mockUserRepository.findOne.mockResolvedValue(null);
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashed_password');
@@ -93,7 +95,7 @@ describe('SeederService', () => {
       
       // Checking user creation
       expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { username: 'ChefMaestro' } });
-      expect(bcrypt.hash).toHaveBeenCalledWith('password123', 10);
+      expect(bcrypt.hash).toHaveBeenCalledWith('seed-test-password', 10);
       expect(mockUserRepository.create).toHaveBeenCalled();
       expect(mockUserRepository.save).toHaveBeenCalled();
       expect(loggerSpy).toHaveBeenCalledWith('Usuario ChefMaestro creado.');
