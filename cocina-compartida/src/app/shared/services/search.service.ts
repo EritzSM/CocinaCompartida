@@ -9,13 +9,13 @@ export type SortOption = 'recent' | 'oldest' | 'likes';
   providedIn: 'root'
 })
 export class SearchService {
-  private recipeService = inject(RecipeService);
+  private readonly recipeService = inject(RecipeService);
   
-  private searchResults = signal<Recipe[]>([]);
-  private searchSuggestions = signal<Recipe[]>([]);
-  private sortBy = signal<SortOption>('recent');
-  private searchQuery = signal<string>('');
-  private categoryFilter = signal<string>('todas');
+  private readonly searchResults = signal<Recipe[]>([]);
+  private readonly searchSuggestions = signal<Recipe[]>([]);
+  private readonly sortBy = signal<SortOption>('recent');
+  private readonly searchQuery = signal<string>('');
+  private readonly categoryFilter = signal<string>('todas');
 
   // Expone las señales como solo lectura
   readonly results = this.searchResults.asReadonly();

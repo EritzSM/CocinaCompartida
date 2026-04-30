@@ -9,10 +9,10 @@ import { Recipe } from '../interfaces/recipe';
   providedIn: 'root'
 })
 export class RecipeDataService {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private authService = inject(Auth);
-  private recipeService = inject(RecipeService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(Auth);
+  private readonly recipeService = inject(RecipeService);
 
   isEditMode = false;
   recipeIdToEdit: string | null = null;

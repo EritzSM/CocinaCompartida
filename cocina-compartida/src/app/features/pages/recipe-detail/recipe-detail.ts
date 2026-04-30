@@ -23,10 +23,10 @@ export class RecipeDetail implements OnInit {
   currentIndex: number = 0;
   newComment: string = '';
 
-  private route = inject(ActivatedRoute);
-  private recipeService = inject(RecipeService);
-  authService = inject(Auth);
-  private router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly recipeService = inject(RecipeService);
+  readonly authService = inject(Auth);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.loadRecipe();
@@ -139,10 +139,7 @@ export class RecipeDetail implements OnInit {
     const user = this.authService.getUserProfile();
     if (!user) return false;
 
-    if (this.recipe.user && this.recipe.user.id === user.id) {
-      return true;
-    }
-    return false;
+    return this.recipe.user?.id === user.id;
   }
 
   goToEdit(): void {
@@ -164,7 +161,7 @@ export class RecipeDetail implements OnInit {
 
     if (result.isConfirmed) {
       try {
-        const success = await this.recipeService.deleteRecipe(this.recipe!.id);
+        const success = await this.recipeService.deleteRecipe(this.recipe.id);
 
         if (success) {
           Swal.fire({

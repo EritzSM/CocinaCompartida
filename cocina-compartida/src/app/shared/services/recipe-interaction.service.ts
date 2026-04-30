@@ -11,9 +11,9 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class RecipeInteractionService {
-  private http = inject(HttpClient);
-  private auth = inject(Auth);
-  private state = inject(RecipeStateService);
+  private readonly http = inject(HttpClient);
+  private readonly auth = inject(Auth);
+  private readonly state = inject(RecipeStateService);
 
 
   async toggleLike(recipeId: string): Promise<void> {

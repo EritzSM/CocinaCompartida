@@ -8,8 +8,8 @@ import { RecipeStateService } from './recipe-state.service';
   providedIn: 'root'
 })
 export class RecipeCrudService {
-  private http = inject(HttpClient);
-  private state = inject(RecipeStateService);
+  private readonly http = inject(HttpClient);
+  private readonly state = inject(RecipeStateService);
 
   async loadRecipes(): Promise<void> {
     this.state.setLoading(true);

@@ -14,11 +14,11 @@ import Swal from 'sweetalert2';
 })
 
 export class Login {
-  fb = inject(FormBuilder);
-  router = inject(Router);
-  authService = inject(Auth);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(Auth);
 
-  loginForm = this.fb.group({
+  readonly loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
@@ -46,7 +46,7 @@ export class Login {
     this.isLoggingIn = true;
 
     try {
-      const { email, password } = this.loginForm.getRawValue() as { email: string; password: string };
+      const { email, password } = this.loginForm.getRawValue();
 
       const response = await this.authService.login({
         email: email.trim(),

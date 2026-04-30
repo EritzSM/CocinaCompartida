@@ -15,14 +15,14 @@ import { RecipeInteractionService } from '../../../shared/services/recipe-intera
   styleUrls: ['./home.css']
 })
 export class Home {
-  authService = inject(Auth);
-  private recipeService = inject(RecipeService);
-  private router = inject(Router);
-  private recipeInteractionService = inject(RecipeInteractionService);
+  readonly authService = inject(Auth);
+  private readonly recipeService = inject(RecipeService);
+  private readonly router = inject(Router);
+  private readonly recipeInteractionService = inject(RecipeInteractionService);
 
-  allRecipes = this.recipeService.recipes;
+  readonly allRecipes = this.recipeService.recipes;
 
-  private initialRecipesCount = 3;
+  private readonly initialRecipesCount = 3;
 
   get featuredRecipes(): Recipe[] {
     const recipes = this.allRecipes();

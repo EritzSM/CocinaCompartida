@@ -14,7 +14,7 @@ import { RecipeUploadService } from '../../../shared/services/recipe-upload.serv
   providers: [RecipeUploadService]
 })
 export class RecipeUpload implements OnInit {
-  recipeForm: FormGroup;
+  readonly recipeForm: FormGroup;
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);

@@ -6,8 +6,8 @@ import { Storage } from './storage';
   providedIn: 'root'
 })
 export class RecipeImageService {
-  private uploadService = inject(UploadService);
-  private storage = inject(Storage);
+  private readonly uploadService = inject(UploadService);
+  private readonly storage = inject(Storage);
 
   images: string[] = [];
   currentIndex = 0;

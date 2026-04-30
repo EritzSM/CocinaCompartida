@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class Storage {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   // Upload a single recipe image, returns public URL
   async uploadRecipeImage(imageFile: File, recipeId: string): Promise<string> {

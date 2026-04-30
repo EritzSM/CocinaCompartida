@@ -15,31 +15,31 @@ import Swal from 'sweetalert2';
   styleUrls: ['./explore.css']
 })
 export class Explore implements AfterViewInit, OnDestroy {
-  private recipeService = inject(RecipeService);
-  authService = inject(Auth);
-  private router = inject(Router);
-  isLoading = signal<boolean>(false);
+  private readonly recipeService = inject(RecipeService);
+  readonly authService = inject(Auth);
+  private readonly router = inject(Router);
+  readonly isLoading = signal<boolean>(false);
   private previousRecipeCount = 0;
 
 
   @ViewChild('loadMoreTrigger') loadMoreTrigger!: ElementRef;
   private observer?: IntersectionObserver;
 
-  searchService = inject(SearchService);
+  readonly searchService = inject(SearchService);
   readonly allRecipes = computed(() =>
     this.searchService.results().length > 0
       ? this.searchService.results()
       : this.recipeService.recipes()
   );
   private readonly recipesPerPage = 6;
-  visibleRecipeCount = signal<number>(this.recipesPerPage);
+  readonly visibleRecipeCount = signal<number>(this.recipesPerPage);
 
   readonly recipesToShow = computed(() => {
     const count = this.visibleRecipeCount();
     return this.allRecipes().slice(0, count);
   });
 
-  private recipeUpdateEffect = effect(() => {
+  private readonly recipeUpdateEffect = effect(() => {
     const currentCount = this.allRecipes().length;
     if (currentCount > this.previousRecipeCount && this.previousRecipeCount !== 0) {
       this.handleNewRecipes();

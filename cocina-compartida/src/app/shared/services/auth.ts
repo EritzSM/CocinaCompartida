@@ -30,8 +30,8 @@ export class Auth {
   currentUser = signal<User | null>(null);
 
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private readonly http: HttpClient,
+    private readonly router: Router
   ) {
     this.verifyLoggedUser(); 
   }

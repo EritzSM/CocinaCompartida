@@ -18,31 +18,31 @@ import { Recipe } from '../../../shared/interfaces/recipe';
   styleUrls: ['./profile.css'],
 })
 export class Profile implements OnInit {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private auth = inject(Auth);
-  private recipesSvc = inject(RecipeService);
-  private edit = inject(EditProfileService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly auth = inject(Auth);
+  private readonly recipesSvc = inject(RecipeService);
+  private readonly edit = inject(EditProfileService);
 
-  user: WritableSignal<User | null> = signal(null);
-  isOwnProfile: WritableSignal<boolean> = signal(true);
-  activeTab: WritableSignal<'created' | 'favorites'> = signal('created');
+  readonly user: WritableSignal<User | null> = signal(null);
+  readonly isOwnProfile: WritableSignal<boolean> = signal(true);
+  readonly activeTab: WritableSignal<'created' | 'favorites'> = signal('created');
 
-  createdRecipes: Signal<Recipe[]> = computed(() => {
+  readonly createdRecipes: Signal<Recipe[]> = computed(() => {
     const all = this.recipesSvc.recipes();
     const currentUser = this.user();
     if (!currentUser) return [];
     return all.filter(r => r.user.username === currentUser.username);
   });
 
-  favoriteRecipes: Signal<Recipe[]> = computed(() => {
+  readonly favoriteRecipes: Signal<Recipe[]> = computed(() => {
     if (!this.isOwnProfile()) return [];
     const all = this.recipesSvc.recipes();
     const u = this.auth.getCurrentUser();
     return u?.id ? all.filter(r => (r.likedBy ?? []).includes(u.id)) : [];
   });
 
-  displayedRecipes: Signal<Recipe[]> = computed(() =>
+  readonly displayedRecipes: Signal<Recipe[]> = computed(() =>
     this.activeTab() === 'created' ? this.createdRecipes() : this.favoriteRecipes()
   );
 

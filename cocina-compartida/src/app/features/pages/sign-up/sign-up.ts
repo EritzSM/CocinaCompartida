@@ -1,6 +1,13 @@
 // pages/auth/sign-up/sign-up.ts
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,12 +35,18 @@ export class SignUp {
   isUploadingAvatar = false;
   isSubmitting = false;
 
-  fb = inject(FormBuilder);
-  router = inject(Router);
-  authService = inject(Auth);
-  uploadService = inject(UploadService);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(Auth);
+  private readonly uploadService = inject(UploadService);
 
-  signUpForm = this.fb.group({
+  readonly passwordsMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const pass = control.get('password')?.value;
+    const rePass = control.get('rePassword')?.value;
+    return pass === rePass ? null : { passwordMismatch: true };
+  };
+
+  readonly signUpForm = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(2), RecipeFormService.meaningfulText]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -41,12 +54,6 @@ export class SignUp {
     avatar: [this.DEFAULT_AVATAR],
     bio: ['', [Validators.maxLength(200)]]
   }, { validators: this.passwordsMatchValidator });
-
-  passwordsMatchValidator(group: FormGroup) {
-    const pass = group.get('password')?.value;
-    const rePass = group.get('rePassword')?.value;
-    return pass === rePass ? null : { passwordMismatch: true };
-  }
 
   togglePasswordVisibility(field: 'password' | 'rePassword') {
     if (field === 'password') this.showPassword = !this.showPassword;
@@ -70,9 +77,10 @@ export class SignUp {
       const usernameForUpload = formUsername && formUsername.trim() ? formUsername.trim() : `tmp-${uuidv4()}`;
       const result = await this.uploadService.uploadFile(file, true, usernameForUpload);
 
-      if (result.success && result.data) {
-        this.avatarPreview = result.data as string;
-        this.signUpForm.patchValue({ avatar: result.data });
+      const avatarUrl = Array.isArray(result.data) ? result.data[0] : result.data;
+      if (result.success && avatarUrl) {
+        this.avatarPreview = avatarUrl;
+        this.signUpForm.patchValue({ avatar: avatarUrl });
         this.showToast('success', 'Avatar subido correctamente');
       } else {
         this.showAlert('Error', result.error || 'Error al subir el avatar');
@@ -102,11 +110,11 @@ export class SignUp {
 
     this.isSubmitting = true;
 
-    const v = this.signUpForm.value;
+    const v = this.signUpForm.getRawValue();
     const userData: Omit<User, 'id'> = {
-      username: v.username!.trim(),
-      email: v.email!.trim(),
-      password: v.password!,
+      username: v.username.trim(),
+      email: v.email.trim(),
+      password: v.password,
       avatar: v.avatar || this.DEFAULT_AVATAR,
       bio: (v.bio || '').trim()
     };

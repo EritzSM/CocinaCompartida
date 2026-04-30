@@ -145,6 +145,36 @@ describe('UploadService – Pruebas Unitarias', () => {
       expect(result.success).toBeTrue();
       expect(mockStorage.uploadRecipeImage).toHaveBeenCalled();
     });
+
+    it('UP-16: comprime imagen grande antes de subir varias imagenes', async () => {
+      // Arrange
+      const bigFile = new File([new ArrayBuffer(2 * 1024 * 1024)], 'big.jpg', { type: 'image/jpeg' });
+      const compressed = new File(['small'], 'big.jpg', { type: 'image/jpeg' });
+      spyOn<any>(service, 'compressImage').and.returnValue(Promise.resolve(compressed));
+      mockStorage.uploadRecipeImage.and.returnValue(Promise.resolve('compressed-url'));
+
+      // Act
+      const result = await service.uploadMultipleFiles([bigFile], 'recipe-compress');
+
+      // Assert
+      expect(result.success).toBeTrue();
+      expect((service as any).compressImage).toHaveBeenCalledWith(bigFile);
+      expect(mockStorage.uploadRecipeImage).toHaveBeenCalledWith(compressed, 'recipe-compress');
+    });
+
+    it('UP-17: retorna error si falla la compresion multiple', async () => {
+      // Arrange
+      const bigFile = new File([new ArrayBuffer(2 * 1024 * 1024)], 'big.jpg', { type: 'image/jpeg' });
+      spyOn<any>(service, 'compressImage').and.returnValue(Promise.reject(new Error('Compression fail')));
+
+      // Act
+      const result = await service.uploadMultipleFiles([bigFile], 'recipe-error');
+
+      // Assert
+      expect(result.success).toBeFalse();
+      expect(result.error).toBe('Compression fail');
+      expect(mockStorage.uploadRecipeImage).not.toHaveBeenCalled();
+    });
   });
 
   // ──────────── uploadFile (avatar) ────────────
@@ -196,6 +226,49 @@ describe('UploadService – Pruebas Unitarias', () => {
       // Assert
       const callArgs = mockStorage.uploadAvatar.calls.first().args;
       expect(callArgs[1]).toMatch(/^tmp-/); // username generado con uuid
+    });
+
+    it('UP-18: trim del username antes de subir avatar', async () => {
+      // Arrange
+      const file = new File(['data'], 'img.jpg', { type: 'image/jpeg' });
+      mockStorage.uploadAvatar.and.returnValue(Promise.resolve('url'));
+
+      // Act
+      await service.uploadFile(file, false, '  chefqa  ');
+
+      // Assert
+      expect(mockStorage.uploadAvatar).toHaveBeenCalledWith(file, 'chefqa');
+    });
+
+    it('UP-19: comprime avatar grande cuando compress es true', async () => {
+      // Arrange
+      const bigFile = new File([new ArrayBuffer(2 * 1024 * 1024)], 'avatar.jpg', { type: 'image/jpeg' });
+      const compressed = new File(['small'], 'avatar.jpg', { type: 'image/jpeg' });
+      spyOn<any>(service, 'compressImage').and.returnValue(Promise.resolve(compressed));
+      mockStorage.uploadAvatar.and.returnValue(Promise.resolve('avatar-url'));
+
+      // Act
+      const result = await service.uploadFile(bigFile, true, 'chef');
+
+      // Assert
+      expect(result.success).toBeTrue();
+      expect((service as any).compressImage).toHaveBeenCalledWith(bigFile);
+      expect(mockStorage.uploadAvatar).toHaveBeenCalledWith(compressed, 'chef');
+    });
+
+    it('UP-20: no comprime avatar grande cuando compress es false', async () => {
+      // Arrange
+      const bigFile = new File([new ArrayBuffer(2 * 1024 * 1024)], 'avatar.jpg', { type: 'image/jpeg' });
+      const compressSpy = spyOn<any>(service, 'compressImage').and.callThrough();
+      mockStorage.uploadAvatar.and.returnValue(Promise.resolve('avatar-url'));
+
+      // Act
+      const result = await service.uploadFile(bigFile, false, 'chef');
+
+      // Assert
+      expect(result.success).toBeTrue();
+      expect(compressSpy).not.toHaveBeenCalled();
+      expect(mockStorage.uploadAvatar).toHaveBeenCalledWith(bigFile, 'chef');
     });
   });
 });

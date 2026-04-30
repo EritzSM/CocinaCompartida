@@ -12,11 +12,11 @@ import { User } from '../interfaces/user';
 
 @Injectable({ providedIn: 'root' })
 export class EditProfileService {
-  private http = inject(HttpClient);
-  private auth = inject(Auth);
-  private upload = inject(UploadService);
-  private recipes = inject(RecipeService);
-  private router = inject(Router);
+  private readonly http = inject(HttpClient);
+  private readonly auth = inject(Auth);
+  private readonly upload = inject(UploadService);
+  private readonly recipes = inject(RecipeService);
+  private readonly router = inject(Router);
   private readonly BASE_URL = '/api';
   private readonly USERS = `${this.BASE_URL}/users`;   
 

@@ -11,12 +11,12 @@ import { Auth } from './auth';
   providedIn: 'root'
 })
 export class RecipeUploadService {
-  private router = inject(Router);
-  private authService = inject(Auth);
-  private recipeFormService = inject(RecipeFormService);
-  private recipeImageService = inject(RecipeImageService);
-  private recipeDataService = inject(RecipeDataService);
-  private notificationService = inject(NotificationService);
+  private readonly router = inject(Router);
+  private readonly authService = inject(Auth);
+  private readonly recipeFormService = inject(RecipeFormService);
+  private readonly recipeImageService = inject(RecipeImageService);
+  private readonly recipeDataService = inject(RecipeDataService);
+  private readonly notificationService = inject(NotificationService);
 
   get images(): string[] {
     return this.recipeImageService.images;

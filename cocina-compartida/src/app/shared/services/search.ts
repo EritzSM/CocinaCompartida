@@ -9,11 +9,11 @@ export type SortOption = 'recent' | 'oldest' | 'likes';
   providedIn: 'root'
 })
 export class SearchService {
-  private recipeService = inject(RecipeService);
+  private readonly recipeService = inject(RecipeService);
   
-  private searchResults = signal<Recipe[]>([]);
-  private sortBy = signal<SortOption>('recent');
-  private searchQuery = signal<string>('');
+  private readonly searchResults = signal<Recipe[]>([]);
+  private readonly sortBy = signal<SortOption>('recent');
+  private readonly searchQuery = signal<string>('');
 
   readonly results = this.searchResults.asReadonly();
   readonly currentSort = this.sortBy.asReadonly();

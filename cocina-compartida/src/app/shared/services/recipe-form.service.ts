@@ -5,7 +5,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, V
   providedIn: 'root'
 })
 export class RecipeFormService {
-  private fb = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
 
   static meaningfulText(control: AbstractControl): ValidationErrors | null {
     const val = (control.value ?? '').trim();

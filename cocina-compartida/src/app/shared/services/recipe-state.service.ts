@@ -7,15 +7,15 @@ import { Recipe } from '../interfaces/recipe';
 })
 export class RecipeStateService {
 
-  private _recipes = signal<Recipe[]>([]);
-  private _loading = signal<boolean>(false);
-  private _error = signal<string | null>(null);
+  private readonly _recipes = signal<Recipe[]>([]);
+  private readonly _loading = signal<boolean>(false);
+  private readonly _error = signal<string | null>(null);
   private readonly BASE_URL = '/api';
   private readonly RECIPES = `${this.BASE_URL}/recipes`;
 
-  recipes = computed(() => this._recipes());
-  loading = computed(() => this._loading());
-  error = computed(() => this._error());
+  readonly recipes = computed(() => this._recipes());
+  readonly loading = computed(() => this._loading());
+  readonly error = computed(() => this._error());
 
   get recipesUrl(): string {
     return this.RECIPES;

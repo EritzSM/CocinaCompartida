@@ -14,15 +14,15 @@ import { Recipe } from '../../interfaces/recipe';
   styleUrls: ['./header.css']
 })
 export class Header {
-  private router = inject(Router);
-  searchService = inject(SearchService);
-  authService = inject(Auth);
+  private readonly router = inject(Router);
+  readonly searchService = inject(SearchService);
+  readonly authService = inject(Auth);
   
   searchQuery = '';
   sortOption: SortOption = 'recent';
   selectedCategory = 'todas';
-  showSuggestions = signal(false);
-  selectedSuggestionIndex = signal(-1);
+  readonly showSuggestions = signal(false);
+  readonly selectedSuggestionIndex = signal(-1);
 
   readonly categories = [
     { id: 'todas', name: 'Todas las recetas' },

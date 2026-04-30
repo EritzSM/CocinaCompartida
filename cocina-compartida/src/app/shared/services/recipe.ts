@@ -9,13 +9,13 @@ import { Comment as RecipeComment } from '../interfaces/comment';
   providedIn: 'root' 
 })
 export class RecipeService {
-  private crudService = inject(RecipeCrudService);
-  private interactionService = inject(RecipeInteractionService);
-  private stateService = inject(RecipeStateService);
+  private readonly crudService = inject(RecipeCrudService);
+  private readonly interactionService = inject(RecipeInteractionService);
+  private readonly stateService = inject(RecipeStateService);
 
-  recipes = computed(() => this.stateService.recipes());
-  loading = computed(() => this.stateService.loading());
-  error = computed(() => this.stateService.error());
+  readonly recipes = computed(() => this.stateService.recipes());
+  readonly loading = computed(() => this.stateService.loading());
+  readonly error = computed(() => this.stateService.error());
 
   constructor() {
     this.loadRecipesSilently();
