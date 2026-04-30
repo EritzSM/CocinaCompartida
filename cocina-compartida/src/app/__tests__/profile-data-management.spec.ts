@@ -2,6 +2,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 import { EditProfileService } from '../shared/services/edit-profile.service';
 import { Auth } from '../shared/services/auth';
@@ -9,17 +10,12 @@ import { RecipeService } from '../shared/services/recipe';
 import { UploadService } from '../shared/services/upload';
 import { User } from '../shared/interfaces/user';
 
-// ─── Mock de SweetAlert2 para evitar popups en tests ─────────────────────────
-jest.mock('sweetalert2', () => ({
-  fire: jest.fn().mockResolvedValue({ isConfirmed: true }),
-}));
-
 describe('Gestión de Datos del Perfil — EditProfileService', () => {
   let service: EditProfileService;
   let httpMock: HttpTestingController;
-  let authMock: Partial<Auth>;
-  let recipeMock: Partial<RecipeService>;
-  let uploadMock: Partial<UploadService>;
+  let authMock: any;
+  let recipeMock: any;
+  let uploadMock: any;
   let router: Router;
 
   const mockUser: User = {
@@ -32,21 +28,20 @@ describe('Gestión de Datos del Perfil — EditProfileService', () => {
   };
 
   beforeEach(() => {
-    // ─── Arrange — Mocks de dependencias ──────────────────────────────────
-    authMock = {
-      getCurrentUser: jest.fn().mockReturnValue(mockUser),
-      currentUser: { set: jest.fn() } as any,
-      currentUsername: { set: jest.fn() } as any,
-      logout: jest.fn(),
-    };
+    // ─── Arrange — Mocks de dependencias con Jasmine ──────────────────────
+    authMock = jasmine.createSpyObj('Auth', ['getCurrentUser', 'logout'], {
+      currentUser: jasmine.createSpyObj('currentUser', ['set']),
+      currentUsername: jasmine.createSpyObj('currentUsername', ['set'])
+    });
+    authMock.getCurrentUser.and.returnValue(mockUser);
 
-    recipeMock = {
-      loadRecipes: jest.fn(),
-    };
+    recipeMock = jasmine.createSpyObj('RecipeService', ['loadRecipes']);
 
-    uploadMock = {
-      uploadFile: jest.fn().mockResolvedValue({ success: true, data: 'https://cdn.com/new-avatar.png' }),
-    };
+    uploadMock = jasmine.createSpyObj('UploadService', ['uploadFile']);
+    uploadMock.uploadFile.and.resolveTo({ success: true, data: 'https://cdn.com/new-avatar.png' });
+
+    // Mock de SweetAlert2
+    spyOn(Swal, 'fire').and.resolveTo({ isConfirmed: true } as any);
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, RouterTestingModule],
@@ -110,17 +105,17 @@ describe('Gestión de Datos del Perfil — EditProfileService', () => {
       tick();
 
       // Assert — Las señales de Auth fueron actualizadas
-      expect(authMock.currentUser!.set).toHaveBeenCalledWith(updatedUser);
-      expect(authMock.currentUsername!.set).toHaveBeenCalledWith('actualizado');
+      expect(authMock.currentUser.set).toHaveBeenCalledWith(updatedUser);
+      expect(authMock.currentUsername.set).toHaveBeenCalledWith('actualizado');
       expect(recipeMock.loadRecipes).toHaveBeenCalled();
-      expect(result).toEqual(updatedUser);
+      expect(result as any).toEqual(updatedUser);
 
       localStorage.removeItem('token');
     }));
 
     it('Dado un usuario sin id, cuando intenta updateProfile, entonces retorna null sin hacer petición', async () => {
       // Arrange — getCurrentUser retorna un usuario sin id
-      (authMock.getCurrentUser as jest.Mock).mockReturnValue(null);
+      authMock.getCurrentUser.and.returnValue(null);
 
       // Act
       const result = await service.updateProfile({ username: 'test' });
@@ -151,7 +146,7 @@ describe('Gestión de Datos del Perfil — EditProfileService', () => {
       tick();
 
       // Assert
-      expect(result).toEqual(mockUser);
+      expect(result as any).toEqual(mockUser);
 
       localStorage.removeItem('token');
     }));
@@ -170,7 +165,7 @@ describe('Gestión de Datos del Perfil — EditProfileService', () => {
       tick();
 
       // Assert
-      expect(result).toBe('unauthorized');
+      expect(result as any).toBe('unauthorized');
 
       localStorage.removeItem('token');
     }));
