@@ -99,6 +99,33 @@ describe('RecipeImageService – Pruebas Unitarias', () => {
       expect(uploadingDuring).toBeTrue();
       expect(service.isUploading).toBeFalse();
     });
+
+    it('RI-17: retorna limit si ya no quedan espacios para imagenes', async () => {
+      service.images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
+
+      const result = await service.uploadFiles([new File([''], 'extra.jpg')], 'rid');
+
+      expect(result).toBe('limit');
+      expect(mockUploadService.uploadMultipleFiles).not.toHaveBeenCalled();
+      expect(service.isUploading).toBeFalse();
+    });
+
+    it('RI-18: sube solo los archivos permitidos y avisa limit si sobran', async () => {
+      service.images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
+      const files = [
+        new File([''], 'allowed.jpg'),
+        new File([''], 'extra.jpg')
+      ];
+      mockUploadService.uploadMultipleFiles.and.returnValue(
+        Promise.resolve({ success: true, data: ['allowed-url.jpg'] })
+      );
+
+      const result = await service.uploadFiles(files, 'rid');
+
+      expect(result).toBe('limit');
+      expect(mockUploadService.uploadMultipleFiles).toHaveBeenCalledWith([files[0]], 'rid');
+      expect(service.images).toEqual(['1.jpg', '2.jpg', '3.jpg', '4.jpg', 'allowed-url.jpg']);
+    });
   });
 
   // ──────────── removeImage ────────────

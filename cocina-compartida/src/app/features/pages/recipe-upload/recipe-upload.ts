@@ -87,7 +87,6 @@ export class RecipeUpload implements OnInit {
   onDeleteCurrentImage(): void {
     if (this.images.length === 0) return;
     
-    const idx = this.currentIndex;
     Swal.fire({
       title: 'Eliminar imagen',
       text: '¿Estás seguro que quieres eliminar esta imagen?',
@@ -97,7 +96,7 @@ export class RecipeUpload implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.recipeUploadService.removeImage(idx);
+        this.recipeUploadService.removeImage(this.currentIndex);
       }
     });
   }

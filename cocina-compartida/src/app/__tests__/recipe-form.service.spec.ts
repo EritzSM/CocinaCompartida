@@ -91,6 +91,14 @@ describe('RecipeFormService – Pruebas Unitarias', () => {
       desc.setValue('descripción larga suficiente');
       expect(desc.valid).toBeTrue();
     });
+
+    it('RF-23: meaningfulText acepta vacio y rechaza texto sin letras', () => {
+      const emptyControl = new FormBuilder().control('');
+      const numericControl = new FormBuilder().control('12345 !!!');
+
+      expect(RecipeFormService.meaningfulText(emptyControl)).toBeNull();
+      expect(RecipeFormService.meaningfulText(numericControl)).toEqual({ meaningfulText: true });
+    });
   });
 
   // ──────────── clearAndLoadFormArray ────────────
@@ -183,6 +191,17 @@ describe('RecipeFormService – Pruebas Unitarias', () => {
 
       // Assert
       expect(result).toBeFalse(); // 2 <= 2, no puede remover
+    });
+
+    it('RF-24: removeFormArrayItem usa minItems por defecto cuando no se envia', () => {
+      const form = service.createRecipeForm();
+      const steps = form.get('steps') as FormArray;
+      service.addFormArrayItem(steps);
+
+      const result = service.removeFormArrayItem(steps, 0);
+
+      expect(result).toBeTrue();
+      expect(steps.length).toBe(1);
     });
   });
 

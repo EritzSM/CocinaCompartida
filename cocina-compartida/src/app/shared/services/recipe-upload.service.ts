@@ -70,7 +70,7 @@ export class RecipeUploadService {
     this.recipeImageService.currentIndex = 0;
   }
 
-  addFormArrayItem(formArray: any, minItems: number = 1): void {
+  addFormArrayItem(formArray: any): void {
     this.recipeFormService.addFormArrayItem(formArray);
   }
 
@@ -158,8 +158,6 @@ export class RecipeUploadService {
 
   onDeleteCurrentImage(): Promise<any> {
     if (this.images.length === 0) return Promise.resolve();
-    
-    const idx = this.currentIndex;
     return this.notificationService.showConfirmation(
       'Eliminar imagen',
       '¿Estás seguro que quieres eliminar esta imagen?'

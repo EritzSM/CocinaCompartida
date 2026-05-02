@@ -41,8 +41,12 @@ export class Auth {
     try {
       const [, payload] = token.split('.');
       if (!payload) return null;
-      const json = atob(payload.replaceAll('-', '+').replaceAll('_', '/'));
-      return JSON.parse(decodeURIComponent(escape(json)));
+      const normalizedPayload = payload.replaceAll('-', '+').replaceAll('_', '/');
+      const paddedPayload = normalizedPayload.padEnd(Math.ceil(normalizedPayload.length / 4) * 4, '=');
+      const binaryPayload = atob(paddedPayload);
+      const bytes = Uint8Array.from(binaryPayload, char => char.codePointAt(0) ?? 0);
+      const json = new TextDecoder().decode(bytes);
+      return JSON.parse(json);
     } catch {
       return null;
     }

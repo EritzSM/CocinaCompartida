@@ -47,6 +47,14 @@ describe('SupabaseStorageService local', () => {
     expect(result).toContain('/uploads/recipes/___recipe_id/');
   });
 
+  it('UploadRecipeImage_CuandoNoHayRecipeId_DebeUsarDefault', async () => {
+    const service = new SupabaseStorageService();
+
+    const result = await service.uploadRecipeImage(file, '');
+
+    expect(result).toContain('/uploads/recipes/default/');
+  });
+
   it('UploadAvatar_CuandoUploadOk_DebeGuardarAvatarYRetornarUrlPublica', async () => {
     const dateSpy = jest.spyOn(Date, 'now').mockReturnValue(1700000000000);
     const service = new SupabaseStorageService();
@@ -57,6 +65,25 @@ describe('SupabaseStorageService local', () => {
     await expect(fs.readFile(join(uploadsDir, 'avatars', 'user_name-1700000000000.png'))).resolves.toEqual(file.buffer);
 
     dateSpy.mockRestore();
+  });
+
+  it('UploadAvatar_CuandoNoHayUsername_DebeUsarDefault', async () => {
+    const dateSpy = jest.spyOn(Date, 'now').mockReturnValue(1700000000001);
+    const service = new SupabaseStorageService();
+
+    const result = await service.uploadAvatar(file, '');
+
+    expect(result).toBe('/uploads/avatars/default-1700000000001.png');
+    dateSpy.mockRestore();
+  });
+
+  it('UploadRecipeImage_CuandoWriteFileFalla_DebeLanzarErrorControlado', async () => {
+    const writeSpy = jest.spyOn(fs, 'writeFile').mockRejectedValue(new Error('sin permiso'));
+    const service = new SupabaseStorageService();
+
+    await expect(service.uploadRecipeImage(file, 'r1')).rejects.toThrow('Error al guardar archivo');
+
+    writeSpy.mockRestore();
   });
 
   it('DeleteFile_CuandoRecibeUrlPublica_DebeEliminarArchivoLocal', async () => {

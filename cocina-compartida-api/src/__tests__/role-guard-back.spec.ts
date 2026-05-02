@@ -43,6 +43,20 @@ describe('RoleGuard – Pruebas por camino', () => {
       // Act & Assert
       await expect(guard.canActivate(ctx)).rejects.toThrow(ForbiddenException);
     });
+
+    it('C5-T2: lanza ForbiddenException si el token no trae id ni sub', async () => {
+      mockJwt.verify.mockReturnValue({});
+      const ctx = makeContext({ authorization: 'Bearer no-id' }, {}, { userId: 'u1' });
+
+      await expect(guard.canActivate(ctx)).rejects.toThrow(ForbiddenException);
+    });
+
+    it('C5-T3: usa mensaje por defecto si jwt.verify lanza un valor no Error', async () => {
+      mockJwt.verify.mockImplementation(() => { throw 'token-roto'; });
+      const ctx = makeContext({ authorization: 'Bearer bad-token' }, { id: 'r1' });
+
+      await expect(guard.canActivate(ctx)).rejects.toThrow('Token no valido');
+    });
   });
 
   // ──────────────────────────────────────────────────────────

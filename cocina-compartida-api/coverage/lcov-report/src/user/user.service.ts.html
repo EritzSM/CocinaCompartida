@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.96% </span>
+                <span class="strong">98.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>49/57</span>
+                <span class='fraction'>56/57</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.25% </span>
+                <span class="strong">93.75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>26/32</span>
+                <span class='fraction'>30/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>40/45</span>
+                <span class='fraction'>45/45</span>
             </div>
         
             
@@ -171,7 +171,7 @@
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">95x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -246,13 +246,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable, NotFoundException, ConflictException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
@@ -267,7 +267,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private userRepo: Repository<span class="branch-1 cbranch-no" title="branch not covered" >&lt;User&gt;</span>
+    private readonly userRepo: Repository<span class="branch-1 cbranch-no" title="branch not covered" >&lt;User&gt;</span>
   ) {}
 &nbsp;
   private omitPassword(user: User) {
@@ -341,14 +341,14 @@ export class UserService {
     return { success: true, message: 'User removed' };
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>removeByEmail(email: string) {
-    const user = <span class="cstat-no" title="statement not covered" >await this.userRepo.findOne({ where: { email } });</span>
-<span class="cstat-no" title="statement not covered" >    if (!user) <span class="cstat-no" title="statement not covered" >throw new NotFoundException(`Usuario con email ${email} no encontrado`);</span></span>
+  async removeByEmail(email: string) {
+    const user = await this.userRepo.findOne({ where: { email } });
+    if (!user) throw new NotFoundException(`Usuario con email ${email} no encontrado`);
     
-    const result = <span class="cstat-no" title="statement not covered" >await this.userRepo.delete(user.id);</span>
-<span class="cstat-no" title="statement not covered" >    if (!result.affected) <span class="cstat-no" title="statement not covered" >throw new InternalServerErrorException('Error al eliminar usuario');</span></span>
+    const result = await this.userRepo.delete(user.id);
+    if (!result.affected) throw new InternalServerErrorException('Error al eliminar usuario');
     
-<span class="cstat-no" title="statement not covered" >    return { success: true, message: 'User removed', userId: user.id };</span>
+    return { success: true, message: 'User removed', userId: user.id };
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -358,7 +358,7 @@ export class UserService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-30T09:10:20.366Z
+                at 2026-04-30T14:13:22.385Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

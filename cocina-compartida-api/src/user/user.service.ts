@@ -10,7 +10,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private userRepo: Repository<User>
+    private readonly userRepo: Repository<User>
   ) {}
 
   private omitPassword(user: User) {

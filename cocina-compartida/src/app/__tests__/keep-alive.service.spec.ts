@@ -26,7 +26,7 @@ describe('KeepAliveService', () => {
     spyOn(console, 'log');
     service = TestBed.inject(KeepAliveService);
 
-    tick(5 * 60 * 1000);
+    tick(5 * 60 * 1000 + 1);
 
     const req = httpMock.expectOne('/api/app/health');
     expect(req.request.method).toBe('GET');

@@ -127,6 +127,58 @@ describe('RecipeUploadService – Pruebas Unitarias', () => {
     });
   });
 
+  describe('initializeEditMode', () => {
+    it('RU-21: carga receta existente en el formulario y en las imagenes', () => {
+      const form = fb.group({
+        name: [''],
+        descripcion: [''],
+        category: [''],
+        ingredients: fb.array(['']),
+        steps: fb.array([''])
+      });
+      const recipe = {
+        name: 'Receta editada',
+        descripcion: 'Descripcion editada',
+        category: 'Cena',
+        ingredients: ['arroz', 'sal'],
+        steps: ['mezclar'],
+        images: ['editada.jpg']
+      };
+      const callback = jasmine.createSpy('callback');
+      mockDataService.initializeEditMode.and.callFake((_id: string, cb: (success: boolean) => void) => cb(true));
+      mockDataService.getRecipeForEdit.and.returnValue(recipe);
+
+      service.initializeEditMode('recipe-1', form, callback);
+
+      expect(form.value.name).toBe('Receta editada');
+      expect(mockFormService.clearAndLoadFormArray).toHaveBeenCalledTimes(2);
+      expect(mockImageService.images).toEqual(['editada.jpg']);
+      expect(mockImageService.currentIndex).toBe(0);
+      expect(callback).toHaveBeenCalledWith(true);
+    });
+
+    it('RU-22: notifica y corta si no se puede inicializar la edicion', () => {
+      const callback = jasmine.createSpy('callback');
+      mockDataService.initializeEditMode.and.callFake((_id: string, cb: (success: boolean) => void) => cb(false));
+
+      service.initializeEditMode('recipe-404', fb.group({}), callback);
+
+      expect(mockNotification.showToast).toHaveBeenCalledWith('error', 'Receta no encontrada o sin permisos');
+      expect(mockDataService.getRecipeForEdit).not.toHaveBeenCalled();
+      expect(callback).toHaveBeenCalledWith(false);
+    });
+
+    it('RU-23: informa false si el modo edicion no devuelve receta', () => {
+      const callback = jasmine.createSpy('callback');
+      mockDataService.initializeEditMode.and.callFake((_id: string, cb: (success: boolean) => void) => cb(true));
+      mockDataService.getRecipeForEdit.and.returnValue(null);
+
+      service.initializeEditMode('recipe-empty', fb.group({}), callback);
+
+      expect(callback).toHaveBeenCalledWith(false);
+    });
+  });
+
   // ──────────── FormArray operations ────────────
   describe('FormArray operations', () => {
     it('RU-06: addFormArrayItem delega al FormService', () => {
@@ -193,6 +245,18 @@ describe('RecipeUploadService – Pruebas Unitarias', () => {
   });
 
   // ──────────── removeImage ────────────
+  describe('uploadFiles limit', () => {
+    it('RU-24: upload con limite muestra warning y retorna false', async () => {
+      mockImageService.MAX_IMAGES = 5;
+      mockImageService.uploadFiles.and.returnValue(Promise.resolve('limit'));
+
+      const result = await service.uploadFiles([new File([''], 'x.jpg')]);
+
+      expect(result).toBeFalse();
+      expect(mockNotification.showToast).toHaveBeenCalledWith('warning', jasmine.stringContaining('5'));
+    });
+  });
+
   describe('removeImage', () => {
     it('RU-11: delega al ImageService y muestra toast', async () => {
       // Act
@@ -306,6 +370,28 @@ describe('RecipeUploadService – Pruebas Unitarias', () => {
       const arr = fb.array(['']);
       service.validateArrayField(arr, 0);
       expect(mockFormService.validateArrayField).toHaveBeenCalledWith(arr, 0);
+    });
+  });
+
+  describe('onDeleteCurrentImage', () => {
+    it('RU-25: no pide confirmacion si no hay imagenes', async () => {
+      mockImageService.images = [];
+
+      const result = await service.onDeleteCurrentImage();
+
+      expect(result).toBeUndefined();
+      expect(mockNotification.showConfirmation).not.toHaveBeenCalled();
+    });
+
+    it('RU-26: pide confirmacion cuando hay imagen actual', async () => {
+      mockNotification.showConfirmation.and.returnValue(Promise.resolve({ isConfirmed: true }));
+
+      await service.onDeleteCurrentImage();
+
+      expect(mockNotification.showConfirmation).toHaveBeenCalledWith(
+        'Eliminar imagen',
+        jasmine.stringContaining('seguro')
+      );
     });
   });
 });

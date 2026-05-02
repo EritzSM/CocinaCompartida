@@ -36,6 +36,7 @@ describe('RecipeCrudService – Pruebas Unitarias Completas', () => {
   let service: RecipeCrudService;
   let httpMock: HttpTestingController;
   let stateSpy: jasmine.SpyObj<RecipeStateService>;
+  let currentRecipes: Recipe[];
 
   beforeEach(() => {
     // Test Double (Spy): Estado central con todos los métodos espiados
@@ -43,6 +44,14 @@ describe('RecipeCrudService – Pruebas Unitarias Completas', () => {
       'setLoading', 'clearError', 'setRecipes', 'setError',
       'updateRecipes', 'rollbackRecipes', 'recipes'
     ]);
+    currentRecipes = [...DUMMY_RECIPES];
+    (stateSpy.recipes as any).and.callFake(() => currentRecipes);
+    stateSpy.updateRecipes.and.callFake((updater: any) => {
+      currentRecipes = updater(currentRecipes);
+    });
+    stateSpy.rollbackRecipes.and.callFake((previousState: Recipe[]) => {
+      currentRecipes = previousState;
+    });
 
     // Test Double (Stub): URLs
     Object.defineProperty(stateSpy, 'recipesUrl', { get: () => '/api/recipes' });
@@ -315,12 +324,11 @@ describe('RecipeCrudService – Pruebas Unitarias Completas', () => {
       // Arrange
       stateSpy.getRecipeUrl = jasmine.createSpy().and.returnValue('/api/recipes/r1');
       const blob = new Blob(['pdf-data'], { type: 'application/pdf' });
-      spyOn(window.URL, 'createObjectURL').and.returnValue('blob:url');
-      spyOn(window.URL, 'revokeObjectURL');
-      const mockAnchor = { href: '', download: '', click: jasmine.createSpy() };
+      spyOn(globalThis.URL, 'createObjectURL').and.returnValue('blob:url');
+      spyOn(globalThis.URL, 'revokeObjectURL');
+      const mockAnchor = { href: '', download: '', click: jasmine.createSpy(), remove: jasmine.createSpy() };
       spyOn(document, 'createElement').and.returnValue(mockAnchor as any);
       spyOn(document.body, 'appendChild');
-      spyOn(document.body, 'removeChild');
 
       // Act
       const promise = service.downloadPDF('r1');
@@ -330,7 +338,8 @@ describe('RecipeCrudService – Pruebas Unitarias Completas', () => {
       // Assert
       expect(mockAnchor.download).toBe('receta.pdf');
       expect(mockAnchor.click).toHaveBeenCalled();
-      expect(window.URL.revokeObjectURL).toHaveBeenCalledWith('blob:url');
+      expect(mockAnchor.remove).toHaveBeenCalled();
+      expect(globalThis.URL.revokeObjectURL).toHaveBeenCalledWith('blob:url');
     });
 
     it('CRUD-22: error HTTP llama setError (Stub)', async () => {
@@ -356,12 +365,11 @@ describe('RecipeCrudService – Pruebas Unitarias Completas', () => {
       // Arrange
       stateSpy.getRecipeUrl = jasmine.createSpy().and.returnValue('/api/recipes/r1');
       const blob = new Blob(['img-data'], { type: 'image/jpeg' });
-      spyOn(window.URL, 'createObjectURL').and.returnValue('blob:url');
-      spyOn(window.URL, 'revokeObjectURL');
-      const mockAnchor = { href: '', download: '', click: jasmine.createSpy() };
+      spyOn(globalThis.URL, 'createObjectURL').and.returnValue('blob:url');
+      spyOn(globalThis.URL, 'revokeObjectURL');
+      const mockAnchor = { href: '', download: '', click: jasmine.createSpy(), remove: jasmine.createSpy() };
       spyOn(document, 'createElement').and.returnValue(mockAnchor as any);
       spyOn(document.body, 'appendChild');
-      spyOn(document.body, 'removeChild');
 
       // Act
       const promise = service.downloadImage('r1');

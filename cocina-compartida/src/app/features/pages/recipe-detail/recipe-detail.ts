@@ -215,7 +215,7 @@ export class RecipeDetail implements OnInit {
   }
 
   async downloadImage(): Promise<void> {
-    if (!this.recipe || !this.recipe.images || this.recipe.images.length === 0) {
+    if (!this.recipe?.images?.length) {
       Swal.fire({
         icon: 'warning',
         title: 'Sin imagen',

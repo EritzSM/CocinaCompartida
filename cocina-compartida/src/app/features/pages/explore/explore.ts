@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal, ViewChild, ElementRef, AfterViewInit, OnDestroy, effect, runInInjectionContext, Injector } from '@angular/core';
+import { Component, inject, computed, signal, ViewChild, ElementRef, AfterViewInit, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecipeService } from '../../../shared/services/recipe';
 import { Recipe } from '../../../shared/interfaces/recipe';
@@ -18,7 +18,6 @@ export class Explore implements AfterViewInit, OnDestroy {
   private readonly recipeService = inject(RecipeService);
   readonly authService = inject(Auth);
   private readonly router = inject(Router);
-  private readonly injector = inject(Injector);
   readonly isLoading = signal<boolean>(false);
   private previousRecipeCount = 0;
 
@@ -46,6 +45,13 @@ export class Explore implements AfterViewInit, OnDestroy {
       this.handleNewRecipes();
     }
     this.previousRecipeCount = currentCount;
+  });
+
+  private readonly observerSetupEffect = effect(() => {
+    const recipeCount = this.allRecipes().length;
+    if (recipeCount > 0 && !this.observer) {
+      setTimeout(() => this.setupIntersectionObserver());
+    }
   });
 
 
@@ -88,18 +94,7 @@ export class Explore implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     // Defer to avoid ExpressionChangedAfterItHasBeenCheckedError
     setTimeout(() => {
-      if (this.loadMoreTrigger?.nativeElement) {
-        this.setupIntersectionObserver();
-      }
-
-      // Observable effect para conocer cambios en recipesToShow
-      runInInjectionContext(this.injector, () => {
-        effect(() => {
-          if (this.loadMoreTrigger?.nativeElement && !this.observer) {
-            this.setupIntersectionObserver();
-          }
-        });
-      });
+      this.setupIntersectionObserver();
     });
   }
 

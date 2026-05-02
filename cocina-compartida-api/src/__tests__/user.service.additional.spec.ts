@@ -7,6 +7,7 @@ describe('UserService Additional Coverage', () => {
     findOne: jest.Mock;
     update: jest.Mock;
     softDelete: jest.Mock;
+    delete: jest.Mock;
     find: jest.Mock;
     create: jest.Mock;
     save: jest.Mock;
@@ -17,6 +18,7 @@ describe('UserService Additional Coverage', () => {
       findOne: jest.fn(),
       update: jest.fn(),
       softDelete: jest.fn(),
+      delete: jest.fn(),
       find: jest.fn(),
       create: jest.fn(),
       save: jest.fn(),
@@ -92,5 +94,30 @@ describe('UserService Additional Coverage', () => {
 
     // Assert
     await expect(action).rejects.toThrow(InternalServerErrorException);
+  });
+
+  it('RemoveByEmail_CuandoUsuarioExiste_DebeEliminarYRetornarUserId', async () => {
+    userRepo.findOne.mockResolvedValue({ id: 'u1', email: 'qa@test.com' });
+    userRepo.delete.mockResolvedValue({ affected: 1 });
+
+    const result = await service.removeByEmail('qa@test.com');
+
+    expect(userRepo.findOne).toHaveBeenCalledWith({ where: { email: 'qa@test.com' } });
+    expect(userRepo.delete).toHaveBeenCalledWith('u1');
+    expect(result).toEqual({ success: true, message: 'User removed', userId: 'u1' });
+  });
+
+  it('RemoveByEmail_CuandoEmailNoExiste_DebeLanzarNotFound', async () => {
+    userRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.removeByEmail('missing@test.com')).rejects.toThrow(NotFoundException);
+    expect(userRepo.delete).not.toHaveBeenCalled();
+  });
+
+  it('RemoveByEmail_CuandoDeleteNoAfectaFilas_DebeLanzarInternalServerError', async () => {
+    userRepo.findOne.mockResolvedValue({ id: 'u1', email: 'qa@test.com' });
+    userRepo.delete.mockResolvedValue({ affected: 0 });
+
+    await expect(service.removeByEmail('qa@test.com')).rejects.toThrow(InternalServerErrorException);
   });
 });

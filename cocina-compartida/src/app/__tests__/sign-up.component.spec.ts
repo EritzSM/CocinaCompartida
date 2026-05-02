@@ -221,6 +221,72 @@ describe('SignUp Component', () => {
   });
 
   // SU-13: onSignUp setea isSubmitting durante la ejecución
+  it('SU-15: onFileSelected sube avatar y actualiza formulario con URL simple', async () => {
+    const file = new File(['avatar'], 'avatar.jpg', { type: 'image/jpeg' });
+    component.signUpForm.patchValue({ username: '  chefqa  ' });
+
+    await component.onFileSelected({ target: { files: [file] } } as any);
+
+    expect(mockUpload.uploadFile).toHaveBeenCalledWith(file, true, 'chefqa');
+    expect(component.avatarPreview).toBe('uploaded-url.jpg');
+    expect(component.signUpForm.get('avatar')?.value).toBe('uploaded-url.jpg');
+    expect(component.isUploadingAvatar).toBeFalse();
+    expect(Swal.fire).toHaveBeenCalledWith(jasmine.objectContaining({
+      toast: true,
+      icon: 'success'
+    }));
+  });
+
+  it('SU-16: onFileSelected acepta respuesta con data en arreglo y username temporal', async () => {
+    const file = new File(['avatar'], 'avatar.jpg', { type: 'image/jpeg' });
+    mockUpload.uploadFile.and.returnValue(Promise.resolve({ success: true, data: ['array-url.jpg'] }));
+    component.signUpForm.patchValue({ username: '   ' });
+
+    await component.onFileSelected({ target: { files: [file] } } as any);
+
+    expect(mockUpload.uploadFile).toHaveBeenCalledWith(file, true, jasmine.stringMatching(/^tmp-/));
+    expect(component.avatarPreview).toBe('array-url.jpg');
+  });
+
+  it('SU-17: onFileSelected muestra alerta cuando upload responde error', async () => {
+    const file = new File(['avatar'], 'avatar.jpg', { type: 'image/jpeg' });
+    mockUpload.uploadFile.and.returnValue(Promise.resolve({ success: false, error: 'Archivo invalido' }));
+
+    await component.onFileSelected({ target: { files: [file] } } as any);
+
+    expect(Swal.fire).toHaveBeenCalledWith(jasmine.objectContaining({
+      title: 'Error',
+      text: 'Archivo invalido',
+      icon: 'error'
+    }));
+    expect(component.isUploadingAvatar).toBeFalse();
+  });
+
+  it('SU-18: onFileSelected muestra mensaje de excepcion y libera loading', async () => {
+    const file = new File(['avatar'], 'avatar.jpg', { type: 'image/jpeg' });
+    mockUpload.uploadFile.and.returnValue(Promise.reject(new Error('Fallo de red')));
+
+    await component.onFileSelected({ target: { files: [file] } } as any);
+
+    expect(Swal.fire).toHaveBeenCalledWith(jasmine.objectContaining({
+      title: 'Error',
+      text: 'Fallo de red'
+    }));
+    expect(component.isUploadingAvatar).toBeFalse();
+  });
+
+  it('SU-19: onFileSelected usa mensaje generico si la excepcion no es Error', async () => {
+    const file = new File(['avatar'], 'avatar.jpg', { type: 'image/jpeg' });
+    mockUpload.uploadFile.and.returnValue(Promise.reject('fallo'));
+
+    await component.onFileSelected({ target: { files: [file] } } as any);
+
+    expect(Swal.fire).toHaveBeenCalledWith(jasmine.objectContaining({
+      title: 'Error',
+      text: 'Error al subir el avatar'
+    }));
+  });
+
   it('SU-13: onSignUp sets isSubmitting false after completion', async () => {
     // Arrange
     component.signUpForm.patchValue({

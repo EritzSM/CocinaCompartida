@@ -1,7 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Recipe } from '../interfaces/recipe';
 import { RecipeService } from './recipe';
-import { inject } from '@angular/core';
 
 export type SortOption = 'recent' | 'oldest' | 'likes';
 

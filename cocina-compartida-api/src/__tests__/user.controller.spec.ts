@@ -14,6 +14,7 @@ describe('UserController', () => {
       findOne: jest.fn(),
       update: jest.fn(),
       remove: jest.fn(),
+      removeByEmail: jest.fn(),
     };
     controller = new UserController(userService as UserService);
   });
@@ -145,6 +146,18 @@ describe('UserController', () => {
       // Assert
       expect(userService.remove).toHaveBeenCalledWith(userId);
       expect(result).toEqual({ success: true });
+    });
+  });
+
+  describe('RemoveByEmailForTesting Controller delega al servicio', () => {
+    it('debe llamar a userService.removeByEmail con el email recibido', async () => {
+      const response = { success: true, message: 'User removed', userId: 'u1' };
+      (userService.removeByEmail as jest.Mock).mockResolvedValue(response);
+
+      const result = await controller.removeByEmailForTesting('qa@test.com');
+
+      expect(userService.removeByEmail).toHaveBeenCalledWith('qa@test.com');
+      expect(result).toEqual(response);
     });
   });
 });

@@ -62,19 +62,19 @@ export class SignUp {
 
   hasError(controlName: string, errorType: string) {
     const control = this.signUpForm.get(controlName);
-    return !!(control && control.touched && control.hasError(errorType));
+    return !!(control?.touched && control.hasError(errorType));
   }
 
   async onFileSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
-    if (!input.files || !input.files[0]) return;
+    if (!input.files?.[0]) return;
 
     const file = input.files[0];
     this.isUploadingAvatar = true;
 
     try {
       const formUsername = this.signUpForm.get('username')?.value;
-      const usernameForUpload = formUsername && formUsername.trim() ? formUsername.trim() : `tmp-${uuidv4()}`;
+      const usernameForUpload = formUsername?.trim() || `tmp-${uuidv4()}`;
       const result = await this.uploadService.uploadFile(file, true, usernameForUpload);
 
       const avatarUrl = Array.isArray(result.data) ? result.data[0] : result.data;
@@ -85,8 +85,9 @@ export class SignUp {
       } else {
         this.showAlert('Error', result.error || 'Error al subir el avatar');
       }
-    } catch (error: any) {
-      this.showAlert('Error', error?.message || 'Error al subir el avatar');
+    } catch (error: unknown) {
+      const message = error instanceof Error && error.message ? error.message : 'Error al subir el avatar';
+      this.showAlert('Error', message);
     } finally {
       this.isUploadingAvatar = false;
     }

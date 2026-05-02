@@ -47,6 +47,15 @@ describe('UploadsController', () => {
     expect(result).toEqual({ url: 'http://public/avatar.png' });
   });
 
+  it('UploadAvatar_CuandoNoHayUsername_DebeUsarDefault', async () => {
+    storageService.uploadAvatar.mockResolvedValue('http://public/default.png');
+
+    const result = await controller.uploadAvatar(file, '');
+
+    expect(storageService.uploadAvatar).toHaveBeenCalledWith(file, 'default');
+    expect(result).toEqual({ url: 'http://public/default.png' });
+  });
+
   it('UploadAvatar_CuandoStorageFalla_DebeLanzarInternalServerError', async () => {
     // Arrange
     storageService.uploadAvatar.mockRejectedValue(new Error('fail'));
@@ -55,6 +64,14 @@ describe('UploadsController', () => {
     const result = controller.uploadAvatar(file, 'user');
 
     // Assert
+    await expect(result).rejects.toThrow(InternalServerErrorException);
+  });
+
+  it('UploadAvatar_CuandoStorageFallaConValorNoError_DebeLanzarInternalServerError', async () => {
+    storageService.uploadAvatar.mockRejectedValue('fallo');
+
+    const result = controller.uploadAvatar(file, 'user');
+
     await expect(result).rejects.toThrow(InternalServerErrorException);
   });
 

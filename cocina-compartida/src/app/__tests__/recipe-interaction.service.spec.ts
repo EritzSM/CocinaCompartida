@@ -18,7 +18,8 @@ describe('Frontend - RecipeInteractionService (Comentarios)', () => {
     // Test Double (Spy): estado central de recetas y auth
     stateSpy = jasmine.createSpyObj('RecipeStateService', [
       'getRecipeCommentsUrl', 'getAuthOptions', 'updateRecipes',
-      'rollbackRecipes', 'setError', 'getCommentUrl', 'recipes'
+      'rollbackRecipes', 'setError', 'getCommentUrl', 'recipes',
+      'getRecipeLikeUrl', 'getRecipeById'
     ]);
 
     authSpy = jasmine.createSpyObj('Auth', ['getCurrentUser']);

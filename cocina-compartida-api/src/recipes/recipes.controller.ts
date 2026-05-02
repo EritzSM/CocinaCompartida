@@ -13,7 +13,7 @@ import {
   Res,
   Query,
 } from '@nestjs/common';
-import { join } from 'path';
+import { join } from 'node:path';
 import type { Response } from 'express';
 import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
