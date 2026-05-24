@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "prettier": {
     "printWidth": 100,
@@ -29,9 +31,9 @@
     "@angular/platform-browser": "^20.2.0",
     "@angular/router": "^20.2.0",
     "@supabase/supabase-js": "^2.36.0",
+    "alert": "^6.0.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "alert": "^6.0.2",
     "rxjs": "~7.8.0",
     "sweet": "^0.1.1",
     "sweetalert2": "^11.23.0",
@@ -44,6 +46,10 @@
     "@angular/cli": "^20.2.0",
     "@angular/compiler-cli": "^20.2.0",
     "@types/jasmine": "~5.1.0",
+    "@types/multer": "^2.1.0",
+    "axe-core": "^4.10.0",
+    "cypress": "^14.0.0",
+    "cypress-axe": "^1.5.0",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

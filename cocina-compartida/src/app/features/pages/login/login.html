@@ -1,5 +1,5 @@
 <div class="container">
-    <a routerLink="/home" class="back-button">
+    <a routerLink="/home" class="back-button" aria-label="Volver al inicio">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
@@ -28,7 +28,7 @@
             <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
                 placeholder="********"
                 [class.error]="hasError('password', 'required') || hasError('password', 'minlength')">
-            <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+            <button type="button" class="toggle-password" (click)="togglePasswordVisibility()" aria-label="Alternar visibilidad de la contraseña">
                 <svg *ngIf="!showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"
