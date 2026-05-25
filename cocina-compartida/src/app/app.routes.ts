@@ -8,6 +8,8 @@ import { Profile } from './features/pages/profile/profile';
 import { RecipeDetail } from './features/pages/recipe-detail/recipe-detail';
 
 
+import { authGuard } from './shared/guards/auth.guard';
+
 export const routes: Routes = [
   { 
     path: '', 
@@ -26,7 +28,8 @@ export const routes: Routes = [
 },
   { 
     path: 'recipe-upload', 
-    component: RecipeUpload
+    component: RecipeUpload,
+    canActivate: [authGuard]
 },
   {
     path: 'explore',
@@ -34,7 +37,8 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    component: Profile
+    component: Profile,
+    canActivate: [authGuard]
   },
   {
     path: 'profile/:id',
@@ -42,7 +46,8 @@ export const routes: Routes = [
   },
   { 
     path: 'recipe/:id/edit', 
-    component: RecipeUpload
+    component: RecipeUpload,
+    canActivate: [authGuard]
   },
     { 
     path: 'recipe/:id', 

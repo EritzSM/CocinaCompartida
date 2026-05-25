@@ -17,9 +17,17 @@ describe('Recipe Detail', () => {
     cy.window().then((win) => {
       win.localStorage.setItem('token', makeMockJwt());
     });
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: Cypress.currentTest.title,
+    });
   });
 
-  it('should display likes count on the recipe detail page', () => {
+  afterEach(() => {
+    cy.eyesClose();
+  });
+
+  it('should display likes count on the recipe detail page (Visual Check)', () => {
     cy.intercept('GET', '/api/recipes/mock-recipe-id', {
       statusCode: 200,
       body: {
@@ -32,22 +40,29 @@ describe('Recipe Detail', () => {
     cy.visit('/recipe/mock-recipe-id');
     cy.wait('@getRecipe');
 
+    // Captura visual de la página de detalle completa
+    cy.eyesCheckWindow('Recipe Detail Page - Full View');
+
     cy.get('.likes-summary').should('be.visible').and('contain', 'me gusta');
   });
 
-  it('should display the download PDF button when user is logged in', () => {
+  it('should display the download PDF button when user is logged in (Visual Check)', () => {
     cy.intercept('GET', '/api/recipes/mock-recipe-id', {
       statusCode: 200,
       body: {
         id: 'mock-recipe-id', name: 'Test Recipe', descripcion: 'Test',
-        likes: 5, ingredients: [], steps: [], comments: [],
-        user: { id: 'author-id', username: 'testuser', avatar: '' }
+        likes: 5, ingredients: ['Harina', 'Huevos', 'Azúcar'], steps: ['Mezclar', 'Hornear'],
+        comments: [], user: { id: 'author-id', username: 'testuser', avatar: '' }
       }
     }).as('getRecipe');
 
     cy.visit('/recipe/mock-recipe-id');
     cy.wait('@getRecipe');
     cy.wait(300);
+
+    // Captura visual del área del botón PDF
+    cy.eyesCheckWindow('Recipe Detail Page - PDF Button Visible');
+
     cy.get('button.pdf-btn').should('be.visible').and('contain', 'Descargar PDF');
   });
 
@@ -95,3 +110,4 @@ describe('Recipe Detail', () => {
     cy.url().should('include', '/recipe/mock-recipe-id');
   });
 });
+

@@ -1,5 +1,7 @@
 import { defineConfig } from "cypress";
-export default defineConfig({
+import eyesPlugin from "@applitools/eyes-cypress"
+
+export default eyesPlugin(defineConfig({
     e2e: {
         baseUrl: "http://localhost",
         setupNodeEvents(on, config) {
@@ -15,4 +17,4 @@ export default defineConfig({
         video: false,
         screenshotOnRunFailure: true,
     },
-});
+}));
