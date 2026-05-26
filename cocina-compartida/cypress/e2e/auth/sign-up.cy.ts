@@ -1,16 +1,12 @@
 describe('Sign Up Flow', () => {
-  beforeEach(() => {
-    cy.eyesOpen({
-      appName: 'Cocina Compartida',
-      testName: Cypress.currentTest.title,
-    });
-  });
 
-  afterEach(() => {
-    cy.eyesClose();
-  });
 
   it('should display all required elements on the Sign Up page (Visual Check)', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Sign Up Page Initial Render',
+    });
+
     cy.visit('/sign-up');
     
     // Check visual layout
@@ -20,6 +16,8 @@ describe('Sign Up Flow', () => {
     cy.get('input[formControlName="email"]').should('be.visible');
     cy.get('input[formControlName="password"]').should('be.visible');
     cy.get('button[type="submit"]').should('be.visible').and('contain', 'Crear Cuenta');
+
+    cy.eyesClose();
   });
 
   it('Sign Up page should be accessible', () => {

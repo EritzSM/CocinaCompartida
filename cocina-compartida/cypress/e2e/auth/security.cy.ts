@@ -24,9 +24,11 @@ describe('Auth Security Tests', () => {
     cy.get('body').should('not.contain', 'user@example.com');
 
     cy.url().then((url) => {
-      const isProfile = url.includes('/profile');
+      // Cuando un usuario sin autenticar visita el perfil, debe ser redirigido al login
+      // o a la página de inicio.
+      const isLogin = url.includes('/login');
       const isHome = url.includes('/home') || url.endsWith('/');
-      expect(isProfile || isHome).to.be.true;
+      expect(isLogin || isHome).to.be.true;
     });
   });
 });

@@ -19,17 +19,14 @@ describe('Recipe Upload', () => {
     cy.window().then((win) => {
       win.localStorage.setItem('token', makeMockJwt());
     });
-    cy.eyesOpen({
-      appName: 'Cocina Compartida',
-      testName: Cypress.currentTest.title,
-    });
-  });
-
-  afterEach(() => {
-    cy.eyesClose();
   });
 
   it('should display the recipe upload form with required fields (Visual Check)', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Recipe Upload Form - Empty',
+    });
+
     cy.visit('/recipe-upload');
 
     // Captura visual del formulario vacío
@@ -38,15 +35,24 @@ describe('Recipe Upload', () => {
     cy.get('input[formControlName="name"]').should('be.visible');
     cy.get('input[type="file"]').should('exist');
     cy.get('button').contains(/Guardar/i).should('be.visible');
+
+    cy.eyesClose();
   });
 
   it('should show visual state of form after filling name and category', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Recipe Upload Form - Partial Fill',
+    });
+
     cy.visit('/recipe-upload');
     cy.get('input[formControlName="name"]').type('Pastel de Chocolate');
     cy.get('select[formControlName="category"]').select('postres');
 
     // Captura visual del formulario parcialmente llenado
     cy.eyesCheckWindow('Recipe Upload Form - Name & Category Filled');
+
+    cy.eyesClose();
   });
 
   it('Upload Recipe page should be accessible', () => {
@@ -62,6 +68,11 @@ describe('Recipe Upload', () => {
   });
 
   it('should submit the upload recipe form and navigate away', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Recipe Upload Form - Full Submission',
+    });
+
     cy.intercept('POST', '/api/recipes', {
       statusCode: 201,
       body: { id: 'new-recipe-id', name: 'Mi Nueva Receta' }
@@ -97,6 +108,8 @@ describe('Recipe Upload', () => {
 
     cy.wait('@uploadRecipe');
     cy.url().should('not.include', '/recipe-upload');
+
+    cy.eyesClose();
   });
 });
 

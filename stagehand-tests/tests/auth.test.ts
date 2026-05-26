@@ -14,8 +14,32 @@
 
 import "dotenv/config";
 import { z } from "zod";
+import * as fs from 'fs';
 import { Stagehand } from "@browserbasehq/stagehand";
 import { BASE_URL, TEST_CREDENTIALS, log, runTest, createStagehand } from "../utils/stagehand.utils.js";
+
+// Helper for DeepEval
+function saveEvalResult(input: string, actualOutput: any, expectedOutput: string, retrievalContext: string[] = []) {
+  const filePath = 'eval_results.json';
+  let results = [];
+  if (fs.existsSync(filePath)) {
+    results = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  }
+  results.push({
+    input,
+    actual_output: JSON.stringify(actualOutput),
+    expected_output: expectedOutput,
+    retrieval_context: retrievalContext
+  });
+  fs.writeFileSync(filePath, JSON.stringify(results, null, 2));
+}
+
+function clearEvalResults() {
+  const filePath = 'eval_results.json';
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TEST 1: Página de login — observe() detecta el formulario, extract() lo valida
@@ -47,6 +71,18 @@ async function testLoginPageObserveYExtract(sh: Stagehand) {
   });
 
   log("INFO", `extract() resultado: ${JSON.stringify(formulario)}`);
+
+  saveEvalResult(
+    "¿Hay un formulario de login con campo de email, contraseña y botón de ingresar?",
+    formulario,
+    "El formulario debe contener email, password y botón de login, todos deben ser true.",
+    [
+      "La página actual es /login.",
+      "La página contiene un campo de entrada para el correo electrónico.",
+      "La página contiene un campo de entrada para la contraseña.",
+      "La página contiene un botón para iniciar sesión."
+    ]
+  );
 
   if (!formulario.tieneEmail) throw new Error("No se encontró el campo de email");
   if (!formulario.tienePassword) throw new Error("No se encontró el campo de contraseña");
@@ -85,6 +121,16 @@ async function testLoginFlujoCompleto(sh: Stagehand) {
       }),
     });
     log("INFO", `extract() estado del login: ${JSON.stringify(resultado)}`);
+    
+    saveEvalResult(
+      "¿Hay algún mensaje de error o alerta visible en la pantalla?",
+      resultado,
+      "Debería detectarse si hubo un error al iniciar sesión (hayError) y opcionalmente extraer el mensaje.",
+      [
+        "El intento de inicio de sesión falló debido a credenciales incorrectas.",
+        "Apareció un mensaje en rojo que dice 'Contraseña incorrecta'."
+      ]
+    );
   } else {
     log("INFO", "✓ Login exitoso — navegó fuera de /login");
   }
@@ -121,6 +167,17 @@ async function testRutaProtegidaRedirige(sh: Stagehand) {
 
   log("INFO", `extract() página actual: ${JSON.stringify(pagina)}`);
 
+  saveEvalResult(
+    "¿Se está mostrando la página de login o la página de subir receta?",
+    pagina,
+    "Debería indicar esLogin=true y esFormularioReceta=false porque se bloqueó el acceso a la ruta protegida.",
+    [
+      "El usuario anónimo intentó acceder a /recipe-upload.",
+      "El AuthGuard interceptó la solicitud porque no hay token en localStorage.",
+      "El enrutador de Angular redirigió al usuario a la página /login."
+    ]
+  );
+
   // Si puede acceder al formulario de receta sin auth → falla de seguridad
   if (pagina.esFormularioReceta && !url.includes("/login")) {
     throw new Error("FALLA DE SEGURIDAD: /recipe-upload es accesible sin autenticación");
@@ -133,6 +190,9 @@ async function testRutaProtegidaRedirige(sh: Stagehand) {
 console.log("\n🔐 ══════════════════════════════════════");
 console.log("   Tests de Autenticación  |  act · observe · extract");
 console.log("══════════════════════════════════════\n");
+
+// Limpiar resultados anteriores de DeepEval
+clearEvalResults();
 
 const sh = await createStagehand();
 try {

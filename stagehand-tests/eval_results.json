@@ -1,0 +1,13 @@
+[
+  {
+    "input": "¿Hay un formulario de login con campo de email, contraseña y botón de ingresar?",
+    "actual_output": "{\"tieneEmail\":true,\"tienePassword\":true,\"tieneBotonLogin\":true,\"textoBoton\":\"Iniciar Sesión\"}",
+    "expected_output": "El formulario debe contener email, password y botón de login, todos deben ser true.",
+    "retrieval_context": [
+      "La página actual es /login.",
+      "La página contiene un campo de entrada para el correo electrónico.",
+      "La página contiene un campo de entrada para la contraseña.",
+      "La página contiene un botón para iniciar sesión."
+    ]
+  }
+]

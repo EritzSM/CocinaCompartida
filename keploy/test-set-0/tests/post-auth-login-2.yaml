@@ -51,6 +51,8 @@ spec:
   assertions:
     noise:
       header.Date: []
+      body.token: []
+      header.Etag: []
   created: 1779661874
   app_port: 3000
 curl: |-

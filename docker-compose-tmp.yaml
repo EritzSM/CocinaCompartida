@@ -56,8 +56,8 @@ services:
         depends_on:
             - backend
     keploy-agent:
-        image: docker.io/keploy/enterprise:v3.5.22
-        container_name: keploy-v3-af29
+        image: docker.io/keploy/enterprise:v3.5.23
+        container_name: keploy-v3-7844
         # Capabilities required by keploy-agent for eBPF interception.
         # Review and allow only what your security policy permits.
         cap_add:
@@ -72,7 +72,7 @@ services:
             - CERT_EXPORT_PATH=/tmp/keploy-tls
             - KEPLOY_DEBUG_FILE=/keploy-host/agent-debug.log
         ports:
-            - "34739:34739"
+            - "46209:46209"
             - "16789:16789"
             - "3000:3000"
         networks:
@@ -87,13 +87,13 @@ services:
             - /mnt/c/Users/User/Documents/Programacion/Desarrollo_web/CocinaCompartida/keploy:/keploy-host
         command:
             - --port
-            - "34739"
+            - "46209"
             - --proxy-port
             - "16789"
             - --dns-port
             - "26789"
             - --client-pid
-            - "10079"
+            - "6433"
             - --mode
             - test
             - --is-docker

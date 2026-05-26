@@ -17,17 +17,14 @@ describe('Recipe Feed & Explore', () => {
     cy.window().then((win) => {
       win.localStorage.setItem('token', makeMockJwt());
     });
-    cy.eyesOpen({
-      appName: 'Cocina Compartida',
-      testName: Cypress.currentTest.title,
-    });
-  });
-
-  afterEach(() => {
-    cy.eyesClose();
   });
 
   it('should display recipe cards correctly on Explore page (Visual Check)', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Explore Page - Recipe Cards',
+    });
+
     cy.intercept('GET', '/api/recipes', {
       statusCode: 200,
       body: [
@@ -44,9 +41,16 @@ describe('Recipe Feed & Explore', () => {
     cy.eyesCheckWindow('Explore Page - Recipe Cards Grid');
 
     cy.get('.like-button').first().should('be.visible');
+
+    cy.eyesClose();
   });
 
   it('should show liked state visually after clicking like (Visual Check)', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Explore Page - Like Interaction',
+    });
+
     const recipeId = 'r1';
 
     cy.intercept('GET', '/api/recipes', {
@@ -75,6 +79,8 @@ describe('Recipe Feed & Explore', () => {
 
     // Captura después del like para verificar el cambio visual del ícono/contador
     cy.eyesCheckWindow('Explore Page - After Like (Counter Updated)');
+
+    cy.eyesClose();
   });
 });
 
