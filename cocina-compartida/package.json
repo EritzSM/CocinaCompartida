@@ -8,7 +8,14 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "stagehand:install:browsers": "playwright install chromium",
+    "stagehand:demo": "tsx stagehand/tests/observe-extract.e2e.ts",
+    "stagehand:explore": "tsx stagehand/tests/explore-search.e2e.ts",
+    "stagehand:recipe-detail": "tsx stagehand/tests/recipe-detail.e2e.ts",
+    "stagehand:backend-crud": "tsx stagehand/tests/backend-crud.e2e.ts",
+    "stagehand:categories": "tsx stagehand/tests/categories-tags.e2e.ts",
+    "stagehand:favorites": "tsx stagehand/tests/favorites-bookmarks.e2e.ts"
   },
   "prettier": {
     "printWidth": 100,
@@ -45,17 +52,22 @@
     "@angular/build": "^20.2.0",
     "@angular/cli": "^20.2.0",
     "@angular/compiler-cli": "^20.2.0",
+    "@browserbasehq/stagehand": "^3.4.0",
     "@types/jasmine": "~5.1.0",
     "@types/multer": "^2.1.0",
     "axe-core": "^4.10.0",
     "cypress": "^14.0.0",
     "cypress-axe": "^1.5.0",
+    "dotenv": "^17.4.2",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.9.2"
+    "playwright": "^1.60.0",
+    "tsx": "^4.22.3",
+    "typescript": "~5.9.2",
+    "zod": "^4.4.3"
   }
 }
