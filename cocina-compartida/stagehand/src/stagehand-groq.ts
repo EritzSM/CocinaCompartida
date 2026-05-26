@@ -9,7 +9,7 @@ export function createStagehandGroq() {
   const useGemini = geminiKey && !geminiKey.startsWith("AIzaSy_PEGA");
   const key = useGemini ? geminiKey : groqKey;
   const modelName = useGemini
-    ? (process.env.GEMINI_MODEL ?? "gemini/gemini-2.0-flash")
+    ? (process.env.GEMINI_MODEL ?? "google/gemini-2.0-flash")
     : `groq/${process.env.GROQ_MODEL ?? "openai/gpt-oss-20b"}`;
 
   if (!key) {

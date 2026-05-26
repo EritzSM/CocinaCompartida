@@ -15,8 +15,8 @@ $tests = @(
 )
 
 $results = @()
-# 5s con Gemini (1M TPM); cambiar a 90 si solo tienes GROQ_API_KEY
-$wait = 5
+# 90s con Groq (8K TPM); bajar a 5s si usas Gemini con free tier habilitado
+$wait = 90
 
 for ($i = 0; $i -lt $tests.Length; $i++) {
   $t = $tests[$i]
