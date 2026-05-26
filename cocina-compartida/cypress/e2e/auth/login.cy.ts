@@ -1,18 +1,12 @@
 describe('Login Flow', () => {
-  beforeEach(() => {
-    // Before each test, open Applitools Eyes (it won't do anything if no APPLITOOLS_API_KEY is set or eyesCheckWindow isn't called)
-    cy.eyesOpen({
-      appName: 'Cocina Compartida',
-      testName: Cypress.currentTest.title,
-    });
-  });
 
-  afterEach(() => {
-    // Close Applitools Eyes after each test
-    cy.eyesClose();
-  });
 
   it('should display all required elements on the Login page (Visual Check)', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Login Page Initial Render',
+    });
+
     cy.visit('/login');
     
     // Check visual layout
@@ -22,6 +16,8 @@ describe('Login Flow', () => {
     cy.get('input[type="password"]').should('be.visible');
     cy.get('button[type="submit"]').should('be.visible').and('contain', 'Iniciar Sesión');
     cy.get('a[href="/sign-up"]').should('be.visible');
+
+    cy.eyesClose();
   });
 
   it('Login page should be accessible', () => {

@@ -1,0 +1,8 @@
+preScript: ""
+postScript: ""
+appCommand: ""
+template: {}
+metadata: {}
+mockRegistry:
+    mock: 7b7c39d4acf692fa17a17b7570631d9916cb2eb24ad51d42e1a5c3bedd9ef09b
+    app: CocinaCompartida

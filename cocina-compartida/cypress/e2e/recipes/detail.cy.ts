@@ -17,17 +17,14 @@ describe('Recipe Detail', () => {
     cy.window().then((win) => {
       win.localStorage.setItem('token', makeMockJwt());
     });
-    cy.eyesOpen({
-      appName: 'Cocina Compartida',
-      testName: Cypress.currentTest.title,
-    });
-  });
-
-  afterEach(() => {
-    cy.eyesClose();
   });
 
   it('should display likes count on the recipe detail page (Visual Check)', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Recipe Detail - Likes Count',
+    });
+
     cy.intercept('GET', '/api/recipes/mock-recipe-id', {
       statusCode: 200,
       body: {
@@ -44,9 +41,16 @@ describe('Recipe Detail', () => {
     cy.eyesCheckWindow('Recipe Detail Page - Full View');
 
     cy.get('.likes-summary').should('be.visible').and('contain', 'me gusta');
+
+    cy.eyesClose();
   });
 
   it('should display the download PDF button when user is logged in (Visual Check)', () => {
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: 'Recipe Detail - PDF Button',
+    });
+
     cy.intercept('GET', '/api/recipes/mock-recipe-id', {
       statusCode: 200,
       body: {
@@ -64,6 +68,8 @@ describe('Recipe Detail', () => {
     cy.eyesCheckWindow('Recipe Detail Page - PDF Button Visible');
 
     cy.get('button.pdf-btn').should('be.visible').and('contain', 'Descargar PDF');
+
+    cy.eyesClose();
   });
 
   it('Recipe Detail page should be accessible', () => {

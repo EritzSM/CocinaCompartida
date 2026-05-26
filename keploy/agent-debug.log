@@ -1,78 +1,78 @@
-🐰 Keploy: 2026-05-24T22:44:15.919287913Z 	[35mDEBUG[0m	KEPLOY_DEBUG_FILE attached	{"path": "/keploy-host/agent-debug.log"}
-🐰 Keploy: 2026-05-24T22:44:15.933713284Z 	[35mDEBUG[0m	got empty machine id
-🐰 Keploy: 2026-05-24T22:44:15.933730182Z 	[34mINFO[0m	Starting Keploy	{"version": "3.5.22", "buildSource": "unknown", "apiServerURL": "https://api.keploy.io", "inDocker": true}
-🐰 Keploy: 2026-05-24T22:44:15.938932103Z 	[35mDEBUG[0m	adding flags for debug failures command
-🐰 Keploy: 2026-05-24T22:44:15.946511804Z 	[35mDEBUG[0m	adding additional test flags for cloud replay command
-🐰 Keploy: 2026-05-24T22:44:15.946562195Z 	[35mDEBUG[0m	adding flags for cloud replay
-🐰 Keploy: 2026-05-24T22:44:15.953160941Z 	[35mDEBUG[0m	User is OSS, skipping update check
-🐰 Keploy: 2026-05-24T22:44:15.953303913Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.buildDelay", "envVarName": "AGENT_BUILDDELAY"}
-🐰 Keploy: 2026-05-24T22:44:15.953318533Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.caJavaHome", "envVarName": "AGENT_CAJAVAHOME"}
-🐰 Keploy: 2026-05-24T22:44:15.953323193Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.capturePackets", "envVarName": "AGENT_CAPTUREPACKETS"}
-🐰 Keploy: 2026-05-24T22:44:15.953327384Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.clientPid", "envVarName": "AGENT_CLIENTPID"}
-🐰 Keploy: 2026-05-24T22:44:15.953331443Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.configPath", "envVarName": "AGENT_CONFIGPATH"}
-🐰 Keploy: 2026-05-24T22:44:15.953334682Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.customDedupFields", "envVarName": "AGENT_CUSTOMDEDUPFIELDS"}
-🐰 Keploy: 2026-05-24T22:44:15.953337462Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.daemonset", "envVarName": "AGENT_DAEMONSET"}
-🐰 Keploy: 2026-05-24T22:44:15.953339042Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.debug", "envVarName": "AGENT_DEBUG"}
-🐰 Keploy: 2026-05-24T22:44:15.953341711Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.dedup", "envVarName": "AGENT_DEDUP"}
-🐰 Keploy: 2026-05-24T22:44:15.953344059Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.disableAnsi", "envVarName": "AGENT_DISABLEANSI"}
-🐰 Keploy: 2026-05-24T22:44:15.953346439Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.disableMapping", "envVarName": "AGENT_DISABLEMAPPING"}
-🐰 Keploy: 2026-05-24T22:44:15.953348893Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.dnsPort", "envVarName": "AGENT_DNSPORT"}
-🐰 Keploy: 2026-05-24T22:44:15.953351315Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.enableSampling", "envVarName": "AGENT_ENABLESAMPLING"}
-🐰 Keploy: 2026-05-24T22:44:15.953355757Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.enableTesting", "envVarName": "AGENT_ENABLETESTING"}
-🐰 Keploy: 2026-05-24T22:44:15.953358536Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.freezeTime", "envVarName": "AGENT_FREEZETIME"}
-🐰 Keploy: 2026-05-24T22:44:15.953360957Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.globalPassthrough", "envVarName": "AGENT_GLOBALPASSTHROUGH"}
-🐰 Keploy: 2026-05-24T22:44:15.953362633Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.help", "envVarName": "AGENT_HELP"}
-🐰 Keploy: 2026-05-24T22:44:15.953365317Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.incomingProxyPort", "envVarName": "AGENT_INCOMINGPROXYPORT"}
-🐰 Keploy: 2026-05-24T22:44:15.953367657Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.isDocker", "envVarName": "AGENT_ISDOCKER"}
-🐰 Keploy: 2026-05-24T22:44:15.953369082Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.json", "envVarName": "AGENT_JSON"}
-🐰 Keploy: 2026-05-24T22:44:15.953371262Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.lowLatency", "envVarName": "AGENT_LOWLATENCY"}
-🐰 Keploy: 2026-05-24T22:44:15.953373437Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.manualLogin", "envVarName": "AGENT_MANUALLOGIN"}
-🐰 Keploy: 2026-05-24T22:44:15.953376708Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.maxMemoryPerConn", "envVarName": "AGENT_MAXMEMORYPERCONN"}
-🐰 Keploy: 2026-05-24T22:44:15.953381312Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.memoryLimit", "envVarName": "AGENT_MEMORYLIMIT"}
-🐰 Keploy: 2026-05-24T22:44:15.953382831Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.mode", "envVarName": "AGENT_MODE"}
-🐰 Keploy: 2026-05-24T22:44:15.953385972Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.opportunisticTlsIntercept", "envVarName": "AGENT_OPPORTUNISTICTLSINTERCEPT"}
-🐰 Keploy: 2026-05-24T22:44:15.953390883Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.passThroughPorts", "envVarName": "AGENT_PASSTHROUGHPORTS"}
-🐰 Keploy: 2026-05-24T22:44:15.953393179Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.port", "envVarName": "AGENT_PORT"}
-🐰 Keploy: 2026-05-24T22:44:15.953398969Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.proxyPort", "envVarName": "AGENT_PROXYPORT"}
-🐰 Keploy: 2026-05-24T22:44:15.953402358Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.queueSize", "envVarName": "AGENT_QUEUESIZE"}
-🐰 Keploy: 2026-05-24T22:44:15.953413229Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.staticDedup", "envVarName": "AGENT_STATICDEDUP"}
-🐰 Keploy: 2026-05-24T22:44:15.953415591Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.sync", "envVarName": "AGENT_SYNC"}
-🐰 Keploy: 2026-05-24T22:44:15.953422338Z 	[35mDEBUG[0m	config path is 	{"configPath": "/mnt/c/Users/User/Documents/Programacion/Desarrollo_web/CocinaCompartida"}
-🐰 Keploy: 2026-05-24T22:44:15.953520193Z 	[35mDEBUG[0m	config file not found; proceeding with flags only
-🐰 Keploy: 2026-05-24T22:44:15.95658581Z 	[35mDEBUG[0m	config has been initialised	{"for cmd": "agent", "config": {"path":"","appName":"","appId":0,"command":"","templatize":{"testSets":[]},"port":34739,"e2e":false,"dnsPort":26789,"proxyPort":16789,"incomingProxyPort":0,"debug":false,"disableTele":true,"disableANSI":false,"jsonOutput":false,"inDocker":true,"containerName":"","networkName":"","buildDelay":30,"test":{"selectedTests":{},"globalNoise":{"global":{},"test-sets":{}},"replaceWith":{"global":{"url":null,"port":null},"test-sets":{}},"delay":5,"healthUrl":"","healthPollTimeout":60000000000,"host":"localhost","port":0,"grpcPort":0,"ssePort":0,"protocol":{"grpc":{"port":0},"http":{"port":0},"sse":{"port":0}},"apiTimeout":5,"skipCoverage":false,"coverageReportPath":"","ignoreOrdering":true,"mongoPassword":"default@123","language":"","removeUnusedMocks":false,"preserveFailedMocks":false,"fallBackOnMiss":false,"jacocoAgentPath":"","basePath":"","mocking":true,"ignoredTests":{},"disableLineCoverage":false,"updateTemplate":false,"mustPass":false,"maxFailAttempts":5,"maxFlakyChecks":1,"protoFile":"","protoDir":"","protoInclude":[],"compareAll":false,"schemaMatch":false,"updateTestMapping":false,"disableAutoHeaderNoise":false,"strictMockWindow":true,"keepAppAlive":false},"record":{"filters":[],"basePath":"","recordTimer":0,"metadata":"","testCaseNaming":"descriptive","sync":false,"enableSampling":0,"memoryLimit":0,"globalPassthrough":false,"tlsPrivateKeyPath":"","capturePackets":false,"opportunisticTlsIntercept":false,"recordBuffer":{"maxMemoryPerConnection":67108864,"queueSize":1024}},"report":{"selectedTestSets":null,"showFullBody":false,"reportPath":"","summary":false,"testCaseIDs":null,"format":""},"normalize":{"selectedTests":null,"testReport":"","allowHighRisk":false},"disableMapping":true,"retryPassing":false,"configPath":"/mnt/c/Users/User/Documents/Programacion/Desarrollo_web/CocinaCompartida","bypassRules":[],"mysqlPorts":null,"enableTesting":true,"generateGithubActions":false,"keployContainer":"keploy-v3","keployNetwork":"keploy-network","cmdType":"native","contract":{"services":[],"tests":[],"path":"","download":false,"generate":false,"driven":"consumer","mappings":{"servicesMapping":{},"self":"s1"}},"agent":{"ClientNSPID":0,"Container":"","KeployContainer":"","DockerDelay":0,"Synchronous":false,"AgentURI":"","IsDocker":false,"CommandType":"","EnableTesting":false,"ProxyPort":0,"IncomingProxyPort":0,"DnsPort":0,"Mode":"","GlobalPassthrough":false,"CapturePackets":false,"OpportunisticTLSIntercept":false,"AgentPort":0,"AppPorts":null,"AppNetworks":null,"NetworkAliases":null,"BuildDelay":0,"PassThroughPorts":null,"MemoryLimit":0,"ConfigPath":"","RecordBufferMaxMemoryPerConn":0,"RecordBufferQueueSize":0,"ExtraArgs":null,"EnableSampling":0,"EnableIPv6Redirect":false,"CAJavaHome":"","InMemoryCompose":null},"inCi":false,"serverPort":0}}
-🐰 Keploy: 2026-05-24T22:44:15.959294595Z 	[35mDEBUG[0m	Starting the agent in 	{"mode": "test"}
-🐰 Keploy: 2026-05-24T22:44:16.329186992Z 	[35mDEBUG[0m	Attaching SockOps...
-🐰 Keploy: 2026-05-24T22:44:16.33253822Z 	[35mDEBUG[0m	keploy initialized and probes added to the kernel.
-🐰 Keploy: 2026-05-24T22:44:16.332652753Z 	[34mINFO[0m	recording start boottime set	{"ns": 29036772067744}
-🐰 Keploy: 2026-05-24T22:44:16.332696635Z 	[35mDEBUG[0m	Registering the client Info with keploy
-🐰 Keploy: 2026-05-24T22:44:16.332845122Z 	[35mDEBUG[0m	IPv4-mapped IPv6 for 172.19.0.3 is: 00000000:00000000:0000ffff:ac130003
+🐰 Keploy: 2026-05-26T02:56:57.47716903Z 	[35mDEBUG[0m	KEPLOY_DEBUG_FILE attached	{"path": "/keploy-host/agent-debug.log"}
+🐰 Keploy: 2026-05-26T02:56:57.485841875Z 	[35mDEBUG[0m	got empty machine id
+🐰 Keploy: 2026-05-26T02:56:57.485859423Z 	[34mINFO[0m	Starting Keploy	{"version": "3.5.23", "apiServerURL": "https://api.keploy.io", "inDocker": true}
+🐰 Keploy: 2026-05-26T02:56:57.492500487Z 	[35mDEBUG[0m	adding additional test flags for cloud replay command
+🐰 Keploy: 2026-05-26T02:56:57.492539854Z 	[35mDEBUG[0m	adding flags for cloud replay
+🐰 Keploy: 2026-05-26T02:56:57.492700155Z 	[35mDEBUG[0m	adding flags for debug failures command
+🐰 Keploy: 2026-05-26T02:56:57.5000271Z 	[35mDEBUG[0m	User is OSS, skipping update check
+🐰 Keploy: 2026-05-26T02:56:57.500300611Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.buildDelay", "envVarName": "AGENT_BUILDDELAY"}
+🐰 Keploy: 2026-05-26T02:56:57.500307968Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.caJavaHome", "envVarName": "AGENT_CAJAVAHOME"}
+🐰 Keploy: 2026-05-26T02:56:57.500310451Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.capturePackets", "envVarName": "AGENT_CAPTUREPACKETS"}
+🐰 Keploy: 2026-05-26T02:56:57.500312469Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.clientPid", "envVarName": "AGENT_CLIENTPID"}
+🐰 Keploy: 2026-05-26T02:56:57.500314194Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.configPath", "envVarName": "AGENT_CONFIGPATH"}
+🐰 Keploy: 2026-05-26T02:56:57.500316287Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.customDedupFields", "envVarName": "AGENT_CUSTOMDEDUPFIELDS"}
+🐰 Keploy: 2026-05-26T02:56:57.500317991Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.daemonset", "envVarName": "AGENT_DAEMONSET"}
+🐰 Keploy: 2026-05-26T02:56:57.500319066Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.debug", "envVarName": "AGENT_DEBUG"}
+🐰 Keploy: 2026-05-26T02:56:57.500321136Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.dedup", "envVarName": "AGENT_DEDUP"}
+🐰 Keploy: 2026-05-26T02:56:57.500322714Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.disableAnsi", "envVarName": "AGENT_DISABLEANSI"}
+🐰 Keploy: 2026-05-26T02:56:57.500324373Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.disableMapping", "envVarName": "AGENT_DISABLEMAPPING"}
+🐰 Keploy: 2026-05-26T02:56:57.500325963Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.dnsPort", "envVarName": "AGENT_DNSPORT"}
+🐰 Keploy: 2026-05-26T02:56:57.500327711Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.enableSampling", "envVarName": "AGENT_ENABLESAMPLING"}
+🐰 Keploy: 2026-05-26T02:56:57.500331973Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.enableTesting", "envVarName": "AGENT_ENABLETESTING"}
+🐰 Keploy: 2026-05-26T02:56:57.500336345Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.freezeTime", "envVarName": "AGENT_FREEZETIME"}
+🐰 Keploy: 2026-05-26T02:56:57.500340388Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.globalPassthrough", "envVarName": "AGENT_GLOBALPASSTHROUGH"}
+🐰 Keploy: 2026-05-26T02:56:57.500341723Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.help", "envVarName": "AGENT_HELP"}
+🐰 Keploy: 2026-05-26T02:56:57.500343895Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.incomingProxyPort", "envVarName": "AGENT_INCOMINGPROXYPORT"}
+🐰 Keploy: 2026-05-26T02:56:57.500345578Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.isDocker", "envVarName": "AGENT_ISDOCKER"}
+🐰 Keploy: 2026-05-26T02:56:57.500346597Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.json", "envVarName": "AGENT_JSON"}
+🐰 Keploy: 2026-05-26T02:56:57.500348241Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.lowLatency", "envVarName": "AGENT_LOWLATENCY"}
+🐰 Keploy: 2026-05-26T02:56:57.500349741Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.manualLogin", "envVarName": "AGENT_MANUALLOGIN"}
+🐰 Keploy: 2026-05-26T02:56:57.500352056Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.maxMemoryPerConn", "envVarName": "AGENT_MAXMEMORYPERCONN"}
+🐰 Keploy: 2026-05-26T02:56:57.500359344Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.memoryLimit", "envVarName": "AGENT_MEMORYLIMIT"}
+🐰 Keploy: 2026-05-26T02:56:57.500360359Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.mode", "envVarName": "AGENT_MODE"}
+🐰 Keploy: 2026-05-26T02:56:57.50036262Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.opportunisticTlsIntercept", "envVarName": "AGENT_OPPORTUNISTICTLSINTERCEPT"}
+🐰 Keploy: 2026-05-26T02:56:57.500365186Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.passThroughPorts", "envVarName": "AGENT_PASSTHROUGHPORTS"}
+🐰 Keploy: 2026-05-26T02:56:57.500366207Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.port", "envVarName": "AGENT_PORT"}
+🐰 Keploy: 2026-05-26T02:56:57.500369157Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.proxyPort", "envVarName": "AGENT_PROXYPORT"}
+🐰 Keploy: 2026-05-26T02:56:57.500370712Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.queueSize", "envVarName": "AGENT_QUEUESIZE"}
+🐰 Keploy: 2026-05-26T02:56:57.50037299Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.staticDedup", "envVarName": "AGENT_STATICDEDUP"}
+🐰 Keploy: 2026-05-26T02:56:57.500374053Z 	[35mDEBUG[0m	Binding flag to viper	{"viperKey": "agent.sync", "envVarName": "AGENT_SYNC"}
+🐰 Keploy: 2026-05-26T02:56:57.5003799Z 	[35mDEBUG[0m	config path is 	{"configPath": "/mnt/c/Users/User/Documents/Programacion/Desarrollo_web/CocinaCompartida"}
+🐰 Keploy: 2026-05-26T02:56:57.500440652Z 	[35mDEBUG[0m	config file not found; proceeding with flags only
+🐰 Keploy: 2026-05-26T02:56:57.50287451Z 	[35mDEBUG[0m	config has been initialised	{"for cmd": "agent", "config": {"path":"","appName":"","appId":0,"command":"","templatize":{"testSets":[]},"port":46209,"e2e":false,"dnsPort":26789,"proxyPort":16789,"incomingProxyPort":0,"debug":false,"disableTele":true,"disableANSI":false,"jsonOutput":false,"inDocker":true,"containerName":"","networkName":"","buildDelay":30,"test":{"selectedTests":{},"globalNoise":{"global":{},"test-sets":{}},"replaceWith":{"global":{"url":null,"port":null},"test-sets":{}},"delay":5,"healthUrl":"","healthPollTimeout":60000000000,"host":"localhost","port":0,"grpcPort":0,"ssePort":0,"protocol":{"grpc":{"port":0},"http":{"port":0},"sse":{"port":0}},"apiTimeout":5,"skipCoverage":false,"coverageReportPath":"","ignoreOrdering":true,"mongoPassword":"default@123","language":"","removeUnusedMocks":false,"preserveFailedMocks":false,"fallBackOnMiss":false,"jacocoAgentPath":"","basePath":"","mocking":true,"ignoredTests":{},"disableLineCoverage":false,"updateTemplate":false,"mustPass":false,"maxFailAttempts":5,"maxFlakyChecks":1,"protoFile":"","protoDir":"","protoInclude":[],"compareAll":false,"schemaMatch":false,"updateTestMapping":false,"disableAutoHeaderNoise":false,"strictMockWindow":true,"keepAppAlive":false},"record":{"filters":[],"basePath":"","recordTimer":0,"metadata":"","testCaseNaming":"descriptive","sync":false,"enableSampling":0,"memoryLimit":0,"globalPassthrough":false,"tlsPrivateKeyPath":"","capturePackets":false,"opportunisticTlsIntercept":false,"recordBuffer":{"maxMemoryPerConnection":67108864,"queueSize":1024}},"report":{"selectedTestSets":null,"showFullBody":false,"reportPath":"","summary":false,"testCaseIDs":null,"format":""},"normalize":{"selectedTests":null,"testReport":"","allowHighRisk":false},"disableMapping":true,"retryPassing":false,"configPath":"/mnt/c/Users/User/Documents/Programacion/Desarrollo_web/CocinaCompartida","bypassRules":[],"mysqlPorts":null,"enableTesting":true,"generateGithubActions":false,"keployContainer":"keploy-v3","keployNetwork":"keploy-network","cmdType":"native","contract":{"services":[],"tests":[],"path":"","download":false,"generate":false,"driven":"consumer","mappings":{"servicesMapping":{},"self":"s1"}},"agent":{"ClientNSPID":0,"Container":"","KeployContainer":"","DockerDelay":0,"Synchronous":false,"AgentURI":"","IsDocker":false,"CommandType":"","EnableTesting":false,"ProxyPort":0,"IncomingProxyPort":0,"DnsPort":0,"Mode":"","GlobalPassthrough":false,"CapturePackets":false,"OpportunisticTLSIntercept":false,"AgentPort":0,"AppPorts":null,"AppNetworks":null,"NetworkAliases":null,"BuildDelay":0,"PassThroughPorts":null,"MemoryLimit":0,"ConfigPath":"","RecordBufferMaxMemoryPerConn":0,"RecordBufferQueueSize":0,"ExtraArgs":null,"EnableSampling":0,"EnableIPv6Redirect":false,"CAJavaHome":"","InMemoryCompose":null},"inCi":false,"serverPort":0}}
+🐰 Keploy: 2026-05-26T02:56:57.506159387Z 	[35mDEBUG[0m	Starting the agent in 	{"mode": "test"}
+🐰 Keploy: 2026-05-26T02:56:57.737084129Z 	[35mDEBUG[0m	Attaching SockOps...
+🐰 Keploy: 2026-05-26T02:56:57.739613063Z 	[35mDEBUG[0m	keploy initialized and probes added to the kernel.
+🐰 Keploy: 2026-05-26T02:56:57.739682331Z 	[34mINFO[0m	recording start boottime set	{"ns": 36163517566023}
+🐰 Keploy: 2026-05-26T02:56:57.739710877Z 	[35mDEBUG[0m	Registering the client Info with keploy
+🐰 Keploy: 2026-05-26T02:56:57.739889071Z 	[35mDEBUG[0m	IPv4-mapped IPv6 for 172.19.0.3 is: 00000000:00000000:0000ffff:ac130003
 
-🐰 Keploy: 2026-05-24T22:44:16.332892125Z 	[35mDEBUG[0m	IPv4-mapped IPv6 for 172.19.0.3 is: 00000000:00000000:0000ffff:ac130003
+🐰 Keploy: 2026-05-26T02:56:57.739922953Z 	[35mDEBUG[0m	IPv4-mapped IPv6 for 172.19.0.3 is: 00000000:00000000:0000ffff:ac130003
 
-🐰 Keploy: 2026-05-24T22:44:16.332896116Z 	[35mDEBUG[0m	proxy ips	{"ipv4": "172.19.0.3", "ipv6": [0,0,65535,2886926339]}
-🐰 Keploy: 2026-05-24T22:44:16.333049588Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "pulsar", "ParserType": "pulsar"}
-🐰 Keploy: 2026-05-24T22:44:16.33306308Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "redis", "ParserType": "redis"}
-🐰 Keploy: 2026-05-24T22:44:16.333069434Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "mongo_v2", "ParserType": "mongo_v2"}
-🐰 Keploy: 2026-05-24T22:44:16.33307596Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "postgres_v2", "ParserType": "postgres_v2"}
-🐰 Keploy: 2026-05-24T22:44:16.333083733Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "hbase", "ParserType": "hbase"}
-🐰 Keploy: 2026-05-24T22:44:16.333092757Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "kafka", "ParserType": "kafka"}
-🐰 Keploy: 2026-05-24T22:44:16.333100755Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "zookeeper", "ParserType": "zookeeper"}
-🐰 Keploy: 2026-05-24T22:44:16.333106548Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "mysql", "ParserType": "mysql"}
-🐰 Keploy: 2026-05-24T22:44:16.333113184Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "grpc", "ParserType": "grpc"}
-🐰 Keploy: 2026-05-24T22:44:16.333119916Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "http2", "ParserType": "http2"}
-🐰 Keploy: 2026-05-24T22:44:16.333125161Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "postgres_v3", "ParserType": "postgres_v3"}
-🐰 Keploy: 2026-05-24T22:44:16.333129162Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "generic", "ParserType": "generic"}
-🐰 Keploy: 2026-05-24T22:44:16.333133986Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "http", "ParserType": "http"}
-🐰 Keploy: 2026-05-24T22:44:16.333137597Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "sqs", "ParserType": "sqs"}
-🐰 Keploy: 2026-05-24T22:44:16.358431958Z 	[35mDEBUG[0m	Detected Docker Shared Volume mode. Exporting certs...	{"path": "/tmp/keploy-tls"}
-🐰 Keploy: 2026-05-24T22:44:16.372510276Z 	[34mINFO[0m	Merged system CA bundle with Keploy MITM CA	{"system_bytes": 216591, "keploy_bytes": 562, "source_path": "/etc/ssl/certs/ca-certificates.crt", "output": "/tmp/keploy-tls/ca.crt", "keploy_only_output": "/tmp/keploy-tls/keploy-ca.crt"}
-🐰 Keploy: 2026-05-24T22:44:16.378856304Z 	[35mDEBUG[0m	TLS Certificates successfully exported to shared volume
-🐰 Keploy: 2026-05-24T22:44:16.378937806Z 	[35mDEBUG[0m	captured upstream DNS resolvers for forward-on-miss	{"servers": ["127.0.0.11"], "port": "53"}
-🐰 Keploy: 2026-05-24T22:44:16.378967172Z 	[35mDEBUG[0m	Starting Tcp Dns Server for handling Dns queries over TCP
-🐰 Keploy: 2026-05-24T22:44:16.378978658Z 	[35mDEBUG[0m	Starting Udp Dns Server for handling Dns queries over UDP
-🐰 Keploy: 2026-05-24T22:44:16.379211432Z 	[34mINFO[0m	starting TCP DNS server at addr :26789
-🐰 Keploy: 2026-05-24T22:44:16.379537527Z 	[34mINFO[0m	starting UDP DNS server at addr :26789
-🐰 Keploy: 2026-05-24T22:44:16.382832527Z 	[35mDEBUG[0m	Proxy server is listening on :[::]:16789
-🐰 Keploy: 2026-05-24T22:44:16.382935626Z 	[34mINFO[0m	Keploy has taken control of the DNS resolution mechanism, your application may misbehave if you have provided wrong domain name in your application code.
-🐰 Keploy: 2026-05-24T22:44:16.382975235Z 	[34mINFO[0m	Proxy started at port:16789
-🐰 Keploy: 2026-05-24T22:44:16.382996594Z 	[34mINFO[0m	Starting Agent's HTTP server on :	{"port": 34739}
+🐰 Keploy: 2026-05-26T02:56:57.739925974Z 	[35mDEBUG[0m	proxy ips	{"ipv4": "172.19.0.3", "ipv6": [0,0,65535,2886926339]}
+🐰 Keploy: 2026-05-26T02:56:57.74005317Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "zookeeper", "ParserType": "zookeeper"}
+🐰 Keploy: 2026-05-26T02:56:57.740059751Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "grpc", "ParserType": "grpc"}
+🐰 Keploy: 2026-05-26T02:56:57.740063257Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "postgres_v3", "ParserType": "postgres_v3"}
+🐰 Keploy: 2026-05-26T02:56:57.740070052Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "generic", "ParserType": "generic"}
+🐰 Keploy: 2026-05-26T02:56:57.740072656Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "http", "ParserType": "http"}
+🐰 Keploy: 2026-05-26T02:56:57.740078206Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "sqs", "ParserType": "sqs"}
+🐰 Keploy: 2026-05-26T02:56:57.740081085Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "redis", "ParserType": "redis"}
+🐰 Keploy: 2026-05-26T02:56:57.740085809Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "mysql", "ParserType": "mysql"}
+🐰 Keploy: 2026-05-26T02:56:57.740090305Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "mongo_v2", "ParserType": "mongo_v2"}
+🐰 Keploy: 2026-05-26T02:56:57.740094331Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "http2", "ParserType": "http2"}
+🐰 Keploy: 2026-05-26T02:56:57.740097859Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "postgres_v2", "ParserType": "postgres_v2"}
+🐰 Keploy: 2026-05-26T02:56:57.740102982Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "hbase", "ParserType": "hbase"}
+🐰 Keploy: 2026-05-26T02:56:57.740105771Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "kafka", "ParserType": "kafka"}
+🐰 Keploy: 2026-05-26T02:56:57.740108939Z 	[35mDEBUG[0m	initialized the parser integration	{"Type": "pulsar", "ParserType": "pulsar"}
+🐰 Keploy: 2026-05-26T02:56:57.740395763Z 	[35mDEBUG[0m	Detected Docker Shared Volume mode. Exporting certs...	{"path": "/tmp/keploy-tls"}
+🐰 Keploy: 2026-05-26T02:56:57.742623111Z 	[34mINFO[0m	Merged system CA bundle with Keploy MITM CA	{"system_bytes": 216591, "keploy_bytes": 562, "source_path": "/etc/ssl/certs/ca-certificates.crt", "output": "/tmp/keploy-tls/ca.crt", "keploy_only_output": "/tmp/keploy-tls/keploy-ca.crt"}
+🐰 Keploy: 2026-05-26T02:56:57.746526765Z 	[35mDEBUG[0m	TLS Certificates successfully exported to shared volume
+🐰 Keploy: 2026-05-26T02:56:57.746586544Z 	[35mDEBUG[0m	captured upstream DNS resolvers for forward-on-miss	{"servers": ["127.0.0.11"], "port": "53"}
+🐰 Keploy: 2026-05-26T02:56:57.746602609Z 	[35mDEBUG[0m	Starting Tcp Dns Server for handling Dns queries over TCP
+🐰 Keploy: 2026-05-26T02:56:57.746622973Z 	[35mDEBUG[0m	Starting Udp Dns Server for handling Dns queries over UDP
+🐰 Keploy: 2026-05-26T02:56:57.746655842Z 	[34mINFO[0m	starting UDP DNS server at addr :26789
+🐰 Keploy: 2026-05-26T02:56:57.746725037Z 	[34mINFO[0m	starting TCP DNS server at addr :26789
+🐰 Keploy: 2026-05-26T02:56:57.749797531Z 	[35mDEBUG[0m	Proxy server is listening on :[::]:16789
+🐰 Keploy: 2026-05-26T02:56:57.749879865Z 	[34mINFO[0m	Keploy has taken control of the DNS resolution mechanism, your application may misbehave if you have provided wrong domain name in your application code.
+🐰 Keploy: 2026-05-26T02:56:57.74991386Z 	[34mINFO[0m	Proxy started at port:16789
+🐰 Keploy: 2026-05-26T02:56:57.749941746Z 	[34mINFO[0m	Starting Agent's HTTP server on :	{"port": 46209}

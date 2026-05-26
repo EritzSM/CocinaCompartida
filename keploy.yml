@@ -14,7 +14,7 @@ debug: false
 disableTele: false
 disableANSI: false
 jsonOutput: false
-containerName: ""
+containerName: "cocina_compartida_backend"
 networkName: ""
 buildDelay: 30
 test:
@@ -27,7 +27,7 @@ test:
             url: {}
             port: {}
         test-sets: {}
-    delay: 5
+    delay: 20
     healthUrl: ""
     healthPollTimeout: 1m0s
     host: localhost
