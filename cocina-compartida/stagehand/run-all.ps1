@@ -1,5 +1,6 @@
-# Corre los 6 tests de Stagehand en orden, esperando 90s entre cada uno
-# para respetar el limite de 8K tokens/min de Groq free tier.
+# Corre los 6 tests de Stagehand en orden.
+# Con Gemini (GEMINI_API_KEY en .env): espera 5s entre tests (1M TPM).
+# Con Groq solo (GROQ_API_KEY): aumenta $wait a 90 (8K TPM).
 
 $root = Split-Path $PSScriptRoot -Parent  # cocina-compartida/
 Set-Location $root
@@ -14,7 +15,8 @@ $tests = @(
 )
 
 $results = @()
-$wait = 90  # segundos entre tests
+# 5s con Gemini (1M TPM); cambiar a 90 si solo tienes GROQ_API_KEY
+$wait = 5
 
 for ($i = 0; $i -lt $tests.Length; $i++) {
   $t = $tests[$i]
@@ -37,7 +39,7 @@ for ($i = 0; $i -lt $tests.Length; $i++) {
   }
 
   if ($i -lt $tests.Length - 1) {
-    Write-Host "Esperando ${wait}s para que se resetee el rate limit de Groq..." -ForegroundColor Yellow
+    Write-Host "Esperando ${wait}s entre tests..." -ForegroundColor Yellow
     Start-Sleep -Seconds $wait
   }
 }

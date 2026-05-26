@@ -1,0 +1,25 @@
+{
+  "name": "cocina-compartida-stagehand",
+  "version": "1.0.0",
+  "description": "Pruebas E2E con IA usando Stagehand (act, observe, extract) para Cocina Compartida",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "tsx tests/run-all.ts",
+    "test:auth": "tsx tests/auth.test.ts",
+    "test:recipes": "tsx tests/recipes.test.ts",
+    "test:explore": "tsx tests/explore.test.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^3.0.79",
+    "@ai-sdk/openai": "^3.0.65",
+    "@browserbasehq/stagehand": "^1.13.0",
+    "dotenv": "^16.4.7",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

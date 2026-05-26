@@ -52,6 +52,7 @@
     "@angular/build": "^20.2.0",
     "@angular/cli": "^20.2.0",
     "@angular/compiler-cli": "^20.2.0",
+    "@applitools/eyes-cypress": "^3.60.1",
     "@browserbasehq/stagehand": "^3.4.0",
     "@types/jasmine": "~5.1.0",
     "@types/multer": "^2.1.0",

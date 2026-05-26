@@ -19,13 +19,34 @@ describe('Recipe Upload', () => {
     cy.window().then((win) => {
       win.localStorage.setItem('token', makeMockJwt());
     });
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: Cypress.currentTest.title,
+    });
   });
 
-  it('should display the recipe upload form with required fields', () => {
+  afterEach(() => {
+    cy.eyesClose();
+  });
+
+  it('should display the recipe upload form with required fields (Visual Check)', () => {
     cy.visit('/recipe-upload');
+
+    // Captura visual del formulario vacío
+    cy.eyesCheckWindow('Recipe Upload Form - Empty State');
+
     cy.get('input[formControlName="name"]').should('be.visible');
     cy.get('input[type="file"]').should('exist');
     cy.get('button').contains(/Guardar/i).should('be.visible');
+  });
+
+  it('should show visual state of form after filling name and category', () => {
+    cy.visit('/recipe-upload');
+    cy.get('input[formControlName="name"]').type('Pastel de Chocolate');
+    cy.get('select[formControlName="category"]').select('postres');
+
+    // Captura visual del formulario parcialmente llenado
+    cy.eyesCheckWindow('Recipe Upload Form - Name & Category Filled');
   });
 
   it('Upload Recipe page should be accessible', () => {
@@ -47,7 +68,7 @@ describe('Recipe Upload', () => {
     }).as('uploadRecipe');
 
     cy.intercept('GET', '/api/recipes', { statusCode: 200, body: [] }).as('getRecipes');
-    
+
     cy.intercept('POST', '**/uploads/recipes/**', {
       statusCode: 201,
       body: { success: true, data: ['http://mock-url.com/image.jpg'] }
@@ -61,7 +82,7 @@ describe('Recipe Upload', () => {
 
     cy.get('input[placeholder^="Ingrediente"]').first().type('Sal');
     cy.get('textarea[placeholder^="Paso"]').first().type('Mezclar todo');
-    
+
     cy.get('input[type="file"]').selectFile({
       contents: Cypress.Buffer.from('dummy image content'),
       fileName: 'test.jpg',
@@ -69,9 +90,13 @@ describe('Recipe Upload', () => {
     }, { force: true });
     cy.wait('@uploadFiles');
 
+    // Captura visual antes de enviar el formulario completo
+    cy.eyesCheckWindow('Recipe Upload Form - Fully Filled Before Submit');
+
     cy.get('button').contains(/Guardar Receta|Guardar Cambios/i).click();
 
     cy.wait('@uploadRecipe');
     cy.url().should('not.include', '/recipe-upload');
   });
 });
+

@@ -17,30 +17,43 @@ describe('Recipe Feed & Explore', () => {
     cy.window().then((win) => {
       win.localStorage.setItem('token', makeMockJwt());
     });
+    cy.eyesOpen({
+      appName: 'Cocina Compartida',
+      testName: Cypress.currentTest.title,
+    });
   });
 
-  it('should display like button on the Explore page', () => {
+  afterEach(() => {
+    cy.eyesClose();
+  });
+
+  it('should display recipe cards correctly on Explore page (Visual Check)', () => {
     cy.intercept('GET', '/api/recipes', {
       statusCode: 200,
       body: [
-        { id: 'r1', name: 'Recipe 1', likes: 5, likedBy: [], user: { id: 'u1', username: 'author' }, images: [] }
+        { id: 'r1', name: 'Pastel de Chocolate', likes: 15, likedBy: [], user: { id: 'u1', username: 'chef_mario' }, images: [] },
+        { id: 'r2', name: 'Tacos de Pollo',      likes: 8,  likedBy: [], user: { id: 'u2', username: 'cocinera_ana' }, images: [] },
+        { id: 'r3', name: 'Ensalada César',      likes: 3,  likedBy: [], user: { id: 'u3', username: 'foodlover' }, images: [] },
       ]
     }).as('getRecipes');
 
     cy.visit('/explore');
     cy.wait('@getRecipes');
 
+    // Captura visual de la página Explore con múltiples tarjetas
+    cy.eyesCheckWindow('Explore Page - Recipe Cards Grid');
+
     cy.get('.like-button').first().should('be.visible');
   });
 
-  it('should call the like endpoint when clicking the like button', () => {
+  it('should show liked state visually after clicking like (Visual Check)', () => {
     const recipeId = 'r1';
 
     cy.intercept('GET', '/api/recipes', {
       statusCode: 200,
       body: [
         {
-          id: recipeId, name: 'Recipe 1', likes: 5, likedBy: [],
+          id: recipeId, name: 'Pastel de Chocolate', likes: 5, likedBy: [],
           user: { id: 'author-id', username: 'author', avatar: '' }, images: []
         }
       ]
@@ -54,7 +67,14 @@ describe('Recipe Feed & Explore', () => {
     cy.visit('/explore');
     cy.wait('@getRecipes');
 
+    // Captura antes del like
+    cy.eyesCheckWindow('Explore Page - Before Like');
+
     cy.get('.like-button').first().click();
     cy.wait('@likeRecipe');
+
+    // Captura después del like para verificar el cambio visual del ícono/contador
+    cy.eyesCheckWindow('Explore Page - After Like (Counter Updated)');
   });
 });
+
