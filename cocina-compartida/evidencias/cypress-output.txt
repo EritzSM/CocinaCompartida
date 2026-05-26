@@ -1,0 +1,276 @@
+
+> cocina-compartida@0.0.0 cy:funcionalidades
+> cypress run --spec 'cypress/e2e/funcionalidades/**/*.cy.ts'
+
+
+
+DevTools listening on ws://127.0.0.1:63018/devtools/browser/b3c9dd07-37e2-45a7-906d-14b4fcac2e28
+Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        14.5.4                                                                         │
+  │ Browser:        Electron 130 (headless)                                                        │
+  │ Node Version:   v24.11.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          5 found (01-explore.cy.ts, 02-recipe-detail.cy.ts, 03-backend-crud.cy.ts, 04-c │
+  │                 ategories.cy.ts, 05-favorites.cy.ts)                                           │
+  │ Searched:       C:\Users\Luis Miguel\OneDrive\Documents\Mis tareas\Tareas LM\Universidad\valid │
+  │                 acion y verificacion\CocinaCompartida\cocina-compartida\cypress\e2e\funcionali │
+  │                 dades\**\*.cy.ts                                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  01-explore.cy.ts                                                                (1 of 5)
+
+
+  F1 — Explore: Motor de búsqueda y navegación
+    [UI] Visualización del feed de recetas
+      √ [UI-F1-1] muestra tarjetas de recetas con nombre visible (932ms)
+      √ [UI-F1-2] el campo de búsqueda existe en la página Explore (151ms)
+      √ [UI-F1-3] navega al detalle de receta al hacer clic en una tarjeta (192ms)
+      √ [UI-F1-4] los botones de like son visibles en las tarjetas (106ms)
+    [API] GET /api/recipes — listado de recetas
+      √ [API-F1-1] responde 200 con un array de recetas (36ms)
+      √ [API-F1-2] cada receta contiene los campos mínimos: id, name, user (56ms)
+      √ [API-F1-3] el endpoint no devuelve 500 con parámetro search vacío (28ms)
+      √ [API-F1-4] búsqueda por término retorna array (resultados o vacío) sin error (23ms)
+    [Security] Protección de la búsqueda y datos
+      √ [SEC-F1-1] la página /explore es accesible sin autenticación (ruta pública) (20ms)
+      √ [SEC-F1-2] XSS en el campo de búsqueda no inyecta scripts en el DOM (251ms)
+      √ [SEC-F1-3] la respuesta de /api/recipes no expone contraseñas en texto plano (41ms)
+      √ [SEC-F1-4] solicitud con parámetro SQL injection devuelve error controlado, no 500 (20ms)
+    [Regression] Comportamiento estable del feed
+      √ [REG-F1-1] feed vacío no genera error 500 ni bloquea la UI (119ms)
+      √ [REG-F1-2] recargar la página vuelve a mostrar el feed de recetas (213ms)
+      √ [REG-F1-3] el número de tarjetas coincide con los datos de la API (106ms)
+    [Accessibility] WCAG 2.1 AA — Explore
+      √ [A11Y-F1-1] la página /explore supera auditoría de accesibilidad WCAG 2.1 AA (245ms)
+
+
+  16 passing (3s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        16                                                                               │
+  │ Passing:      16                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     2 seconds                                                                        │
+  │ Spec Ran:     01-explore.cy.ts                                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  02-recipe-detail.cy.ts                                                          (2 of 5)
+
+
+  F2 — Recipe Detail: ingredientes, pasos y autor
+    [UI] Visualización del detalle de receta
+      √ [UI-F2-1] muestra el nombre de la receta en la página de detalle (273ms)
+      √ [UI-F2-2] muestra la descripción de la receta (86ms)
+      √ [UI-F2-3] muestra los ingredientes de la receta (93ms)
+      √ [UI-F2-4] muestra los pasos de preparación (76ms)
+      √ [UI-F2-5] muestra el autor (username) de la receta (91ms)
+      √ [UI-F2-6] muestra el contador de likes (73ms)
+    [API] GET /api/recipes/:id — detalle de receta
+      √ [API-F2-1] responde 200 con la receta completa cuando el ID existe (31ms)
+      √ [API-F2-2] la receta contiene ingredientes (array) y pasos (array) (27ms)
+      √ [API-F2-3] devuelve error (no 200) con un ID que no existe (17ms)
+      √ [API-F2-4] la receta incluye el objeto user con username (28ms)
+    [Security] Acceso y protección de datos
+      √ [SEC-F2-1] el detalle de receta es accesible sin autenticación (lectura pública) (33ms)
+      √ [SEC-F2-2] la respuesta no expone contraseñas en texto plano del autor (32ms)
+      √ [SEC-F2-3] un ID con caracteres especiales no causa error 500 (14ms)
+    [Regression] Comportamiento estable en detalle
+      √ [REG-F2-1] recargar la página de detalle mantiene la información visible (149ms)
+      √ [REG-F2-2] la página de detalle no muestra error cuando la receta tiene ingredientes vacíos (79ms)
+      √ [REG-F2-3] navegar desde Explore a detalle y volver no rompe la UI (190ms)
+    [Accessibility] WCAG 2.1 AA — Recipe Detail
+      √ [A11Y-F2-1] la página de detalle de receta supera auditoría WCAG 2.1 AA (181ms)
+
+
+  17 passing (2s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        17                                                                               │
+  │ Passing:      17                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     1 second                                                                         │
+  │ Spec Ran:     02-recipe-detail.cy.ts                                                           │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  03-backend-crud.cy.ts                                                           (3 of 5)
+
+
+  F3 — Backend CRUD: Create, Read, Update, Delete
+    [API] Ciclo CRUD completo con autenticación real
+      √ [API-F3-1] CREATE — POST /api/recipes crea una receta y devuelve 200 o 201 con id (88ms)
+      √ [API-F3-2] READ — GET /api/recipes/:id devuelve la receta recién creada (18ms)
+      √ [API-F3-3] READ — la receta creada aparece en el listado GET /api/recipes (22ms)
+      √ [API-F3-4] UPDATE — PATCH /api/recipes/:id actualiza el nombre y devuelve 200 (30ms)
+      √ [API-F3-5] UPDATE verificado — GET /api/recipes/:id refleja el nombre actualizado (16ms)
+      √ [API-F3-6] DELETE — DELETE /api/recipes/:id devuelve 200 o 204 (24ms)
+      √ [API-F3-7] DELETE verificado — GET /api/recipes/:id devuelve error (receta no existe) (14ms)
+    [Security] Protección de endpoints CRUD
+      √ [SEC-F3-1] POST /api/recipes SIN token devuelve 401 o 403 (12ms)
+      √ [SEC-F3-2] PATCH /api/recipes/:id SIN token devuelve 401 o 403 (24ms)
+      √ [SEC-F3-3] DELETE /api/recipes/:id SIN token devuelve 401 o 403 (21ms)
+      √ [SEC-F3-4] token inválido (malformado) devuelve 401 o 403 (12ms)
+    [Regression] Comportamiento estable del CRUD
+      √ [REG-F3-1] GET /api/recipes responde siempre 200 con array (no rompe) (16ms)
+      √ [REG-F3-2] POST /api/recipes con body vacío (sin auth) no devuelve 500 (13ms)
+      √ [REG-F3-3] GET /api/recipes/:id con UUID inexistente responde controlado, no 500 (13ms)
+      √ [REG-F3-4] login con credenciales correctas siempre devuelve token (57ms)
+
+
+  15 passing (522ms)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        15                                                                               │
+  │ Passing:      15                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     03-backend-crud.cy.ts                                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  04-categories.cy.ts                                                             (4 of 5)
+
+
+  F4 — Categories/Tags: Sistema de filtrado por categorías
+    [UI] Selector de categorías y filtrado visual
+      √ [UI-F4-1] el selector de categorías existe en la página /explore (258ms)
+      √ [UI-F4-2] las recetas de diferentes categorías se muestran todas inicialmente (104ms)
+      √ [UI-F4-3] seleccionar categoría "postres" filtra y muestra solo postres (212ms)
+      √ [UI-F4-4] el selector de categorías tiene opciones de categoría válidas (75ms)
+    [API] Filtrado de recetas por categoría
+      √ [API-F4-1] GET /api/recipes devuelve recetas con campo category (21ms)
+      √ [API-F4-2] GET /api/recipes?category=postres devuelve array válido (sin 500) (17ms)
+      √ [API-F4-3] recetas filtradas por categoría solo contienen esa categoría (17ms)
+      √ [API-F4-4] la categoría en cada receta es un string no vacío (23ms)
+    [Security] Protección del filtro de categorías
+      √ [SEC-F4-1] categoría con XSS en query string no causa 500 (19ms)
+      √ [SEC-F4-2] categoría con SQL injection en query string no causa 500 (16ms)
+      √ [SEC-F4-3] categoría inexistente devuelve array vacío o lista general, nunca error 500 (17ms)
+    [Regression] Consistencia del filtrado
+      √ [REG-F4-1] seleccionar una categoría y luego "todas" restaura el listado completo (324ms)
+      √ [REG-F4-2] cambiar de categoría en la UI no genera errores de consola críticos (188ms)
+      √ [REG-F4-3] el nombre de las categorías en la API es consistente en todos los registros (27ms)
+    [Accessibility] WCAG 2.1 AA — Filtro de categorías
+      √ [A11Y-F4-1] la página /explore con filtro de categorías es accesible (198ms)
+      √ [A11Y-F4-2] el selector de categorías tiene etiqueta accesible (label o aria-label) (76ms)
+
+
+  16 passing (2s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        16                                                                               │
+  │ Passing:      16                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     1 second                                                                         │
+  │ Spec Ran:     04-categories.cy.ts                                                              │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  05-favorites.cy.ts                                                              (5 of 5)
+
+
+  F5 — Favorites/Bookmarks: Sistema de likes y favoritos
+    [UI] Botones de like y estado de favoritos
+      √ [UI-F5-1] los botones de like/corazón son visibles en las tarjetas de recetas (301ms)
+      √ [UI-F5-2] el contador de likes se muestra junto a cada receta (90ms)
+      √ [UI-F5-3] dar like a una receta cambia el estado visual del botón (151ms)
+      √ [UI-F5-4] la pestaña o sección de Favoritos existe en el perfil (769ms)
+    [API] Like/Unlike con autenticación real
+      √ [API-F5-1] POST /api/recipes/:id/like con token válido devuelve 200 (86ms)
+      √ [API-F5-2] la respuesta del like contiene el campo likes (número) (20ms)
+      √ [API-F5-3] GET /api/recipes/:id refleja el like dado (likedBy incluye al usuario) (27ms)
+    [Security] Protección de la funcionalidad de likes
+      √ [SEC-F5-1] POST /api/recipes/:id/like SIN token devuelve 401 o 403 (24ms)
+      √ [SEC-F5-2] el perfil de usuario sin token no expone datos privados de otros usuarios (12ms)
+      √ [SEC-F5-3] like con token malformado devuelve 401 o 403 (22ms)
+    [Regression] Persistencia y toggle de likes
+      √ [REG-F5-1] el like de una receta persiste al recargar la página (82ms)
+      √ [REG-F5-2] doble like (toggle) no produce error 500 (85ms)
+      √ [REG-F5-3] el contador de likes nunca es negativo (20ms)
+    [Accessibility] WCAG 2.1 AA — Favoritos
+      √ [A11Y-F5-1] la página /explore con botones de like es accesible (228ms)
+      √ [A11Y-F5-2] el botón de like tiene texto alternativo o aria-label (96ms)
+
+
+  15 passing (2s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        15                                                                               │
+  │ Passing:      15                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     2 seconds                                                                        │
+  │ Spec Ran:     05-favorites.cy.ts                                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  01-explore.cy.ts                         00:02       16       16        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  02-recipe-detail.cy.ts                   00:01       17       17        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  03-backend-crud.cy.ts                    523ms       15       15        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  04-categories.cy.ts                      00:01       16       16        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  05-favorites.cy.ts                       00:02       15       15        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        00:09       79       79        -        -        -  
+

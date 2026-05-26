@@ -1,0 +1,47 @@
+
+> cocina-compartida@0.0.0 groq:validate
+> tsx groq-ai-validator/validate.ts
+
+◇ injected env (7) from stagehand\.env // tip: ⌘ suppress logs { quiet: true }
+
+🤖 GROQ AI VALIDATOR — CocinaCompartida
+=======================================================
+📡 API:   http://localhost
+🧠 Modelo: llama-3.3-70b-versatile
+
+🔑 Login ✓ — token JWT obtenido
+
+── F1: Explore — Listado de recetas ──────────────────
+  [AI-F1-1] PASS — El array no está vacío, tiene 11 elementos, HTTP 200 y el primer elemento tiene los campos 'id' y 'name'
+
+── F2: Recipe Detail ─────────────────────────────────
+  [AI-F2-1] PASS — {"verdict":"FAIL","reason":"falta el campo 'descripcion' en lugar de 'name' no es el problema, el problema es que el campo 'user' es un objeto pero no
+
+── F3: Backend CRUD — Create / Update / Delete ───────
+  [AI-F3-1] PASS — La respuesta de la API incluye un ID único y un código de estado 201, lo que indica que la receta se creó correctamente
+
+── F4: Categories — Filtrado por categorías ──────────
+  [AI-F4-1] PASS — Las categorías encontradas son coherentes con una aplicación de recetas de cocina
+
+── F5: Favorites — Sistema de likes ─────────────────
+  [AI-F5-1] PASS — La respuesta tiene HTTP 201 y el campo 'likes' con valor numérico >= 0
+
+=======================================================
+
+📊 RESULTADOS GROQ AI VALIDATOR
+  ✅ PASS:  5
+  ❌ FAIL:  0
+  ⚠️  SKIP:  0
+  🔴 ERROR: 0
+  TOTAL:    5
+
+  TestID      Funcionalidad         Veredicto
+  --------------------------------------------------
+  AI-F1-1      F1 — Explore              ✅ PASS
+  AI-F2-1      F2 — Recipe Detail        ✅ PASS
+  AI-F3-1      F3 — Backend CRUD         ✅ PASS
+  AI-F4-1      F4 — Categories           ✅ PASS
+  AI-F5-1      F5 — Favorites            ✅ PASS
+
+💾 Resultados guardados en: evidencias/groq-ai-validator-results.json
+
