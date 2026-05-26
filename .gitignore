@@ -1,3 +1,6 @@
+# Stagehand secrets
+cocina-compartida/stagehand/.env
+
 # Node
 node_modules/
 .npm-cache/
