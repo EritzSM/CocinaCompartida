@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Comment } from './comment.entity';
+import { CookingExperience } from '../../cooking-journal/entities/cooking-experience.entity';
 
 @Entity('recipes')
 export class Recipe {
@@ -35,6 +36,9 @@ export class Recipe {
 
   @OneToMany(() => Comment, (c) => c.recipe, { cascade: true })
   comments: Comment[];
+
+  @OneToMany(() => CookingExperience, (experience) => experience.recipe)
+  cookingExperiences?: CookingExperience[];
 
   @Column('text', { array: true, nullable: true, default: [] })
   tags: string[];

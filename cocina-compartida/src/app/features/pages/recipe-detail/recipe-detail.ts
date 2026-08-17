@@ -6,11 +6,12 @@ import { RecipeService } from '../../../shared/services/recipe';
 import { Recipe } from '../../../shared/interfaces/recipe';
 import { Auth } from '../../../shared/services/auth';
 import Swal from 'sweetalert2';
+import { CookingExperiencePanel } from '../../components/cooking-experience-panel/cooking-experience-panel';
 
 @Component({
   selector: 'app-recipe-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, CookingExperiencePanel],
   templateUrl: './recipe-detail.html',
   styleUrls: ['./recipe-detail.css']
 })

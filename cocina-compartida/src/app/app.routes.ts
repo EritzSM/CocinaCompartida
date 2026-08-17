@@ -6,6 +6,7 @@ import { RecipeUpload} from './features/pages/recipe-upload/recipe-upload';
 import { Explore } from './features/pages/explore/explore';
 import { Profile } from './features/pages/profile/profile';
 import { RecipeDetail } from './features/pages/recipe-detail/recipe-detail';
+import { CookingJournal } from './features/pages/cooking-journal/cooking-journal';
 
 
 import { authGuard } from './shared/guards/auth.guard';
@@ -43,6 +44,11 @@ export const routes: Routes = [
   {
     path: 'profile/:id',
     component: Profile
+  },
+  {
+    path: 'cooking-journal',
+    component: CookingJournal,
+    canActivate: [authGuard]
   },
   { 
     path: 'recipe/:id/edit', 
