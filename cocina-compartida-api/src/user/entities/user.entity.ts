@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Comment } from 'src/recipes/entities/comment.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
+import { CookingExperience } from '../../cooking-journal/entities/cooking-experience.entity';
 
 @Entity('users')
 export class User {
@@ -37,6 +38,9 @@ export class User {
   // 🔹 Un usuario puede tener muchos comentarios
   @OneToMany(() => Comment, (comment) => comment.user, { cascade: true })
   comments?: Comment[];
+
+  @OneToMany(() => CookingExperience, (experience) => experience.user)
+  cookingExperiences?: CookingExperience[];
 
   @Column({ type: 'boolean', name: 'is_active', default: true })
   isActive?: boolean;
