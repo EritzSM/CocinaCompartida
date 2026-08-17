@@ -1,0 +1,464 @@
+{
+  "info": {
+    "name": "CocinaCompartida — API Tests (5 Funcionalidades)",
+    "_postman_id": "cc-api-tests-v1",
+    "description": "Colección de pruebas API para CocinaCompartida.\nCubre las 5 funcionalidades: Explore, Recipe Detail, Backend CRUD, Categories y Favorites.\nEjecutar con Newman: npm run postman:run",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl",  "value": "http://localhost", "type": "string" },
+    { "key": "email",    "value": "chef@cocinacompartida.com", "type": "string" },
+    { "key": "password", "value": "password123", "type": "string" },
+    { "key": "token",    "value": "", "type": "string" },
+    { "key": "recipeId", "value": "", "type": "string" }
+  ],
+  "item": [
+
+    {
+      "name": "AUTH — Login (prerequisito)",
+      "item": [
+        {
+          "name": "POST /api/auth/login — obtiene token JWT",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Login: status 200 o 201', () => {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "pm.test('Login: body contiene token', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('token');",
+                  "  pm.expect(json.token).to.be.a('string').and.have.length.above(10);",
+                  "  pm.collectionVariables.set('token', json.token);",
+                  "});",
+                  "pm.test('Login: token es JWT válido (3 partes)', () => {",
+                  "  const token = pm.response.json().token;",
+                  "  pm.expect(token.split('.').length).to.eq(3);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{email}}\", \"password\": \"{{password}}\"}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "F1 — Explore: Motor de búsqueda",
+      "item": [
+        {
+          "name": "[API-F1] GET /api/recipes — listado de recetas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F1] Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('[F1] Body es array', () => pm.expect(pm.response.json()).to.be.an('array'));",
+                  "pm.test('[F1] Cada receta tiene id, name, user', () => {",
+                  "  const recipes = pm.response.json();",
+                  "  if (recipes.length > 0) {",
+                  "    pm.expect(recipes[0]).to.have.property('id');",
+                  "    pm.expect(recipes[0]).to.have.property('name');",
+                  "    pm.expect(recipes[0]).to.have.property('user');",
+                  "    pm.collectionVariables.set('recipeId', recipes[0].id);",
+                  "  }",
+                  "});",
+                  "pm.test('[F1] No expone passwords en texto plano', () => {",
+                  "  const body = pm.response.text();",
+                  "  const recipes = pm.response.json();",
+                  "  recipes.forEach(r => {",
+                  "    if (r.user && r.user.password) {",
+                  "      pm.expect(r.user.password).to.match(/^\\$2[ab]\\$/);",
+                  "    }",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes", "host": ["{{baseUrl}}"], "path": ["api","recipes"] }
+          }
+        },
+        {
+          "name": "[SEC-F1] GET /api/recipes?search='' — parámetro vacío no da 500",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[SEC-F1] search vacío no da 500', () => pm.expect(pm.response.code).to.not.eq(500));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes?search=", "host": ["{{baseUrl}}"], "path": ["api","recipes"], "query": [{"key":"search","value":""}] }
+          }
+        },
+        {
+          "name": "[SEC-F1] GET /api/recipes — SQL injection en search no da 500",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[SEC-F1] SQL injection no causa 500', () => pm.expect(pm.response.code).to.not.eq(500));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes?search='; DROP TABLE recipes; --", "host": ["{{baseUrl}}"], "path": ["api","recipes"], "query": [{"key":"search","value":"'; DROP TABLE recipes; --"}] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "F2 — Recipe Detail: Detalle de receta",
+      "item": [
+        {
+          "name": "[API-F2] GET /api/recipes/:id — detalle de receta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F2] Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('[F2] Tiene id, name, user, ingredients, steps', () => {",
+                  "  const r = pm.response.json();",
+                  "  pm.expect(r).to.have.property('id');",
+                  "  pm.expect(r).to.have.property('name');",
+                  "  pm.expect(r).to.have.property('user');",
+                  "  pm.expect(r.ingredients).to.be.an('array');",
+                  "  pm.expect(r.steps).to.be.an('array');",
+                  "});",
+                  "pm.test('[F2] user tiene username', () => {",
+                  "  pm.expect(pm.response.json().user).to.have.property('username');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes/{{recipeId}}", "host": ["{{baseUrl}}"], "path": ["api","recipes","{{recipeId}}"] }
+          }
+        },
+        {
+          "name": "[SEC-F2] GET ID inválido — no devuelve 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[SEC-F2] ID inválido no devuelve 200', () => pm.expect(pm.response.code).to.not.eq(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes/id-inexistente-xyz-999", "host": ["{{baseUrl}}"], "path": ["api","recipes","id-inexistente-xyz-999"] }
+          }
+        },
+        {
+          "name": "[SEC-F2] GET UUID inexistente — no 500",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[SEC-F2] UUID inexistente no causa 500', () => pm.expect(pm.response.code).to.not.eq(500));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes/00000000-0000-0000-0000-000000000000", "host": ["{{baseUrl}}"], "path": ["api","recipes","00000000-0000-0000-0000-000000000000"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "F3 — Backend CRUD: Create, Read, Update, Delete",
+      "item": [
+        {
+          "name": "[API-F3-1] POST /api/recipes — CREATE con auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F3-CREATE] Status 200 o 201', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "pm.test('[F3-CREATE] Respuesta tiene id', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('id');",
+                  "  pm.collectionVariables.set('newRecipeId', json.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"POSTMAN_TEST_RECIPE\", \"descripcion\": \"Creada por Newman en prueba automatizada\", \"ingredients\": [\"ingrediente1\", \"ingrediente2\"], \"steps\": [\"paso1\", \"paso2\"], \"category\": \"postres\", \"images\": []}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/recipes", "host": ["{{baseUrl}}"], "path": ["api","recipes"] }
+          }
+        },
+        {
+          "name": "[API-F3-2] GET /api/recipes/:id — READ receta creada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F3-READ] Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('[F3-READ] Nombre contiene POSTMAN_TEST', () => pm.expect(pm.response.json().name).to.include('POSTMAN_TEST'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes/{{newRecipeId}}", "host": ["{{baseUrl}}"], "path": ["api","recipes","{{newRecipeId}}"] }
+          }
+        },
+        {
+          "name": "[API-F3-3] PATCH /api/recipes/:id — UPDATE con auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F3-UPDATE] Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\"name\": \"POSTMAN_TEST_EDITADA\"}" },
+            "url": { "raw": "{{baseUrl}}/api/recipes/{{newRecipeId}}", "host": ["{{baseUrl}}"], "path": ["api","recipes","{{newRecipeId}}"] }
+          }
+        },
+        {
+          "name": "[API-F3-4] GET verifica UPDATE — nombre actualizado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F3-UPDATE-VERIFY] Nombre refleja el cambio', () => pm.expect(pm.response.json().name).to.include('EDITADA'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes/{{newRecipeId}}", "host": ["{{baseUrl}}"], "path": ["api","recipes","{{newRecipeId}}"] }
+          }
+        },
+        {
+          "name": "[API-F3-5] DELETE /api/recipes/:id — DELETE con auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F3-DELETE] Status 200 o 204', () => pm.expect(pm.response.code).to.be.oneOf([200, 204]));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/recipes/{{newRecipeId}}", "host": ["{{baseUrl}}"], "path": ["api","recipes","{{newRecipeId}}"] }
+          }
+        },
+        {
+          "name": "[SEC-F3] POST sin token — 401 o 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[SEC-F3] Sin auth rechaza con 401/403', () => pm.expect(pm.response.code).to.be.oneOf([401, 403]));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"name\": \"Sin auth\"}" },
+            "url": { "raw": "{{baseUrl}}/api/recipes", "host": ["{{baseUrl}}"], "path": ["api","recipes"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "F4 — Categories: Filtrado por categorías",
+      "item": [
+        {
+          "name": "[API-F4-1] GET /api/recipes — tiene campo category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F4] Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('[F4] Recetas tienen campo category', () => {",
+                  "  const recipes = pm.response.json();",
+                  "  if (recipes.length > 0) pm.expect(recipes[0]).to.have.property('category');",
+                  "});",
+                  "pm.test('[F4] Category es string o null', () => {",
+                  "  pm.response.json().forEach(r => {",
+                  "    if (r.category != null) pm.expect(r.category).to.be.a('string');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes", "host": ["{{baseUrl}}"], "path": ["api","recipes"] }
+          }
+        },
+        {
+          "name": "[API-F4-2] GET ?category=postres — array sin 500",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F4] category filter no da 500', () => pm.expect(pm.response.code).to.not.eq(500));",
+                  "pm.test('[F4] Respuesta es array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes?category=postres", "host": ["{{baseUrl}}"], "path": ["api","recipes"], "query": [{"key":"category","value":"postres"}] }
+          }
+        },
+        {
+          "name": "[SEC-F4] XSS en category no da 500",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[SEC-F4] XSS no causa 500', () => pm.expect(pm.response.code).to.not.eq(500));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/recipes?category=<script>alert(1)</script>", "host": ["{{baseUrl}}"], "path": ["api","recipes"], "query": [{"key":"category","value":"<script>alert(1)</script>"}] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "F5 — Favorites: Sistema de likes",
+      "item": [
+        {
+          "name": "[API-F5-1] POST /api/recipes/:id/like — con auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[F5-LIKE] Status 200 o 201', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "pm.test('[F5-LIKE] Respuesta tiene campo likes (número)', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('likes');",
+                  "  pm.expect(json.likes).to.be.a('number');",
+                  "  pm.expect(json.likes).to.be.gte(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/recipes/{{recipeId}}/like", "host": ["{{baseUrl}}"], "path": ["api","recipes","{{recipeId}}","like"] }
+          }
+        },
+        {
+          "name": "[SEC-F5] POST like SIN token — 401 o 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[SEC-F5] Sin auth rechaza like con 401/403', () => pm.expect(pm.response.code).to.be.oneOf([401, 403]));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/api/recipes/{{recipeId}}/like", "host": ["{{baseUrl}}"], "path": ["api","recipes","{{recipeId}}","like"] }
+          }
+        },
+        {
+          "name": "[REG-F5] Doble like (toggle) no da 500",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('[REG-F5] Toggle like no causa 500', () => pm.expect(pm.response.code).to.not.eq(500));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/recipes/{{recipeId}}/like", "host": ["{{baseUrl}}"], "path": ["api","recipes","{{recipeId}}","like"] }
+          }
+        }
+      ]
+    }
+
+  ]
+}

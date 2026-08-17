@@ -51,3 +51,13 @@ vars/
 pipeline-local-test.sh
 JENKINS_FIX.md
 prompts/
+
+# Python / DeepEval cache (auto-generated, no fuente)
+__pycache__/
+*.pyc
+*.pyo
+.deepeval/
+deepeval-tests/.pytest_cache/
+
+# TypeScript compiled output (si se transpila localmente)
+cocina-compartida/groq-ai-validator/*.js
