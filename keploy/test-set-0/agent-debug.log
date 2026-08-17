@@ -1,268 +1,268 @@
-🐰 Keploy: 2026-05-26T02:56:58.025930426Z 	[35mDEBUG[0m	dedup is disabled
-🐰 Keploy: 2026-05-26T02:56:58.028874356Z 	[35mDEBUG[0m	MockOutgoing function called	{"options": {"Rules":[],"MongoPassword":"default@123","TLSPrivateKey":"","Synchronous":false,"SQLDelay":20000000000,"Mocking":true,"DstCfg":null,"Backdate":"2026-05-24T22:30:22.61781033Z","NoiseConfig":{},"DisableAutoHeaderNoise":false,"SkipTLSMITM":false,"ConnKey":"","CapturePackets":false,"OpportunisticTLSIntercept":false,"MysqlPorts":[]}}
-🐰 Keploy: 2026-05-26T02:56:58.02968058Z 	[35mDEBUG[0m	Successfully written to nsswitch config of linux
-🐰 Keploy: 2026-05-26T02:56:58.124092503Z 	[35mDEBUG[0m	Successfully stored mocks for client
-🐰 Keploy: 2026-05-26T02:56:58.124830373Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2000-01-01T00:00:00Z ", "beforeTime": "🐰 Keploy: 2026-05-25T21:56:58.124489833-05:00 ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
-🐰 Keploy: 2026-05-26T02:56:58.124846328Z 	[34mINFO[0m	strict mock-window containment is ACTIVE for this session — per-test mocks whose request timestamp falls outside the outer test window will be dropped rather than promoted across tests. If your replays start reporting missing mocks after an upgrade, this is likely why. To opt out: set KEPLOY_STRICT_MOCK_WINDOW=0 in the environment, OR test.strictMockWindow: false in keploy.yaml.	{"viaPerCallFlag": true, "viaEnvOverride": false, "escape_hatch_env": "KEPLOY_STRICT_MOCK_WINDOW=0", "escape_hatch_config": "test.strictMockWindow: false"}
-🐰 Keploy: 2026-05-26T02:56:58.124868304Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2000-01-01T00:00:00Z ", "windowEnd": "🐰 Keploy: 2026-05-25T21:56:58.124489833-05:00 "}
-🐰 Keploy: 2026-05-26T02:56:58.12487104Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
-🐰 Keploy: 2026-05-26T02:56:58.124902073Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 18, "unfilteredMocks": 21, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 21}
-🐰 Keploy: 2026-05-26T02:56:58.125288305Z 	[35mDEBUG[0m	routed startup-init mocks into startup tree	{"count": 39, "firstTestWindow": "🐰 Keploy: 0001-01-01T00:00:00Z ", "initialStaging": true}
-🐰 Keploy: 2026-05-26T02:56:58.125297981Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x1fc736abc5a0", "inputMocks": 0, "postgresV3Mocks": 0, "postgresV3MockNames": [], "newRevision": 1}
-🐰 Keploy: 2026-05-26T02:56:58.125354262Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "603.779µs"}
-🐰 Keploy: 2026-05-26T02:56:58.125848082Z 	[35mDEBUG[0m	Agent marked as ready	{"file": "/tmp/agent.ready"}
-🐰 Keploy: 2026-05-26T02:56:58.125854776Z 	[35mDEBUG[0m	Keploy Agent is ready from the ...
-🐰 Keploy: 2026-05-26T02:57:09.100591626Z 	[35mDEBUG[0m	Inside handleConnection of proxyServer	{"source port": 46802, "Time": 1779764229}
-🐰 Keploy: 2026-05-26T02:57:09.10062484Z 	[35mDEBUG[0m	Handling outgoing connection to destination port	{"Destination port": 5432}
-🐰 Keploy: 2026-05-26T02:57:09.100628699Z 	[35mDEBUG[0m	successfully removed entry from redirect proxy map	{"(Key)/SourcePort": 46802}
-🐰 Keploy: 2026-05-26T02:57:09.100630527Z 	[35mDEBUG[0m	the destination is ipv4
-🐰 Keploy: 2026-05-26T02:57:09.100635869Z 	[35mDEBUG[0m		{"DestIp4": 2886926338, "DestPort": 5432}
-🐰 Keploy: 2026-05-26T02:57:09.102289442Z 	[35mDEBUG[0m	Checking for the parser	{"ParserType": "sqs"}
-🐰 Keploy: 2026-05-26T02:57:09.102304702Z 	[35mDEBUG[0m	determined the protocol is not HTTP	{"Type": "sqs", "isHTTP": false}
-🐰 Keploy: 2026-05-26T02:57:09.10230697Z 	[35mDEBUG[0m	Checking for the parser	{"ParserType": "redis"}
-🐰 Keploy: 2026-05-26T02:57:09.102307998Z 	[35mDEBUG[0m	Checking for the parser	{"ParserType": "zookeeper"}
-🐰 Keploy: 2026-05-26T02:57:09.102326607Z 	[35mDEBUG[0m	Checking for the parser	{"ParserType": "postgres_v3"}
-🐰 Keploy: 2026-05-26T02:57:09.102330858Z 	[35mDEBUG[0m	The external dependency is supported. Hence using the parser	{"ParserType": "postgres_v3"}
-🐰 Keploy: 2026-05-26T02:57:09.10434908Z 	[35mDEBUG[0m	v3 replay: deduplicated startup ∩ session invocation ID overlap — evicted duplicates from startup index (session index is canonical)	{"Type": "postgres_v3", "evictedCount": 15, "overlappingInvocationIDs": ["sha256:e23d2f4f85bbbfa7b8e08086e17938fdceedecae206eb556d8d853607fd72518:0:2026-05-24T22:26:43.947055341Z:8", "sha256:cd3c36208f26fbef67b62d1116148a76e1eee8b227747c2256be5d249d69a439:6:2026-05-24T22:31:14.731839759Z:5", "sha256:d940c11a92b10f53618d5641a63b46a00a354fcd01f9eea8f8ef93cde8447153:0:2026-05-24T22:26:44.039587195Z:23", "sha256:cd3c36208f26fbef67b62d1116148a76e1eee8b227747c2256be5d249d69a439:0:2026-05-24T22:26:44.045554247Z:24", "sha256:6d5e2214f1741b9f205a03a219a24cdc3cc3f2af11ad748897eaf1a5b14ef713:0:2026-05-24T22:26:43.912529319Z:4", "sha256:f0a8e37c2db38f7af30066abf3a0f2e05fdd4ef9bb13acc0c53842c726937bf9:0:2026-05-24T22:26:43.873078376Z:1", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.026164749Z:16", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.017136937Z:13", "sha256:813dc9aceb86b132746ecf310c8a5b3f7be2fa01253fc9f284d545058abcd371:0:2026-05-24T22:26:43.99549497Z:10", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.023284269Z:15", "sha256:447b34d9016b7bfee0dd49501a70762da267d9318254fe8705655af94bdf818a:0:2026-05-24T22:26:43.966746328Z:9", "sha256:6d5e2214f1741b9f205a03a219a24cdc3cc3f2af11ad748897eaf1a5b14ef713:6:2026-05-24T22:31:14.714098505Z:3", "sha256:79f5e9c79609aa84f3ee39e7205d4beeed05594231a138d6601af801b8bc589e:0:2026-05-24T22:26:43.916723186Z:7", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.020070282Z:14", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.028962601Z:17"], "next_step": "no action required — the dispatcher's startup engine will serve session-lifetime queries via its sessionIndex fallback. If this count grows, verify the recorder is not emitting the same Invocation for multiple tiers"}
-🐰 Keploy: 2026-05-26T02:57:09.104364729Z 	[35mDEBUG[0m	v3 MockOutgoing invoked	{"Type": "postgres_v3", "totalSessionMocks": 21, "pgV3SessionMocks": 19, "totalStartupMocks": 39, "pgV3StartupMocks": 37, "reqBufLen": 74, "hasSession": true, "hasCatalog": false, "sessionDistinctSqlHashes": 9, "sessionTotalInvocations": 15, "startupDistinctSqlHashes": 21, "startupTotalInvocations": 33}
-🐰 Keploy: 2026-05-26T02:57:09.104367666Z 	[35mDEBUG[0m	v3 ReplayV3 ENTER	{"Type": "postgres_v3", "initialReqBufLen": 74}
-🐰 Keploy: 2026-05-26T02:57:09.104368787Z 	[35mDEBUG[0m	v3 ReplayV3: dispatching startup	{"Type": "postgres_v3", "sslResponse": "", "serverVersion": "15.16", "paramStatusCount": 13}
-🐰 Keploy: 2026-05-26T02:57:09.104415618Z 	[35mDEBUG[0m	startup handshake completed	{"Type": "postgres_v3", "parameter_status_count": 13, "backend_pid": 236}
-🐰 Keploy: 2026-05-26T02:57:09.104418532Z 	[35mDEBUG[0m	v3 ReplayV3: startup handshake emitted, entering runLoop	{"Type": "postgres_v3"}
-🐰 Keploy: 2026-05-26T02:57:09.104422094Z 	[35mDEBUG[0m	v3 ReplayV3: session allocated	{"Type": "postgres_v3", "connID": "172.19.0.3:46802:1"}
-🐰 Keploy: 2026-05-26T02:57:09.107425094Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 1, "n": 22, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.107464011Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 1, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.115888397Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "VALIDATION", "extractedBinds": 0, "sqlHead": "SELECT version()"}
-🐰 Keploy: 2026-05-26T02:57:09.116041233Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…42c726937bf9", "invocationID": "sha256:f0a8e37c2db38f7af30066abf3a0f2e05fdd4ef9bb13acc0c53842c726937bf9:0:2026-05-24T22:26:43.873078376Z:1", "currentTest": "", "lifetime": "session", "binds": 0}
-🐰 Keploy: 2026-05-26T02:57:09.116072107Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 1, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.116129536Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 1, "n": 152}
-🐰 Keploy: 2026-05-26T02:57:09.117653012Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 2, "n": 36, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.117692884Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 2, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.118639336Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "SELECT * FROM current_schema()"}
-🐰 Keploy: 2026-05-26T02:57:09.118729503Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:9dd2893c88a482ecc48f8122369f09b3e9b9f0d631e08381cd29aaee1ef52ee3:0:2026-05-24T22:26:43.888412129Z:2", "hash": "…aaee1ef52ee3", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.118743345Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 2, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.118792781Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 2, "n": 77}
-🐰 Keploy: 2026-05-26T02:57:09.129634046Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 3, "n": 48, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.12967632Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 3, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.129794949Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\""}
-🐰 Keploy: 2026-05-26T02:57:09.129810377Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:ce86c4606da67600d164bb4ebe1c8e946a7db921f85181d97b289cac56082af4:0:2026-05-24T22:26:43.90748126Z:3", "hash": "…9cac56082af4", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.129814998Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 3, "responseCount": 2, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.129852309Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 3, "n": 28}
-🐰 Keploy: 2026-05-26T02:57:09.130807734Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 4, "n": 23, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.13082809Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 4, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.130907566Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "TX", "extractedBinds": 0, "sqlHead": "START TRANSACTION"}
-🐰 Keploy: 2026-05-26T02:57:09.130917888Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 4, "responseCount": 2, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.13094877Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 4, "n": 17}
-🐰 Keploy: 2026-05-26T02:57:09.132148138Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 5, "n": 36, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.132164647Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 5, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.13223137Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "SELECT * FROM current_schema()"}
-🐰 Keploy: 2026-05-26T02:57:09.132242559Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:9dd2893c88a482ecc48f8122369f09b3e9b9f0d631e08381cd29aaee1ef52ee3:0:2026-05-24T22:26:43.914594258Z:5", "hash": "…aaee1ef52ee3", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.132250673Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 5, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.132275783Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 5, "n": 77}
-🐰 Keploy: 2026-05-26T02:57:09.132600096Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 6, "n": 38, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.132607403Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 6, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.132659343Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "SELECT * FROM current_database()"}
-🐰 Keploy: 2026-05-26T02:57:09.132664029Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:082ed2a4c2db88d7d7e2a5d8504d0a55395ff3b1184d19a80257fc28dbec7ce1:0:2026-05-24T22:26:43.915307639Z:6", "hash": "…fc28dbec7ce1", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.132668308Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 6, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.13268948Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 6, "n": 93}
-🐰 Keploy: 2026-05-26T02:57:09.133160196Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 7, "n": 371, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.133185493Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 7, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.133576989Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 10, "sqlHead": "SELECT \"table_schema\", \"table_name\", obj_description(($1 || \"table_schema\" || $2 || \"table_name\" || $3)::regclass, $4) A…"}
-🐰 Keploy: 2026-05-26T02:57:09.133594713Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…f801b8bc589e", "invocationID": "sha256:79f5e9c79609aa84f3ee39e7205d4beeed05594231a138d6601af801b8bc589e:0:2026-05-24T22:26:43.916723186Z:7", "currentTest": "", "lifetime": "session", "binds": 10}
-🐰 Keploy: 2026-05-26T02:57:09.133604731Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 7, "responseCount": 6, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.133642525Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 7, "n": 214}
-🐰 Keploy: 2026-05-26T02:57:09.13421688Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 8, "n": 114, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.134236395Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 8, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.134347797Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT $1 FROM information_schema.columns WHERE table_name = $2 and column_name = $3"}
-🐰 Keploy: 2026-05-26T02:57:09.134357912Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…53607fd72518", "invocationID": "sha256:e23d2f4f85bbbfa7b8e08086e17938fdceedecae206eb556d8d853607fd72518:0:2026-05-24T22:26:43.947055341Z:8", "currentTest": "", "lifetime": "session", "binds": 3}
-🐰 Keploy: 2026-05-26T02:57:09.134428673Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 8, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.1344631Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 8, "n": 66}
-🐰 Keploy: 2026-05-26T02:57:09.134804713Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 9, "n": 933, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.134862568Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 9, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.135528909Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 13, "sqlHead": "SELECT columns.*, pg_catalog.col_description(($1 || table_catalog || $2 || table_schema || $3 || table_name || $4)::regc…"}
-🐰 Keploy: 2026-05-26T02:57:09.135557764Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…5af94bdf818a", "invocationID": "sha256:447b34d9016b7bfee0dd49501a70762da267d9318254fe8705655af94bdf818a:0:2026-05-24T22:26:43.966746328Z:9", "currentTest": "", "lifetime": "session", "binds": 13}
-🐰 Keploy: 2026-05-26T02:57:09.135663974Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 9, "responseCount": 32, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.135714157Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 9, "n": 11442}
-🐰 Keploy: 2026-05-26T02:57:09.136716032Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 10, "n": 823, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.136747736Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 10, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.137269338Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 16, "sqlHead": "SELECT \"ns\".\"nspname\" AS \"table_schema\", \"t\".\"relname\" AS \"table_name\", \"cnst\".\"conname\" AS \"constraint_name\", pg_get_co…"}
-🐰 Keploy: 2026-05-26T02:57:09.137293984Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…45058abcd371", "invocationID": "sha256:813dc9aceb86b132746ecf310c8a5b3f7be2fa01253fc9f284d545058abcd371:0:2026-05-24T22:26:43.99549497Z:10", "currentTest": "", "lifetime": "session", "binds": 16}
-🐰 Keploy: 2026-05-26T02:57:09.137309711Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 10, "responseCount": 11, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.137341078Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 10, "n": 1141}
-🐰 Keploy: 2026-05-26T02:57:09.137546202Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 11, "n": 1082, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.137583916Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 11, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.138266724Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 11, "sqlHead": "SELECT \"ns\".\"nspname\" AS \"table_schema\", \"t\".\"relname\" AS \"table_name\", \"i\".\"relname\" AS \"constraint_name\", \"a\".\"attname…"}
-🐰 Keploy: 2026-05-26T02:57:09.138277133Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:c2f718bea5a3ab7c352c6d76aceb90cdbc92ad2038b026192a78c9ae0da2e66c:0:2026-05-24T22:26:44.001149912Z:11", "hash": "…c9ae0da2e66c", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.138284584Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 11, "responseCount": 3, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.138311573Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 11, "n": 264}
-🐰 Keploy: 2026-05-26T02:57:09.138483191Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 12, "n": 1865, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.138551816Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 12, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.13967567Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 30, "sqlHead": "SELECT \"con\".\"conname\" AS \"constraint_name\", \"con\".\"nspname\" AS \"table_schema\", \"con\".\"relname\" AS \"table_name\", \"att2\".…"}
-🐰 Keploy: 2026-05-26T02:57:09.139687611Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:603d5f8cced312912e2c9655a4fd62e759de7cce6095442a28e64e69c824dbb3:0:2026-05-24T22:26:44.008655296Z:12", "hash": "…4e69c824dbb3", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.139699738Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 12, "responseCount": 6, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.139731647Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 12, "n": 839}
-🐰 Keploy: 2026-05-26T02:57:09.142785741Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 13, "n": 166, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.142815743Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 13, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.143000964Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
-🐰 Keploy: 2026-05-26T02:57:09.143016788Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.017136937Z:13", "currentTest": "", "lifetime": "session", "binds": 3}
-🐰 Keploy: 2026-05-26T02:57:09.143027253Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 13, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.14306297Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 13, "n": 113}
-🐰 Keploy: 2026-05-26T02:57:09.143277556Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 14, "n": 160, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.143298197Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 14, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.14346995Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
-🐰 Keploy: 2026-05-26T02:57:09.143487847Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.020070282Z:14", "currentTest": "", "lifetime": "session", "binds": 3}
-🐰 Keploy: 2026-05-26T02:57:09.143499448Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 14, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.143533633Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 14, "n": 113}
-🐰 Keploy: 2026-05-26T02:57:09.143719724Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 15, "n": 161, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.14373364Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 15, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.143860307Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
-🐰 Keploy: 2026-05-26T02:57:09.143869985Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.023284269Z:15", "currentTest": "", "lifetime": "session", "binds": 3}
-🐰 Keploy: 2026-05-26T02:57:09.143880162Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 15, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.143910152Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 15, "n": 113}
-🐰 Keploy: 2026-05-26T02:57:09.144066165Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 16, "n": 159, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.144081537Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 16, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.144202851Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
-🐰 Keploy: 2026-05-26T02:57:09.14421409Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.026164749Z:16", "currentTest": "", "lifetime": "session", "binds": 3}
-🐰 Keploy: 2026-05-26T02:57:09.14422211Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 16, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.144255977Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 16, "n": 113}
-🐰 Keploy: 2026-05-26T02:57:09.144456396Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 17, "n": 162, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.144466747Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 17, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.144577191Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
-🐰 Keploy: 2026-05-26T02:57:09.144585718Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.028962601Z:17", "currentTest": "", "lifetime": "session", "binds": 3}
-🐰 Keploy: 2026-05-26T02:57:09.144592205Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 17, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.144616477Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 17, "n": 113}
-🐰 Keploy: 2026-05-26T02:57:09.144825473Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 18, "n": 236, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.144847828Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 18, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.145063081Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
-🐰 Keploy: 2026-05-26T02:57:09.145083233Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.031474956Z:18", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.145087774Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 18, "responseCount": 3, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.145128382Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 18, "n": 51}
-🐰 Keploy: 2026-05-26T02:57:09.14531156Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 19, "n": 236, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.145350276Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 19, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.145605083Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
-🐰 Keploy: 2026-05-26T02:57:09.145618289Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.035189229Z:19", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.145623198Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 19, "responseCount": 3, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.145656688Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 19, "n": 51}
-🐰 Keploy: 2026-05-26T02:57:09.145806886Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 20, "n": 236, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.145842248Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 20, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.146007081Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
-🐰 Keploy: 2026-05-26T02:57:09.14601788Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.036301701Z:20", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.146021518Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 20, "responseCount": 3, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.14605604Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 20, "n": 51}
-🐰 Keploy: 2026-05-26T02:57:09.146251637Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 21, "n": 236, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.146286495Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 21, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.146455982Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
-🐰 Keploy: 2026-05-26T02:57:09.14649151Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.037195923Z:21", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.14649612Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 21, "responseCount": 3, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.146529926Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 21, "n": 51}
-🐰 Keploy: 2026-05-26T02:57:09.146720725Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 22, "n": 236, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.146747964Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 22, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.146923967Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
-🐰 Keploy: 2026-05-26T02:57:09.146937088Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.038085352Z:22", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.146941182Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 22, "responseCount": 3, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.146974462Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 22, "n": 51}
-🐰 Keploy: 2026-05-26T02:57:09.147748133Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 23, "n": 119, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.147767945Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 23, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.147867083Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 2, "sqlHead": "SELECT * FROM \"information_schema\".\"tables\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2"}
-🐰 Keploy: 2026-05-26T02:57:09.147879044Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…93cde8447153", "invocationID": "sha256:d940c11a92b10f53618d5641a63b46a00a354fcd01f9eea8f8ef93cde8447153:0:2026-05-24T22:26:44.039587195Z:23", "currentTest": "", "lifetime": "session", "binds": 2}
-🐰 Keploy: 2026-05-26T02:57:09.147886232Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 23, "responseCount": 3, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.147914735Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 23, "n": 458}
-🐰 Keploy: 2026-05-26T02:57:09.15147789Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 24, "n": 12, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.151490701Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 24, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.15151681Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "TX", "extractedBinds": 0, "sqlHead": "COMMIT"}
-🐰 Keploy: 2026-05-26T02:57:09.151524564Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 24, "responseCount": 2, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.151549702Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 24, "n": 18}
-🐰 Keploy: 2026-05-26T02:57:09.179070136Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 25, "n": 54, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:09.179124428Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 25, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:09.179280235Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 1, "sqlHead": "SELECT COUNT($1) AS \"cnt\" FROM \"recipes\" \"Recipe\""}
-🐰 Keploy: 2026-05-26T02:57:09.179312092Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:449f4ceea16637935643fe01784ebdfbc3b1c0ab3d4104abca992a36ab15eb25:0:2026-05-24T22:26:44.083887185Z:25", "hash": "…2a36ab15eb25", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:09.179325968Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 25, "responseCount": 4, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:09.179366422Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 25, "n": 62}
-🐰 Keploy: 2026-05-26T02:57:18.36988085Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2026-05-24T22:30:22.61781033Z ", "beforeTime": "🐰 Keploy: 2026-05-24T22:30:22.712608575Z ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
-🐰 Keploy: 2026-05-26T02:57:18.369910211Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2026-05-24T22:30:22.61781033Z ", "windowEnd": "🐰 Keploy: 2026-05-24T22:30:22.712608575Z "}
-🐰 Keploy: 2026-05-26T02:57:18.369917377Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
-🐰 Keploy: 2026-05-26T02:57:18.370074704Z 	[35mDEBUG[0m	lax-promoted per-test mocks into session pool for cross-test reuse	{"count": 17}
-🐰 Keploy: 2026-05-26T02:57:18.370101573Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 1, "unfilteredMocks": 38, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 38}
-🐰 Keploy: 2026-05-26T02:57:18.37012104Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x1fc736abc5a0", "inputMocks": 1, "postgresV3Mocks": 1, "postgresV3MockNames": ["mock-29"], "newRevision": 3}
-🐰 Keploy: 2026-05-26T02:57:18.370249803Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "630.275µs"}
-🐰 Keploy: 2026-05-26T02:57:18.406498573Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 26, "n": 3324, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:18.406645393Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 26, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:18.407467742Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "SELECT \"Recipe\".\"id\" AS \"Recipe_id\", \"Recipe\".\"name\" AS \"Recipe_name\", \"Recipe\".\"descripcion\" AS \"Recipe_descripcion\", \"…"}
-🐰 Keploy: 2026-05-26T02:57:18.407555365Z 	[35mDEBUG[0m	DEBUG_TRACE PerTestProvider.Current: rebuilt	{"Type": "postgres_v3", "providerPtr": "0x1fc736f6ca00", "mockDbPtr": "0x1fc736abc5a0", "lastRev": 0, "publishedRev": 4, "mocksFromDb": 1, "pgMocks": 1, "preEvictHashes": ["…40ed568cbcc4(1/1)"], "postEvictHashes": ["…40ed568cbcc4(1/1)"]}
-🐰 Keploy: 2026-05-26T02:57:18.407574436Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:507e306ff4d10add7bc33702cff71e6628a66aab805b20a6d96540ed568cbcc4:2:2026-05-24T22:30:22.656331675Z:1", "hash": "…40ed568cbcc4", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:18.407757627Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 26, "responseCount": 13, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:18.407814799Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 26, "n": 13696}
-🐰 Keploy: 2026-05-26T02:57:18.428086699Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2026-05-24T22:30:41.95596222Z ", "beforeTime": "🐰 Keploy: 2026-05-24T22:30:42.028527979Z ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
-🐰 Keploy: 2026-05-26T02:57:18.428102562Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2026-05-24T22:30:41.95596222Z ", "windowEnd": "🐰 Keploy: 2026-05-24T22:30:42.028527979Z "}
-🐰 Keploy: 2026-05-26T02:57:18.428105345Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
-🐰 Keploy: 2026-05-26T02:57:18.428138038Z 	[35mDEBUG[0m	lax-promoted per-test mocks into session pool for cross-test reuse	{"count": 17}
-🐰 Keploy: 2026-05-26T02:57:18.428139451Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 1, "unfilteredMocks": 38, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 38}
-🐰 Keploy: 2026-05-26T02:57:18.428155423Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x1fc736abc5a0", "inputMocks": 1, "postgresV3Mocks": 1, "postgresV3MockNames": ["mock-31"], "newRevision": 5}
-🐰 Keploy: 2026-05-26T02:57:18.428205672Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "237.989µs"}
-🐰 Keploy: 2026-05-26T02:57:18.449058749Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 27, "n": 297, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:18.449120175Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 27, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
-🐰 Keploy: 2026-05-26T02:57:18.449230284Z 	[35mDEBUG[0m	DEBUG_TRACE PerTestProvider.Current: rebuilt	{"Type": "postgres_v3", "providerPtr": "0x1fc736f6ca00", "mockDbPtr": "0x1fc736abc5a0", "lastRev": 4, "publishedRev": 6, "mocksFromDb": 1, "pgMocks": 1, "preEvictHashes": ["…e35854973901(1/1)"], "postEvictHashes": ["…e35854973901(1/1)"]}
-🐰 Keploy: 2026-05-26T02:57:18.44960823Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:268770de1823ee4570503154f0b9704c878c12f32febd92ae3f8e35854973901", "columns": 5, "isPortal": true}
-🐰 Keploy: 2026-05-26T02:57:18.449728999Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "SELECT \"User\".\"id\" AS \"User_id\", \"User\".\"username\" AS \"User_username\", \"User\".\"password\" AS \"User_password\", \"User\".\"ema…", "binds": 1}
-🐰 Keploy: 2026-05-26T02:57:18.449739112Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:268770de1823ee4570503154f0b9704c878c12f32febd92ae3f8e35854973901:4:2026-05-24T22:30:42.022169412Z:1", "hash": "…e35854973901", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:18.44974306Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 27, "responseCount": 5, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:18.449791119Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 27, "n": 186}
-🐰 Keploy: 2026-05-26T02:57:18.455446578Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2026-05-24T22:31:14.619332371Z ", "beforeTime": "🐰 Keploy: 2026-05-24T22:31:14.735163489Z ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
-🐰 Keploy: 2026-05-26T02:57:18.455456973Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2026-05-24T22:31:14.619332371Z ", "windowEnd": "🐰 Keploy: 2026-05-24T22:31:14.735163489Z "}
-🐰 Keploy: 2026-05-26T02:57:18.455459767Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
-🐰 Keploy: 2026-05-26T02:57:18.455490082Z 	[35mDEBUG[0m	lax-promoted per-test mocks into session pool for cross-test reuse	{"count": 15}
-🐰 Keploy: 2026-05-26T02:57:18.455491257Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 3, "unfilteredMocks": 36, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 36}
-🐰 Keploy: 2026-05-26T02:57:18.455498759Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x1fc736abc5a0", "inputMocks": 3, "postgresV3Mocks": 3, "postgresV3MockNames": ["mock-33", "mock-34", "mock-36"], "newRevision": 7}
-🐰 Keploy: 2026-05-26T02:57:18.455525218Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "188.214µs"}
-🐰 Keploy: 2026-05-26T02:57:18.461508311Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 28, "n": 473, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:18.461569855Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 28, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
-🐰 Keploy: 2026-05-26T02:57:18.461690284Z 	[35mDEBUG[0m	DEBUG_TRACE PerTestProvider.Current: rebuilt	{"Type": "postgres_v3", "providerPtr": "0x1fc736f6ca00", "mockDbPtr": "0x1fc736abc5a0", "lastRev": 6, "publishedRev": 8, "mocksFromDb": 3, "pgMocks": 3, "preEvictHashes": ["…3d12094059fc(1/1)", "…a44412192b70(1/1)", "…d79aeb9959ec(1/1)"], "postEvictHashes": ["…3d12094059fc(1/1)", "…a44412192b70(1/1)", "…d79aeb9959ec(1/1)"]}
-🐰 Keploy: 2026-05-26T02:57:18.46222147Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:8be079382db4441d5ae8981cfb0b5dbf4605ea322eaed6f9f15d3d12094059fc", "columns": 10, "isPortal": true}
-🐰 Keploy: 2026-05-26T02:57:18.462330229Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "SELECT \"User\".\"id\" AS \"User_id\", \"User\".\"username\" AS \"User_username\", \"User\".\"password\" AS \"User_password\", \"User\".\"ema…", "binds": 1}
-🐰 Keploy: 2026-05-26T02:57:18.462339894Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:8be079382db4441d5ae8981cfb0b5dbf4605ea322eaed6f9f15d3d12094059fc:6:2026-05-24T22:31:14.639890019Z:1", "hash": "…3d12094059fc", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:18.4623525Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 28, "responseCount": 5, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:18.462396005Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 28, "n": 342}
-🐰 Keploy: 2026-05-26T02:57:18.462999072Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 29, "n": 479, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:18.46303353Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 29, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
-🐰 Keploy: 2026-05-26T02:57:18.463166441Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:620273f519338b8474b8744031b60d0d5b8e0512f8209682ad82a44412192b70", "columns": 10, "isPortal": true}
-🐰 Keploy: 2026-05-26T02:57:18.463235311Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "SELECT \"User\".\"id\" AS \"User_id\", \"User\".\"username\" AS \"User_username\", \"User\".\"password\" AS \"User_password\", \"User\".\"ema…", "binds": 1}
-🐰 Keploy: 2026-05-26T02:57:18.463241239Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:620273f519338b8474b8744031b60d0d5b8e0512f8209682ad82a44412192b70:6:2026-05-24T22:31:14.646857497Z:2", "hash": "…a44412192b70", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:18.463245168Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 29, "responseCount": 5, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:18.463278589Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 29, "n": 342}
-🐰 Keploy: 2026-05-26T02:57:18.51078104Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 30, "n": 23, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:18.510818569Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 30, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:18.510874606Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "TX", "extractedBinds": 0, "sqlHead": "START TRANSACTION"}
-🐰 Keploy: 2026-05-26T02:57:18.510891401Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 30, "responseCount": 2, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:18.510918201Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 30, "n": 17}
-🐰 Keploy: 2026-05-26T02:57:18.514446581Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 31, "n": 434, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:18.51447915Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 31, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
-🐰 Keploy: 2026-05-26T02:57:18.514585661Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:417244c6e27e4a9d1a742bb4678cfc5facc000a4015eb6c0286ad79aeb9959ec", "columns": 5, "isPortal": true}
-🐰 Keploy: 2026-05-26T02:57:18.5146996Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "INSERT INTO \"users\"(\"id\", \"username\", \"password\", \"email\", \"avatar\", \"bio\", \"is_active\", \"created_at\", \"updated_at\", \"ro…", "binds": 5}
-🐰 Keploy: 2026-05-26T02:57:18.514707029Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:417244c6e27e4a9d1a742bb4678cfc5facc000a4015eb6c0286ad79aeb9959ec:6:2026-05-24T22:31:14.718866394Z:4", "hash": "…d79aeb9959ec", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:18.514722572Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 31, "responseCount": 6, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:18.514755394Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 31, "n": 287}
-🐰 Keploy: 2026-05-26T02:57:18.516420357Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 32, "n": 12, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:18.516435364Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 32, "packets": ["Query"]}
-🐰 Keploy: 2026-05-26T02:57:18.516471824Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "TX", "extractedBinds": 0, "sqlHead": "COMMIT"}
-🐰 Keploy: 2026-05-26T02:57:18.516478666Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 32, "responseCount": 2, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:18.516504496Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 32, "n": 18}
-🐰 Keploy: 2026-05-26T02:57:18.522327502Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2026-05-24T22:31:14.743920729Z ", "beforeTime": "🐰 Keploy: 2026-05-24T22:31:14.820476703Z ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
-🐰 Keploy: 2026-05-26T02:57:18.5223374Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2026-05-24T22:31:14.743920729Z ", "windowEnd": "🐰 Keploy: 2026-05-24T22:31:14.820476703Z "}
-🐰 Keploy: 2026-05-26T02:57:18.522340343Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
-🐰 Keploy: 2026-05-26T02:57:18.522372293Z 	[35mDEBUG[0m	lax-promoted per-test mocks into session pool for cross-test reuse	{"count": 17}
-🐰 Keploy: 2026-05-26T02:57:18.522373673Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 1, "unfilteredMocks": 38, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 38}
-🐰 Keploy: 2026-05-26T02:57:18.522391981Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x1fc736abc5a0", "inputMocks": 1, "postgresV3Mocks": 1, "postgresV3MockNames": ["mock-38"], "newRevision": 9}
-🐰 Keploy: 2026-05-26T02:57:18.522431833Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "263.078µs"}
-🐰 Keploy: 2026-05-26T02:57:18.530250768Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 33, "n": 297, "reasmHeld": 0}
-🐰 Keploy: 2026-05-26T02:57:18.53037421Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 33, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
-🐰 Keploy: 2026-05-26T02:57:18.530405886Z 	[35mDEBUG[0m	DEBUG_TRACE PerTestProvider.Current: rebuilt	{"Type": "postgres_v3", "providerPtr": "0x1fc736f6ca00", "mockDbPtr": "0x1fc736abc5a0", "lastRev": 8, "publishedRev": 10, "mocksFromDb": 1, "pgMocks": 1, "preEvictHashes": ["…e35854973901(1/1)"], "postEvictHashes": ["…e35854973901(1/1)"]}
-🐰 Keploy: 2026-05-26T02:57:18.530810683Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:268770de1823ee4570503154f0b9704c878c12f32febd92ae3f8e35854973901", "columns": 5, "isPortal": true}
-🐰 Keploy: 2026-05-26T02:57:18.530877784Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "SELECT \"User\".\"id\" AS \"User_id\", \"User\".\"username\" AS \"User_username\", \"User\".\"password\" AS \"User_password\", \"User\".\"ema…", "binds": 1}
-🐰 Keploy: 2026-05-26T02:57:18.530885573Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:268770de1823ee4570503154f0b9704c878c12f32febd92ae3f8e35854973901:6:2026-05-24T22:31:14.747494017Z:6", "hash": "…e35854973901", "lifetime": "perTest"}
-🐰 Keploy: 2026-05-26T02:57:18.530897648Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 33, "responseCount": 6, "closeConn": false}
-🐰 Keploy: 2026-05-26T02:57:18.530933432Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 33, "n": 346}
-🐰 Keploy: 2026-05-26T02:57:18.665757924Z 	[35mDEBUG[0m	Received graceful shutdown notification
-🐰 Keploy: 2026-05-26T02:57:18.665782093Z 	[35mDEBUG[0m	Setting graceful shutdown flag on proxy
-🐰 Keploy: 2026-05-26T02:57:18.665785364Z 	[35mDEBUG[0m	Graceful shutdown flag set - connection errors will be logged as debug
-🐰 Keploy: 2026-05-26T02:57:19.147298501Z 	[35mDEBUG[0m	v3 runLoop: EOF from client	{"Type": "postgres_v3", "iter": 34}
-🐰 Keploy: 2026-05-26T02:57:19.147562412Z 	[35mDEBUG[0m	time taken by proxy to execute the flow	{"Client ConnectionID": 0, "Duration(ms)": 9985}
+🐰 Keploy: 2026-05-26T13:54:05.913835736Z 	[35mDEBUG[0m	dedup is disabled
+🐰 Keploy: 2026-05-26T13:54:05.918278025Z 	[35mDEBUG[0m	MockOutgoing function called	{"options": {"Rules":[],"MongoPassword":"default@123","TLSPrivateKey":"","Synchronous":false,"SQLDelay":20000000000,"Mocking":true,"DstCfg":null,"Backdate":"2026-05-24T22:30:22.61781033Z","NoiseConfig":{},"DisableAutoHeaderNoise":false,"SkipTLSMITM":false,"ConnKey":"","CapturePackets":false,"OpportunisticTLSIntercept":false,"MysqlPorts":[]}}
+🐰 Keploy: 2026-05-26T13:54:05.919760664Z 	[35mDEBUG[0m	Successfully written to nsswitch config of linux
+🐰 Keploy: 2026-05-26T13:54:06.186539742Z 	[35mDEBUG[0m	Successfully stored mocks for client
+🐰 Keploy: 2026-05-26T13:54:06.189906412Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2000-01-01T00:00:00Z ", "beforeTime": "🐰 Keploy: 2026-05-26T08:54:06.188815875-05:00 ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
+🐰 Keploy: 2026-05-26T13:54:06.189927911Z 	[34mINFO[0m	strict mock-window containment is ACTIVE for this session — per-test mocks whose request timestamp falls outside the outer test window will be dropped rather than promoted across tests. If your replays start reporting missing mocks after an upgrade, this is likely why. To opt out: set KEPLOY_STRICT_MOCK_WINDOW=0 in the environment, OR test.strictMockWindow: false in keploy.yaml.	{"viaPerCallFlag": true, "viaEnvOverride": false, "escape_hatch_env": "KEPLOY_STRICT_MOCK_WINDOW=0", "escape_hatch_config": "test.strictMockWindow: false"}
+🐰 Keploy: 2026-05-26T13:54:06.189963732Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2000-01-01T00:00:00Z ", "windowEnd": "🐰 Keploy: 2026-05-26T08:54:06.188815875-05:00 "}
+🐰 Keploy: 2026-05-26T13:54:06.18996905Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
+🐰 Keploy: 2026-05-26T13:54:06.190025255Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 18, "unfilteredMocks": 21, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 21}
+🐰 Keploy: 2026-05-26T13:54:06.190047401Z 	[35mDEBUG[0m	routed startup-init mocks into startup tree	{"count": 39, "firstTestWindow": "🐰 Keploy: 0001-01-01T00:00:00Z ", "initialStaging": true}
+🐰 Keploy: 2026-05-26T13:54:06.190050199Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x36c86a6854a0", "inputMocks": 0, "postgresV3Mocks": 0, "postgresV3MockNames": [], "newRevision": 1}
+🐰 Keploy: 2026-05-26T13:54:06.190084998Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "652.271µs"}
+🐰 Keploy: 2026-05-26T13:54:06.19111556Z 	[35mDEBUG[0m	Agent marked as ready	{"file": "/tmp/agent.ready"}
+🐰 Keploy: 2026-05-26T13:54:06.191131366Z 	[35mDEBUG[0m	Keploy Agent is ready from the ...
+🐰 Keploy: 2026-05-26T13:54:17.204238425Z 	[35mDEBUG[0m	Inside handleConnection of proxyServer	{"source port": 33106, "Time": 1779803657}
+🐰 Keploy: 2026-05-26T13:54:17.204294537Z 	[35mDEBUG[0m	Handling outgoing connection to destination port	{"Destination port": 5432}
+🐰 Keploy: 2026-05-26T13:54:17.20430102Z 	[35mDEBUG[0m	successfully removed entry from redirect proxy map	{"(Key)/SourcePort": 33106}
+🐰 Keploy: 2026-05-26T13:54:17.204304468Z 	[35mDEBUG[0m	the destination is ipv4
+🐰 Keploy: 2026-05-26T13:54:17.204313024Z 	[35mDEBUG[0m		{"DestIp4": 2886926338, "DestPort": 5432}
+🐰 Keploy: 2026-05-26T13:54:17.206997576Z 	[35mDEBUG[0m	Checking for the parser	{"ParserType": "sqs"}
+🐰 Keploy: 2026-05-26T13:54:17.207017803Z 	[35mDEBUG[0m	determined the protocol is not HTTP	{"Type": "sqs", "isHTTP": false}
+🐰 Keploy: 2026-05-26T13:54:17.207020459Z 	[35mDEBUG[0m	Checking for the parser	{"ParserType": "redis"}
+🐰 Keploy: 2026-05-26T13:54:17.207021831Z 	[35mDEBUG[0m	Checking for the parser	{"ParserType": "zookeeper"}
+🐰 Keploy: 2026-05-26T13:54:17.207023741Z 	[35mDEBUG[0m	Checking for the parser	{"ParserType": "postgres_v3"}
+🐰 Keploy: 2026-05-26T13:54:17.207027068Z 	[35mDEBUG[0m	The external dependency is supported. Hence using the parser	{"ParserType": "postgres_v3"}
+🐰 Keploy: 2026-05-26T13:54:17.20966505Z 	[35mDEBUG[0m	v3 replay: deduplicated startup ∩ session invocation ID overlap — evicted duplicates from startup index (session index is canonical)	{"Type": "postgres_v3", "evictedCount": 15, "overlappingInvocationIDs": ["sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.020070282Z:14", "sha256:f0a8e37c2db38f7af30066abf3a0f2e05fdd4ef9bb13acc0c53842c726937bf9:0:2026-05-24T22:26:43.873078376Z:1", "sha256:813dc9aceb86b132746ecf310c8a5b3f7be2fa01253fc9f284d545058abcd371:0:2026-05-24T22:26:43.99549497Z:10", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.028962601Z:17", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.023284269Z:15", "sha256:6d5e2214f1741b9f205a03a219a24cdc3cc3f2af11ad748897eaf1a5b14ef713:6:2026-05-24T22:31:14.714098505Z:3", "sha256:e23d2f4f85bbbfa7b8e08086e17938fdceedecae206eb556d8d853607fd72518:0:2026-05-24T22:26:43.947055341Z:8", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.017136937Z:13", "sha256:cd3c36208f26fbef67b62d1116148a76e1eee8b227747c2256be5d249d69a439:6:2026-05-24T22:31:14.731839759Z:5", "sha256:79f5e9c79609aa84f3ee39e7205d4beeed05594231a138d6601af801b8bc589e:0:2026-05-24T22:26:43.916723186Z:7", "sha256:d940c11a92b10f53618d5641a63b46a00a354fcd01f9eea8f8ef93cde8447153:0:2026-05-24T22:26:44.039587195Z:23", "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.026164749Z:16", "sha256:cd3c36208f26fbef67b62d1116148a76e1eee8b227747c2256be5d249d69a439:0:2026-05-24T22:26:44.045554247Z:24", "sha256:6d5e2214f1741b9f205a03a219a24cdc3cc3f2af11ad748897eaf1a5b14ef713:0:2026-05-24T22:26:43.912529319Z:4", "sha256:447b34d9016b7bfee0dd49501a70762da267d9318254fe8705655af94bdf818a:0:2026-05-24T22:26:43.966746328Z:9"], "next_step": "no action required — the dispatcher's startup engine will serve session-lifetime queries via its sessionIndex fallback. If this count grows, verify the recorder is not emitting the same Invocation for multiple tiers"}
+🐰 Keploy: 2026-05-26T13:54:17.209690219Z 	[35mDEBUG[0m	v3 MockOutgoing invoked	{"Type": "postgres_v3", "totalSessionMocks": 21, "pgV3SessionMocks": 19, "totalStartupMocks": 39, "pgV3StartupMocks": 37, "reqBufLen": 74, "hasSession": true, "hasCatalog": false, "sessionDistinctSqlHashes": 9, "sessionTotalInvocations": 15, "startupDistinctSqlHashes": 21, "startupTotalInvocations": 33}
+🐰 Keploy: 2026-05-26T13:54:17.209694046Z 	[35mDEBUG[0m	v3 ReplayV3 ENTER	{"Type": "postgres_v3", "initialReqBufLen": 74}
+🐰 Keploy: 2026-05-26T13:54:17.20969538Z 	[35mDEBUG[0m	v3 ReplayV3: dispatching startup	{"Type": "postgres_v3", "sslResponse": "", "serverVersion": "15.16", "paramStatusCount": 13}
+🐰 Keploy: 2026-05-26T13:54:17.209761391Z 	[35mDEBUG[0m	startup handshake completed	{"Type": "postgres_v3", "parameter_status_count": 13, "backend_pid": 236}
+🐰 Keploy: 2026-05-26T13:54:17.209764765Z 	[35mDEBUG[0m	v3 ReplayV3: startup handshake emitted, entering runLoop	{"Type": "postgres_v3"}
+🐰 Keploy: 2026-05-26T13:54:17.209768739Z 	[35mDEBUG[0m	v3 ReplayV3: session allocated	{"Type": "postgres_v3", "connID": "172.19.0.3:33106:1"}
+🐰 Keploy: 2026-05-26T13:54:17.216565175Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 1, "n": 22, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.216623017Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 1, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.233687866Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "VALIDATION", "extractedBinds": 0, "sqlHead": "SELECT version()"}
+🐰 Keploy: 2026-05-26T13:54:17.233970006Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…42c726937bf9", "invocationID": "sha256:f0a8e37c2db38f7af30066abf3a0f2e05fdd4ef9bb13acc0c53842c726937bf9:0:2026-05-24T22:26:43.873078376Z:1", "currentTest": "", "lifetime": "session", "binds": 0}
+🐰 Keploy: 2026-05-26T13:54:17.233992771Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 1, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.234107546Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 1, "n": 152}
+🐰 Keploy: 2026-05-26T13:54:17.237207748Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 2, "n": 36, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.237247503Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 2, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.239404946Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "SELECT * FROM current_schema()"}
+🐰 Keploy: 2026-05-26T13:54:17.239499509Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:9dd2893c88a482ecc48f8122369f09b3e9b9f0d631e08381cd29aaee1ef52ee3:0:2026-05-24T22:26:43.888412129Z:2", "hash": "…aaee1ef52ee3", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.239524356Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 2, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.239654058Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 2, "n": 77}
+🐰 Keploy: 2026-05-26T13:54:17.265747069Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 3, "n": 48, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.265817775Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 3, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.266079094Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\""}
+🐰 Keploy: 2026-05-26T13:54:17.266106412Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:ce86c4606da67600d164bb4ebe1c8e946a7db921f85181d97b289cac56082af4:0:2026-05-24T22:26:43.90748126Z:3", "hash": "…9cac56082af4", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.266113445Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 3, "responseCount": 2, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.26617774Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 3, "n": 28}
+🐰 Keploy: 2026-05-26T13:54:17.267427936Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 4, "n": 23, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.26746146Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 4, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.267539575Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "TX", "extractedBinds": 0, "sqlHead": "START TRANSACTION"}
+🐰 Keploy: 2026-05-26T13:54:17.267552151Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 4, "responseCount": 2, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.267591647Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 4, "n": 17}
+🐰 Keploy: 2026-05-26T13:54:17.269341937Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 5, "n": 36, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.269361907Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 5, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.269440774Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "SELECT * FROM current_schema()"}
+🐰 Keploy: 2026-05-26T13:54:17.269466943Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:9dd2893c88a482ecc48f8122369f09b3e9b9f0d631e08381cd29aaee1ef52ee3:0:2026-05-24T22:26:43.914594258Z:5", "hash": "…aaee1ef52ee3", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.269477331Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 5, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.26952835Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 5, "n": 77}
+🐰 Keploy: 2026-05-26T13:54:17.270178354Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 6, "n": 38, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.270209362Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 6, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.270292532Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "SELECT * FROM current_database()"}
+🐰 Keploy: 2026-05-26T13:54:17.270301054Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:082ed2a4c2db88d7d7e2a5d8504d0a55395ff3b1184d19a80257fc28dbec7ce1:0:2026-05-24T22:26:43.915307639Z:6", "hash": "…fc28dbec7ce1", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.270311691Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 6, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.27035135Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 6, "n": 93}
+🐰 Keploy: 2026-05-26T13:54:17.271176421Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 7, "n": 371, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.271215872Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 7, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.271801711Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 10, "sqlHead": "SELECT \"table_schema\", \"table_name\", obj_description(($1 || \"table_schema\" || $2 || \"table_name\" || $3)::regclass, $4) A…"}
+🐰 Keploy: 2026-05-26T13:54:17.271825572Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…f801b8bc589e", "invocationID": "sha256:79f5e9c79609aa84f3ee39e7205d4beeed05594231a138d6601af801b8bc589e:0:2026-05-24T22:26:43.916723186Z:7", "currentTest": "", "lifetime": "session", "binds": 10}
+🐰 Keploy: 2026-05-26T13:54:17.271837927Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 7, "responseCount": 6, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.271888213Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 7, "n": 214}
+🐰 Keploy: 2026-05-26T13:54:17.273012235Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 8, "n": 114, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.27304039Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 8, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.273248631Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT $1 FROM information_schema.columns WHERE table_name = $2 and column_name = $3"}
+🐰 Keploy: 2026-05-26T13:54:17.273264964Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…53607fd72518", "invocationID": "sha256:e23d2f4f85bbbfa7b8e08086e17938fdceedecae206eb556d8d853607fd72518:0:2026-05-24T22:26:43.947055341Z:8", "currentTest": "", "lifetime": "session", "binds": 3}
+🐰 Keploy: 2026-05-26T13:54:17.273338323Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 8, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.273378306Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 8, "n": 66}
+🐰 Keploy: 2026-05-26T13:54:17.274078018Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 9, "n": 933, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.274128401Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 9, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.276236447Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 13, "sqlHead": "SELECT columns.*, pg_catalog.col_description(($1 || table_catalog || $2 || table_schema || $3 || table_name || $4)::regc…"}
+🐰 Keploy: 2026-05-26T13:54:17.276331223Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…5af94bdf818a", "invocationID": "sha256:447b34d9016b7bfee0dd49501a70762da267d9318254fe8705655af94bdf818a:0:2026-05-24T22:26:43.966746328Z:9", "currentTest": "", "lifetime": "session", "binds": 13}
+🐰 Keploy: 2026-05-26T13:54:17.276579211Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 9, "responseCount": 32, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.27674325Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 9, "n": 11442}
+🐰 Keploy: 2026-05-26T13:54:17.278934613Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 10, "n": 823, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.278981883Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 10, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.27967973Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 16, "sqlHead": "SELECT \"ns\".\"nspname\" AS \"table_schema\", \"t\".\"relname\" AS \"table_name\", \"cnst\".\"conname\" AS \"constraint_name\", pg_get_co…"}
+🐰 Keploy: 2026-05-26T13:54:17.279713098Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…45058abcd371", "invocationID": "sha256:813dc9aceb86b132746ecf310c8a5b3f7be2fa01253fc9f284d545058abcd371:0:2026-05-24T22:26:43.99549497Z:10", "currentTest": "", "lifetime": "session", "binds": 16}
+🐰 Keploy: 2026-05-26T13:54:17.279733391Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 10, "responseCount": 11, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.279780027Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 10, "n": 1141}
+🐰 Keploy: 2026-05-26T13:54:17.280269973Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 11, "n": 1082, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.280329788Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 11, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.281351912Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 11, "sqlHead": "SELECT \"ns\".\"nspname\" AS \"table_schema\", \"t\".\"relname\" AS \"table_name\", \"i\".\"relname\" AS \"constraint_name\", \"a\".\"attname…"}
+🐰 Keploy: 2026-05-26T13:54:17.281370072Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:c2f718bea5a3ab7c352c6d76aceb90cdbc92ad2038b026192a78c9ae0da2e66c:0:2026-05-24T22:26:44.001149912Z:11", "hash": "…c9ae0da2e66c", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.281377446Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 11, "responseCount": 3, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.281413597Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 11, "n": 264}
+🐰 Keploy: 2026-05-26T13:54:17.281885416Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 12, "n": 1865, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.281958131Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 12, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.283523617Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 30, "sqlHead": "SELECT \"con\".\"conname\" AS \"constraint_name\", \"con\".\"nspname\" AS \"table_schema\", \"con\".\"relname\" AS \"table_name\", \"att2\".…"}
+🐰 Keploy: 2026-05-26T13:54:17.283541347Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:603d5f8cced312912e2c9655a4fd62e759de7cce6095442a28e64e69c824dbb3:0:2026-05-24T22:26:44.008655296Z:12", "hash": "…4e69c824dbb3", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.283554848Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 12, "responseCount": 6, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.283610996Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 12, "n": 839}
+🐰 Keploy: 2026-05-26T13:54:17.287951484Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 13, "n": 166, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.288018854Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 13, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.288434808Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
+🐰 Keploy: 2026-05-26T13:54:17.288480124Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.017136937Z:13", "currentTest": "", "lifetime": "session", "binds": 3}
+🐰 Keploy: 2026-05-26T13:54:17.288503738Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 13, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.288617497Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 13, "n": 113}
+🐰 Keploy: 2026-05-26T13:54:17.289640483Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 14, "n": 160, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.28973245Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 14, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.290171834Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
+🐰 Keploy: 2026-05-26T13:54:17.290212611Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.020070282Z:14", "currentTest": "", "lifetime": "session", "binds": 3}
+🐰 Keploy: 2026-05-26T13:54:17.290245562Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 14, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.290317757Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 14, "n": 113}
+🐰 Keploy: 2026-05-26T13:54:17.291379787Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 15, "n": 161, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.291512998Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 15, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.292023306Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
+🐰 Keploy: 2026-05-26T13:54:17.292062991Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.023284269Z:15", "currentTest": "", "lifetime": "session", "binds": 3}
+🐰 Keploy: 2026-05-26T13:54:17.292093933Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 15, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.292206963Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 15, "n": 113}
+🐰 Keploy: 2026-05-26T13:54:17.292535321Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 16, "n": 159, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.292572641Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 16, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.292740445Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
+🐰 Keploy: 2026-05-26T13:54:17.292753698Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.026164749Z:16", "currentTest": "", "lifetime": "session", "binds": 3}
+🐰 Keploy: 2026-05-26T13:54:17.292765234Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 16, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.292821677Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 16, "n": 113}
+🐰 Keploy: 2026-05-26T13:54:17.293228445Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 17, "n": 162, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.293268946Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 17, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.293534304Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 3, "sqlHead": "SELECT \"udt_schema\", \"udt_name\" FROM \"information_schema\".\"columns\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2 AND …"}
+🐰 Keploy: 2026-05-26T13:54:17.293553738Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…3e0320119fc1", "invocationID": "sha256:fcbcc21e7dc8d1fc299af637a30c41f6af50a48c7478f254533d3e0320119fc1:0:2026-05-24T22:26:44.028962601Z:17", "currentTest": "", "lifetime": "session", "binds": 3}
+🐰 Keploy: 2026-05-26T13:54:17.293565841Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 17, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.293622952Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 17, "n": 113}
+🐰 Keploy: 2026-05-26T13:54:17.294043686Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 18, "n": 236, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.294079631Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 18, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.294323488Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
+🐰 Keploy: 2026-05-26T13:54:17.294344212Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.031474956Z:18", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.294349081Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 18, "responseCount": 3, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.294387833Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 18, "n": 51}
+🐰 Keploy: 2026-05-26T13:54:17.294712057Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 19, "n": 236, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.294737438Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 19, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.294954538Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
+🐰 Keploy: 2026-05-26T13:54:17.294971171Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.035189229Z:19", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.294983276Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 19, "responseCount": 3, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.29503506Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 19, "n": 51}
+🐰 Keploy: 2026-05-26T13:54:17.295396735Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 20, "n": 236, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.295424493Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 20, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.295630779Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
+🐰 Keploy: 2026-05-26T13:54:17.295641006Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.036301701Z:20", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.295645625Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 20, "responseCount": 3, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.295682718Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 20, "n": 51}
+🐰 Keploy: 2026-05-26T13:54:17.295998703Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 21, "n": 236, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.29603152Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 21, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.296228484Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
+🐰 Keploy: 2026-05-26T13:54:17.296239555Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.037195923Z:21", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.296244099Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 21, "responseCount": 3, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.296284222Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 21, "n": 51}
+🐰 Keploy: 2026-05-26T13:54:17.296686104Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 22, "n": 236, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.296726225Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 22, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.296924538Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 2, "sqlHead": "SELECT \"e\".\"enumlabel\" AS \"value\" FROM \"pg_enum\" \"e\" INNER JOIN \"pg_type\" \"t\" ON \"t\".\"oid\" = \"e\".\"enumtypid\" INNER JOIN …"}
+🐰 Keploy: 2026-05-26T13:54:17.29693453Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:4ef02e7adb6de939bffde8d332eca58f14602e564290316bfdcf9e0dc2db14a9:0:2026-05-24T22:26:44.038085352Z:22", "hash": "…9e0dc2db14a9", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.296939867Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 22, "responseCount": 3, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.296977048Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 22, "n": 51}
+🐰 Keploy: 2026-05-26T13:54:17.297998102Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 23, "n": 119, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.298020804Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 23, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.298148657Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "CATALOG", "extractedBinds": 2, "sqlHead": "SELECT * FROM \"information_schema\".\"tables\" WHERE \"table_schema\" = $1 AND \"table_name\" = $2"}
+🐰 Keploy: 2026-05-26T13:54:17.298177053Z 	[35mDEBUG[0m	transactional: session-tier read-only fallback served (Track Y)	{"Type": "postgres_v3", "hash": "…93cde8447153", "invocationID": "sha256:d940c11a92b10f53618d5641a63b46a00a354fcd01f9eea8f8ef93cde8447153:0:2026-05-24T22:26:44.039587195Z:23", "currentTest": "", "lifetime": "session", "binds": 2}
+🐰 Keploy: 2026-05-26T13:54:17.298186233Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 23, "responseCount": 3, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.298229009Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 23, "n": 458}
+🐰 Keploy: 2026-05-26T13:54:17.308999727Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 24, "n": 12, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.309044754Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 24, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.309139153Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "TX", "extractedBinds": 0, "sqlHead": "COMMIT"}
+🐰 Keploy: 2026-05-26T13:54:17.309154129Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 24, "responseCount": 2, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.309198512Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 24, "n": 18}
+🐰 Keploy: 2026-05-26T13:54:17.381721237Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 25, "n": 54, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:17.381820107Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 25, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:17.3820364Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 1, "sqlHead": "SELECT COUNT($1) AS \"cnt\" FROM \"recipes\" \"Recipe\""}
+🐰 Keploy: 2026-05-26T13:54:17.382057961Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:449f4ceea16637935643fe01784ebdfbc3b1c0ab3d4104abca992a36ab15eb25:0:2026-05-24T22:26:44.083887185Z:25", "hash": "…2a36ab15eb25", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:17.382074571Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 25, "responseCount": 4, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:17.3821508Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 25, "n": 62}
+🐰 Keploy: 2026-05-26T13:54:26.411897877Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2026-05-24T22:30:22.61781033Z ", "beforeTime": "🐰 Keploy: 2026-05-24T22:30:22.712608575Z ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
+🐰 Keploy: 2026-05-26T13:54:26.411934309Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2026-05-24T22:30:22.61781033Z ", "windowEnd": "🐰 Keploy: 2026-05-24T22:30:22.712608575Z "}
+🐰 Keploy: 2026-05-26T13:54:26.41194363Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
+🐰 Keploy: 2026-05-26T13:54:26.412049845Z 	[35mDEBUG[0m	lax-promoted per-test mocks into session pool for cross-test reuse	{"count": 17}
+🐰 Keploy: 2026-05-26T13:54:26.412075918Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 1, "unfilteredMocks": 38, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 38}
+🐰 Keploy: 2026-05-26T13:54:26.41211218Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x36c86a6854a0", "inputMocks": 1, "postgresV3Mocks": 1, "postgresV3MockNames": ["mock-29"], "newRevision": 3}
+🐰 Keploy: 2026-05-26T13:54:26.412226453Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "692.156µs"}
+🐰 Keploy: 2026-05-26T13:54:26.436345112Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 26, "n": 3324, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:26.4364892Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 26, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:26.437504482Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "APP", "extractedBinds": 0, "sqlHead": "SELECT \"Recipe\".\"id\" AS \"Recipe_id\", \"Recipe\".\"name\" AS \"Recipe_name\", \"Recipe\".\"descripcion\" AS \"Recipe_descripcion\", \"…"}
+🐰 Keploy: 2026-05-26T13:54:26.437585823Z 	[35mDEBUG[0m	DEBUG_TRACE PerTestProvider.Current: rebuilt	{"Type": "postgres_v3", "providerPtr": "0x36c86a73a5f0", "mockDbPtr": "0x36c86a6854a0", "lastRev": 0, "publishedRev": 4, "mocksFromDb": 1, "pgMocks": 1, "preEvictHashes": ["…40ed568cbcc4(1/1)"], "postEvictHashes": ["…40ed568cbcc4(1/1)"]}
+🐰 Keploy: 2026-05-26T13:54:26.437608824Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:507e306ff4d10add7bc33702cff71e6628a66aab805b20a6d96540ed568cbcc4:2:2026-05-24T22:30:22.656331675Z:1", "hash": "…40ed568cbcc4", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:26.437799247Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 26, "responseCount": 13, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:26.437874563Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 26, "n": 13696}
+🐰 Keploy: 2026-05-26T13:54:26.479211781Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2026-05-24T22:30:41.95596222Z ", "beforeTime": "🐰 Keploy: 2026-05-24T22:30:42.028527979Z ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
+🐰 Keploy: 2026-05-26T13:54:26.479230123Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2026-05-24T22:30:41.95596222Z ", "windowEnd": "🐰 Keploy: 2026-05-24T22:30:42.028527979Z "}
+🐰 Keploy: 2026-05-26T13:54:26.479234565Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
+🐰 Keploy: 2026-05-26T13:54:26.479281392Z 	[35mDEBUG[0m	lax-promoted per-test mocks into session pool for cross-test reuse	{"count": 17}
+🐰 Keploy: 2026-05-26T13:54:26.479283537Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 1, "unfilteredMocks": 38, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 38}
+🐰 Keploy: 2026-05-26T13:54:26.479305784Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x36c86a6854a0", "inputMocks": 1, "postgresV3Mocks": 1, "postgresV3MockNames": ["mock-31"], "newRevision": 5}
+🐰 Keploy: 2026-05-26T13:54:26.47939603Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "585.795µs"}
+🐰 Keploy: 2026-05-26T13:54:26.523559132Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 27, "n": 297, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:26.523673149Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 27, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
+🐰 Keploy: 2026-05-26T13:54:26.523921917Z 	[35mDEBUG[0m	DEBUG_TRACE PerTestProvider.Current: rebuilt	{"Type": "postgres_v3", "providerPtr": "0x36c86a73a5f0", "mockDbPtr": "0x36c86a6854a0", "lastRev": 4, "publishedRev": 6, "mocksFromDb": 1, "pgMocks": 1, "preEvictHashes": ["…e35854973901(1/1)"], "postEvictHashes": ["…e35854973901(1/1)"]}
+🐰 Keploy: 2026-05-26T13:54:26.525160039Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:268770de1823ee4570503154f0b9704c878c12f32febd92ae3f8e35854973901", "columns": 5, "isPortal": true}
+🐰 Keploy: 2026-05-26T13:54:26.525530635Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "SELECT \"User\".\"id\" AS \"User_id\", \"User\".\"username\" AS \"User_username\", \"User\".\"password\" AS \"User_password\", \"User\".\"ema…", "binds": 1}
+🐰 Keploy: 2026-05-26T13:54:26.525571528Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:268770de1823ee4570503154f0b9704c878c12f32febd92ae3f8e35854973901:4:2026-05-24T22:30:42.022169412Z:1", "hash": "…e35854973901", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:26.525599437Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 27, "responseCount": 5, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:26.525749956Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 27, "n": 186}
+🐰 Keploy: 2026-05-26T13:54:26.537668254Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2026-05-24T22:31:14.619332371Z ", "beforeTime": "🐰 Keploy: 2026-05-24T22:31:14.735163489Z ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
+🐰 Keploy: 2026-05-26T13:54:26.537687321Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2026-05-24T22:31:14.619332371Z ", "windowEnd": "🐰 Keploy: 2026-05-24T22:31:14.735163489Z "}
+🐰 Keploy: 2026-05-26T13:54:26.537691972Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
+🐰 Keploy: 2026-05-26T13:54:26.537735299Z 	[35mDEBUG[0m	lax-promoted per-test mocks into session pool for cross-test reuse	{"count": 15}
+🐰 Keploy: 2026-05-26T13:54:26.537738076Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 3, "unfilteredMocks": 36, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 36}
+🐰 Keploy: 2026-05-26T13:54:26.537749818Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x36c86a6854a0", "inputMocks": 3, "postgresV3Mocks": 3, "postgresV3MockNames": ["mock-33", "mock-34", "mock-36"], "newRevision": 7}
+🐰 Keploy: 2026-05-26T13:54:26.537797009Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "317.869µs"}
+🐰 Keploy: 2026-05-26T13:54:26.548016705Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 28, "n": 473, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:26.548098044Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 28, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
+🐰 Keploy: 2026-05-26T13:54:26.548272709Z 	[35mDEBUG[0m	DEBUG_TRACE PerTestProvider.Current: rebuilt	{"Type": "postgres_v3", "providerPtr": "0x36c86a73a5f0", "mockDbPtr": "0x36c86a6854a0", "lastRev": 6, "publishedRev": 8, "mocksFromDb": 3, "pgMocks": 3, "preEvictHashes": ["…3d12094059fc(1/1)", "…a44412192b70(1/1)", "…d79aeb9959ec(1/1)"], "postEvictHashes": ["…3d12094059fc(1/1)", "…a44412192b70(1/1)", "…d79aeb9959ec(1/1)"]}
+🐰 Keploy: 2026-05-26T13:54:26.550977329Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:8be079382db4441d5ae8981cfb0b5dbf4605ea322eaed6f9f15d3d12094059fc", "columns": 10, "isPortal": true}
+🐰 Keploy: 2026-05-26T13:54:26.551103368Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "SELECT \"User\".\"id\" AS \"User_id\", \"User\".\"username\" AS \"User_username\", \"User\".\"password\" AS \"User_password\", \"User\".\"ema…", "binds": 1}
+🐰 Keploy: 2026-05-26T13:54:26.551114244Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:8be079382db4441d5ae8981cfb0b5dbf4605ea322eaed6f9f15d3d12094059fc:6:2026-05-24T22:31:14.639890019Z:1", "hash": "…3d12094059fc", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:26.551120372Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 28, "responseCount": 5, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:26.551177218Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 28, "n": 342}
+🐰 Keploy: 2026-05-26T13:54:26.552081391Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 29, "n": 479, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:26.552116863Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 29, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
+🐰 Keploy: 2026-05-26T13:54:26.552331912Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:620273f519338b8474b8744031b60d0d5b8e0512f8209682ad82a44412192b70", "columns": 10, "isPortal": true}
+🐰 Keploy: 2026-05-26T13:54:26.552426333Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "SELECT \"User\".\"id\" AS \"User_id\", \"User\".\"username\" AS \"User_username\", \"User\".\"password\" AS \"User_password\", \"User\".\"ema…", "binds": 1}
+🐰 Keploy: 2026-05-26T13:54:26.552433434Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:620273f519338b8474b8744031b60d0d5b8e0512f8209682ad82a44412192b70:6:2026-05-24T22:31:14.646857497Z:2", "hash": "…a44412192b70", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:26.552437542Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 29, "responseCount": 5, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:26.552475867Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 29, "n": 342}
+🐰 Keploy: 2026-05-26T13:54:26.621883066Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 30, "n": 23, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:26.621953565Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 30, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:26.622032737Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "TX", "extractedBinds": 0, "sqlHead": "START TRANSACTION"}
+🐰 Keploy: 2026-05-26T13:54:26.62205137Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 30, "responseCount": 2, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:26.622108953Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 30, "n": 17}
+🐰 Keploy: 2026-05-26T13:54:26.627004882Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 31, "n": 434, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:26.627064014Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 31, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
+🐰 Keploy: 2026-05-26T13:54:26.627211286Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:417244c6e27e4a9d1a742bb4678cfc5facc000a4015eb6c0286ad79aeb9959ec", "columns": 5, "isPortal": true}
+🐰 Keploy: 2026-05-26T13:54:26.62735627Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "INSERT INTO \"users\"(\"id\", \"username\", \"password\", \"email\", \"avatar\", \"bio\", \"is_active\", \"created_at\", \"updated_at\", \"ro…", "binds": 5}
+🐰 Keploy: 2026-05-26T13:54:26.627368021Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:417244c6e27e4a9d1a742bb4678cfc5facc000a4015eb6c0286ad79aeb9959ec:6:2026-05-24T22:31:14.718866394Z:4", "hash": "…d79aeb9959ec", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:26.627387412Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 31, "responseCount": 6, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:26.62743691Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 31, "n": 287}
+🐰 Keploy: 2026-05-26T13:54:26.630266605Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 32, "n": 12, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:26.63029669Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 32, "packets": ["Query"]}
+🐰 Keploy: 2026-05-26T13:54:26.630347286Z 	[35mDEBUG[0m	executeSimple dispatch	{"Type": "postgres_v3", "class": "TX", "extractedBinds": 0, "sqlHead": "COMMIT"}
+🐰 Keploy: 2026-05-26T13:54:26.630358315Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 32, "responseCount": 2, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:26.630404461Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 32, "n": 18}
+🐰 Keploy: 2026-05-26T13:54:26.635049969Z 	[35mDEBUG[0m	UpdateMockParams called	{"afterTime": "🐰 Keploy: 2026-05-24T22:31:14.743920729Z ", "beforeTime": "🐰 Keploy: 2026-05-24T22:31:14.820476703Z ", "useMappingBased": false, "mockMappingCount": 0, "strictMockWindow": true}
+🐰 Keploy: 2026-05-26T13:54:26.635060916Z 	[35mDEBUG[0m	strict mock window active for test	{"windowStart": "🐰 Keploy: 2026-05-24T22:31:14.743920729Z ", "windowEnd": "🐰 Keploy: 2026-05-24T22:31:14.820476703Z "}
+🐰 Keploy: 2026-05-26T13:54:26.635064891Z 	[35mDEBUG[0m	Original mocks before filtering	{"originalFiltered": 18, "originalUnfiltered": 21}
+🐰 Keploy: 2026-05-26T13:54:26.635108745Z 	[35mDEBUG[0m	lax-promoted per-test mocks into session pool for cross-test reuse	{"count": 17}
+🐰 Keploy: 2026-05-26T13:54:26.635110477Z 	[35mDEBUG[0m	After filtering	{"filteredMocks": 1, "unfilteredMocks": 38, "unfilteredWithIsFilteredTrue": 0, "unfilteredWithIsFilteredFalse": 38}
+🐰 Keploy: 2026-05-26T13:54:26.635118101Z 	[35mDEBUG[0m	DEBUG_TRACE SetFilteredMocks: tree swapped + revision bumped	{"mockManagerPtr": "0x36c86a6854a0", "inputMocks": 1, "postgresV3Mocks": 1, "postgresV3MockNames": ["mock-38"], "newRevision": 9}
+🐰 Keploy: 2026-05-26T13:54:26.635156489Z 	[35mDEBUG[0m	Time taken to update mock params duration :	{"duration": "263.417µs"}
+🐰 Keploy: 2026-05-26T13:54:26.648045606Z 	[35mDEBUG[0m	v3 runLoop: read	{"Type": "postgres_v3", "iter": 33, "n": 297, "reasmHeld": 0}
+🐰 Keploy: 2026-05-26T13:54:26.648145802Z 	[35mDEBUG[0m	v3 runLoop: decoded	{"Type": "postgres_v3", "iter": 33, "packets": ["Parse", "Bind", "Describe", "Execute", "Sync"]}
+🐰 Keploy: 2026-05-26T13:54:26.648218523Z 	[35mDEBUG[0m	DEBUG_TRACE PerTestProvider.Current: rebuilt	{"Type": "postgres_v3", "providerPtr": "0x36c86a73a5f0", "mockDbPtr": "0x36c86a6854a0", "lastRev": 8, "publishedRev": 10, "mocksFromDb": 1, "pgMocks": 1, "preEvictHashes": ["…e35854973901(1/1)"], "postEvictHashes": ["…e35854973901(1/1)"]}
+🐰 Keploy: 2026-05-26T13:54:26.649459625Z 	[35mDEBUG[0m	emitDescribeResponse: reused sibling cohort's RowDescription	{"Type": "postgres_v3", "name": "", "sqlHash": "sha256:268770de1823ee4570503154f0b9704c878c12f32febd92ae3f8e35854973901", "columns": 5, "isPortal": true}
+🐰 Keploy: 2026-05-26T13:54:26.649703341Z 	[35mDEBUG[0m	runEngineForPortal	{"Type": "postgres_v3", "class": "APP", "sqlHead": "SELECT \"User\".\"id\" AS \"User_id\", \"User\".\"username\" AS \"User_username\", \"User\".\"password\" AS \"User_password\", \"User\".\"ema…", "binds": 1}
+🐰 Keploy: 2026-05-26T13:54:26.64972588Z 	[35mDEBUG[0m	transactional: invocation served	{"Type": "postgres_v3", "invocationID": "sha256:268770de1823ee4570503154f0b9704c878c12f32febd92ae3f8e35854973901:6:2026-05-24T22:31:14.747494017Z:6", "hash": "…e35854973901", "lifetime": "perTest"}
+🐰 Keploy: 2026-05-26T13:54:26.649753254Z 	[35mDEBUG[0m	v3 runLoop: dispatch produced	{"Type": "postgres_v3", "iter": 33, "responseCount": 6, "closeConn": false}
+🐰 Keploy: 2026-05-26T13:54:26.649872621Z 	[35mDEBUG[0m	v3 runLoop: wrote bytes	{"Type": "postgres_v3", "iter": 33, "n": 346}
+🐰 Keploy: 2026-05-26T13:54:26.807400178Z 	[35mDEBUG[0m	Received graceful shutdown notification
+🐰 Keploy: 2026-05-26T13:54:26.807427513Z 	[35mDEBUG[0m	Setting graceful shutdown flag on proxy
+🐰 Keploy: 2026-05-26T13:54:26.807432212Z 	[35mDEBUG[0m	Graceful shutdown flag set - connection errors will be logged as debug
+🐰 Keploy: 2026-05-26T13:54:27.624348215Z 	[35mDEBUG[0m	v3 runLoop: EOF from client	{"Type": "postgres_v3", "iter": 34}
+🐰 Keploy: 2026-05-26T13:54:27.624616309Z 	[35mDEBUG[0m	time taken by proxy to execute the flow	{"Client ConnectionID": 0, "Duration(ms)": 10420}

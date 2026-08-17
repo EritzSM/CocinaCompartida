@@ -274,7 +274,7 @@ export class OllamaClient extends LLMClient {
       }
     }
 
-    const maxAttempts = (retries ?? 0) + 1;
+    let maxAttempts = (retries ?? 0) + 1;
     let lastError: any;
 
     for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {

@@ -1,18 +1,21 @@
 import json
 import os
 from dotenv import load_dotenv
+
+# Cargar variables de entorno del archivo .env
+load_dotenv()
+
+# CRÍTICO: Sobrescribir variables de OpenAI *ANTES* de importar deepeval
+# DeepEval lee las variables de entorno tan pronto como se importa el módulo.
+# Si no lo hacemos aquí, leerá tu llave de GitHub Models del .env y dará error de Rate Limit 429.
+os.environ["OPENAI_API_KEY"] = "ollama"
+os.environ["OPENAI_BASE_URL"] = "http://127.0.0.1:11434/v1"
+os.environ["DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE"] = "600"
+
 import pytest
 from deepeval import assert_test
 from deepeval.test_case import LLMTestCase, LLMTestCaseParams
 from deepeval.metrics import GEval, ToxicityMetric, FaithfulnessMetric
-
-# Cargar variables de entorno
-load_dotenv()
-
-# Sobrescribir variables para usar Ollama local (Compatible con OpenAI) y evitar Rate Limits
-os.environ["OPENAI_API_KEY"] = "ollama"
-os.environ["OPENAI_BASE_URL"] = "http://127.0.0.1:11434/v1"
-os.environ["DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE"] = "600" # Deshabilitar timeout para Ollama local
 
 def test_stagehand_extractions():
     # Leer resultados del archivo JSON generado por TypeScript
