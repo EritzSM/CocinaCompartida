@@ -1,10 +1,15 @@
 <!-- app.component.html -->
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+<div class="visually-hidden" aria-live="polite" aria-atomic="true">
+  {{ routeAnnouncement }}
+</div>
 <div class="app-container">
   <app-header *ngIf="showLayout"></app-header>
 
-  <main class="main-content">
+  <main id="main-content" class="main-content" tabindex="-1">
     <router-outlet></router-outlet>
   </main>
 
   <app-footer class="app-footer" *ngIf="showLayout"></app-footer>
+  <app-reading-assistant></app-reading-assistant>
 </div>

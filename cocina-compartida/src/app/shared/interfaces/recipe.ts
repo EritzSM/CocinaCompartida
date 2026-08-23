@@ -5,6 +5,7 @@ export interface Recipe {
   name: string;
   descripcion: string;
   ingredients: string[];
+  servings?: number;
   steps: string[];
   images: string[];
   user: {
@@ -12,7 +13,7 @@ export interface Recipe {
     username: string;
     avatar?: string;
   };
-  category: string;  // Nueva propiedad para la categoría
+  category: string; // Nueva propiedad para la categoría
   likes?: number;
   likedBy?: string[]; // Array de IDs de usuarios a los que les gusta
   comments?: Comment[];
