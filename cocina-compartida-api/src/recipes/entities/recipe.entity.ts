@@ -25,13 +25,19 @@ export class Recipe {
   @Column('text', { array: true, nullable: false, default: [] })
   ingredients: string[];
 
+  @Column({ type: 'int', default: 2 })
+  servings: number;
+
   @Column('text', { array: true, nullable: false, default: [] })
   steps: string[];
 
   @Column('text', { array: true, nullable: false, default: [] })
   images: string[];
 
-  @ManyToOne(() => User, (u) => u.recipes, { onDelete: 'CASCADE', eager: false })
+  @ManyToOne(() => User, (u) => u.recipes, {
+    onDelete: 'CASCADE',
+    eager: false,
+  })
   user: User;
 
   @OneToMany(() => Comment, (c) => c.recipe, { cascade: true })

@@ -7,13 +7,14 @@ import { Recipe } from '../../../shared/interfaces/recipe';
 import { Auth } from '../../../shared/services/auth';
 import Swal from 'sweetalert2';
 import { CookingExperiencePanel } from '../../components/cooking-experience-panel/cooking-experience-panel';
+import { PortionAdjuster } from '../../components/portion-adjuster/portion-adjuster';
 
 @Component({
   selector: 'app-recipe-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, CookingExperiencePanel],
+  imports: [CommonModule, RouterLink, FormsModule, CookingExperiencePanel, PortionAdjuster],
   templateUrl: './recipe-detail.html',
-  styleUrls: ['./recipe-detail.css']
+  styleUrls: ['./recipe-detail.css'],
 })
 export class RecipeDetail implements OnInit {
   // --- Propiedades de Estado ---
@@ -41,7 +42,7 @@ export class RecipeDetail implements OnInit {
 
     if (!recipeId) {
       this.isLoading = false;
-      this.error = "Error de URL: No se encontró un ID de receta.";
+      this.error = 'Error de URL: No se encontró un ID de receta.';
       this.router.navigate(['/home']);
       return;
     }
@@ -54,7 +55,6 @@ export class RecipeDetail implements OnInit {
       } else {
         this.error = 'Hubo un problema al cargar la receta. Es posible que haya sido eliminada.';
       }
-
     } catch (e) {
       console.error('Error al buscar la receta:', e);
       this.error = 'Hubo un problema al cargar los detalles de la receta.';
@@ -80,7 +80,8 @@ export class RecipeDetail implements OnInit {
 
   prevImage(): void {
     if (this.recipe && this.recipe.images.length > 0) {
-      this.currentIndex = (this.currentIndex - 1 + this.recipe.images.length) % this.recipe.images.length;
+      this.currentIndex =
+        (this.currentIndex - 1 + this.recipe.images.length) % this.recipe.images.length;
     }
   }
 
@@ -95,7 +96,7 @@ export class RecipeDetail implements OnInit {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Iniciar Sesión'
+        confirmButtonText: 'Iniciar Sesión',
       }).then((result) => {
         if (result.isConfirmed) {
           this.router.navigate(['/login']);
@@ -126,11 +127,10 @@ export class RecipeDetail implements OnInit {
         icon: 'success',
         title: 'Comentario agregado',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
-
     } catch (e) {
-      console.error("Error al agregar el comentario:", e);
+      console.error('Error al agregar el comentario:', e);
       Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo agregar el comentario.' });
     }
   }
@@ -160,7 +160,7 @@ export class RecipeDetail implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
     });
 
     if (result.isConfirmed) {
@@ -174,22 +174,22 @@ export class RecipeDetail implements OnInit {
             icon: 'success',
             title: 'Receta eliminada',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
           this.router.navigate(['/profile']);
         } else {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'La receta no pudo ser eliminada (posiblemente error del servidor).'
+            text: 'La receta no pudo ser eliminada (posiblemente error del servidor).',
           });
         }
       } catch (e) {
-        console.error("Error al eliminar la receta:", e);
+        console.error('Error al eliminar la receta:', e);
         Swal.fire({
           icon: 'error',
           title: 'Error de Red',
-          text: 'Hubo un problema de conexión al intentar eliminar la receta.'
+          text: 'Hubo un problema de conexión al intentar eliminar la receta.',
         });
       }
     }
@@ -197,7 +197,7 @@ export class RecipeDetail implements OnInit {
 
   async downloadPDF(): Promise<void> {
     if (!this.recipe) return;
-    
+
     try {
       await this.recipeService.downloadPDF(this.recipe.id);
       Swal.fire({
@@ -206,14 +206,14 @@ export class RecipeDetail implements OnInit {
         icon: 'success',
         title: 'PDF descargado',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
     } catch (e) {
       console.error('Error al descargar PDF:', e);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No se pudo descargar el PDF de la receta.'
+        text: 'No se pudo descargar el PDF de la receta.',
       });
     }
   }
@@ -223,11 +223,11 @@ export class RecipeDetail implements OnInit {
       Swal.fire({
         icon: 'warning',
         title: 'Sin imagen',
-        text: 'Esta receta no tiene imágenes para descargar.'
+        text: 'Esta receta no tiene imágenes para descargar.',
       });
       return;
     }
-    
+
     try {
       await this.recipeService.downloadImage(this.recipe.id);
       Swal.fire({
@@ -236,14 +236,14 @@ export class RecipeDetail implements OnInit {
         icon: 'success',
         title: 'Imagen descargada',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
     } catch (e) {
       console.error('Error al descargar imagen:', e);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No se pudo descargar la imagen de la receta.'
+        text: 'No se pudo descargar la imagen de la receta.',
       });
     }
   }

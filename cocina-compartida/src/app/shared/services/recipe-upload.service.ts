@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { RecipeFormService } from './recipe-form.service';
 import { RecipeImageService } from './recipe-image.service';
 import { RecipeDataService } from './recipe-data.service';
-import { NotificationService  } from './notificacion.service';
+import { NotificationService } from './notificacion.service';
 import { Auth } from './auth';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecipeUploadService {
   private router = inject(Router);
@@ -38,7 +38,11 @@ export class RecipeUploadService {
     return this.recipeFormService.createRecipeForm();
   }
 
-  initializeEditMode(id: string, recipeForm: FormGroup, callback: (success: boolean) => void): void {
+  initializeEditMode(
+    id: string,
+    recipeForm: FormGroup,
+    callback: (success: boolean) => void,
+  ): void {
     this.recipeDataService.initializeEditMode(id, (success) => {
       if (!success) {
         this.notificationService.showToast('error', 'Receta no encontrada o sin permisos');
@@ -61,9 +65,13 @@ export class RecipeUploadService {
       name: recipe.name,
       descripcion: recipe.descripcion,
       category: recipe.category,
+      servings: recipe.servings || 2,
     });
 
-    this.recipeFormService.clearAndLoadFormArray(recipeForm.get('ingredients') as any, recipe.ingredients);
+    this.recipeFormService.clearAndLoadFormArray(
+      recipeForm.get('ingredients') as any,
+      recipe.ingredients,
+    );
     this.recipeFormService.clearAndLoadFormArray(recipeForm.get('steps') as any, recipe.steps);
 
     this.recipeImageService.images = [...recipe.images];
@@ -83,10 +91,16 @@ export class RecipeUploadService {
   }
 
   async uploadFiles(files: File[]): Promise<boolean> {
-    const result = await this.recipeImageService.uploadFiles(files, this.recipeDataService.recipeId);
+    const result = await this.recipeImageService.uploadFiles(
+      files,
+      this.recipeDataService.recipeId,
+    );
 
     if (result === 'limit') {
-      this.notificationService.showToast('warning', `Máximo ${this.recipeImageService.MAX_IMAGES} imágenes por receta`);
+      this.notificationService.showToast(
+        'warning',
+        `Máximo ${this.recipeImageService.MAX_IMAGES} imágenes por receta`,
+      );
       return false;
     }
 
@@ -129,16 +143,18 @@ export class RecipeUploadService {
     }
 
     const formData = this.recipeFormService.prepareFormData(recipeForm, this.images);
-    
+
     this.recipeDataService.saveRecipe(formData, this.images);
-    
-    const message = this.isEditMode ? 'Receta actualizada correctamente' : 'Receta cargada correctamente';
+
+    const message = this.isEditMode
+      ? 'Receta actualizada correctamente'
+      : 'Receta cargada correctamente';
     this.notificationService.showToast('success', message);
 
     if (!this.isEditMode) {
       this.resetForm(recipeForm);
     }
-    
+
     return true;
   }
 
@@ -158,11 +174,11 @@ export class RecipeUploadService {
 
   onDeleteCurrentImage(): Promise<any> {
     if (this.images.length === 0) return Promise.resolve();
-    
+
     const idx = this.currentIndex;
     return this.notificationService.showConfirmation(
       'Eliminar imagen',
-      '¿Estás seguro que quieres eliminar esta imagen?'
+      '¿Estás seguro que quieres eliminar esta imagen?',
     );
   }
 }

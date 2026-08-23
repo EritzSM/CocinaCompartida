@@ -1,8 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecipeFormService {
   private fb = inject(FormBuilder);
@@ -17,16 +24,27 @@ export class RecipeFormService {
   createRecipeForm(): FormGroup {
     return this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), RecipeFormService.meaningfulText]],
-      descripcion: ['', [Validators.required, Validators.minLength(10), RecipeFormService.meaningfulText]],
+      descripcion: [
+        '',
+        [Validators.required, Validators.minLength(10), RecipeFormService.meaningfulText],
+      ],
       category: ['', [Validators.required]],
-      ingredients: this.fb.array([this.fb.control('', [Validators.required, RecipeFormService.meaningfulText])]),
-      steps: this.fb.array([this.fb.control('', [Validators.required, RecipeFormService.meaningfulText])])
+      servings: [
+        2,
+        [Validators.required, Validators.min(1), Validators.max(100), Validators.pattern(/^\d+$/)],
+      ],
+      ingredients: this.fb.array([
+        this.fb.control('', [Validators.required, RecipeFormService.meaningfulText]),
+      ]),
+      steps: this.fb.array([
+        this.fb.control('', [Validators.required, RecipeFormService.meaningfulText]),
+      ]),
     });
   }
 
   clearAndLoadFormArray(formArray: FormArray, items: string[]): void {
     formArray.clear();
-    items.forEach(item => formArray.push(this.fb.control(item, Validators.required)));
+    items.forEach((item) => formArray.push(this.fb.control(item, Validators.required)));
   }
 
   addFormArrayItem(formArray: FormArray): void {
@@ -42,10 +60,10 @@ export class RecipeFormService {
   }
 
   markAllFieldsAsTouched(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
+    Object.keys(form.controls).forEach((key) => {
       const control = form.get(key);
       if (control instanceof FormArray) {
-        control.controls.forEach(arrayControl => {
+        control.controls.forEach((arrayControl) => {
           arrayControl.markAsTouched();
         });
       } else {
@@ -65,15 +83,14 @@ export class RecipeFormService {
   }
 
   prepareFormData(form: FormGroup, images: string[]): any {
-    const filteredIngredients = form.value.ingredients
-      .filter((ing: string) => ing?.trim() !== '');
-    const filteredSteps = form.value.steps
-      .filter((step: string) => step?.trim() !== '');
+    const filteredIngredients = form.value.ingredients.filter((ing: string) => ing?.trim() !== '');
+    const filteredSteps = form.value.steps.filter((step: string) => step?.trim() !== '');
 
     return {
       name: form.value.name.trim(),
       descripcion: form.value.descripcion.trim(),
       category: form.value.category,
+      servings: Number(form.value.servings),
       ingredients: filteredIngredients,
       steps: filteredSteps,
       images: images,

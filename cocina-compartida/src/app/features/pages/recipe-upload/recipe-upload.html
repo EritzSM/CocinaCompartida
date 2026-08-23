@@ -1,97 +1,137 @@
 <div class="recipe-container" [formGroup]="recipeForm">
-    <h2>{{ isEditMode ? 'Editar Receta' : 'Subir Receta' }}</h2>
+  <h2>{{ isEditMode ? 'Editar Receta' : 'Subir Receta' }}</h2>
 
-    <!-- Nombre -->
-    <div class="form-group">
-        <label for="recipeName">Nombre de la receta:</label>
-        <input type="text" id="recipeName" formControlName="name" placeholder="Ej. Pastel de chocolate" />
-        <div *ngIf="isFieldInvalid('name')" class="error-message">
-            <span *ngIf="recipeForm.get('name')?.errors?.['required']">El nombre es requerido</span>
-            <span *ngIf="recipeForm.get('name')?.errors?.['minLength']">El nombre debe tener al menos 2
-                caracteres</span>
-            <span *ngIf="recipeForm.get('name')?.errors?.['meaningfulText']">El nombre debe contener al menos una letra</span>
+  <!-- Nombre -->
+  <div class="form-group">
+    <label for="recipeName">Nombre de la receta:</label>
+    <input
+      type="text"
+      id="recipeName"
+      formControlName="name"
+      placeholder="Ej. Pastel de chocolate"
+    />
+    <div *ngIf="isFieldInvalid('name')" class="error-message">
+      <span *ngIf="recipeForm.get('name')?.errors?.['required']">El nombre es requerido</span>
+      <span *ngIf="recipeForm.get('name')?.errors?.['minLength']"
+        >El nombre debe tener al menos 2 caracteres</span
+      >
+      <span *ngIf="recipeForm.get('name')?.errors?.['meaningfulText']"
+        >El nombre debe contener al menos una letra</span
+      >
+    </div>
+  </div>
+
+  <!-- Categoría -->
+  <div class="form-group">
+    <label for="recipeCategory">Categoría:</label>
+    <select id="recipeCategory" formControlName="category">
+      <option value="">Selecciona una categoría</option>
+      <option value="entradas">Entradas</option>
+      <option value="platos-fuertes">Platos Fuertes</option>
+      <option value="postres">Postres</option>
+      <option value="bebidas">Bebidas</option>
+      <option value="guarniciones">Guarniciones</option>
+    </select>
+    <div *ngIf="isFieldInvalid('category')" class="error-message">
+      <span>Debes seleccionar una categoría</span>
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <div class="form-group">
+    <label for="recipeDescription">Descripción:</label>
+    <input
+      type="text"
+      id="recipeDescription"
+      formControlName="descripcion"
+      placeholder="Ej. Fácil para compartir en familia"
+    />
+    <div *ngIf="isFieldInvalid('descripcion')" class="error-message">
+      <span *ngIf="recipeForm.get('descripcion')?.errors?.['required']"
+        >La descripción es requerida</span
+      >
+      <span *ngIf="recipeForm.get('descripcion')?.errors?.['minLength']"
+        >La descripción debe tener al menos 10 caracteres</span
+      >
+      <span *ngIf="recipeForm.get('descripcion')?.errors?.['meaningfulText']"
+        >La descripción debe contener al menos una letra</span
+      >
+    </div>
+  </div>
+
+  <div class="form-group servings-field">
+    <label for="recipeServings">Porciones originales:</label>
+    <input
+      type="number"
+      id="recipeServings"
+      formControlName="servings"
+      min="1"
+      max="100"
+      step="1"
+    />
+    <small>Indica para cuántas personas están calculadas las cantidades.</small>
+    <div *ngIf="isFieldInvalid('servings')" class="error-message">
+      Ingresa un número entre 1 y 100 personas
+    </div>
+  </div>
+
+  <!-- Ingredientes -->
+  <div class="form-group">
+    <span id="ingredientsLabel">Ingredientes:</span>
+    <fieldset formArrayName="ingredients">
+      <legend>Ingredientes:</legend>
+      <div *ngFor="let ing of ingredients.controls; let i = index" class="dynamic-field">
+        <input type="text" [formControlName]="i" placeholder="Ingrediente {{ i + 1 }}" />
+        <button type="button" (click)="removeIngredient(i)">X</button>
+        <div *ngIf="isArrayFieldInvalid(ingredients, i)" class="error-message">
+          Este ingrediente no puede estar vacío ni contener solo números o caracteres especiales
         </div>
-    </div>
+      </div>
+    </fieldset>
+    <button type="button" (click)="addIngredient()">+ Agregar ingrediente</button>
+  </div>
 
-    <!-- Categoría -->
-    <div class="form-group">
-        <label for="recipeCategory">Categoría:</label>
-        <select id="recipeCategory" formControlName="category">
-            <option value="">Selecciona una categoría</option>
-            <option value="entradas">Entradas</option>
-            <option value="platos-fuertes">Platos Fuertes</option>
-            <option value="postres">Postres</option>
-            <option value="bebidas">Bebidas</option>
-            <option value="guarniciones">Guarniciones</option>
-        </select>
-        <div *ngIf="isFieldInvalid('category')" class="error-message">
-            <span>Debes seleccionar una categoría</span>
+  <!-- Pasos -->
+  <div class="form-group">
+    <span id="stepsLabel" class="form-label">Pasos de la receta:</span>
+    <fieldset formArrayName="steps">
+      <legend>Pasos de la receta:</legend>
+      <div *ngFor="let step of steps.controls; let i = index" class="dynamic-field">
+        <textarea [formControlName]="i" placeholder="Paso {{ i + 1 }}"></textarea>
+        <button type="button" (click)="removeStep(i)">X</button>
+        <div *ngIf="isArrayFieldInvalid(steps, i)" class="error-message">
+          Este paso no puede estar vacío ni contener solo números o caracteres especiales
         </div>
-    </div>
+      </div>
+    </fieldset>
+    <button type="button" (click)="addStep()">+ Agregar paso</button>
+  </div>
 
-    <!-- Descripción -->
-    <div class="form-group">
-        <label for="recipeDescription">Descripción:</label>
-        <input type="text" id="recipeDescription" formControlName="descripcion"
-            placeholder="Ej. Fácil para compartir en familia" />
-        <div *ngIf="isFieldInvalid('descripcion')" class="error-message">
-            <span *ngIf="recipeForm.get('descripcion')?.errors?.['required']">La descripción es requerida</span>
-            <span *ngIf="recipeForm.get('descripcion')?.errors?.['minLength']">La descripción debe tener al menos 10
-                caracteres</span>
-            <span *ngIf="recipeForm.get('descripcion')?.errors?.['meaningfulText']">La descripción debe contener al menos una letra</span>
-        </div>
+  <!-- Subir imágenes -->
+  <div class="form-group">
+    <label for="uploadImages" class="upload primary">Subir imágenes</label>
+    <input
+      type="file"
+      id="uploadImages"
+      (change)="onUploadFile($event)"
+      multiple
+      aria-describedby="imagesHelp"
+    />
+    <div id="imagesHelp" *ngIf="images.length === 0 && recipeForm.touched" class="error-message">
+      Debe subir al menos una imagen
     </div>
+  </div>
 
-    <!-- Ingredientes -->
-    <div class="form-group">
-        <span id="ingredientsLabel">Ingredientes:</span>
-        <fieldset formArrayName="ingredients">
-            <legend>Ingredientes:</legend>
-            <div *ngFor="let ing of ingredients.controls; let i = index" class="dynamic-field">
-                <input type="text" [formControlName]="i" placeholder="Ingrediente {{i+1}}" />
-                <button type="button" (click)="removeIngredient(i)">X</button>
-                <div *ngIf="isArrayFieldInvalid(ingredients, i)" class="error-message">
-                    Este ingrediente no puede estar vacío ni contener solo números o caracteres especiales
-                </div>
-            </div>
-        </fieldset>
-        <button type="button" (click)="addIngredient()">+ Agregar ingrediente</button>
-    </div>
+  <!-- Carrusel -->
+  <div class="carousel" *ngIf="images.length > 0">
+    <button class="nav left" (click)="prevImage()">&#10094;</button>
+    <img [src]="images[currentIndex]" alt="Foto de la receta" />
+    <button class="delete-btn" (click)="onDeleteCurrentImage()" title="Eliminar imagen">🗑</button>
+    <button class="nav right" (click)="nextImage()">&#10095;</button>
+  </div>
 
-    <!-- Pasos -->
-    <div class="form-group">
-        <span id="stepsLabel" class="form-label">Pasos de la receta:</span>
-        <fieldset formArrayName="steps">
-            <legend>Pasos de la receta:</legend>
-            <div *ngFor="let step of steps.controls; let i = index" class="dynamic-field">
-                <textarea [formControlName]="i" placeholder="Paso {{i+1}}"></textarea>
-                <button type="button" (click)="removeStep(i)">X</button>
-                <div *ngIf="isArrayFieldInvalid(steps, i)" class="error-message">
-                    Este paso no puede estar vacío ni contener solo números o caracteres especiales
-                </div>
-            </div>
-        </fieldset>
-        <button type="button" (click)="addStep()">+ Agregar paso</button>
-    </div>
-
-    <!-- Subir imágenes -->
-    <div class="form-group">
-        <label for="uploadImages" class="upload primary">Subir imágenes</label>
-        <input type="file" id="uploadImages" (change)="onUploadFile($event)" multiple
-            aria-describedby="imagesHelp" />
-        <div id="imagesHelp" *ngIf="images.length === 0 && recipeForm.touched" class="error-message">
-            Debe subir al menos una imagen
-        </div>
-    </div>
-
-    <!-- Carrusel -->
-    <div class="carousel" *ngIf="images.length > 0">
-        <button class="nav left" (click)="prevImage()">&#10094;</button>
-        <img [src]="images[currentIndex]" alt="Foto de la receta" />
-        <button class="delete-btn" (click)="onDeleteCurrentImage()" title="Eliminar imagen">🗑</button>
-        <button class="nav right" (click)="nextImage()">&#10095;</button>
-    </div>
-
-    <!-- Botón Submit -->
-    <button type="button" (click)="onSubmit()">{{ isEditMode ? 'Guardar Cambios' : 'Guardar Receta' }}</button>
+  <!-- Botón Submit -->
+  <button type="button" (click)="onSubmit()">
+    {{ isEditMode ? 'Guardar Cambios' : 'Guardar Receta' }}
+  </button>
 </div>
