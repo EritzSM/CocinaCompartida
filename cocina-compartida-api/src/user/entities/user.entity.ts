@@ -5,7 +5,6 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
-
 } from 'typeorm';
 import { Comment } from 'src/recipes/entities/comment.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
@@ -54,5 +53,24 @@ export class User {
   @Column({ default: 'user' })
   role: string;
 
+  @Column({
+    type: 'boolean',
+    name: 'reading_assistant_enabled',
+    default: false,
+  })
+  readingAssistantEnabled: boolean;
 
+  @Column({ type: 'boolean', name: 'auto_read_enabled', default: false })
+  autoReadEnabled: boolean;
+
+  @Column({ type: 'real', name: 'speech_rate', default: 1 })
+  speechRate: number;
+
+  @Column({
+    type: 'varchar',
+    name: 'preferred_voice',
+    length: 120,
+    nullable: true,
+  })
+  preferredVoice?: string | null;
 }
