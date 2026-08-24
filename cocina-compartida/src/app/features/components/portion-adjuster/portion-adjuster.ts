@@ -3,6 +3,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ScaledIngredient } from '../../../shared/interfaces/scaled-ingredients';
 import { PortionScalingService } from '../../../shared/services/portion-scaling.service';
+import { IngredientItem } from '../../../shared/interfaces/recipe';
 
 @Component({
   selector: 'app-portion-adjuster',
@@ -13,7 +14,7 @@ import { PortionScalingService } from '../../../shared/services/portion-scaling.
 })
 export class PortionAdjuster implements OnInit {
   @Input({ required: true }) recipeId = '';
-  @Input({ required: true }) originalIngredients: string[] = [];
+  @Input({ required: true }) originalIngredients: (string | IngredientItem)[] | any[] = [];
   @Input() originalServings = 2;
 
   private readonly scalingService = inject(PortionScalingService);
@@ -85,11 +86,45 @@ export class PortionAdjuster implements OnInit {
   }
 
   private showOriginalIngredients(): void {
-    this.displayedIngredients = this.originalIngredients.map((ingredient) => ({
-      original: ingredient,
-      adjusted: ingredient,
-      scalable: false,
-    }));
+    this.displayedIngredients = (this.originalIngredients || []).map((ingredient) => {
+      const text = this.formatIngredientText(ingredient);
+      return {
+        original: text,
+        adjusted: text,
+        scalable: false,
+      };
+    });
+  }
+
+  private formatIngredientText(ing: any): string {
+    if (!ing) return '';
+    if (typeof ing === 'string') {
+      try {
+        const parsed = JSON.parse(ing);
+        if (parsed && typeof parsed === 'object' && parsed.nombre) {
+          let str = parsed.nombre;
+          if (parsed.importancia && parsed.importancia !== 'obligatorio') {
+            str += ` (${parsed.importancia})`;
+          }
+          if (parsed.importancia === 'reemplazable' && parsed.reemplazo) {
+            str += ` - Reemplazo: ${parsed.reemplazo}`;
+          }
+          return str;
+        }
+      } catch {}
+      return ing;
+    }
+    if (typeof ing === 'object' && ing.nombre) {
+      let str = ing.nombre;
+      if (ing.importancia && ing.importancia !== 'obligatorio') {
+        str += ` (${ing.importancia})`;
+      }
+      if (ing.importancia === 'reemplazable' && ing.reemplazo) {
+        str += ` - Reemplazo: ${ing.reemplazo}`;
+      }
+      return str;
+    }
+    return String(ing);
   }
 
   private normalizeServings(value: number): number {

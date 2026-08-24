@@ -74,9 +74,6 @@ export class RecipeCrudService {
     const previousState = this.state.recipes();
 
     this.applyOptimisticUpdate(recipeId, changes);
-<<<<<<< HEAD
-=======
-    
     const formattedChanges = { ...changes };
     if (formattedChanges.ingredients) {
       formattedChanges.ingredients = (formattedChanges.ingredients as any[]).map((item) => {
@@ -86,22 +83,14 @@ export class RecipeCrudService {
         return String(item);
       });
     }
->>>>>>> 17dbd25 (feat: agregar importancia y reemplazo a ingredientes de recetas)
 
     try {
       const updated = await firstValueFrom(
         this.http.patch<Recipe>(
-<<<<<<< HEAD
           this.state.getRecipeUrl(recipeId),
-          changes,
+          formattedChanges,
           this.state.getAuthOptions(),
         ),
-=======
-          this.state.getRecipeUrl(recipeId), 
-          formattedChanges, 
-          this.state.getAuthOptions()
-        )
->>>>>>> 17dbd25 (feat: agregar importancia y reemplazo a ingredientes de recetas)
       );
 
       this.state.updateRecipes((list) => list.map((r) => (r.id === recipeId ? updated : r)));
