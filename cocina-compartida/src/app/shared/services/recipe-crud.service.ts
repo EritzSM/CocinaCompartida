@@ -74,14 +74,34 @@ export class RecipeCrudService {
     const previousState = this.state.recipes();
 
     this.applyOptimisticUpdate(recipeId, changes);
+<<<<<<< HEAD
+=======
+    
+    const formattedChanges = { ...changes };
+    if (formattedChanges.ingredients) {
+      formattedChanges.ingredients = (formattedChanges.ingredients as any[]).map((item) => {
+        if (typeof item === 'object' && item !== null) {
+          return JSON.stringify(item);
+        }
+        return String(item);
+      });
+    }
+>>>>>>> 17dbd25 (feat: agregar importancia y reemplazo a ingredientes de recetas)
 
     try {
       const updated = await firstValueFrom(
         this.http.patch<Recipe>(
+<<<<<<< HEAD
           this.state.getRecipeUrl(recipeId),
           changes,
           this.state.getAuthOptions(),
         ),
+=======
+          this.state.getRecipeUrl(recipeId), 
+          formattedChanges, 
+          this.state.getAuthOptions()
+        )
+>>>>>>> 17dbd25 (feat: agregar importancia y reemplazo a ingredientes de recetas)
       );
 
       this.state.updateRecipes((list) => list.map((r) => (r.id === recipeId ? updated : r)));
@@ -151,13 +171,21 @@ export class RecipeCrudService {
   private prepareRecipePayload(
     recipeInput: Omit<Recipe, 'id' | 'likes' | 'likedBy' | 'comments' | 'user'> & {
       images?: string[];
-    },
+      category?: string;
+      servings?: number;
+    }
   ) {
     return {
       name: recipeInput.name?.trim(),
       descripcion: recipeInput.descripcion?.trim(),
       servings: recipeInput.servings ?? 2,
-      ingredients: recipeInput.ingredients ?? [],
+      category: recipeInput.category,
+      ingredients: (recipeInput.ingredients ?? []).map((item: any) => {
+        if (typeof item === 'object' && item !== null) {
+          return JSON.stringify(item);
+        }
+        return String(item);
+      }),
       steps: recipeInput.steps ?? [],
       images: recipeInput.images ?? [],
     };

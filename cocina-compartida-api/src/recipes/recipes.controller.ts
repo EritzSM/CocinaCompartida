@@ -166,9 +166,36 @@ export class RecipesController {
     if (Array.isArray(recipe.ingredients) && recipe.ingredients.length) {
       doc.fontSize(14).text('Ingredientes:');
       doc.fontSize(12);
-      recipe.ingredients.forEach((ing: string, i: number) =>
-        doc.text(`${i + 1}. ${ing}`),
-      );
+      recipe.ingredients.forEach((ing: any, i: number) => {
+        let text = `${i + 1}. `;
+        if (typeof ing === 'string') {
+          try {
+            const parsed = JSON.parse(ing);
+            if (parsed && typeof parsed === 'object' && parsed.nombre) {
+              text += parsed.nombre;
+              if (parsed.importancia && parsed.importancia !== 'obligatorio') {
+                text += ` (${parsed.importancia})`;
+              }
+              if (parsed.importancia === 'reemplazable' && parsed.reemplazo) {
+                text += ` - Reemplazo: ${parsed.reemplazo}`;
+              }
+            } else {
+              text += ing;
+            }
+          } catch {
+            text += ing;
+          }
+        } else if (ing && typeof ing === 'object') {
+          text += ing.nombre || '';
+          if (ing.importancia && ing.importancia !== 'obligatorio') {
+            text += ` (${ing.importancia})`;
+          }
+          if (ing.importancia === 'reemplazable' && ing.reemplazo) {
+            text += ` - Reemplazo: ${ing.reemplazo}`;
+          }
+        }
+        doc.text(text);
+      });
       doc.moveDown();
     }
 

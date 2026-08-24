@@ -1,10 +1,16 @@
 import { Comment } from './comment';
+ 
+export interface IngredientItem {
+  nombre: string;
+  importancia?: 'obligatorio' | 'opcional' | 'reemplazable';
+  reemplazo?: string;
+}
 
 export interface Recipe {
   id: string;
   name: string;
   descripcion: string;
-  ingredients: string[];
+  ingredients: (string | IngredientItem)[] | any[];
   servings?: number;
   steps: string[];
   images: string[];

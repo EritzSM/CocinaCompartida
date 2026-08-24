@@ -3,6 +3,7 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   Validators,
@@ -21,6 +22,14 @@ export class RecipeFormService {
     return hasLetter ? null : { meaningfulText: true };
   }
 
+  createIngredientGroup(nombre = '', importancia = '', reemplazo = ''): FormGroup {
+    return this.fb.group({
+      nombre: [nombre, [Validators.required, RecipeFormService.meaningfulText]],
+      importancia: [importancia || 'obligatorio'],
+      reemplazo: [reemplazo]
+    });
+  }
+
   createRecipeForm(): FormGroup {
     return this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), RecipeFormService.meaningfulText]],
@@ -33,22 +42,38 @@ export class RecipeFormService {
         2,
         [Validators.required, Validators.min(1), Validators.max(100), Validators.pattern(/^\d+$/)],
       ],
-      ingredients: this.fb.array([
-        this.fb.control('', [Validators.required, RecipeFormService.meaningfulText]),
-      ]),
+      ingredients: this.fb.array([this.createIngredientGroup()]),
       steps: this.fb.array([
         this.fb.control('', [Validators.required, RecipeFormService.meaningfulText]),
       ]),
     });
   }
 
-  clearAndLoadFormArray(formArray: FormArray, items: string[]): void {
+  clearAndLoadFormArray(formArray: FormArray, items: any[]): void {
+    formArray.clear();
+    items.forEach(item => {
+      if (typeof item === 'string') {
+        // Compatibilidad con recetas guardadas en formato antiguo
+        formArray.push(this.createIngredientGroup(item, 'obligatorio', ''));
+      } else if (item && typeof item === 'object') {
+        formArray.push(this.createIngredientGroup(item.nombre ?? item.name ?? '', item.importancia ?? 'obligatorio', item.reemplazo ?? ''));
+      } else {
+        formArray.push(this.createIngredientGroup());
+      }
+    });
+  }
+
+  clearAndLoadStepsArray(formArray: FormArray, items: string[]): void {
     formArray.clear();
     items.forEach((item) => formArray.push(this.fb.control(item, Validators.required)));
   }
 
-  addFormArrayItem(formArray: FormArray): void {
-    formArray.push(this.fb.control('', [Validators.required, RecipeFormService.meaningfulText]));
+  addFormArrayItem(formArray: FormArray, isIngredient = false): void {
+    if (isIngredient) {
+      formArray.push(this.createIngredientGroup());
+    } else {
+      formArray.push(this.fb.control('', [Validators.required, RecipeFormService.meaningfulText]));
+    }
   }
 
   removeFormArrayItem(formArray: FormArray, index: number, minItems: number = 1): boolean {
@@ -79,11 +104,21 @@ export class RecipeFormService {
 
   validateArrayField(formArray: FormArray, index: number): boolean {
     const control = formArray.at(index);
+    if (control instanceof FormGroup) {
+      const nombreCtrl = control.get('nombre');
+      return nombreCtrl ? nombreCtrl.invalid && nombreCtrl.touched : false;
+    }
     return control.invalid && control.touched;
   }
 
   prepareFormData(form: FormGroup, images: string[]): any {
-    const filteredIngredients = form.value.ingredients.filter((ing: string) => ing?.trim() !== '');
+    const filteredIngredients = (form.value.ingredients as any[])
+      .filter((ing: any) => ing?.nombre?.trim() !== '')
+      .map((ing: any) => ({
+        nombre: ing.nombre.trim(),
+        importancia: ing.importancia || 'obligatorio',
+        reemplazo: ing.importancia === 'reemplazable' ? (ing.reemplazo ?? '').trim() : '',
+      }));
     const filteredSteps = form.value.steps.filter((step: string) => step?.trim() !== '');
 
     return {

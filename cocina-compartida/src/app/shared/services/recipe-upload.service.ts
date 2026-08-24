@@ -72,14 +72,14 @@ export class RecipeUploadService {
       recipeForm.get('ingredients') as any,
       recipe.ingredients,
     );
-    this.recipeFormService.clearAndLoadFormArray(recipeForm.get('steps') as any, recipe.steps);
+    this.recipeFormService.clearAndLoadStepsArray(recipeForm.get('steps') as any, recipe.steps);
 
     this.recipeImageService.images = [...recipe.images];
     this.recipeImageService.currentIndex = 0;
   }
 
-  addFormArrayItem(formArray: any, minItems: number = 1): void {
-    this.recipeFormService.addFormArrayItem(formArray);
+  addFormArrayItem(formArray: any, isIngredient = false): void {
+    this.recipeFormService.addFormArrayItem(formArray, isIngredient);
   }
 
   removeFormArrayItem(formArray: any, index: number, minItems: number = 1): boolean {
@@ -143,19 +143,22 @@ export class RecipeUploadService {
     }
 
     const formData = this.recipeFormService.prepareFormData(recipeForm, this.images);
+    const success = await this.recipeDataService.saveRecipe(formData, this.images);
 
-    this.recipeDataService.saveRecipe(formData, this.images);
+    if (success) {
+      const message = this.isEditMode
+        ? 'Receta actualizada correctamente'
+        : 'Receta cargada correctamente';
+      this.notificationService.showToast('success', message);
 
-    const message = this.isEditMode
-      ? 'Receta actualizada correctamente'
-      : 'Receta cargada correctamente';
-    this.notificationService.showToast('success', message);
-
-    if (!this.isEditMode) {
-      this.resetForm(recipeForm);
+      if (!this.isEditMode) {
+        this.resetForm(recipeForm);
+      }
+      return true;
+    } else {
+      this.notificationService.showToast('error', 'Error al guardar la receta en el servidor');
+      return false;
     }
-
-    return true;
   }
 
   private resetForm(recipeForm: FormGroup): void {

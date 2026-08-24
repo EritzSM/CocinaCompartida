@@ -18,8 +18,7 @@ export class CreateRecipeDto {
 
   @IsArray()
   @ArrayMinSize(1)
-  @IsString({ each: true })
-  ingredients: string[];
+  ingredients: any[];
 
   @IsInt()
   @Min(1)
