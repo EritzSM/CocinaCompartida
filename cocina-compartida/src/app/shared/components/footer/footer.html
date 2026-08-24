@@ -1,40 +1,62 @@
 <footer class="footer">
-  <div class="footer-content">
-    
-    <!-- Logo -->
-    <div class="footer-logo">
-      <img src="assets/logos/CC.png" alt="Logo" />
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Columna Principal / Marca -->
+      <div class="footer-brand-column">
+        <div class="footer-logo" routerLink="/home">
+          <img *ngIf="!logoError" src="/logos/CC.png" alt="CocinaCompartida" (error)="onLogoError()" />
+          <span class="brand-title">CocinaCompartida®</span>
+        </div>
+        <p class="footer-description">
+          Tu comunidad para descubrir, preparar y compartir las mejores recetas caseras e internacionales.
+        </p>
+        <div class="footer-badges">
+          <span class="footer-badge">🍳 Recetas Fáciles</span>
+          <span class="footer-badge">👥 100% Colaborativo</span>
+        </div>
+      </div>
+
+      <!-- Enlaces de navegación -->
+      <div class="footer-column">
+        <h3 class="column-title">Explorar</h3>
+        <ul class="footer-link-list">
+          <li><a routerLink="/explore">Todas las recetas</a></li>
+          <li><a routerLink="/explore">Entradas</a></li>
+          <li><a routerLink="/explore">Platos fuertes</a></li>
+          <li><a routerLink="/explore">Postres</a></li>
+          <li><a routerLink="/explore">Bebidas</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="column-title">Comunidad</h3>
+        <ul class="footer-link-list">
+          <li><a routerLink="/recipe-upload">Subir una receta</a></li>
+          <li><a routerLink="/cooking-journal">Mi diario culinario</a></li>
+          <li><a routerLink="/explore">Recetas populares</a></li>
+          <li><a routerLink="/profile">Mi perfil</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="column-title">Ayuda y Legal</h3>
+        <ul class="footer-link-list">
+          <li><a routerLink="/home">Preguntas frecuentes</a></li>
+          <li><a routerLink="/home">Términos de servicio</a></li>
+          <li><a routerLink="/home">Política de privacidad</a></li>
+          <li><a routerLink="/home">Contacto y soporte</a></li>
+        </ul>
+      </div>
     </div>
 
-    <!-- Enlaces -->
-    <div class="footer-links">
-      <div class="footer-column">
-        <h3>Legal</h3>
-        <a href="#">Términos</a>
-        <a href="#">Privacidad</a>
-        <a href="#">Política de cookies</a>
-      </div>
-
-      <div class="footer-column">
-        <h3>Comunidad</h3>
-        <a href="#">Contactar</a>
-        <a href="#">Sobre nosotros</a>
-        <a href="#">Ayuda</a>
-      </div>
-
-      <div class="footer-column">
-        <h3>Recetas</h3>
-        <a href="#">Todas las recetas</a>
-        <a href="#">Favoritas</a>
-        <a href="#">Populares</a>
-      </div>
-
-      <div class="footer-column">
-        <h3>Síguenos</h3>
-        <a href="#">Instagram</a>
-        <a href="#">Facebook</a>
-        <a href="#">Twitter</a>
-      </div>
+    <!-- Barra inferior con copyright -->
+    <div class="footer-bottom">
+      <p class="copyright-text">
+        © {{ currentYear }} CocinaCompartida®. Todos los derechos reservados.
+      </p>
+      <p class="footer-tagline">
+        Hecho con pasión para amantes del buen sabor.
+      </p>
     </div>
   </div>
 </footer>

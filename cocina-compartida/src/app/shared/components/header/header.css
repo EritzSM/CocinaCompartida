@@ -232,17 +232,56 @@ body {
     background-color: #333;
 }
 
+.create-recipe-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: #27ae60;
+    transition: all 0.2s ease;
+}
+
+.create-recipe-link:hover {
+    color: #219150;
+    transform: translateY(-1px);
+}
+
 .user-menu {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
+.user-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+}
+
+.user-profile-header:hover {
+    background-color: #f1f5f9;
+}
+
+.header-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+    background-color: #e2e8f0;
+    flex-shrink: 0;
+}
+
 .welcome-text {
     color: #2c3e50;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.95rem;
-    cursor: pointer;
+    white-space: nowrap;
 }
 
 .logout-btn {

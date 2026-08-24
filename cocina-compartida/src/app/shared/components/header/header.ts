@@ -37,6 +37,19 @@ export class Header {
     this.router.navigate(['/login']);
   }
 
+  getAvatarUrl(avatar?: string | null): string {
+    if (!avatar) return 'logos/default.webp';
+    if (/^https?:\/\//i.test(avatar) || avatar.startsWith('data:')) return avatar;
+    return avatar.startsWith('/') ? avatar : `/${avatar}`;
+  }
+
+  onAvatarError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    if (target) {
+      target.src = 'logos/default.webp';
+    }
+  }
+
   onSearch() {
     this.showSuggestions.set(false);
     this.selectedSuggestionIndex.set(-1);
