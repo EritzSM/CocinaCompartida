@@ -37,4 +37,12 @@ export class App {
         });
       });
   }
+
+  goBack(): void {
+    window.history.back();
+  }
+
+  goForward(): void {
+    window.history.forward();
+  }
 }

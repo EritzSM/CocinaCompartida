@@ -72,6 +72,48 @@ export class RecipeDetail implements OnInit {
     return avatar.startsWith('/') ? avatar : `/${avatar}`;
   }
 
+  getIngredientName(ing: any): string {
+    if (!ing) return '';
+    if (typeof ing === 'string') {
+      try {
+        const parsed = JSON.parse(ing);
+        if (parsed && typeof parsed === 'object' && parsed.nombre) {
+          return parsed.nombre;
+        }
+      } catch {}
+      return ing;
+    }
+    return ing.nombre || '';
+  }
+
+  getIngredientImportance(ing: any): string {
+    if (!ing) return 'obligatorio';
+    if (typeof ing === 'string') {
+      try {
+        const parsed = JSON.parse(ing);
+        if (parsed && typeof parsed === 'object' && parsed.importancia) {
+          return parsed.importancia;
+        }
+      } catch {}
+      return 'obligatorio';
+    }
+    return ing.importancia || 'obligatorio';
+  }
+
+  getIngredientReplacement(ing: any): string {
+    if (!ing) return '';
+    if (typeof ing === 'string') {
+      try {
+        const parsed = JSON.parse(ing);
+        if (parsed && typeof parsed === 'object' && parsed.reemplazo) {
+          return parsed.reemplazo;
+        }
+      } catch {}
+      return '';
+    }
+    return ing.reemplazo || '';
+  }
+
   nextImage(): void {
     if (this.recipe && this.recipe.images.length > 0) {
       this.currentIndex = (this.currentIndex + 1) % this.recipe.images.length;

@@ -80,11 +80,42 @@
     <span id="ingredientsLabel">Ingredientes:</span>
     <fieldset formArrayName="ingredients">
       <legend>Ingredientes:</legend>
-      <div *ngFor="let ing of ingredients.controls; let i = index" class="dynamic-field">
-        <input type="text" [formControlName]="i" placeholder="Ingrediente {{ i + 1 }}" />
-        <button type="button" (click)="removeIngredient(i)">X</button>
+      <div *ngFor="let ing of ingredients.controls; let i = index" class="ingredient-wrapper">
+        <div class="ingredient-row" [formGroupName]="i">
+          <input
+            type="text"
+            formControlName="nombre"
+            placeholder="Ingrediente {{ i + 1 }}"
+            class="ingredient-input"
+          />
+          <select
+            formControlName="importancia"
+            class="importance-select"
+            [class.importance-obligatorio]="getIngredientGroup(i).get('importancia')?.value === 'obligatorio'"
+            [class.importance-opcional]="getIngredientGroup(i).get('importancia')?.value === 'opcional'"
+            [class.importance-reemplazable]="getIngredientGroup(i).get('importancia')?.value === 'reemplazable'"
+          >
+            <option value="obligatorio">Obligatorio</option>
+            <option value="opcional">Opcional</option>
+            <option value="reemplazable">Reemplazable</option>
+          </select>
+          <button type="button" class="remove-btn" (click)="removeIngredient(i)" title="Eliminar ingrediente">✕</button>
+        </div>
+        <div
+          class="replacement-row"
+          *ngIf="getIngredientGroup(i).get('importancia')?.value === 'reemplazable'"
+          [formGroupName]="i"
+        >
+          <span class="replacement-label">↳ Se puede reemplazar por:</span>
+          <input
+            type="text"
+            formControlName="reemplazo"
+            placeholder="Ej. aceite de oliva, mantequilla..."
+            class="replacement-input"
+          />
+        </div>
         <div *ngIf="isArrayFieldInvalid(ingredients, i)" class="error-message">
-          Este ingrediente no puede estar vacío ni contener solo números o caracteres especiales
+          El ingrediente no puede estar vacío ni contener solo números o caracteres especiales
         </div>
       </div>
     </fieldset>

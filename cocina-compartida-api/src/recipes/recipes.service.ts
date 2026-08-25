@@ -30,8 +30,17 @@ export class RecipesService {
 
   // Crear receta
   async create(createRecipeDto: CreateRecipeDto, user: User): Promise<Recipe> {
+    const rawIngredients = createRecipeDto.ingredients ?? [];
+    const formattedIngredients = rawIngredients.map((item) => {
+      if (typeof item === 'object' && item !== null) {
+        return JSON.stringify(item);
+      }
+      return String(item);
+    });
+
     const recipe = this.recipeRepository.create({
       ...createRecipeDto,
+      ingredients: formattedIngredients,
       user,
       likes: 0,
       likedBy: [],
@@ -121,7 +130,17 @@ export class RecipesService {
       throw new ForbiddenException('You can only update your own recipes');
     }
 
-    Object.assign(recipe, updateRecipeDto);
+    const payload = { ...updateRecipeDto };
+    if (payload.ingredients) {
+      payload.ingredients = payload.ingredients.map((item) => {
+        if (typeof item === 'object' && item !== null) {
+          return JSON.stringify(item);
+        }
+        return String(item);
+      });
+    }
+
+    Object.assign(recipe, payload);
     return await this.recipeRepository.save(recipe);
   }
 

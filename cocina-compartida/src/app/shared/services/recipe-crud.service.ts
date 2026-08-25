@@ -74,12 +74,21 @@ export class RecipeCrudService {
     const previousState = this.state.recipes();
 
     this.applyOptimisticUpdate(recipeId, changes);
+    const formattedChanges = { ...changes };
+    if (formattedChanges.ingredients) {
+      formattedChanges.ingredients = (formattedChanges.ingredients as any[]).map((item) => {
+        if (typeof item === 'object' && item !== null) {
+          return JSON.stringify(item);
+        }
+        return String(item);
+      });
+    }
 
     try {
       const updated = await firstValueFrom(
         this.http.patch<Recipe>(
           this.state.getRecipeUrl(recipeId),
-          changes,
+          formattedChanges,
           this.state.getAuthOptions(),
         ),
       );
@@ -151,13 +160,21 @@ export class RecipeCrudService {
   private prepareRecipePayload(
     recipeInput: Omit<Recipe, 'id' | 'likes' | 'likedBy' | 'comments' | 'user'> & {
       images?: string[];
-    },
+      category?: string;
+      servings?: number;
+    }
   ) {
     return {
       name: recipeInput.name?.trim(),
       descripcion: recipeInput.descripcion?.trim(),
       servings: recipeInput.servings ?? 2,
-      ingredients: recipeInput.ingredients ?? [],
+      category: recipeInput.category,
+      ingredients: (recipeInput.ingredients ?? []).map((item: any) => {
+        if (typeof item === 'object' && item !== null) {
+          return JSON.stringify(item);
+        }
+        return String(item);
+      }),
       steps: recipeInput.steps ?? [],
       images: recipeInput.images ?? [],
     };

@@ -3,6 +3,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ScaledIngredient } from '../../../shared/interfaces/scaled-ingredients';
 import { PortionScalingService } from '../../../shared/services/portion-scaling.service';
+import { IngredientItem } from '../../../shared/interfaces/recipe';
 
 @Component({
   selector: 'app-portion-adjuster',
@@ -13,7 +14,7 @@ import { PortionScalingService } from '../../../shared/services/portion-scaling.
 })
 export class PortionAdjuster implements OnInit {
   @Input({ required: true }) recipeId = '';
-  @Input({ required: true }) originalIngredients: string[] = [];
+  @Input({ required: true }) originalIngredients: (string | IngredientItem)[] | any[] = [];
   @Input() originalServings = 2;
 
   private readonly scalingService = inject(PortionScalingService);
