@@ -1,10 +1,32 @@
 <!-- app.component.html -->
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+<div class="visually-hidden" aria-live="polite" aria-atomic="true">
+  {{ routeAnnouncement }}
+</div>
 <div class="app-container">
   <app-header *ngIf="showLayout"></app-header>
 
-  <main class="main-content">
+  <main id="main-content" class="main-content" tabindex="-1">
     <router-outlet></router-outlet>
   </main>
 
   <app-footer class="app-footer" *ngIf="showLayout"></app-footer>
+  <app-reading-assistant></app-reading-assistant>
+
+  <!-- Botones de navegación hacia atrás y hacia adelante en todas las páginas -->
+  <nav class="global-nav-controls" aria-label="Navegación de historial">
+    <button type="button" class="nav-history-btn nav-back-btn" (click)="goBack()" title="Página anterior" aria-label="Ir a la página anterior">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <span>Atrás</span>
+    </button>
+    <div class="nav-separator"></div>
+    <button type="button" class="nav-history-btn nav-forward-btn" (click)="goForward()" title="Página siguiente" aria-label="Ir a la página siguiente">
+      <span>Adelante</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </nav>
 </div>
