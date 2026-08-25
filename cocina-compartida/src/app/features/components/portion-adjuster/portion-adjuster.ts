@@ -21,8 +21,13 @@ export class PortionAdjuster implements OnInit {
 
   selectedServings = 2;
   displayedIngredients: ScaledIngredient[] = [];
+  checkedIngredients: boolean[] = [];
   isCalculating = false;
   errorMessage = '';
+
+  get checkedCount(): number {
+    return this.checkedIngredients.filter(Boolean).length;
+  }
 
   get isOriginal(): boolean {
     return this.selectedServings === this.originalServings;
@@ -58,6 +63,7 @@ export class PortionAdjuster implements OnInit {
   reset(): void {
     this.requestVersion += 1;
     this.selectedServings = this.originalServings;
+    this.checkedIngredients = [];
     this.isCalculating = false;
     this.errorMessage = '';
     this.showOriginalIngredients();
@@ -90,6 +96,7 @@ export class PortionAdjuster implements OnInit {
       adjusted: ingredient,
       scalable: false,
     }));
+    this.checkedIngredients = this.displayedIngredients.map(() => false);
   }
 
   private normalizeServings(value: number): number {

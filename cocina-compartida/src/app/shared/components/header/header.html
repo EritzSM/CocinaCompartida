@@ -37,6 +37,7 @@
 
         <nav class="main-nav">
             <a *ngIf="authService.isLoged()" routerLink="/cooking-journal" class="nav-link">Mi diario</a>
+            <a *ngIf="authService.isLoged()" routerLink="/shopping-list" class="nav-link">Lista de compras</a>
             <a routerLink="/explore" class="nav-link">Explorar</a>
             <div class="categories-menu">
                 <select [(ngModel)]="selectedCategory" (ngModelChange)="onCategoryChange($event)"
